@@ -1,0 +1,87 @@
+/*
+ * Copyright (c) 2018. 代码著作权归卢声波所有。
+ */
+
+apply plugin: 'com.android.application'
+android {
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    signingConfigs {
+        cpt {
+            keyAlias 'cpt'
+            keyPassword '123456'
+            storeFile file('/Users/lushengbo/Desktop/appkey/cpt.jks')
+            storePassword '123456'
+        }
+    }
+    compileSdkVersion 26
+    dataBinding {
+        enabled = true
+    }
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+        applicationId "www.jingkan.com"
+        minSdkVersion 15
+        //必须6.0以下版本，不然数据库框架会出现问题
+        targetSdkVersion 20
+        versionCode 4
+        versionName '2.0.1'
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk { //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "arm64-v8a", "x86_64", "mips", "mips64"
+            // 还可以添加   'mips', 'mips64'
+        }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "e87122fdb968a4fd6512bc2d", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+        ]
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.cpt
+        }
+        debug {
+            signingConfig signingConfigs.cpt
+        }
+    }
+    productFlavors {
+    }
+
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation files('libs/achartengine-1.2.0.jar')
+    implementation files('libs/guava-r07.jar')
+    implementation files('libs/additionnal.jar')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //2D地图so及jar
+    implementation 'com.amap.api:map2d:latest.integration'
+    //定位功能
+    implementation 'com.amap.api:location:latest.integration'
+    implementation 'cn.jiguang.sdk:jpush:latest.integration'
+    // 此处以JPush 3.1.1 版本为例。
+    implementation 'cn.jiguang.sdk:jcore:latest.integration'
+    // 此处以JCore 1.1.9 版本为例。
+    implementation files('libs/commons-io-2.2.jar')
+    implementation files('libs/tmassistantsdk_selfupdate_jce_external_2.0.3.11_20171201180311.jar')
+//    下载文件
+    implementation 'com.arialyy.aria:aria-core:3.3.16'
+    annotationProcessor 'com.arialyy.aria:aria-compiler:3.3.16'
+}

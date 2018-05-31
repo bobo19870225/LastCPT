@@ -1,0 +1,241 @@
+/*
+ * Copyright (c) 2018. 代码著作权归卢声波所有。
+ */
+
+package www.jingkan.com.base;
+
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.MenuRes;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.View;
+
+import www.jingkan.com.R;
+import www.jingkan.com.annotation.AnnotateUtils;
+
+/**
+ * Created by bobo on 2017/3/5.
+ * LastCPT
+ */
+
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+    protected Object mData;
+    protected FragmentManager mFragmentManager;
+    protected View mRootView;
+    protected Toolbar toolbar;
+    protected
+    @MenuRes
+    int menuRes;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        int viewId = initView();
+        init(viewId);
+        toolbar = findViewById(R.id.tool_bar);
+        initData();
+        setView();
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (menuRes != 0) {
+            getMenuInflater().inflate(menuRes, menu);//加载menu文件到布局
+        }
+        return true;
+    }
+
+    public void showToast(String msg) {
+        Snackbar.make(mRootView, msg, Snackbar.LENGTH_LONG).show();
+    }
+
+    protected abstract void setView();
+
+    protected void setToolBar(String title) {
+        if (null != toolbar) {
+            toolbar.setTitle(title);
+        }
+    }
+
+    protected void setToolBar(String title, @MenuRes int menuRes) {
+        if (null != toolbar) {
+            toolbar.setTitle(title);
+            this.menuRes = menuRes;
+        }
+    }
+
+
+    protected void init(int viewId) {
+        mRootView = getLayoutInflater().inflate(viewId, null, false);
+        setContentView(mRootView);
+        AnnotateUtils.initBindView(this, mRootView);
+        mFragmentManager = getSupportFragmentManager();
+    }
+
+
+    public void setFragment(@IdRes int containerViewId, Fragment fragment) {
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(containerViewId, fragment);
+        mFragmentTransaction.commit();
+    }
+
+    public void setFragment(@IdRes int containerViewId, Fragment fragment, @Nullable Object data) {
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        Bundle bundle = new Bundle();
+        if (data instanceof String) {
+            bundle.putString("DATA", String.valueOf(data));
+        } else if (data instanceof Integer) {
+            bundle.putInt("DATA", (Integer) data);
+        } else if (data instanceof String[]) {
+            bundle.putStringArray("DATA", (String[]) data);
+        } else if (data instanceof Parcelable) {
+            bundle.putParcelable("DATA", (Parcelable) data);
+        }
+        fragment.setArguments(bundle);
+        mFragmentTransaction.replace(containerViewId, fragment);
+        mFragmentTransaction.commit();
+    }
+
+    private void initData() {
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("BUNDLE");
+        if (bundle != null) {
+            mData = bundle.get("DATA");
+        } else {
+            mData = null;
+        }
+
+    }
+
+
+    /**
+     * 跳转
+     *
+     * @param data   参数
+     * @param mClass 类名
+     */
+    public void goTo(Class mClass, Object data) {
+        Intent intent = new Intent();
+        intent.setClass(this, mClass);
+        if (data != null) {
+            Bundle bundle = new Bundle();
+            if (data instanceof String) {
+                bundle.putString("DATA", String.valueOf(data));
+            } else if (data instanceof Integer) {
+                bundle.putInt("DATA", (Integer) data);
+            } else if (data instanceof String[]) {
+                bundle.putStringArray("DATA", (String[]) data);
+            } else if (data instanceof Parcelable) {
+                bundle.putParcelable("DATA", (Parcelable) data);
+            }
+            intent.putExtra("BUNDLE", bundle);
+        }
+        startActivity(intent);
+    }
+
+    /**
+     * 跳转
+     *
+     * @param data   参数
+     * @param mClass 类名
+     * @param isTop  是否关闭其它页面
+     */
+    public void goTo(Class mClass, Object data, boolean isTop) {
+        Intent intent = new Intent();
+        intent.setClass(this, mClass);
+        if (isTop) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        if (data != null) {
+            Bundle bundle = new Bundle();
+            if (data instanceof String) {
+                bundle.putString("DATA", String.valueOf(data));
+            } else if (data instanceof Integer) {
+                bundle.putInt("DATA", (Integer) data);
+            } else if (data instanceof String[]) {
+                bundle.putStringArray("DATA", (String[]) data);
+            } else if (data instanceof Parcelable) {
+                bundle.putParcelable("DATA", (Parcelable) data);
+            }
+            intent.putExtra("BUNDLE", bundle);
+        }
+        startActivity(intent);
+    }
+
+    public abstract
+    @LayoutRes
+    int initView();
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        toRefresh();
+    }
+
+    /**
+     * 需要每次进入时刷新的覆盖此方法
+     */
+    protected void toRefresh() {
+
+    }
+
+    public void showMyDialog(String title, String message, boolean isNegativeButton, DialogInterface.OnClickListener sureListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (isNegativeButton) {
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+        Dialog alertDialog = builder
+                .setTitle(title)
+                .setCancelable(false)
+                .setMessage(message)
+                .setPositiveButton("确定", sureListener)
+                .create();
+        alertDialog.show();
+
+    }
+}

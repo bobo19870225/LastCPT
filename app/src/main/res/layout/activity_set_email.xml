@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp">
+
+        <ImageView
+            android:id="@+id/ic_send_email"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:src="@mipmap/ic_send_email" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tt_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_toEndOf="@+id/ic_send_email"
+            android:layout_toRightOf="@+id/ic_send_email"
+            android:hint="请输入您的邮箱"
+            android:orientation="vertical"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+        </android.support.design.widget.TextInputLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ic_password"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:src="@mipmap/ic_password" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tt_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_toEndOf="@+id/ic_password"
+            android:layout_toRightOf="@+id/ic_password"
+            android:hint="请输入您的邮箱密码"
+            android:orientation="vertical"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ic_receive_email"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:src="@mipmap/ic_receive_email" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tt_receive_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_toEndOf="@+id/ic_receive_email"
+            android:layout_toRightOf="@+id/ic_receive_email"
+            android:hint="请输入联系人邮箱"
+            android:orientation="vertical"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/receive_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+        </android.support.design.widget.TextInputLayout>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@color/them_color"
+        android:text="测试"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="gone" />
+</LinearLayout>

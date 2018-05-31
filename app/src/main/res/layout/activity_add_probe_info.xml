@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/rl_gray"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/toolbar" />
+
+
+    <RelativeLayout
+        android:id="@+id/chose_type"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/tool_bar"
+        android:layout_marginTop="16dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tt_probe_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:text="@string/tv_leixing"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/probe_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/tt_probe_type"
+            android:layout_toRightOf="@+id/tt_probe_type"
+            android:textSize="16sp" />
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@mipmap/next"
+            android:src="@mipmap/next" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/sn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/chose_type"
+        android:layout_marginTop="16dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_oas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:text="@string/tv_xulie"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_sn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/tv_oas"
+            android:layout_toRightOf="@+id/tv_oas"
+            android:background="@null"
+            android:inputType="text"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/probe_number"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/sn"
+        android:layout_marginTop="0.5dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_qsk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:text="@string/tv_id"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/tv_qsk"
+            android:layout_toRightOf="@+id/tv_qsk"
+            android:background="@null"
+            android:inputType="text"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+
+    <FrameLayout
+        android:id="@+id/change"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/add"
+        android:layout_below="@+id/probe_number"
+        android:layout_marginTop="16dp"
+        android:background="@color/white" />
+
+    <Button
+        android:id="@+id/add"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:background="@color/them_color"
+        android:text="@string/bt_addOK"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+</RelativeLayout>

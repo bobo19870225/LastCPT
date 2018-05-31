@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/show_char"
+        android:icon="@drawable/ic_show_chart_white_24dp"
+        android:title="显示曲线"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/save"
+        android:icon="@drawable/ic_save_white_24dp"
+        android:title="保存数据"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/email"
+        android:icon="@drawable/ic_email_white_24dp"
+        android:title="发送邮件"
+        app:showAsAction="ifRoom" />
+
+</menu>

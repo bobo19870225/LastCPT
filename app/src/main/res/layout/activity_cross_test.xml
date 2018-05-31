@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="www.jingkan.com.common.crossTest.CrossTestViewModel" />
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
+
+                <LinearLayout
+                    android:id="@+id/rl_device"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="48dp"
+                    android:background="@color/rl_gray"
+                    android:orientation="vertical"
+                    app:layout_collapseMode="parallax">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_body"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp">
+
+                        <TextView
+                            android:id="@+id/tv_dead"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
+                            android:text="@string/project_number"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/project_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/tv_dead"
+                            android:layout_toRightOf="@+id/tv_dead"
+                            android:text="@{model.getStrProjectNumber}"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tt_hole_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="196dp"
+                            android:layout_marginStart="196dp"
+                            android:text="@string/hole_number"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/hole_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/tt_hole_number"
+                            android:layout_toRightOf="@+id/tt_hole_number"
+                            android:text="@{model.strHoleNumber}" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_head"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tt_cu_coefficient"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
+                            android:text="@string/cu_coefficient"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/cu_coefficient"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/tt_cu_coefficient"
+                            android:layout_toRightOf="@+id/tt_cu_coefficient"
+                            android:text="@{model.strCuCoefficient}"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tt_cu_limit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="196dp"
+                            android:layout_marginStart="196dp"
+                            android:text="@string/cu_limit"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/cu_limit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/tt_cu_limit"
+                            android:layout_toRightOf="@+id/tt_cu_limit"
+                            android:text="@{model.strCuLimit}" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <include layout="@layout/toolbar" />
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_qc"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
+
+                    <TextView
+                        android:id="@+id/tt_cu_initial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:text="@string/cu_initial"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/cu_initial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/tt_cu_initial"
+                        android:layout_toRightOf="@+id/tt_cu_initial"
+                        android:text="@{model.strCuInitial}"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tt_valid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/cu_effective_value"
+                        android:layout_toStartOf="@+id/cu_effective_value"
+                        android:text="@string/cu_valid"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/cu_effective_value"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:lines="1"
+                        android:text="@{model.strCuEffective}"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/v_gray" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_cu"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
+
+                    <TextView
+                        android:id="@+id/tt_cu_deg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:text="@string/torsional_angle"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/cu_deg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/tt_cu_deg"
+                        android:layout_toRightOf="@+id/tt_cu_deg"
+                        android:text="@{model.deg}"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tt_test_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/test_number"
+                        android:layout_toStartOf="@+id/test_number"
+                        android:text="@string/test_number"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/test_number"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:lines="1"
+                        android:text="@{String.valueOf(model.testNumber)}"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/v_gray" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
+
+                    <TextView
+                        android:id="@+id/tt_test_deep"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:text="@string/test_deep"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/test_deep"
+                        android:layout_width="56dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/tt_test_deep"
+                        android:layout_toRightOf="@+id/tt_test_deep"
+                        android:inputType="numberDecimal"
+                        android:text="@={model.deep}"
+                        android:textSize="16sp" />
+                    <!--android:text='@{model.deep ?? "0"}'-->
+                    <TextView
+                        android:id="@+id/tt_test_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/test_type"
+                        android:layout_toStartOf="@+id/test_type"
+                        android:text="@string/soil_type"
+                        android:textSize="16sp" />
+
+                    <Spinner
+                        android:id="@+id/test_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:entries="@{model.type}"
+                        android:lines="1"
+                        android:selectedItemPosition="@={model.typeIndex}"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/v_gray" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/line_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:background="@color/white"
+                    android:paddingEnd="0dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="0dp"
+                    android:paddingStart="8dp" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <Button
+                android:id="@+id/initial_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/them_color"
+                android:onClick="@{()->model.doInitialValue()}"
+                android:text="@string/initial_value"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <View
+                style="@color/v_gray"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent" />
+
+
+            <Button
+                android:id="@+id/record"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@{model.linked ? @color/them_color : @color/rl_gray}"
+                android:enabled="@{model.linked}"
+                android:onClick="@{()->model.doStart()}"
+                android:text="@{model.start ? @string/end : @string/start}"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <View
+                style="@color/v_gray"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

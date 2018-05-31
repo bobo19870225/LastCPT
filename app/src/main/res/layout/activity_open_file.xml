@@ -1,0 +1,59 @@
+<!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="www.jingkan.com.wireless.openFile.OpenFileViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/rl_gray"
+            android:gravity="center_vertical"
+            android:paddingEnd="0dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="0dp"
+            android:paddingStart="8dp"
+            android:text="@string/w_txt"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/pathInfo"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/rl_gray"
+            android:gravity="center_vertical"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingEnd="0dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="0dp"
+            android:paddingStart="8dp"
+            android:singleLine="true"
+            android:text="@{model.pathInfo}"
+            android:textSize="16sp" />
+
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="#00000000"
+            app:adapter="@{model.adapter}" />
+    </LinearLayout>
+
+</layout>

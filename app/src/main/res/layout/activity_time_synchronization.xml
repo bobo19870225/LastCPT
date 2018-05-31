@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="www.jingkan.com.wireless.timeSynchronization.TimeSynchronizationViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/tool_bar"
+            layout="@layout/toolbar" />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_body"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/tool_bar">
+
+            <TextView
+                android:id="@+id/tt_project_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="@string/project_number"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/project_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/tt_project_number"
+                android:layout_toRightOf="@+id/tt_project_number"
+                android:text="@{model.strProjectNumber}"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tt_hole_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="196dp"
+                android:layout_marginStart="196dp"
+                android:text="@string/hole_number"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/hole_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/tt_hole_number"
+                android:layout_toRightOf="@+id/tt_hole_number"
+                android:text="@{model.strHoleNumber}" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_head"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/rl_body"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tt_qc_coefficient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="@string/qc_coefficient"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/qc_coefficient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/tt_qc_coefficient"
+                android:layout_toRightOf="@+id/tt_qc_coefficient"
+                android:text="@{model.strQcCoefficient}"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tt_qc_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="196dp"
+                android:layout_marginStart="196dp"
+                android:text="@string/qc_limit"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/qc_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/tt_qc_limit"
+                android:layout_toRightOf="@+id/tt_qc_limit"
+                android:text="@{model.strQcLimit}" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_fs_limit"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/rl_head"
+            android:gravity="center_vertical"
+            android:visibility="@{model.isDoubleBridge ? View.VISIBLE : View.GONE }">
+
+            <TextView
+                android:id="@+id/tt_fs_coefficient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="@string/tv_check"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/fs_coefficient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/tt_fs_coefficient"
+                android:layout_toRightOf="@+id/tt_fs_coefficient"
+                android:text="@{model.strFsCoefficient}"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tt_fs_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="196dp"
+                android:layout_marginStart="196dp"
+                android:text="@string/tv_check2"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/fs_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/tt_fs_limit"
+                android:layout_toRightOf="@+id/tt_fs_limit"
+                android:text="@{model.strFsLimit}" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_marking_time"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@+id/rl_fs_limit"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tt_marking_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="定位时基点："
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/tt_marking_time"
+                android:layout_toRightOf="@+id/tt_marking_time"
+                android:text="@{model.markingTime}"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_probe_number"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@+id/rl_marking_time"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tt_probe_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="@string/probe_number"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/probe_number"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/tt_probe_number"
+                android:layout_toRightOf="@+id/tt_probe_number"
+                android:background="@null"
+                android:digits="0123456789-JKDSW"
+                android:gravity="center_vertical"
+                android:text="@={model.obsProbeNumber}"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <SlidingDrawer
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/synchronization"
+            android:layout_below="@+id/rl_probe_number"
+            android:layout_margin="8dp"
+            android:content="@id/content"
+            android:handle="@id/handle"
+            android:orientation="horizontal">
+
+
+            <ImageButton
+                android:id="@+id/handle"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/bg_button_corner"
+                android:contentDescription="@string/cancel"
+                app:srcCompat="@drawable/ic_live_help_them_24dp" />
+
+            <LinearLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:background="@drawable/bg_red_rad8"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="提示：并非每次进行试验都要时间同步，一般在室内进行同步后，该探头可连续使用一到两天，不需要同步时可点击工具栏最右侧的按钮跳过"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="必须同步的情况：一，第一次使用该探头；二，距上次同步时间超过2天。"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </SlidingDrawer>
+
+        <Button
+            android:id="@+id/synchronization"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="8dp"
+            android:background="@{model.linked ? @color/them_color : @color/rl_gray}"
+            android:enabled="@{model.linked}"
+            android:onClick="@{()->model.doSynchronization()}"
+            android:text="@string/time_synchronization"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+</layout>

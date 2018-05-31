@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/toolbar" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="数字探头标定时通常先要现设置探头内存数据，如果您想设置探头内存数据，请点【设置探头内存数据】"
+        android:textColor="@color/bt_main"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="如果您已经设置或者认为不用再次设置内存数据，请点【开始标定】进行标定"
+        android:textColor="@color/bt_main"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/set_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@color/them_color"
+        android:text="设置探头内存数据"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@color/them_color"
+        android:text="开始标定"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+
+</LinearLayout>

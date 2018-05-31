@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="24dp">
+
+        <ImageView
+            android:id="@+id/ic_current_version"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@mipmap/ic_current_version" />
+
+
+        <TextView
+            android:id="@+id/version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ic_current_version"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/tv_black"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/check_version"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:background="@color/them_color"
+        android:gravity="center"
+        android:text="@string/update"
+        android:textColor="@color/white"
+        android:textSize="18sp">
+
+    </Button>
+</RelativeLayout>

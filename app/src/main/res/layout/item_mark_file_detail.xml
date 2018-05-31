@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="model"
+            type="www.jingkan.com.adapter.markFileDetailAdapter.MarkFileDetailItemViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tt_deep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/test_deep"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tt_deep"
+            android:layout_toRightOf="@+id/tt_deep"
+            android:gravity="center_vertical"
+            android:text="@{model.strDeep}"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tt_SRC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tt_deep"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:text="@string/SRC"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tt_deep"
+            android:layout_marginTop="4dp"
+            android:layout_toEndOf="@+id/tt_SRC"
+            android:layout_toRightOf="@+id/tt_SRC"
+            android:gravity="center_vertical"
+            android:text="@{model.strSRC}"
+            android:textSize="16sp" />
+
+
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/save"
+        android:icon="@drawable/ic_save_white_24dp"
+        android:title="保存数据"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/data_syn"
+        android:icon="@drawable/ic_data_usage_white_24dp"
+        android:title="数据同步"
+        app:showAsAction="ifRoom" />
+
+</menu>

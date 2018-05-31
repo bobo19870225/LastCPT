@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="www.jingkan.com.wireless.dataSynchronization.DataSynViewModel" />
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48dp"
+                    android:background="@color/rl_gray"
+                    android:orientation="vertical"
+                    app:layout_collapseMode="parallax">
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:paddingEnd="16dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingStart="16dp">
+
+                        <TextView
+                            android:id="@+id/tt_project_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/project_number"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/project_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/tt_project_number"
+                            android:layout_toRightOf="@+id/tt_project_number"
+                            android:text="@{model.projectNumber}"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tt_hole_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/hole_number"
+                            android:layout_toStartOf="@+id/hole_number"
+                            android:text="@string/hole_number"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/hole_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:text="@{model.holeNumber}"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:paddingEnd="16dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingStart="16dp">
+
+                        <TextView
+                            android:id="@+id/tt_probe_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/probe_number"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/probe_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/tt_probe_number"
+                            android:layout_toRightOf="@+id/tt_probe_number"
+                            android:text="@{model.probeNumber}"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tt_deep"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/deep"
+                            android:layout_toStartOf="@+id/deep"
+                            android:text="@string/test_deep"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/deep"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:text="@{model.strDeep}"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <include layout="@layout/toolbar" />
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingStart="16dp">
+
+                    <TextView
+                        android:id="@+id/tt_mark_file"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="打开的标记文件："
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/mark_file"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/tt_mark_file"
+                        android:layout_toRightOf="@+id/tt_mark_file"
+                        android:text="@{model.markFileName}"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/line_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:background="@color/white"
+                    android:paddingEnd="0dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="0dp"
+                    android:paddingStart="8dp" />
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:background="@color/them_color"
+            android:orientation="horizontal"
+            android:paddingEnd="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingStart="8dp"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/Tv_tbl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{model.synchronizationRate}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/Bt_up"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="@{()->model.moveTimeUp()}"
+                android:padding="8dp"
+                android:src="@mipmap/ic_move_up"
+
+                />
+
+            <ImageView
+                android:id="@+id/Bt_down"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="@{()->model.moveTimeDown()}"
+                android:padding="8dp"
+                android:src="@mipmap/ic_move_down" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="时基微调"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/Tv_adj"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@{String.valueOf(model.index)}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</layout>

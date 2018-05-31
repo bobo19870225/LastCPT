@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:paddingEnd="0dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="0dp"
+        android:paddingStart="8dp">
+
+        <TextView
+            android:id="@+id/tv_new_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tv_black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_new_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_new_name"
+            android:textColor="@color/tv_black"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_click"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:paddingEnd="8dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="8dp"
+        android:paddingStart="0dp"
+        android:text="点击连接"
+        android:textColor="@color/them_color"
+        android:textSize="20sp" />
+
+</LinearLayout>

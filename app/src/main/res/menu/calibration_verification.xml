@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/save"
+        android:icon="@drawable/ic_save_white_24dp"
+        android:title="保存"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/link"
+        android:icon="@drawable/ic_share_white_24dp"
+        android:title="帮助"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/help"
+        android:icon="@drawable/ic_help_outline_white_24dp"
+        android:title="帮助"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/ic_info_white_24dp"
+        android:title="关于"
+        app:showAsAction="ifRoom" />
+
+</menu>
