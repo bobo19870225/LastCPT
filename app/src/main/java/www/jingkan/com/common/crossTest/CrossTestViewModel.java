@@ -18,7 +18,6 @@ import com.activeandroid.Model;
 
 import java.util.List;
 
-import www.jingkan.com.BR;
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.bluetooth.BluetoothCommService;
 import www.jingkan.com.framework.utils.BluetoothUtils;
@@ -68,12 +67,12 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
                     case BluetoothCommService.MESSAGE_STATE_CHANGE:
                         if (msg.arg1 == BluetoothCommService.STATE_CONNECTED) {
                             myView.get().showToast("连接成功");
-                            setLinked(true);
+                            linked.set(true);
                         } else if (msg.arg1 == BluetoothCommService.STATE_CONNECTING) {
                             myView.get().showToast("正在连接");
-                            setLinked(false);
+                            linked.set(false);
                         } else {
-                            setLinked(false);
+                            linked.set(false);
                         }
                         break;
                 }
@@ -83,69 +82,21 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
     private BluetoothCommService bluetoothCommService = new BluetoothCommService(mHandler);
 
     public final ObservableField<String> strProjectNumber = new ObservableField<>();
-
     public final ObservableField<String> strHoleNumber = new ObservableField<>();
-
     public final ObservableField<String> strCuCoefficient = new ObservableField<>();
-
     public final ObservableField<String> strCuLimit = new ObservableField<>();
     public final ObservableField<String> strCuInitial = new ObservableField<>("0");
     public final ObservableField<String> strCuEffective = new ObservableField<>("0");
     public final ObservableField<String> deg = new ObservableField<>("0");
 
     private int typeIndex = 0;
-    private int testNumber = 1;
-    private boolean start;
-    private boolean linked;
-
+    public final ObservableField<Integer> testNumber = new ObservableField<>(1);
+    public final ObservableField<Boolean> start = new ObservableField<>(false);
+    public final ObservableField<Boolean> linked = new ObservableField<>(false);
     private String strTestType = "原状土";
     private final String[] type = {"原状土", "重塑土"};
-
     private String mac;
-
-    //    public final ObservableField<String> deep = new ObservableField<>();
-    @Bindable
-    public int getTestNumber() {
-        return testNumber;
-    }
-
-    public void setTestNumber(int testNumber) {
-        this.testNumber = testNumber;
-        notifyPropertyChanged(BR.testNumber);
-    }
-
-    private String deep = "0";
-
-    @Bindable
-    public String getDeep() {
-        return deep;
-    }
-
-    public void setDeep(String deep) {
-        this.deep = deep;
-        notifyPropertyChanged(BR.deep);
-    }
-
-    @Bindable
-    public boolean isLinked() {
-        return linked;
-    }
-
-    public void setLinked(boolean linked) {
-        this.linked = linked;
-        notifyPropertyChanged(BR.linked);
-    }
-
-
-    @Bindable
-    public boolean isStart() {
-        return start;
-    }
-
-    public void setStart(boolean start) {
-        this.start = start;
-        notifyPropertyChanged(BR.start);
-    }
+    public final ObservableField<String> deep = new ObservableField<>("0");
 
 
     @Bindable
@@ -162,7 +113,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
 
     private void stopTest() {
         timeUtils.stopTimedTask();//切换土样类型时停止
-        setStart(false);
+        start.set(false);
     }
 
     public String[] getType() {
@@ -181,7 +132,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
         crossTestDataModel.testDataID = strProjectNumber + "-" + strHoleNumber;
         crossTestDataModel.deep = parseFloat;
         crossTestDataModel.cu = Float.parseFloat(strCuEffective.get());
-        crossTestDataModel.number = testNumber;
+        crossTestDataModel.number = testNumber.get();
         crossTestDataModel.type = strTestType;
         CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
         crossTestDataData.addData(crossTestDataModel);
@@ -198,9 +149,9 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
     });
 
     public void doStart() {
-        setStart(!start);
+        start.set(!start.get());
 
-        if (start) {
+        if (start.get()) {
             timeUtils.timedTask(0, 10000);
         } else {
             timeUtils.stopTimedTask();

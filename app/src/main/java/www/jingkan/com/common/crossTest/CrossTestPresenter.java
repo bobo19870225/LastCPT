@@ -21,14 +21,11 @@ import www.jingkan.com.base.baseMVP.BasePresenter;
 import www.jingkan.com.bluetooth.BluetoothCommService;
 import www.jingkan.com.framework.utils.BluetoothUtils;
 import www.jingkan.com.framework.utils.StringUtils;
-import www.jingkan.com.localData.commonProbe.ProbeData;
-import www.jingkan.com.localData.commonProbe.ProbeModel;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 import www.jingkan.com.localData.test.TestData;
 import www.jingkan.com.localData.test.TestModel;
 import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataData;
-import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataModel;
 
 /**
  * Created by lushengbo on 2018/1/5.
@@ -69,12 +66,12 @@ public class CrossTestPresenter extends BasePresenter implements CrossTestContra
                     case BluetoothCommService.MESSAGE_STATE_CHANGE:
                         if (msg.arg1 == BluetoothCommService.STATE_CONNECTED) {
 //                            myView.get().showToast("连接成功");
-                            mCrossTestViewModel.setLinked(true);
+//                            mCrossTestViewModel.setLinked(true);
                         } else if (msg.arg1 == BluetoothCommService.STATE_CONNECTING) {
 //                            myView.get().showToast("正在连接");
-                            mCrossTestViewModel.setLinked(false);
+//                            mCrossTestViewModel.setLinked(false);
                         } else {
-                            mCrossTestViewModel.setLinked(false);
+//                            mCrossTestViewModel.setLinked(false);
                         }
                         break;
                 }
