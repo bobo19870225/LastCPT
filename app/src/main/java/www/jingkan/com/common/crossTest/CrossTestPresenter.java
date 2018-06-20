@@ -21,10 +21,10 @@ import www.jingkan.com.base.baseMVP.BasePresenter;
 import www.jingkan.com.bluetooth.BluetoothCommService;
 import www.jingkan.com.framework.utils.BluetoothUtils;
 import www.jingkan.com.framework.utils.StringUtils;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 import www.jingkan.com.localData.commonProbe.ProbeData;
 import www.jingkan.com.localData.commonProbe.ProbeModel;
+import www.jingkan.com.localData.dataFactory.DataFactory;
+import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 import www.jingkan.com.localData.test.TestData;
 import www.jingkan.com.localData.test.TestModel;
 import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataData;
@@ -35,7 +35,7 @@ import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataModel;
  * 十字板试验处理者类
  */
 
-public class CrossTestPresenter extends BasePresenter<CrossTestActivity> implements CrossTestContract.Presenter {
+public class CrossTestPresenter extends BasePresenter implements CrossTestContract.Presenter {
     private CrossTestViewModel mCrossTestViewModel;
     private String mac;
     private String projectNumber;
@@ -56,22 +56,22 @@ public class CrossTestPresenter extends BasePresenter<CrossTestActivity> impleme
                             mDate = mDate.replace(" ", "");
                             if (mDate.contains("Sn:")) {
                                 String sn = mDate.substring(mDate.indexOf("Sn:") + 3, mDate.indexOf("Sn:") + 11);
-                                IdentificationProbe(sn);
-                                mCrossTestViewModel.setStrCuEffective(getCuEffectiveValue(mDate, mCrossTestViewModel.getStrCuInitial()));
+//                                IdentificationProbe(sn);
+//                                mCrossTestViewModel.setStrCuEffective(getCuEffectiveValue(mDate, mCrossTestViewModel.getStrCuInitial()));
                             }
                         }
                         break;
                     case BluetoothCommService.MESSAGE_TOAST://提示信息
                         Bundle bundle = msg.getData();
                         String s = bundle.getString(BluetoothCommService.TOAST);
-                        myView.get().showToast(s);
+//                        myView.get().showToast(s);
                         break;
                     case BluetoothCommService.MESSAGE_STATE_CHANGE:
                         if (msg.arg1 == BluetoothCommService.STATE_CONNECTED) {
-                            myView.get().showToast("连接成功");
+//                            myView.get().showToast("连接成功");
                             mCrossTestViewModel.setLinked(true);
                         } else if (msg.arg1 == BluetoothCommService.STATE_CONNECTING) {
-                            myView.get().showToast("正在连接");
+//                            myView.get().showToast("正在连接");
                             mCrossTestViewModel.setLinked(false);
                         } else {
                             mCrossTestViewModel.setLinked(false);
@@ -90,26 +90,26 @@ public class CrossTestPresenter extends BasePresenter<CrossTestActivity> impleme
     private boolean isIdentification;
 
 
-    private void IdentificationProbe(String sn) {
-        if (!isIdentification) {
-            isIdentification = true;
-            ProbeData probeData = DataFactory.getBaseData(ProbeData.class);
-            probeData.getData(new DataLoadCallBack() {
-                @Override
-                public <T extends Model> void onDataLoaded(List<T> model) {
-                    ProbeModel probeModel = (ProbeModel) model.get(0);
-                    mCrossTestViewModel.setStrCuCoefficient(String.valueOf(probeModel.qc_coefficient));
-                    mCrossTestViewModel.setStrCuLimit(String.valueOf(probeModel.qc_limit));
-                }
-
-                @Override
-                public void onDataNotAvailable() {
-                    myView.get().showToast("该探头未添加到探头列表中，暂时不能使用，请在探头列表里添加该探头");
-                }
-            }, sn);
-        }
-
-    }
+//    private void IdentificationProbe(String sn) {
+//        if (!isIdentification) {
+//            isIdentification = true;
+//            ProbeData probeData = DataFactory.getBaseData(ProbeData.class);
+//            probeData.getData(new DataLoadCallBack() {
+//                @Override
+//                public <T extends Model> void onDataLoaded(List<T> model) {
+//                    ProbeModel probeModel = (ProbeModel) model.get(0);
+//                    mCrossTestViewModel.setStrCuCoefficient(String.valueOf(probeModel.qc_coefficient));
+//                    mCrossTestViewModel.setStrCuLimit(String.valueOf(probeModel.qc_limit));
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {
+//                    myView.get().showToast("该探头未添加到探头列表中，暂时不能使用，请在探头列表里添加该探头");
+//                }
+//            }, sn);
+//        }
+//
+//    }
 
     private BluetoothCommService bluetoothCommService = new BluetoothCommService(mHandler);
 
@@ -129,6 +129,8 @@ public class CrossTestPresenter extends BasePresenter<CrossTestActivity> impleme
         mac = strings[0];
         projectNumber = strings[1];
         holeNumber = strings[2];
+        getTestParameters();
+        loadTestData();
         linkDevice();
     }
 
@@ -140,8 +142,8 @@ public class CrossTestPresenter extends BasePresenter<CrossTestActivity> impleme
         crossTestDataData.getData(new DataLoadCallBack() {
             @Override
             public <T extends Model> void onDataLoaded(List<T> models) {
-                myView.get().showTestData((List<CrossTestDataModel>) models);
-                mCrossTestViewModel.setDeg(String.valueOf(models.size()));
+//                myView.get().showTestData((List<CrossTestDataModel>) models);
+//                mCrossTestViewModel.setDeg(String.valueOf(models.size()));
             }
 
             @Override
@@ -159,13 +161,13 @@ public class CrossTestPresenter extends BasePresenter<CrossTestActivity> impleme
             @Override
             public <T extends Model> void onDataLoaded(List<T> models) {
                 TestModel testModel = (TestModel) models.get(0);
-                mCrossTestViewModel.setStrProjectNumber(testModel.projectNumber);
-                mCrossTestViewModel.setStrHoleNumber(testModel.holeNumber);
+//                mCrossTestViewModel.setStrProjectNumber(testModel.projectNumber);
+//                mCrossTestViewModel.setStrHoleNumber(testModel.holeNumber);
             }
 
             @Override
             public void onDataNotAvailable() {
-                myView.get().showToast("找不到该孔信息");
+//                myView.get().showToast("找不到该孔信息");
             }
         }, projectNumber, holeNumber);
     }
@@ -180,7 +182,7 @@ public class CrossTestPresenter extends BasePresenter<CrossTestActivity> impleme
         } else {
             // 蓝牙没有打开，调用系统方法要求用户打开蓝牙
             Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            myView.get().startActivityForResult(intent, 0);
+//            myView.get().startActivityForResult(intent, 0);
         }
     }
 

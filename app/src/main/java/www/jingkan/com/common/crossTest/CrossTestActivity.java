@@ -6,7 +6,6 @@ package www.jingkan.com.common.crossTest;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.databinding.DataBindingUtil;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import www.jingkan.com.R;
-import www.jingkan.com.base.baseMVP.BaseMvpActivity;
-import www.jingkan.com.base.baseMVP.BasePresenter;
+import www.jingkan.com.base.baseMVVM.MVVMDialogActivity;
 import www.jingkan.com.chart.CrossStrategy;
 import www.jingkan.com.chart.DrawChartHelper;
 import www.jingkan.com.databinding.ActivityCrossTestBinding;
@@ -28,21 +26,18 @@ import www.jingkan.com.parameter.SystemConstant;
  * 十字板试验
  */
 
-public class CrossTestActivity extends BaseMvpActivity<CrossTestPresenter> implements CrossTestContract.View {
+public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, ActivityCrossTestBinding> {
 
 
-    private CrossTestViewModel crossTestViewModel;
     private DrawChartHelper drawChartHelper;
-    private ActivityCrossTestBinding activityCrossTestBinding;
 
 
     @Override
     protected void setView() {
 
         drawChartHelper = new DrawChartHelper();
-        drawChartHelper.setStrategy(new CrossStrategy(this, activityCrossTestBinding.lineChart));
-        mPresenter.getTestParameters();
-        mPresenter.loadTestData();
+        drawChartHelper.setStrategy(new CrossStrategy(this, mViewDataBinding.lineChart));
+
         setToolBar(SystemConstant.VANE_TEST, R.menu.test);
     }
 
@@ -50,7 +45,7 @@ public class CrossTestActivity extends BaseMvpActivity<CrossTestPresenter> imple
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.link:
-                mPresenter.linkDevice();
+                mViewModel.linkDevice();
                 return false;
             case R.id.save://保存数据到sd卡
                 showSaveDataDialog(SystemConstant.VANE_TEST);
@@ -77,8 +72,8 @@ public class CrossTestActivity extends BaseMvpActivity<CrossTestPresenter> imple
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mPresenter.saveTestDataToSD(crossTestViewModel.getStrProjectNumber(),
-                                crossTestViewModel.getStrHoleNumber(), saveType, testType);
+                        mViewModel.saveTestDataToSD(mViewModel.strProjectNumber.get(),
+                                mViewModel.strHoleNumber.get(), saveType, testType);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -106,25 +101,25 @@ public class CrossTestActivity extends BaseMvpActivity<CrossTestPresenter> imple
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String strProjectNumber = crossTestViewModel.getStrProjectNumber();
-                        String strHoleNumber = crossTestViewModel.getStrHoleNumber();
-                        mPresenter.saveTestDataToSD(crossTestViewModel.getStrProjectNumber(),
+                        String strProjectNumber = mViewModel.strProjectNumber.get();
+                        String strHoleNumber = mViewModel.strHoleNumber.get();
+                        mViewModel.saveTestDataToSD(strProjectNumber,
                                 strHoleNumber, emailType, testType);
                         switch (emailType) {
                             case 0:
-                                mPresenter.emailTestData(crossTestViewModel.getStrProjectNumber()
+                                mViewModel.emailTestData(strProjectNumber
                                         + "_" + strHoleNumber + ".txt");
                                 break;
                             case 1:
-                                mPresenter.emailTestData(crossTestViewModel.getStrProjectNumber()
+                                mViewModel.emailTestData(strProjectNumber
                                         + "_" + strHoleNumber + ".DAT");
                                 break;
                             case 2:
-                                mPresenter.emailTestData(crossTestViewModel.getStrProjectNumber()
+                                mViewModel.emailTestData(strProjectNumber
                                         + "_" + strHoleNumber + ".111");
                                 break;
                             case 3:
-                                mPresenter.emailTestData(strProjectNumber
+                                mViewModel.emailTestData(strProjectNumber
                                         + "_" + strHoleNumber + "LZ.txt");
                                 break;
                         }
@@ -147,13 +142,10 @@ public class CrossTestActivity extends BaseMvpActivity<CrossTestPresenter> imple
     }
 
     @Override
-    protected void init(int viewId) {
-        activityCrossTestBinding = DataBindingUtil.setContentView(this, viewId);
-        crossTestViewModel = new CrossTestViewModel(this);
-        activityCrossTestBinding.setModel(crossTestViewModel);
-        mRootView = activityCrossTestBinding.getRoot();
-        mFragmentManager = getSupportFragmentManager();
+    protected CrossTestViewModel createdViewModel() {
+        return new CrossTestViewModel();
     }
+
 
     @Override
     protected void toRefresh() {
@@ -165,13 +157,7 @@ public class CrossTestActivity extends BaseMvpActivity<CrossTestPresenter> imple
 
     }
 
-    @Override
-    public BasePresenter createdPresenter() {
-        return new CrossTestPresenter(crossTestViewModel);
-    }
 
-
-    @Override
     public void showTestData(List<CrossTestDataModel> crossTestDataModels) {
         List<float[]> listPoints = new ArrayList<>();
         for (CrossTestDataModel crossTestDataModel : crossTestDataModels) {
@@ -180,12 +166,6 @@ public class CrossTestActivity extends BaseMvpActivity<CrossTestPresenter> imple
         drawChartHelper.addPointsToChart(listPoints);
     }
 
-    @Override
-    public void showNotLinkError() {
-        showToast("读数错误");
-    }
-
-    @Override
     public void showRecordValue(String strCu, float deep) {
         drawChartHelper.addOnePointToChart(new float[]{Float.parseFloat(strCu), 0, 0, deep});
     }
