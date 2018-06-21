@@ -131,194 +131,200 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/rl_qc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="40dp">
 
-                <RelativeLayout
-                    android:id="@+id/rl_qc"
+                <TextView
+                    android:id="@+id/tt_cu_initial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:text="@string/cu_initial"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/cu_initial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/tt_cu_initial"
+                    android:layout_toRightOf="@+id/tt_cu_initial"
+                    android:text="@{model.strCuInitial}"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tt_valid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/cu_effective_value"
+                    android:layout_toStartOf="@+id/cu_effective_value"
+                    android:text="@string/cu_valid"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/cu_effective_value"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:lines="1"
+                    android:text="@{model.strCuEffective}"
+                    android:textSize="16sp" />
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="40dp">
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/v_gray" />
+            </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/tt_cu_initial"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginStart="15dp"
-                        android:text="@string/cu_initial"
-                        android:textSize="16sp" />
+            <RelativeLayout
+                android:id="@+id/rl_cu"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
 
-                    <TextView
-                        android:id="@+id/cu_initial"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/tt_cu_initial"
-                        android:layout_toRightOf="@+id/tt_cu_initial"
-                        android:text="@{model.strCuInitial}"
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tt_cu_deg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:text="@string/torsional_angle"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tt_valid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/cu_effective_value"
-                        android:layout_toStartOf="@+id/cu_effective_value"
-                        android:text="@string/cu_valid"
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/cu_deg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/tt_cu_deg"
+                    android:layout_toRightOf="@+id/tt_cu_deg"
+                    android:text="@{model.deg}"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/cu_effective_value"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:lines="1"
-                        android:text="@{model.strCuEffective}"
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tt_test_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/test_number"
+                    android:layout_toStartOf="@+id/test_number"
+                    android:text="@string/test_number"
+                    android:textSize="16sp" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/v_gray" />
-                </RelativeLayout>
+                <TextView
+                    android:id="@+id/test_number"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:lines="1"
+                    android:text="@{String.valueOf(model.testNumber)}"
+                    android:textSize="16sp" />
 
-                <RelativeLayout
-                    android:id="@+id/rl_cu"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="40dp">
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/v_gray" />
+            </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/tt_cu_deg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginStart="15dp"
-                        android:text="@string/torsional_angle"
-                        android:textSize="16sp" />
+            <RelativeLayout
+                android:id="@+id/rl_type"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
 
-                    <TextView
-                        android:id="@+id/cu_deg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/tt_cu_deg"
-                        android:layout_toRightOf="@+id/tt_cu_deg"
-                        android:text="@{model.deg}"
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tt_test_deep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:text="@string/test_deep"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tt_test_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/test_number"
-                        android:layout_toStartOf="@+id/test_number"
-                        android:text="@string/test_number"
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/test_deep"
+                    android:layout_width="56dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/tt_test_deep"
+                    android:layout_toRightOf="@+id/tt_test_deep"
+                    android:text="@={model.deep}"
+                    android:textSize="16sp" />
+                <!--android:text='@{model.deep ?? "0"}'-->
+                <TextView
+                    android:id="@+id/tt_test_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/test_type"
+                    android:layout_toStartOf="@+id/test_type"
+                    android:text="@string/soil_type"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/test_number"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:lines="1"
-                        android:text="@{String.valueOf(model.testNumber)}"
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/test_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_toLeftOf="@+id/modify"
+                    android:layout_toStartOf="@+id/modify"
+                    android:lines="1"
+                    android:text="@{model.strTestType}"
+                    android:textSize="16sp" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/v_gray" />
-                </RelativeLayout>
+                <Button
+                    android:id="@+id/modify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:onClick="@{()->model.modify()}"
+                    android:text="@string/modify" />
 
-                <RelativeLayout
-                    android:id="@+id/rl_type"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="40dp">
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/v_gray" />
+            </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/tt_test_deep"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginStart="15dp"
-                        android:text="@string/test_deep"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/test_deep"
-                        android:layout_width="56dp"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/tt_test_deep"
-                        android:layout_toRightOf="@+id/tt_test_deep"
-                        android:inputType="numberDecimal"
-                        android:text="@={model.deep}"
-                        android:textSize="16sp" />
-                    <!--android:text='@{model.deep ?? "0"}'-->
-                    <TextView
-                        android:id="@+id/tt_test_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/test_type"
-                        android:layout_toStartOf="@+id/test_type"
-                        android:text="@string/soil_type"
-                        android:textSize="16sp" />
-
-                    <Spinner
-                        android:id="@+id/test_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:entries="@{model.type}"
-                        android:lines="1"
-                        android:selectedItemPosition="@={model.typeIndex}"
-                        android:textSize="16sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/v_gray" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/line_chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:background="@color/white"
-                    android:paddingEnd="0dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="0dp"
-                    android:paddingStart="8dp" />
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+            <RelativeLayout
+                android:id="@+id/line_chart"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:background="@color/white"
+                android:paddingEnd="0dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="0dp"
+                android:paddingStart="8dp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

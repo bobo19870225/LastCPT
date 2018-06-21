@@ -171,4 +171,7 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
     }
 
 
+    public void resetChart() {
+        drawChartHelper.cleanChart();
+    }
 }

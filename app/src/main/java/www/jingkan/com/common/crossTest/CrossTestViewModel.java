@@ -90,11 +90,11 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
     public final ObservableField<String> strCuEffective = new ObservableField<>("0");
     public final ObservableField<String> deg = new ObservableField<>("0");
 
-    private int typeIndex = 0;
+
     public final ObservableField<Integer> testNumber = new ObservableField<>(1);
     public final ObservableField<Boolean> start = new ObservableField<>(false);
     public final ObservableField<Boolean> linked = new ObservableField<>(false);
-    private String strTestType = "原状土";
+    public final ObservableField<String> strTestType = new ObservableField<>("原状土");
     private final String[] type = {"原状土", "重塑土"};
     private String mac;
     private String deep = "0";
@@ -105,25 +105,23 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
     }
 
     public void setDeep(String deep) {
-        this.deep = deep;
-        stopTest();
-        notifyPropertyChanged(BR.deep);
+        if (!this.deep.equals(deep)) {
+            this.deep = deep;
+            resetTest();
+            notifyPropertyChanged(BR.deep);
+        }
     }
 
-    @Bindable
-    public int getTypeIndex() {
-        return typeIndex;
-    }
 
-    public void setTypeIndex(int typeIndex) {
-        this.typeIndex = typeIndex;
-        strTestType = type[typeIndex];
-        stopTest();
-    }
+    private void resetTest() {
+        Boolean isStart = start.get();
+        if (isStart != null && isStart) {//处于试验中则重置
+            start.set(false);
+            timeUtils.stopTimedTask();//切换土样类型时停止
+            deg.set("0");
+            getView().resetChart();
+        }
 
-    private void stopTest() {
-        timeUtils.stopTimedTask();//切换土样类型时停止
-        start.set(false);
     }
 
     public String[] getType() {
@@ -145,7 +143,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
         Integer intTestNumber = testNumber.get();
         if (intTestNumber != null)
             crossTestDataModel.number = intTestNumber;
-        crossTestDataModel.type = strTestType;
+        crossTestDataModel.type = strTestType.get();
         CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
         crossTestDataData.addData(crossTestDataModel);
         deg.set(StringUtils.format(parseFloat, 1));
@@ -160,10 +158,17 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
         }
     });
 
+    public void modify() {
+
+    }
+
     public void doStart() {
         Boolean isStart = start.get();
         if (isStart != null) {
             start.set(!isStart);
+        }
+        isStart = start.get();
+        if (isStart != null) {
             if (isStart) {
                 timeUtils.timedTask(0, 10000);
             } else {

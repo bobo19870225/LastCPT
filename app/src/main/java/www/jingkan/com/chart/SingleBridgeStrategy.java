@@ -161,7 +161,9 @@ public class SingleBridgeStrategy implements InterfaceDrawChartStrategy {
      * 清除图表
      */
     private void removeSeries() {
-        mDataSet.clear();
+//        mDataSet.clear();
+        xySeriesQc.clear();
+        reDraw();
     }
 
     protected void setXYSeriesTitle() {
