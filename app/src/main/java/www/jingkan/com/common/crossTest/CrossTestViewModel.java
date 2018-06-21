@@ -18,6 +18,7 @@ import com.activeandroid.Model;
 
 import java.util.List;
 
+import www.jingkan.com.BR;
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.bluetooth.BluetoothCommService;
 import www.jingkan.com.framework.utils.BluetoothUtils;
@@ -96,8 +97,18 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
     private String strTestType = "原状土";
     private final String[] type = {"原状土", "重塑土"};
     private String mac;
-    public final ObservableField<String> deep = new ObservableField<>("0");
+    private String deep = "0";
 
+    @Bindable
+    public String getDeep() {
+        return deep;
+    }
+
+    public void setDeep(String deep) {
+        this.deep = deep;
+        stopTest();
+        notifyPropertyChanged(BR.deep);
+    }
 
     @Bindable
     public int getTypeIndex() {
@@ -108,7 +119,6 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
         this.typeIndex = typeIndex;
         strTestType = type[typeIndex];
         stopTest();
-
     }
 
     private void stopTest() {
@@ -132,7 +142,9 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
         crossTestDataModel.testDataID = strProjectNumber + "-" + strHoleNumber;
         crossTestDataModel.deep = parseFloat;
         crossTestDataModel.cu = Float.parseFloat(strCuEffective.get());
-        crossTestDataModel.number = testNumber.get();
+        Integer intTestNumber = testNumber.get();
+        if (intTestNumber != null)
+            crossTestDataModel.number = intTestNumber;
         crossTestDataModel.type = strTestType;
         CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
         crossTestDataData.addData(crossTestDataModel);
@@ -149,14 +161,15 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
     });
 
     public void doStart() {
-        start.set(!start.get());
-
-        if (start.get()) {
-            timeUtils.timedTask(0, 10000);
-        } else {
-            timeUtils.stopTimedTask();
+        Boolean isStart = start.get();
+        if (isStart != null) {
+            start.set(!isStart);
+            if (isStart) {
+                timeUtils.timedTask(0, 10000);
+            } else {
+                timeUtils.stopTimedTask();
+            }
         }
-
     }
 
     @Override
@@ -180,7 +193,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
                     CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
                     crossTestDataData.getData(new DataLoadCallBack() {
                         @Override
-                        public <T extends Model> void onDataLoaded(List<T> models) {
+                        public <M extends Model> void onDataLoaded(List<M> models) {
                             myView.get().showTestData((List<CrossTestDataModel>) models);
                             deg.set(String.valueOf(models.size()));
                         }
@@ -252,7 +265,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
         if (mDate.contains("Cu:") && mDate.contains("kPa")) {
             String cu = mDate.substring(mDate.indexOf("Cu:") + 3, mDate.indexOf("kPa"));
             if (StringUtils.isFloat(cu)) {
-                return String.valueOf(Float.parseFloat(cu) - Float.parseFloat(cuInitialValue));
+                return StringUtils.format(Float.parseFloat(cu) - Float.parseFloat(cuInitialValue), 2);
             } else {
                 return "0";
             }
