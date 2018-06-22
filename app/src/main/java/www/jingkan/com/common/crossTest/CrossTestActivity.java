@@ -174,4 +174,11 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
     public void resetChart() {
         drawChartHelper.cleanChart();
     }
+
+    public void showModifyDialog() {
+        Dialog alertDialog = new AlertDialog.Builder(CrossTestActivity.this)
+                .setView(R.layout.dialog_modify)
+                .create();
+        alertDialog.show();
+    }
 }

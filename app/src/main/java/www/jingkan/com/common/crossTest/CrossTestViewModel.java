@@ -71,11 +71,11 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
                             myView.get().showToast("连接成功");
                             linked.set(true);
                         } else if (msg.arg1 == BluetoothCommService.STATE_CONNECTING) {
-                            myView.get().showToast("正在连接");
                             linked.set(false);
+                        } else if (msg.arg1 == BluetoothCommService.STATE_CONNECT_FAILED) {
+                            getView().closeWaitDialog();
                         } else {
                             linked.set(false);
-                            getView().closeWaitDialog();
                         }
                         break;
                 }
@@ -161,7 +161,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
     });
 
     public void modify() {
-
+        getView().showModifyDialog();
     }
 
     public void doStart() {
