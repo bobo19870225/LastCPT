@@ -36,7 +36,7 @@ public class HeadSetReceiver extends BroadcastReceiver {
             KeyEvent keyEvent = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
             if (headSetListener != null) {
                 try {
-                    if (keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
 	        				/*if(isTimerStart){
 	        					myTimer.cancel();
 	        					isTimerStart = false;

@@ -67,6 +67,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
                         break;
                     case BluetoothCommService.MESSAGE_STATE_CHANGE:
                         if (msg.arg1 == BluetoothCommService.STATE_CONNECTED) {
+                            getView().closeWaitDialog();
                             myView.get().showToast("连接成功");
                             linked.set(true);
                         } else if (msg.arg1 == BluetoothCommService.STATE_CONNECTING) {
@@ -74,6 +75,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
                             linked.set(false);
                         } else {
                             linked.set(false);
+                            getView().closeWaitDialog();
                         }
                         break;
                 }
@@ -231,6 +233,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
     }
 
     public void linkDevice() {
+        getView().showWaitDialog("正在连接蓝牙", false, false);
         BluetoothAdapter bluetoothAdapter = BluetoothUtils.getInstance().
                 getBluetoothAdapter();
         if (bluetoothAdapter.isEnabled()) {// 蓝牙已打开
