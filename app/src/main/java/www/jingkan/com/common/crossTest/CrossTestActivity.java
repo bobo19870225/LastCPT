@@ -7,8 +7,10 @@ package www.jingkan.com.common.crossTest;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -180,13 +182,15 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
     }
 
     public void showModifyDialog(final String deep, final String soilType) {
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.dialog_modify, (ViewGroup) findViewById(R.id.dialog));
         final Dialog alertDialog = new AlertDialog.Builder(CrossTestActivity.this)
-                .setView(R.layout.dialog_modify)
+                .setView(view)
                 .create();
         alertDialog.show();
-        final EditText et_deep = findViewById(R.id.et_deep);
+        final EditText et_deep = view.findViewById(R.id.et_deep);
         et_deep.setText(deep);
-        final Spinner sp_soil = findViewById(R.id.sp_soil);
+        final Spinner sp_soil = view.findViewById(R.id.sp_soil);
         final String[] listSoilType = getResources().getStringArray(R.array.soil_type);
         for (int i = 0; i < listSoilType.length; i++) {
             if (listSoilType[i].equals(soilType)) {
@@ -200,7 +204,7 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
 
             }
         });
-        Button ok = findViewById(R.id.ok);
+        Button ok = view.findViewById(R.id.ok);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -212,7 +216,7 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
                 alertDialog.dismiss();
             }
         });
-        Button cancel = findViewById(R.id.cancel);
+        Button cancel = view.findViewById(R.id.cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
