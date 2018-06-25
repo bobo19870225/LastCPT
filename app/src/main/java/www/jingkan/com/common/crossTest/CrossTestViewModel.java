@@ -34,6 +34,8 @@ import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataModel;
 /**
  * Created by lushengbo on 2018/1/8.
  * 十字板试验VM
+ * 逻辑：一个孔的试验可以做几个不同的深度，每个深度可以先做原状土再做重塑土，也可以直接选择重塑土。
+ * 修改试验深度是试验编号加一。
  */
 
 public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
@@ -91,7 +93,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
     public final ObservableField<String> deg = new ObservableField<>("0");
 
 
-    public final ObservableField<Integer> IntTestNumber = new ObservableField<>(1);
+    public final ObservableField<Integer> intTestNumber = new ObservableField<>(1);
     public final ObservableField<Boolean> start = new ObservableField<>(false);
     public final ObservableField<Boolean> linked = new ObservableField<>(false);
     public final ObservableField<String> strSoilType = new ObservableField<>("原状土");
@@ -127,9 +129,9 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
         crossTestDataModel.testDataID = strProjectNumber + "-" + strHoleNumber;
         crossTestDataModel.deep = parseFloat;
         crossTestDataModel.cu = Float.parseFloat(strCuEffective.get());
-        Integer intTestNumber = IntTestNumber.get();
-        if (intTestNumber != null)
-            crossTestDataModel.number = intTestNumber;
+        Integer testNumber = intTestNumber.get();
+        if (testNumber != null)
+            crossTestDataModel.number = testNumber;
         crossTestDataModel.type = strSoilType.get();
         CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
         crossTestDataData.addData(crossTestDataModel);
@@ -282,6 +284,11 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
     }
 
     public void setModify(String deep, String soilType) {
+        if (!strDeep.get().equals(deep)) {
+            Integer testNumber = intTestNumber.get();
+            testNumber += 1;
+            intTestNumber.set(testNumber);
+        }
         strDeep.set(deep);
         strSoilType.set(soilType);
         resetTest();

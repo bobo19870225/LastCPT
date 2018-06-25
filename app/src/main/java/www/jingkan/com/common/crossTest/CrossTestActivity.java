@@ -204,7 +204,7 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
             public void onClick(View view) {
                 String _deep = et_deep.getText().toString();
                 String _soilType = listSoilType[sp_soil.getSelectedItemPosition()];
-                if (!_deep.equals(deep) && !_soilType.equals(soilType)) {
+                if (!_deep.equals(deep) || !_soilType.equals(soilType)) {
                     mViewModel.setModify(_deep, _soilType);
                 }
                 alertDialog.dismiss();

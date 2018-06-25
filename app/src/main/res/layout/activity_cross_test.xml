@@ -238,7 +238,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:lines="1"
-                    android:text="@{String.valueOf(model.IntTestNumber)}"
+                    android:text="@{String.valueOf(model.intTestNumber)}"
                     android:textSize="16sp" />
 
                 <View
