@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -198,12 +197,7 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
                 break;
             }
         }
-        sp_soil.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-            }
-        });
         Button ok = view.findViewById(R.id.ok);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
