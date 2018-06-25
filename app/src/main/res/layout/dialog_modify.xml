@@ -40,8 +40,10 @@
             android:text="@string/test_deep" />
 
         <EditText
+            android:id="@+id/et_deep"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:hint="@string/input_deep"
             android:inputType="numberSigned" />
     </LinearLayout>
 
@@ -60,8 +62,10 @@
             android:text="@string/soil_type" />
 
         <Spinner
+            android:id="@+id/sp_soil"
             android:layout_width="120dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:entries="@array/soil_type" />
     </LinearLayout>
 
     <LinearLayout

@@ -9,6 +9,10 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,10 +179,45 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
         drawChartHelper.cleanChart();
     }
 
-    public void showModifyDialog() {
-        Dialog alertDialog = new AlertDialog.Builder(CrossTestActivity.this)
+    public void showModifyDialog(final String deep, final String soilType) {
+        final Dialog alertDialog = new AlertDialog.Builder(CrossTestActivity.this)
                 .setView(R.layout.dialog_modify)
                 .create();
         alertDialog.show();
+        final EditText et_deep = findViewById(R.id.et_deep);
+        et_deep.setText(deep);
+        final Spinner sp_soil = findViewById(R.id.sp_soil);
+        final String[] listSoilType = getResources().getStringArray(R.array.soil_type);
+        for (int i = 0; i < listSoilType.length; i++) {
+            if (listSoilType[i].equals(soilType)) {
+                sp_soil.setSelection(i);
+                break;
+            }
+        }
+        sp_soil.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+        Button ok = findViewById(R.id.ok);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String _deep = et_deep.getText().toString();
+                String _soilType = listSoilType[sp_soil.getSelectedItemPosition()];
+                if (!_deep.equals(deep) && !_soilType.equals(soilType)) {
+                    mViewModel.setModify(_deep, _soilType);
+                }
+                alertDialog.dismiss();
+            }
+        });
+        Button cancel = findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
     }
 }

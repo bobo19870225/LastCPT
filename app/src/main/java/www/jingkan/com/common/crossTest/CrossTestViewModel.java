@@ -8,7 +8,6 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.databinding.Bindable;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,7 +17,6 @@ import com.activeandroid.Model;
 
 import java.util.List;
 
-import www.jingkan.com.BR;
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.bluetooth.BluetoothCommService;
 import www.jingkan.com.framework.utils.BluetoothUtils;
@@ -93,26 +91,13 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
     public final ObservableField<String> deg = new ObservableField<>("0");
 
 
-    public final ObservableField<Integer> testNumber = new ObservableField<>(1);
+    public final ObservableField<Integer> IntTestNumber = new ObservableField<>(1);
     public final ObservableField<Boolean> start = new ObservableField<>(false);
     public final ObservableField<Boolean> linked = new ObservableField<>(false);
-    public final ObservableField<String> strTestType = new ObservableField<>("原状土");
+    public final ObservableField<String> strSoilType = new ObservableField<>("原状土");
     private final String[] type = {"原状土", "重塑土"};
     private String mac;
-    private String deep = "0";
-
-    @Bindable
-    public String getDeep() {
-        return deep;
-    }
-
-    public void setDeep(String deep) {
-        if (!this.deep.equals(deep)) {
-            this.deep = deep;
-            resetTest();
-            notifyPropertyChanged(BR.deep);
-        }
-    }
+    public final ObservableField<String> strDeep = new ObservableField<>("0");
 
 
     private void resetTest() {
@@ -142,10 +127,10 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
         crossTestDataModel.testDataID = strProjectNumber + "-" + strHoleNumber;
         crossTestDataModel.deep = parseFloat;
         crossTestDataModel.cu = Float.parseFloat(strCuEffective.get());
-        Integer intTestNumber = testNumber.get();
+        Integer intTestNumber = IntTestNumber.get();
         if (intTestNumber != null)
             crossTestDataModel.number = intTestNumber;
-        crossTestDataModel.type = strTestType.get();
+        crossTestDataModel.type = strSoilType.get();
         CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
         crossTestDataData.addData(crossTestDataModel);
         deg.set(StringUtils.format(parseFloat, 1));
@@ -161,7 +146,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
     });
 
     public void modify() {
-        getView().showModifyDialog();
+        getView().showModifyDialog(strDeep.get(), strSoilType.get());
     }
 
     public void doStart() {
@@ -290,5 +275,11 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
 
     public void emailTestData(String fileName) {
 
+    }
+
+    public void setModify(String deep, String soilType) {
+        strDeep.set(deep);
+        strSoilType.set(soilType);
+        resetTest();
     }
 }

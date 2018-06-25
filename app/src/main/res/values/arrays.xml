@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="soil_type">
+        <item>
+            原状土
+        </item>
+        <item>
+            重塑土
+        </item>
+    </string-array>
+
+</resources>

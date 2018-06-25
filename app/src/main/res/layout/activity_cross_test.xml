@@ -238,7 +238,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:lines="1"
-                    android:text="@{String.valueOf(model.testNumber)}"
+                    android:text="@{String.valueOf(model.IntTestNumber)}"
                     android:textSize="16sp" />
 
                 <View
@@ -270,7 +270,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/tt_test_deep"
                     android:layout_toRightOf="@+id/tt_test_deep"
-                    android:text="@={model.deep}"
+                    android:text="@={model.strDeep}"
                     android:textSize="16sp" />
                 <!--android:text='@{model.deep ?? "0"}'-->
                 <TextView
@@ -293,7 +293,7 @@
                     android:layout_toLeftOf="@+id/modify"
                     android:layout_toStartOf="@+id/modify"
                     android:lines="1"
-                    android:text="@{model.strTestType}"
+                    android:text="@{model.strSoilType}"
                     android:textSize="16sp" />
 
                 <Button
