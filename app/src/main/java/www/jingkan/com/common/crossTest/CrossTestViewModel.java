@@ -149,6 +149,10 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
         getView().showModifyDialog(strDeep.get(), strSoilType.get());
     }
 
+    public void end() {
+        getView().onBackPressed();
+    }
+
     public void doStart() {
         Boolean isStart = start.get();
         if (isStart != null) {

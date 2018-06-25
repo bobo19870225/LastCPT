@@ -357,7 +357,7 @@
                 android:background="@{model.linked ? @color/them_color : @color/rl_gray}"
                 android:enabled="@{model.linked}"
                 android:onClick="@{()->model.doStart()}"
-                android:text="@{model.start ? @string/end : @string/start}"
+                android:text="@{model.start ? @string/pause : @string/start}"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -365,6 +365,17 @@
                 style="@color/v_gray"
                 android:layout_width="0.5dp"
                 android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/end"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/them_color"
+                android:onClick="@{()->model.end()}"
+                android:text="@string/end"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
 </layout>
