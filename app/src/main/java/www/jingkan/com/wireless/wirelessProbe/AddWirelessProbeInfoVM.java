@@ -7,8 +7,6 @@ package www.jingkan.com.wireless.wirelessProbe;
 import android.content.Intent;
 import android.databinding.ObservableField;
 
-import com.activeandroid.Model;
-
 import java.util.List;
 
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
@@ -40,10 +38,11 @@ public class AddWirelessProbeInfoVM extends BaseViewModel<AddWirelessProbeInfoAc
     protected void init(Object data) {
         if (data != null) {
             WirelessProbeData wirelessProbeData = DataFactory.getBaseData(WirelessProbeData.class);
-            wirelessProbeData.getData(new DataLoadCallBack() {
+            wirelessProbeData.getData(new DataLoadCallBack<WirelessProbeModel>() {
+
                 @Override
-                public <T extends Model> void onDataLoaded(List<T> models) {
-                    WirelessProbeModel wirelessProbeModel = (WirelessProbeModel) models.get(0);
+                public void onDataLoaded(List<WirelessProbeModel> models) {
+                    WirelessProbeModel wirelessProbeModel = models.get(0);
                     if (wirelessProbeModel.type.contains("双桥")) {
                         doubleBridge.set(true);
                         strFsArea.set(wirelessProbeModel.fs_area);

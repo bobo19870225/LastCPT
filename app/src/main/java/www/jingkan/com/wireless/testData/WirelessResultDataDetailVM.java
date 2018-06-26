@@ -8,8 +8,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.ObservableField;
 
-import com.activeandroid.Model;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,10 +52,11 @@ public class WirelessResultDataDetailVM extends MVVMListViewModel<WirelessResult
     private void getTestParameter(String data) {
         String[] split = data.split("_");
         WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-        wirelessTestData.getData(new DataLoadCallBack() {
+        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                wirelessTestModel = (WirelessTestModel) models.get(0);
+            public void onDataLoaded(List<WirelessTestModel> models) {
+                wirelessTestModel = models.get(0);
                 strProjectNumber.set(wirelessTestModel.projectNumber);
                 strHoleNumber.set(wirelessTestModel.holeNumber);
                 strTestDate.set(wirelessTestModel.testDate);
@@ -83,10 +82,10 @@ public class WirelessResultDataDetailVM extends MVVMListViewModel<WirelessResult
     public void loadListViewData() {
         WirelessResultDataData wirelessResultDataData = DataFactory.getBaseData(WirelessResultDataData.class);
         wirelessResultDataDetailItemVMs.clear();
-        wirelessResultDataData.getData(new DataLoadCallBack() {
-            @SuppressWarnings("unchecked")
+        wirelessResultDataData.getData(new DataLoadCallBack<WirelessResultDataModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
+            public void onDataLoaded(List<WirelessResultDataModel> models) {
                 wirelessResultDataModels = (List<WirelessResultDataModel>) models;
                 for (WirelessResultDataModel wirelessResultDataModel :
                         (List<WirelessResultDataModel>) models) {

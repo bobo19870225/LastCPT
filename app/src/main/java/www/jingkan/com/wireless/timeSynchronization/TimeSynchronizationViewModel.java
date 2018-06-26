@@ -14,8 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.activeandroid.Model;
-
 import java.util.List;
 
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
@@ -94,10 +92,11 @@ public class TimeSynchronizationViewModel extends BaseViewModel<TimeSynchronizat
 
     private void getTestParameters(String projectNumber, String holeNumber) {
         WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-        wirelessTestData.getData(new DataLoadCallBack() {
+        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                WirelessTestModel wirelessTestModel = (WirelessTestModel) models.get(0);
+            public void onDataLoaded(List<WirelessTestModel> models) {
+                WirelessTestModel wirelessTestModel = models.get(0);
                 strProjectNumber.set(wirelessTestModel.projectNumber);
                 strHoleNumber.set(wirelessTestModel.holeNumber);
             }
@@ -114,10 +113,11 @@ public class TimeSynchronizationViewModel extends BaseViewModel<TimeSynchronizat
         if (!isIdentification) {
             isIdentification = true;
             WirelessProbeData wirelessProbeData = DataFactory.getBaseData(WirelessProbeData.class);
-            wirelessProbeData.getData(new DataLoadCallBack() {
+            wirelessProbeData.getData(new DataLoadCallBack<WirelessProbeModel>() {
+
                 @Override
-                public <T extends Model> void onDataLoaded(List<T> model) {
-                    WirelessProbeModel wirelessProbeModel = (WirelessProbeModel) model.get(0);
+                public void onDataLoaded(List<WirelessProbeModel> models) {
+                    WirelessProbeModel wirelessProbeModel = models.get(0);
                     strQcCoefficient.set(String.valueOf(wirelessProbeModel.qc_coefficient));
                     strQcLimit.set(String.valueOf(wirelessProbeModel.qc_limit));
                     strFsCoefficient.set(String.valueOf(wirelessProbeModel.fs_coefficient));

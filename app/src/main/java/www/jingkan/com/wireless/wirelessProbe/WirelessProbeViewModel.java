@@ -6,8 +6,6 @@ package www.jingkan.com.wireless.wirelessProbe;
 
 import android.content.Intent;
 
-import com.activeandroid.Model;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,11 +46,11 @@ public class WirelessProbeViewModel extends MVVMListViewModel<WirelessProbeActiv
     void getWirelessProbeList() {
         WirelessProbeData wirelessProbeData = DataFactory.getBaseData(WirelessProbeData.class);
         wirelessProbeItemViewModels.clear();
-        wirelessProbeData.getData(new DataLoadCallBack() {
-            @SuppressWarnings("unchecked")
+        wirelessProbeData.getData(new DataLoadCallBack<WirelessProbeModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                for (WirelessProbeModel wirelessProbeModel : (List<WirelessProbeModel>) models
+            public void onDataLoaded(List<WirelessProbeModel> models) {
+                for (WirelessProbeModel wirelessProbeModel : models
                         ) {
                     WirelessProbeItemViewModel wirelessProbeItemViewModel = new WirelessProbeItemViewModel();
                     wirelessProbeItemViewModel.probeNumber.set(wirelessProbeModel.number);

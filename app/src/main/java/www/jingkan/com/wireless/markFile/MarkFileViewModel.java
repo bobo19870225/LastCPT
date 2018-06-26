@@ -6,8 +6,6 @@ package www.jingkan.com.wireless.markFile;
 
 import android.content.Intent;
 
-import com.activeandroid.Model;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,12 +45,12 @@ public class MarkFileViewModel extends MVVMListViewModel<MarkFileActivity> {
         loadMarkData();
     }
 
-    @SuppressWarnings("unchecked")
     private void loadMarkData() {
         WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-        wirelessTestData.getData(new DataLoadCallBack() {
+        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
+            public void onDataLoaded(List<WirelessTestModel> models) {
                 //items.addAll((Collection<? extends WirelessTestModel>) models);
                 List<WirelessTestModel> wirelessTestModels = (List<WirelessTestModel>) models;
                 markFileItemViewModes.clear();

@@ -7,8 +7,6 @@ package www.jingkan.com.wireless.markFile;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
 
-import com.activeandroid.Model;
-
 import java.util.List;
 
 import www.jingkan.com.R;
@@ -57,14 +55,13 @@ public class MarkFileDetailActivity extends MVVMListActivity<MarkFileDetailViewM
                 final String strReturn = "\r\n";
                 strContent = new StringBuilder();
                 WirelessTestDataData wirelessTestDataData = DataFactory.getBaseData(WirelessTestDataData.class);
-                wirelessTestDataData.getData(new DataLoadCallBack() {
+                wirelessTestDataData.getData(new DataLoadCallBack<WirelessTestDataModel>() {
+
                     @Override
-                    @SuppressWarnings("unchecked")
-                    public <T extends Model> void onDataLoaded(List<T> models) {
-                        List<WirelessTestDataModel> wirelessTestDataModels = (List<WirelessTestDataModel>) models;
-                        strContent.append(wirelessTestDataModels.get(0).probeNumber).append(strReturn);
+                    public void onDataLoaded(List<WirelessTestDataModel> models) {
+                        strContent.append(models.get(0).probeNumber).append(strReturn);
                         strContent.append(strTestID).append(strReturn);
-                        for (WirelessTestDataModel wirelessTestDataModel : wirelessTestDataModels) {
+                        for (WirelessTestDataModel wirelessTestDataModel : models) {
                             strContent.append(wirelessTestDataModel.deep).append(strReturn);
                             strContent.append(wirelessTestDataModel.rtc).append(strReturn);
                         }

@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.activeandroid.Model;
-
 import java.util.List;
 import java.util.Map;
 
@@ -66,13 +64,14 @@ public class WirelessTestFragment extends BaseFragment {
                 break;
             case R.id.test_again:
                 WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-                wirelessTestData.getData(new DataLoadCallBack() {
+                wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+
                     @Override
-                    public <T extends Model> void onDataLoaded(List<T> models) {
+                    public void onDataLoaded(List<WirelessTestModel> models) {
                         PreferencesUtils preferencesUtils = new PreferencesUtils(getContext());
                         Map<String, String> linkerPreferences = preferencesUtils.getLinkerPreferences();
                         String add = linkerPreferences.get("add");
-                        WirelessTestModel wirelessTestModel = (WirelessTestModel) models.get(0);
+                        WirelessTestModel wirelessTestModel = models.get(0);
                         if (StringUtils.isEmpty(add)) {
                             goTo(LinkBluetoothActivity.class,
                                     new String[]{wirelessTestModel.projectNumber,

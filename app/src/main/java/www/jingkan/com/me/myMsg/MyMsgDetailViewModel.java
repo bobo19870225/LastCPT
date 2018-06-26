@@ -7,8 +7,6 @@ package www.jingkan.com.me.myMsg;
 import android.content.Intent;
 import android.databinding.ObservableField;
 
-import com.activeandroid.Model;
-
 import java.util.List;
 
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
@@ -29,10 +27,11 @@ public class MyMsgDetailViewModel extends BaseViewModel<MyMsgDetailActivity> {
     @Override
     protected void init(Object data) {
         MsgData msgData = DataFactory.getBaseData(MsgData.class);
-        msgData.getData(new DataLoadCallBack() {
+        msgData.getData(new DataLoadCallBack<MsgDataModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                MsgDataModel msgDataModel = (MsgDataModel) models.get(0);
+            public void onDataLoaded(List<MsgDataModel> models) {
+                MsgDataModel msgDataModel = models.get(0);
                 msg.set(msgDataModel.title);
                 time.set(msgDataModel.time);
             }

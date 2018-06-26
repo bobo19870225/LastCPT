@@ -6,8 +6,6 @@ package www.jingkan.com.wireless.test;
 
 import android.view.MenuItem;
 
-import com.activeandroid.Model;
-
 import java.util.List;
 
 import www.jingkan.com.R;
@@ -59,14 +57,13 @@ public class WirelessTestActivity extends BaseMVVMActivity<WirelessTestViewModel
                 final String strReturn = "\r\n";
                 strContent = new StringBuilder();
                 WirelessTestDataData wirelessTestDataData = DataFactory.getBaseData(WirelessTestDataData.class);
-                wirelessTestDataData.getData(new DataLoadCallBack() {
+                wirelessTestDataData.getData(new DataLoadCallBack<WirelessTestDataModel>() {
+
                     @Override
-                    @SuppressWarnings("unchecked")
-                    public <T extends Model> void onDataLoaded(List<T> models) {
-                        List<WirelessTestDataModel> wirelessTestDataModels = (List<WirelessTestDataModel>) models;
-                        strContent.append(wirelessTestDataModels.get(0).probeNumber).append(strReturn);//探头编号
+                    public void onDataLoaded(List<WirelessTestDataModel> models) {
+                        strContent.append(models.get(0).probeNumber).append(strReturn);//探头编号
                         strContent.append(strTestID).append(strReturn);//试验ID
-                        for (WirelessTestDataModel wirelessTestDataModel : wirelessTestDataModels) {
+                        for (WirelessTestDataModel wirelessTestDataModel : models) {
                             strContent.append(wirelessTestDataModel.deep).append(strReturn);
                             strContent.append(wirelessTestDataModel.rtc).append(strReturn);
                         }

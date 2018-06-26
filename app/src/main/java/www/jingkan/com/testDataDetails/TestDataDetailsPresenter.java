@@ -8,8 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.activeandroid.Model;
-
 import java.util.List;
 
 import www.jingkan.com.base.baseMVP.BasePresenter;
@@ -52,10 +50,11 @@ class TestDataDetailsPresenter extends BasePresenter<TestDataDetailsActivity>
     @Override
     public void getTest(String projectNumber, String holeNumber) {
         TestData testData = DataFactory.getBaseData(TestData.class);
-        testData.getData(new DataLoadCallBack() {
+        testData.getData(new DataLoadCallBack<TestModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                testModel = (TestModel) models.get(0);
+            public void onDataLoaded(List<TestModel> models) {
+                testModel = models.get(0);
                 getView().showTest(testModel);
             }
 
@@ -66,14 +65,14 @@ class TestDataDetailsPresenter extends BasePresenter<TestDataDetailsActivity>
         }, projectNumber, holeNumber);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void getTestData(String testDataID) {
         TestDataData testDataData = DataFactory.getBaseData(TestDataData.class);
-        testDataData.getData(new DataLoadCallBack() {
+        testDataData.getData(new DataLoadCallBack<TestDataModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                testDataModels = (List<TestDataModel>) models;
+            public void onDataLoaded(List<TestDataModel> models) {
+                testDataModels = models;
                 myView.get().showTestData(testDataModels);
             }
 

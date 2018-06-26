@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
-import com.activeandroid.Model;
-
 import java.util.List;
 
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
@@ -70,10 +68,11 @@ public class WirelessTestViewModel extends BaseViewModel<WirelessTestActivity> {
 
     private void getTestParameters() {
         final WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-        wirelessTestData.getData(new DataLoadCallBack() {
+        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                WirelessTestModel wirelessTestModel = (WirelessTestModel) models.get(0);
+            public void onDataLoaded(List<WirelessTestModel> models) {
+                WirelessTestModel wirelessTestModel = models.get(0);
                 projectNumber.set(wirelessTestModel.projectNumber);
                 holeNumber.set(wirelessTestModel.holeNumber);
             }
@@ -88,10 +87,11 @@ public class WirelessTestViewModel extends BaseViewModel<WirelessTestActivity> {
 
     private void loadTestData(String testDataID) {
 
-        wirelessTestDataData.getData(new DataLoadCallBack() {
+        wirelessTestDataData.getData(new DataLoadCallBack<WirelessTestDataModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                WirelessTestDataModel wirelessTestDataModel = (WirelessTestDataModel) models.get(models.size() - 1);
+            public void onDataLoaded(List<WirelessTestDataModel> models) {
+                WirelessTestDataModel wirelessTestDataModel = models.get(models.size() - 1);
                 dp = wirelessTestDataModel.deep;
                 strDeep.set(StringUtils.format(dp, 2));
             }

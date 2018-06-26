@@ -3,8 +3,6 @@ package www.jingkan.com.showDataChar;
 import android.content.Intent;
 import android.databinding.ObservableField;
 
-import com.activeandroid.Model;
-
 import org.achartengine.util.IndexXYMap;
 
 import java.util.List;
@@ -102,14 +100,14 @@ public class ShowDataCharViewModel extends BaseViewModel<ShowDataCharActivity> {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void getTest() {
         String[] split = testDataID.split("_");
         TestData testData = DataFactory.getBaseData(TestData.class);
-        testData.getData(new DataLoadCallBack() {
+        testData.getData(new DataLoadCallBack<TestModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                testModel = (TestModel) models.get(0);
+            public void onDataLoaded(List<TestModel> models) {
+                testModel = models.get(0);
                 projectNumber.set(testModel.projectNumber);
                 holeNumber.set(testModel.holeNumber);
                 testDate.set(testModel.testDate);
@@ -124,14 +122,13 @@ public class ShowDataCharViewModel extends BaseViewModel<ShowDataCharActivity> {
         }, split[0], split[1]);
     }
 
-    @SuppressWarnings("unchecked")
     private void getTestData() {
         TestDataData testDataData = DataFactory.getBaseData(TestDataData.class);
-        testDataData.getData(new DataLoadCallBack() {
+        testDataData.getData(new DataLoadCallBack<TestDataModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                List<TestDataModel> testDataModels = (List<TestDataModel>) models;
-                myView.get().showDataInTheChar(testDataModels);
+            public void onDataLoaded(List<TestDataModel> models) {
+                myView.get().showDataInTheChar(models);
             }
 
             @Override
@@ -141,14 +138,14 @@ public class ShowDataCharViewModel extends BaseViewModel<ShowDataCharActivity> {
         }, testDataID);
     }
 
-    @SuppressWarnings("unchecked")
     private void getWirelessTest() {
         String[] split = testDataID.split("_");
         WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-        wirelessTestData.getData(new DataLoadCallBack() {
+        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                WirelessTestModel wirelessTestModel = (WirelessTestModel) models.get(0);
+            public void onDataLoaded(List<WirelessTestModel> models) {
+                WirelessTestModel wirelessTestModel = models.get(0);
                 testModel = wirelessTestModel.castToTestModel();//转成普通实验
                 projectNumber.set(testModel.projectNumber);
                 holeNumber.set(testModel.holeNumber);
@@ -164,14 +161,13 @@ public class ShowDataCharViewModel extends BaseViewModel<ShowDataCharActivity> {
         }, split[0], split[1]);
     }
 
-    @SuppressWarnings("unchecked")
     private void getWirelessResultData() {
         WirelessResultDataData wirelessResultDataData = DataFactory.getBaseData(WirelessResultDataData.class);
-        wirelessResultDataData.getData(new DataLoadCallBack() {
+        wirelessResultDataData.getData(new DataLoadCallBack<WirelessResultDataModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                List<WirelessResultDataModel> wirelessResultDataModels = (List<WirelessResultDataModel>) models;
-                myView.get().showDataInTheChar(wirelessResultDataModels);
+            public void onDataLoaded(List<WirelessResultDataModel> models) {
+                myView.get().showDataInTheChar(models);
             }
 
             @Override

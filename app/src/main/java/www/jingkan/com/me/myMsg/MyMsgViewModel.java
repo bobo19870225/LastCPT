@@ -9,8 +9,6 @@ package www.jingkan.com.me.myMsg;
 
 import android.content.Intent;
 
-import com.activeandroid.Model;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,20 +47,19 @@ public class MyMsgViewModel extends MVVMListViewModel<MyMsgActivity> {
     public void loadListViewData() {
 
         MsgData msgData = DataFactory.getBaseData(MsgData.class);
-        msgData.getData(new DataLoadCallBack() {
+        msgData.getData(new DataLoadCallBack<MsgDataModel>() {
+
             @Override
-            @SuppressWarnings("unchecked")
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                List<MsgDataModel> msgDataModels = (List<MsgDataModel>) models;
+            public void onDataLoaded(List<MsgDataModel> models) {
                 myMSgItemViewModels.clear();
-                for (MsgDataModel msgDataModel : msgDataModels
+                for (MsgDataModel msgDataModel : models
                         ) {
                     MyMSgItemViewModel myMSgItemViewModel = new MyMSgItemViewModel();
                     myMSgItemViewModel.msgTime.set(msgDataModel.time);
                     myMSgItemViewModels.add(myMSgItemViewModel);
                 }
                 adapter.notifyDataSetChanged();
-                getView().setListView(msgDataModels);
+                getView().setListView(models);
                 getView().stopLoading();
 
             }

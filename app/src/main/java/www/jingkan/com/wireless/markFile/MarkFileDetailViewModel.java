@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
-import com.activeandroid.Model;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,10 +60,11 @@ public class MarkFileDetailViewModel extends MVVMListViewModel<MarkFileDetailAct
 
     private void loadTestParameter(String projectNumber, String holeNumber) {
         WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-        wirelessTestData.getData(new DataLoadCallBack() {
+        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                WirelessTestModel wirelessTestModel = (WirelessTestModel) models.get(0);
+            public void onDataLoaded(List<WirelessTestModel> models) {
+                WirelessTestModel wirelessTestModel = models.get(0);
                 strProjectNumber.set(wirelessTestModel.projectNumber);
                 strHoleNumber.set(wirelessTestModel.holeNumber);
                 strTestDate.set(wirelessTestModel.testDate);
@@ -81,13 +80,12 @@ public class MarkFileDetailViewModel extends MVVMListViewModel<MarkFileDetailAct
     private void loadMarkFileData(String strTestDataID) {
         WirelessTestDataData wirelessTestDataData = DataFactory.getBaseData(WirelessTestDataData.class);
         markFileDetailItemViewModels.clear();
-        wirelessTestDataData.getData(new DataLoadCallBack() {
+        wirelessTestDataData.getData(new DataLoadCallBack<WirelessTestDataModel>() {
+
             @Override
-            @SuppressWarnings("unchecked")
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                List<WirelessTestDataModel> wirelessTestDataModels = (List<WirelessTestDataModel>) models;
-                obsProbeNumber.set(wirelessTestDataModels.get(0).probeNumber);
-                for (WirelessTestDataModel wirelessTestDataModel : wirelessTestDataModels
+            public void onDataLoaded(List<WirelessTestDataModel> models) {
+                obsProbeNumber.set(models.get(0).probeNumber);
+                for (WirelessTestDataModel wirelessTestDataModel : models
                         ) {
                     MarkFileDetailItemViewModel markFileDetailItemViewModel = new MarkFileDetailItemViewModel();
                     markFileDetailItemViewModel.strDeep.set(String.valueOf(wirelessTestDataModel.deep));
