@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 
-import com.activeandroid.Model;
-
 import org.apache.commons.io.FileUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -147,10 +145,11 @@ public class DataSynViewModel extends BaseViewModel<DataSyncActivity> implements
      */
     private void getTestMsg() {
         WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-        wirelessTestData.getData(new DataLoadCallBack() {
+        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                wirelessTestModel = (WirelessTestModel) models.get(0);
+            public void onDataLoaded(List<WirelessTestModel> models) {
+                wirelessTestModel = models.get(0);
             }
 
             @Override

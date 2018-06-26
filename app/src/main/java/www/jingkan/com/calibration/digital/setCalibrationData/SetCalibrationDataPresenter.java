@@ -13,8 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.activeandroid.Model;
-
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -164,20 +162,20 @@ public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDat
     @Override
     public void setDataToProbe() {
         if (isFs) {//侧壁标定
-            memoryData.getData(new DataLoadCallBack() {
+            memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
+
+
                 @Override
-                public <T extends Model> void onDataLoaded(List<T> model) {
-                    List<MemoryDataModel> memoryDataModels = (List<MemoryDataModel>) model;
-                    getQcData(memoryDataModels);
-                    memoryData.getData(new DataLoadCallBack() {
+                public void onDataLoaded(List<MemoryDataModel> models) {
+                    getQcData(models);
+                    memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
                         @Override
-                        public <M extends Model> void onDataLoaded(List<M> model) {
-                            List<MemoryDataModel> memoryDataModels = (List<MemoryDataModel>) model;
-                            for (int i = 0; i < memoryDataModels.size(); i++) {
+                        public void onDataLoaded(List<MemoryDataModel> models) {
+                            for (int i = 0; i < models.size(); i++) {
                                 if (i < 7) {//侧壁加荷
-                                    Acc[1][1][i] = memoryDataModels.get(i).ADValue;
+                                    Acc[1][1][i] = models.get(i).ADValue;
                                 } else {//侧壁卸荷
-                                    Acc[1][2][i - 7] = memoryDataModels.get(i).ADValue;
+                                    Acc[1][2][i - 7] = models.get(i).ADValue;
                                 }
 
                             }
@@ -198,11 +196,11 @@ public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDat
             }, sn, "qc");
 
         } else {//锥头标定
-            memoryData.getData(new DataLoadCallBack() {
+            memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
+
                 @Override
-                public <T extends Model> void onDataLoaded(List<T> model) {
-                    List<MemoryDataModel> memoryDataModels = (List<MemoryDataModel>) model;
-                    getQcData(memoryDataModels);
+                public void onDataLoaded(List<MemoryDataModel> models) {
+                    getQcData(models);
                     //侧壁数据
                     for (int i = 0; i < 7; i++) {
                         Acc[1][1][i] = i * 1200;
@@ -458,10 +456,12 @@ public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDat
     public void initProbeParameters(final String sn, boolean isFs, final boolean isFa) {
         this.sn = sn;
         CalibrationProbeData calibrationProbeData = DataFactory.getBaseData(CalibrationProbeData.class);
-        calibrationProbeData.getData(new DataLoadCallBack() {
+        calibrationProbeData.getData(new DataLoadCallBack<CalibrationProbeModel>() {
+
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> model) {
-                CalibrationProbeModel calibrationProbeModel = (CalibrationProbeModel) model.get(0);
+            public void onDataLoaded(List<CalibrationProbeModel> models) {
+                CalibrationProbeModel calibrationProbeModel = models.get(0);
                 number = calibrationProbeModel.number;
                 area = calibrationProbeModel.work_area;
                 differential = calibrationProbeModel.differential;
@@ -543,10 +543,10 @@ public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDat
         if (isFs) {//双桥
             memoryData.getData(new DataLoadCallBack() {
                 @Override
-                public <T extends Model> void onDataLoaded(List<T> model) {//有锥头数据判断有无侧壁数据
+                public void onDataLoaded(List model) {//有锥头数据判断有无侧壁数据
                     memoryData.getData(new DataLoadCallBack() {
                         @Override
-                        public <M extends Model> void onDataLoaded(List<M> model) {
+                        public void onDataLoaded(List model) {
                             if (isFa) {
                                 switchingChannel(2);//切换到测斜通道
                             }
@@ -570,7 +570,7 @@ public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDat
         } else {//单桥或十字板
             memoryData.getData(new DataLoadCallBack() {
                 @Override
-                public <T extends Model> void onDataLoaded(List<T> model) {//有锥头数据时直接采集侧壁的数据
+                public void onDataLoaded(List model) {//有锥头数据时直接采集侧壁的数据
                     if (isFa) {
                         switchingChannel(2);//切换到测斜通道
                     } else {
@@ -766,11 +766,10 @@ public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDat
         switch (which) {
             case 0://锥头
                 isFs = false;
-                memoryData.getData(new DataLoadCallBack() {
+                memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
                     @Override
-                    public <T extends Model> void onDataLoaded(List<T> model) {//有锥头数据时直接采集侧壁的数据
-                        List<MemoryDataModel> memoryDataModels = (List<MemoryDataModel>) model;
-                        myView.get().resetView("锥头", memoryDataModels);
+                    public void onDataLoaded(List<MemoryDataModel> models) {//有锥头数据时直接采集侧壁的数据
+                        myView.get().resetView("锥头", models);
                     }
 
                     @Override
@@ -786,11 +785,10 @@ public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDat
                 break;
             case 1://侧壁通道
                 isFs = true;
-                memoryData.getData(new DataLoadCallBack() {
+                memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
                     @Override
-                    public <T extends Model> void onDataLoaded(List<T> model) {//有锥头数据时直接采集侧壁的数据
-                        List<MemoryDataModel> memoryDataModels = (List<MemoryDataModel>) model;
-                        myView.get().resetView("侧壁", memoryDataModels);
+                    public void onDataLoaded(List<MemoryDataModel> models) {//有锥头数据时直接采集侧壁的数据
+                        myView.get().resetView("侧壁", models);
                     }
 
                     @Override

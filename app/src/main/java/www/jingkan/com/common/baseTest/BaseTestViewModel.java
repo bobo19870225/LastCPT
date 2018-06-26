@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.activeandroid.Model;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,10 +71,11 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
 
     private void getTestParameters(String projectNumber, String holeNumber) {
         TestData testData = DataFactory.getBaseData(TestData.class);
-        testData.getData(new DataLoadCallBack() {
+        testData.getData(new DataLoadCallBack<TestModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                testModel = (TestModel) models.get(0);
+            public void onDataLoaded(List<TestModel> models) {
+                testModel = models.get(0);
                 obsProjectNumber.set(testModel.projectNumber);
                 obsHoleNumber.set(testModel.holeNumber);
             }
@@ -118,15 +117,15 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
             myView.get().showRecordValue(qcEffectiveValue, fsEffectiveValue, faEffectiveValue, aFloat);
     }
 
-    @SuppressWarnings("unchecked")
+
     private void loadTestData(String testDataID) {
         TestDataData testDataData = DataFactory.getBaseData(TestDataData.class);
-        testDataData.getData(new DataLoadCallBack() {
+        testDataData.getData(new DataLoadCallBack<TestDataModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                List<TestDataModel> testDataModels = (List<TestDataModel>) models;
-                myView.get().showTestData(testDataModels);
-                obsTestDeep.set(testDataModels.get(testDataModels.size() - 1).deep);
+            public void onDataLoaded(List<TestDataModel> models) {
+                myView.get().showTestData(models);
+                obsTestDeep.set(models.get(models.size() - 1).deep);
             }
 
             @Override
@@ -209,10 +208,11 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
             isIdentification = true;
             probeID = sn;
             ProbeData probeData = DataFactory.getBaseData(ProbeData.class);
-            probeData.getData(new DataLoadCallBack() {
+            probeData.getData(new DataLoadCallBack<ProbeModel>() {
+
                 @Override
-                public <T extends Model> void onDataLoaded(List<T> model) {
-                    ProbeModel probeModel = (ProbeModel) model.get(0);
+                public void onDataLoaded(List<ProbeModel> models) {
+                    ProbeModel probeModel = models.get(0);
                     obsProbeNumber.set(probeModel.number);
                     obsQcCoefficient.set(String.valueOf(probeModel.qc_coefficient));
                     obsQcLimit.set(String.valueOf(probeModel.qc_limit));
@@ -303,9 +303,10 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
 
     public void saveTestDataToSD(final int fileType) {
         TestDataData testDataData = DataFactory.getBaseData(TestDataData.class);
-        testDataData.getData(new DataLoadCallBack() {
+        testDataData.getData(new DataLoadCallBack<TestDataModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
+            public void onDataLoaded(List<TestDataModel> models) {
                 mModels = models;
                 DataUtils.getInstance()
                         .saveDataToSd(getView().getApplicationContext(),

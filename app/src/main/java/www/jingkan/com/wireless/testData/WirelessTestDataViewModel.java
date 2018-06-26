@@ -6,8 +6,6 @@ package www.jingkan.com.wireless.testData;
 
 import android.content.Intent;
 
-import com.activeandroid.Model;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,12 +55,12 @@ public class WirelessTestDataViewModel extends MVVMListViewModel<WirelessTestDat
     public void loadListViewData() {
         WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
         wirelessTestDataItemVMS.clear();
-        wirelessTestData.getData(new DataLoadCallBack() {
-            @SuppressWarnings("unchecked")
-            @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
+        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
 
-                for (WirelessTestModel wirelessTestModel : (List<WirelessTestModel>) models
+            @Override
+            public void onDataLoaded(List<WirelessTestModel> models) {
+
+                for (WirelessTestModel wirelessTestModel : models
                         ) {
                     WirelessTestDataItemVM wirelessTestDataItemVM = new WirelessTestDataItemVM();
                     wirelessTestDataItemVM.strProjectNumber.set(wirelessTestModel.projectNumber);

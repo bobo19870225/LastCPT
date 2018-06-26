@@ -13,8 +13,8 @@ import java.util.List;
  * 加载数据回调接口
  */
 
-public interface DataLoadCallBack {
-    <T extends Model> void onDataLoaded(List<T> models);
+public interface DataLoadCallBack<T extends Model> {
+    void onDataLoaded(List<T> models);
 
     void onDataNotAvailable();
 }

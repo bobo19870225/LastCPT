@@ -13,8 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.activeandroid.Model;
-
 import java.util.List;
 
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
@@ -180,19 +178,22 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
         linkDevice();
     }
 
-    @SuppressWarnings("unchecked")
+    private TestModel testModel;
+
     private void getTestParameters() {
         TestData testData = DataFactory.getBaseData(TestData.class);
-        testData.getData(new DataLoadCallBack() {
+        testData.getData(new DataLoadCallBack<TestModel>() {
+
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                TestModel testModel = (TestModel) models.get(0);
+            public void onDataLoaded(List<TestModel> models) {
+                testModel = models.get(0);
                 if (testModel != null) {
                     CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
-                    crossTestDataData.getData(new DataLoadCallBack() {
+                    crossTestDataData.getData(new DataLoadCallBack<CrossTestDataModel>() {
                         @Override
-                        public <M extends Model> void onDataLoaded(List<M> models) {
-                            myView.get().showTestData((List<CrossTestDataModel>) models);
+                        public void onDataLoaded(List<CrossTestDataModel> models) {
+                            myView.get().showTestData(models);
                             deg.set(String.valueOf(models.size()));
                         }
 
@@ -243,10 +244,10 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
         if (!isIdentification) {
             isIdentification = true;
             ProbeData probeData = DataFactory.getBaseData(ProbeData.class);
-            probeData.getData(new DataLoadCallBack() {
+            probeData.getData(new DataLoadCallBack<ProbeModel>() {
                 @Override
-                public <T extends Model> void onDataLoaded(List<T> model) {
-                    ProbeModel probeModel = (ProbeModel) model.get(0);
+                public void onDataLoaded(List<ProbeModel> models) {
+                    ProbeModel probeModel = models.get(0);
                     strCuCoefficient.set(String.valueOf(probeModel.qc_coefficient));
                     strCuLimit.set(String.valueOf(probeModel.qc_limit));
                 }
@@ -276,6 +277,19 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
     }
 
     public void saveTestDataToSD(String projectNumber, String holeNumber, int fileType, String testType) {
+        CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
+        crossTestDataData.getData(new DataLoadCallBack<CrossTestDataModel>() {
+
+            @Override
+            public void onDataLoaded(List<CrossTestDataModel> models) {
+
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        }, testModel.projectNumber + "_" + testModel.holeNumber);
 
     }
 

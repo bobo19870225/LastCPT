@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.activeandroid.Model;
-
 import java.util.List;
 import java.util.Map;
 
@@ -53,10 +51,11 @@ public class CalibrationParameterActivity extends BaseActivity {
     protected void setView() {
         strings = (String[]) mData;
         setTitle(strings[1]);
-        calibrationProbeData.getData(new DataLoadCallBack() {
+        calibrationProbeData.getData(new DataLoadCallBack<CalibrationProbeModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> model) {
-                CalibrationProbeModel calibrationProbeModel = (CalibrationProbeModel) model.get(model.size() - 1);
+            public void onDataLoaded(List<CalibrationProbeModel> models) {
+                CalibrationProbeModel calibrationProbeModel = models.get(models.size() - 1);
                 sn.setText(calibrationProbeModel.probeID);
                 number.setText(calibrationProbeModel.number);
                 area.setText(calibrationProbeModel.work_area);

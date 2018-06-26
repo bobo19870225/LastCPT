@@ -17,8 +17,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.activeandroid.Model;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +28,10 @@ import www.jingkan.com.fragment.CrossFragment;
 import www.jingkan.com.fragment.DoubleBridgeFragment;
 import www.jingkan.com.fragment.SingleBridgeFragment;
 import www.jingkan.com.framework.utils.StringUtils;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 import www.jingkan.com.localData.commonProbe.ProbeData;
 import www.jingkan.com.localData.commonProbe.ProbeModel;
+import www.jingkan.com.localData.dataFactory.DataFactory;
+import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 
 public class AddProbeInfoActivity extends BaseActivity implements SingleBridgeFragment.SingleBridgeData,
         DoubleBridgeFragment.DoubleBridgeData,
@@ -165,7 +163,7 @@ public class AddProbeInfoActivity extends BaseActivity implements SingleBridgeFr
                 if (sn.length() > 0) {
                     probeData.getData(new DataLoadCallBack() {
                         @Override
-                        public <T extends Model> void onDataLoaded(List<T> model) {//修改
+                        public void onDataLoaded(List model) {//修改
                             saveDataToLocal(true);
                             goTo(CommonProbeActivity.class, null, true);
 

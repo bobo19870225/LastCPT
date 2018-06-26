@@ -7,8 +7,6 @@ package www.jingkan.com.common.historyData;
 import android.content.Context;
 import android.content.Intent;
 
-import com.activeandroid.Model;
-
 import java.util.List;
 
 import www.jingkan.com.base.baseMVP.BasePresenter;
@@ -46,10 +44,11 @@ public class HistoryDataPresenter extends BasePresenter<HistoryDataActivity> imp
     @Override
     public void getHistoryData() {
 
-        testData.getData(new DataLoadCallBack() {
+        testData.getData(new DataLoadCallBack<TestModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> models) {
-                myView.get().showHistoryData((List<TestModel>) models);
+            public void onDataLoaded(List<TestModel> models) {
+                myView.get().showHistoryData(models);
             }
 
             @Override

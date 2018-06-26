@@ -12,6 +12,7 @@ import www.jingkan.com.framework.utils.MyFileUtils;
 import www.jingkan.com.framework.utils.PreferencesUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.localData.test.TestModel;
+import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataModel;
 import www.jingkan.com.localData.testData.TestDataModel;
 import www.jingkan.com.localData.wirelessResultData.WirelessResultDataModel;
 import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
@@ -358,7 +359,61 @@ public class DataUtils {
     }
 
     @SuppressWarnings("unchecked")
-    private void getDATContent(List models, StringBuilder content, String strReturn, TestModel mTestModel, String testType) {
+    public void saveDataToSd(
+            final Context context,
+            List<CrossTestDataModel> models,
+            TestModel testModel,
+            final ISkip iSkip) {
+        StringBuilder content = new StringBuilder();
+        String strReturn = "\r\n";
+
+
+        String projectNumber = testModel.projectNumber;
+        String holeNumber = testModel.holeNumber;
+        content.append("试验日期：").append(testModel.testDate).append(strReturn);
+        content.append("工程编号：").append(projectNumber).append(strReturn);
+        content.append("孔号：").append(holeNumber).append(strReturn);
+        content.append("试验类型：").append(testModel.testType).append(strReturn);
+        content.append("操作员工：").append(testModel.tester).append(strReturn);
+
+        String type = "";
+        float deep = -1;
+
+        for (CrossTestDataModel crossTestDataModel : models) {
+            if (crossTestDataModel.deep != deep) {
+                deep = crossTestDataModel.deep;
+                content.append("试验深度：").append(StringUtils.format(deep, 2)).append(strReturn);
+                type = crossTestDataModel.type;
+                content.append("土样类型：").append(type).append(strReturn);
+            }
+            if (!crossTestDataModel.type.equals(type)) {
+                type = crossTestDataModel.type;
+                content.append("土样类型：").append(type).append(strReturn);
+            }
+            content.append(StringUtils.format(crossTestDataModel.cu, 3)).append(strReturn);
+        }
+
+        MyFileUtils.getInstance().saveToSD(context,
+                projectNumber + "_" + holeNumber,
+                content.toString(),
+                "txt",
+                new MyFileUtils.SaveFileCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        iSkip.sendToastMsg("保存成功！");
+                    }
+
+                    @Override
+                    public void onFail(String e) {
+                        iSkip.sendToastMsg(e);
+                    }
+                });
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private void getDATContent(List models, StringBuilder content, String strReturn, TestModel
+            mTestModel, String testType) {
         switch (testType) {
             case "单桥试验":
             case "单桥测斜试验":
@@ -415,8 +470,10 @@ public class DataUtils {
         }
     }
 
+
     @SuppressWarnings("unchecked")
-    private void getDATContent(List models, StringBuilder content, String strReturn, WirelessTestModel wirelessTestModel, String testType) {
+    private void getDATContent(List models, StringBuilder content, String
+            strReturn, WirelessTestModel wirelessTestModel, String testType) {
         switch (testType) {
             case "单桥试验":
             case "单桥测斜试验":

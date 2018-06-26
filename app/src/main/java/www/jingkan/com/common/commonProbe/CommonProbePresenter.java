@@ -7,15 +7,13 @@ package www.jingkan.com.common.commonProbe;
 import android.content.Context;
 import android.content.Intent;
 
-import com.activeandroid.Model;
-
 import java.util.List;
 
 import www.jingkan.com.base.baseMVP.BasePresenter;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 import www.jingkan.com.localData.commonProbe.ProbeData;
 import www.jingkan.com.localData.commonProbe.ProbeModel;
+import www.jingkan.com.localData.dataFactory.DataFactory;
+import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 
 /**
  * Created by lushengbo on 2017/4/23.
@@ -40,15 +38,14 @@ class CommonProbePresenter extends BasePresenter<CommonProbeActivity> implements
     }
 
 
-
-    @SuppressWarnings("unchecked")
     @Override
     public void getProbeList() {
         ProbeData probeData = DataFactory.getBaseData(ProbeData.class);
-        probeData.getData(new DataLoadCallBack() {
+        probeData.getData(new DataLoadCallBack<ProbeModel>() {
+
             @Override
-            public <T extends Model> void onDataLoaded(List<T> model) {
-                myView.get().showProbeList((List<ProbeModel>) model);
+            public void onDataLoaded(List<ProbeModel> models) {
+                myView.get().showProbeList(models);
             }
 
             @Override

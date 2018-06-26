@@ -20,8 +20,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.activeandroid.Model;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -239,7 +237,7 @@ public class NewTestActivity extends BaseActivity {
         if (isWireless) {
             wirelessTestData.getData(new DataLoadCallBack() {
                 @Override
-                public <T extends Model> void onDataLoaded(List<T> models) {
+                public void onDataLoaded(List models) {
                     showToast("该试验已经存在，请更换工程编号或孔号");
                 }
 
@@ -276,7 +274,7 @@ public class NewTestActivity extends BaseActivity {
         } else {
             testData.getData(new DataLoadCallBack() {
                 @Override
-                public <T extends Model> void onDataLoaded(List<T> models) {
+                public void onDataLoaded(List models) {
                     showToast("该试验已经存在，请更换工程编号或孔号");
                 }
 

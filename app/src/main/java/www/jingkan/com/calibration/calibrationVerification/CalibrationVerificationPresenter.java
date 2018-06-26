@@ -14,8 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.activeandroid.Model;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -152,7 +150,12 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
         if (isFs) {
             calibrationVerificationData.getData(new DataLoadCallBack() {
                 @Override
-                public <T extends Model> void onDataLoaded(List<T> model) {
+                public void onDataLoaded(List models) {
+
+                }
+
+                @Override
+                public void onDataNotAvailable() {
                     myView.get().showMyDialog("清除数据",
                             "要重新标定需清除原有侧壁数据，确定清除请点击【确定】",
                             true,
@@ -163,16 +166,11 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
                                 }
                             });
                 }
-
-                @Override
-                public void onDataNotAvailable() {
-
-                }
             }, probeNo, "侧壁");
         } else {
             calibrationVerificationData.getData(new DataLoadCallBack() {
                 @Override
-                public <T extends Model> void onDataLoaded(List<T> model) {
+                public void onDataLoaded(List model) {
                     myView.get().showMyDialog("清除数据",
                             "要重新标定需清除原有锥头数据，确定清除请点击【确定】",
                             true,
@@ -200,7 +198,7 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
         CalibrationProbeData calibrationProbeData = DataFactory.getBaseData(CalibrationProbeData.class);
         calibrationProbeData.getData(new DataLoadCallBack() {
             @Override
-            public <T extends Model> void onDataLoaded(List<T> model) {
+            public void onDataLoaded(List model) {
                 CalibrationProbeModel calibrationProbeModel = (CalibrationProbeModel) model.get(0);
                 probeNo = calibrationProbeModel.number;
                 workArea = calibrationProbeModel.work_area;
@@ -430,7 +428,7 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
     private void loadData(String type) {
         calibrationVerificationData.getData(new DataLoadCallBack() {
             @Override
-            public <T extends Model> void onDataLoaded(List<T> model) {
+            public void onDataLoaded(List model) {
                 List<CalibrationVerificationModel> calibrationVerificationModels = (List<CalibrationVerificationModel>) model;
                 int size = calibrationVerificationModels.size();
                 load = new float[size / 2];
@@ -464,7 +462,7 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
         }, probeNo, type, "加荷");
         calibrationVerificationData.getData(new DataLoadCallBack() {
             @Override
-            public <T extends Model> void onDataLoaded(List<T> model) {
+            public void onDataLoaded(List model) {
                 List<CalibrationVerificationModel> calibrationVerificationModels = (List<CalibrationVerificationModel>) model;
                 int size = calibrationVerificationModels.size();
                 unLoad = new float[size / 2];
