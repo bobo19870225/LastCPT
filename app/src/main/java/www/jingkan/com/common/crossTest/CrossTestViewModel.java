@@ -28,6 +28,8 @@ import www.jingkan.com.localData.test.TestData;
 import www.jingkan.com.localData.test.TestModel;
 import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataData;
 import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataModel;
+import www.jingkan.com.mInterface.ISkip;
+import www.jingkan.com.saveUtils.DataUtils;
 
 /**
  * Created by lushengbo on 2018/1/8.
@@ -36,7 +38,7 @@ import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataModel;
  * 修改试验深度是试验编号加一。
  */
 
-public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
+public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> implements ISkip {
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
@@ -276,18 +278,23 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
 
     }
 
-    public void saveTestDataToSD(String projectNumber, String holeNumber, int fileType, String testType) {
+    public void saveTestDataToSD() {
         CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
         crossTestDataData.getData(new DataLoadCallBack<CrossTestDataModel>() {
 
             @Override
             public void onDataLoaded(List<CrossTestDataModel> models) {
-
+//                mModels = models;
+                DataUtils.getInstance()
+                        .saveDataToSd(getView().getApplicationContext(),
+                                models,
+                                testModel,
+                                CrossTestViewModel.this);
             }
 
             @Override
             public void onDataNotAvailable() {
-
+                myView.get().showToast("读取数据失败！");
             }
         }, testModel.projectNumber + "_" + testModel.holeNumber);
 
@@ -306,5 +313,20 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> {
         strDeep.set(deep);
         strSoilType.set(soilType);
         resetTest();
+    }
+
+    @Override
+    public void skipForResult(Intent intent, int requestCode) {
+        getView().startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public void skip(Intent intent) {
+
+    }
+
+    @Override
+    public void sendToastMsg(String msg) {
+
     }
 }
