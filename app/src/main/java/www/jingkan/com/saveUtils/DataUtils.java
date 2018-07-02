@@ -359,15 +359,9 @@ public class DataUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public void saveDataToSd(
-            final Context context,
-            List<CrossTestDataModel> models,
-            TestModel testModel,
-            final ISkip iSkip) {
+    public void saveDataToSd(final Context context, List<CrossTestDataModel> models, TestModel testModel, final ISkip iSkip) {
         StringBuilder content = new StringBuilder();
         String strReturn = "\r\n";
-
-
         String projectNumber = testModel.projectNumber;
         String holeNumber = testModel.holeNumber;
         content.append("试验日期：").append(testModel.testDate).append(strReturn);
@@ -521,12 +515,7 @@ public class DataUtils {
         }
     }
 
-    public void emailData(
-            Context context,
-            List models,
-            int saveType,
-            Object testModel,
-            ISkip iSkip) {
+    public void emailData(Context context, List models, int saveType, Object testModel, ISkip iSkip) {
         String fileName = null;
         if (testModel instanceof TestModel) {
             String name = ((TestModel) testModel).projectNumber + "_" + ((TestModel) testModel).holeNumber;
@@ -585,6 +574,28 @@ public class DataUtils {
                 sendFile(context, fileName, sEmail, sEmailPassword, rEmail, iSkip);
             } else {
                 saveDataToSd(context, models, saveType, testModel, iSkip);
+                sendFile(context, fileName, sEmail, sEmailPassword, rEmail, iSkip);
+            }
+
+        } else {
+            iSkip.skipForResult(new Intent().setClass(context, SetEmailActivity.class), SET_EMAIL);
+        }
+    }
+
+    public void emailData(Context context, List<CrossTestDataModel> models, TestModel testModel, ISkip iSkip) {
+        String fileName = testModel.projectNumber + "_" + testModel.holeNumber + ".txt";
+        PreferencesUtils preferencesUtils = new PreferencesUtils(context);
+        Map<String, String> emailPreferences = preferencesUtils.getEmailPreferences();
+        String sEmail = emailPreferences.get("sEmail");
+        String sEmailPassword = emailPreferences.get("sEmailPassword");
+        String rEmail = emailPreferences.get("rEmail");
+        if (StringUtils.isNotEmpty(sEmail)
+                && StringUtils.isNotEmpty(sEmailPassword)
+                && StringUtils.isNotEmpty(rEmail)) {
+            if (MyFileUtils.fileIsExists(fileName)) {
+                sendFile(context, fileName, sEmail, sEmailPassword, rEmail, iSkip);
+            } else {
+                saveDataToSd(context, models, testModel, iSkip);
                 sendFile(context, fileName, sEmail, sEmailPassword, rEmail, iSkip);
             }
 

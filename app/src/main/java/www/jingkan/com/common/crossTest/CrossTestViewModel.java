@@ -278,18 +278,17 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
 
     }
 
+    List<CrossTestDataModel> crossTestDataModels;
+
     public void saveTestDataToSD() {
         CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
         crossTestDataData.getData(new DataLoadCallBack<CrossTestDataModel>() {
 
             @Override
             public void onDataLoaded(List<CrossTestDataModel> models) {
-//                mModels = models;
-                DataUtils.getInstance()
-                        .saveDataToSd(getView().getApplicationContext(),
-                                        models,
-                                testModel,
-                                CrossTestViewModel.this);
+                crossTestDataModels = models;
+                DataUtils.getInstance().saveDataToSd(getView().getApplicationContext(),
+                        models, testModel, CrossTestViewModel.this);
             }
 
             @Override
@@ -300,8 +299,9 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
 
     }
 
-    public void emailTestData(String fileName) {
-
+    public void emailTestData() {
+        DataUtils.getInstance().emailData(getView().getApplicationContext(),
+                crossTestDataModels, testModel, this);
     }
 
     public void setModify(String deep, String soilType) {

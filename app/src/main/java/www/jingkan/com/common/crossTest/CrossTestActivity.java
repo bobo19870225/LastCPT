@@ -56,41 +56,13 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
                 mViewModel.saveTestDataToSD();
                 return false;
             case R.id.email://发送邮件到指定邮箱
-//                showEmailDataDialog(SystemConstant.VANE_TEST);
+                mViewModel.emailTestData();
                 return false;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private int saveType = 0;
 
-    private void showSaveDataDialog(final String testType) {
-        final String[] items = {"溧阳科尔(.txt)", "溧阳科尔(.DAT)", "南京华宁(.111)", "北京理正(.txt)"};
-        Dialog alertDialog = new AlertDialog.Builder(CrossTestActivity.this)
-                .setTitle("请选择要保存的数据类型")
-                .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveType = which;
-                    }
-                })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveType = 0;
-                        dialog.dismiss();
-                    }
-                }).create();
-        alertDialog.show();
-    }
-
-    int emailType = 0;
 
 //    protected void showEmailDataDialog(final String testType) {
 //        final String[] items = {"溧阳科尔(.txt)", "溧阳科尔(.DAT)", "南京华宁(.111)", "北京理正(.txt)"};
