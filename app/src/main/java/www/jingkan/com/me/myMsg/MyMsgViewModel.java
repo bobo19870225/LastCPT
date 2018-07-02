@@ -19,7 +19,7 @@ import www.jingkan.com.base.baseMVVM.MVVMListViewModel;
 import www.jingkan.com.databinding.ItemMyMsgBinding;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.msgData.MsgData;
+import www.jingkan.com.localData.msgData.MsgDao;
 import www.jingkan.com.localData.msgData.MsgDataModel;
 
 /**
@@ -46,8 +46,8 @@ public class MyMsgViewModel extends MVVMListViewModel<MyMsgActivity> {
     @Override
     public void loadListViewData() {
 
-        MsgData msgData = DataFactory.getBaseData(MsgData.class);
-        msgData.getData(new DataLoadCallBack<MsgDataModel>() {
+        MsgDao msgDao = DataFactory.getBaseData(MsgDao.class);
+        msgDao.getData(new DataLoadCallBack<MsgDataModel>() {
 
             @Override
             public void onDataLoaded(List<MsgDataModel> models) {

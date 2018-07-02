@@ -10,14 +10,14 @@ package www.jingkan.com.localData.dataFactory;
  */
 @SuppressWarnings("unchecked")
 public class DataFactory {
-    public static <T extends BaseData> T getBaseData(Class<T> clz) {
-        BaseData baseData = null;
+    public static <T extends BaseDao> T getBaseData(Class<T> clz) {
+        BaseDao baseDao = null;
         try {
-            baseData = (BaseData) Class.forName(clz.getName()).newInstance();
+            baseDao = (BaseDao) Class.forName(clz.getName()).newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return (T) baseData;
+        return (T) baseDao;
     }
 
 }

@@ -19,9 +19,9 @@ import www.jingkan.com.databinding.ItemResultDataDetailsBinding;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessResultData.WirelessResultDataData;
+import www.jingkan.com.localData.wirelessResultData.WirelessResultDaoDao;
 import www.jingkan.com.localData.wirelessResultData.WirelessResultDataModel;
-import www.jingkan.com.localData.wirelessTest.WirelessTestData;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
 import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
 import www.jingkan.com.mInterface.ISkip;
 import www.jingkan.com.saveUtils.DataUtils;
@@ -51,8 +51,8 @@ public class WirelessResultDataDetailVM extends MVVMListViewModel<WirelessResult
 
     private void getTestParameter(String data) {
         String[] split = data.split("_");
-        WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
 
             @Override
             public void onDataLoaded(List<WirelessTestModel> models) {
@@ -80,9 +80,9 @@ public class WirelessResultDataDetailVM extends MVVMListViewModel<WirelessResult
 
     @Override
     public void loadListViewData() {
-        WirelessResultDataData wirelessResultDataData = DataFactory.getBaseData(WirelessResultDataData.class);
+        WirelessResultDaoDao wirelessResultDataDao = DataFactory.getBaseData(WirelessResultDaoDao.class);
         wirelessResultDataDetailItemVMs.clear();
-        wirelessResultDataData.getData(new DataLoadCallBack<WirelessResultDataModel>() {
+        wirelessResultDataDao.getData(new DataLoadCallBack<WirelessResultDataModel>() {
 
             @Override
             public void onDataLoaded(List<WirelessResultDataModel> models) {

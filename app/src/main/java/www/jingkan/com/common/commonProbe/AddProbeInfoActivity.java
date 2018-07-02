@@ -28,7 +28,7 @@ import www.jingkan.com.fragment.CrossFragment;
 import www.jingkan.com.fragment.DoubleBridgeFragment;
 import www.jingkan.com.fragment.SingleBridgeFragment;
 import www.jingkan.com.framework.utils.StringUtils;
-import www.jingkan.com.localData.commonProbe.ProbeData;
+import www.jingkan.com.localData.commonProbe.ProbeDao;
 import www.jingkan.com.localData.commonProbe.ProbeModel;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
@@ -54,7 +54,7 @@ public class AddProbeInfoActivity extends BaseActivity implements SingleBridgeFr
     private String[] crossData;
 
     private String strProbeType, sn, strNumber;
-    private ProbeData probeData = DataFactory.getBaseData(ProbeData.class);
+    private ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
 
     @Override
     protected void setView() {
@@ -161,7 +161,7 @@ public class AddProbeInfoActivity extends BaseActivity implements SingleBridgeFr
                 sn = et_sn.getText().toString();
                 strNumber = et_id.getText().toString();
                 if (sn.length() > 0) {
-                    probeData.getData(new DataLoadCallBack() {
+                    probeDao.getData(new DataLoadCallBack() {
                         @Override
                         public void onDataLoaded(List model) {//修改
                             saveDataToLocal(true);
@@ -280,9 +280,9 @@ public class AddProbeInfoActivity extends BaseActivity implements SingleBridgeFr
                 break;
         }
         if (isUpdate) {
-            probeData.modifyData(probeModel);
+            probeDao.modifyData(probeModel);
         } else {
-            probeData.addData(probeModel);
+            probeDao.addData(probeModel);
         }
 
     }

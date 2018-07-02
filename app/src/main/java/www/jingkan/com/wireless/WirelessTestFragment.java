@@ -22,7 +22,7 @@ import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.linkBluetooth.LinkBluetoothActivity;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessTest.WirelessTestData;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
 import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
 import www.jingkan.com.wireless.dataSynchronization.DataSyncActivity;
 import www.jingkan.com.wireless.markFile.MarkFileActivity;
@@ -63,8 +63,8 @@ public class WirelessTestFragment extends BaseFragment {
                 goTo(NewTestActivity.class, "无缆试验");
                 break;
             case R.id.test_again:
-                WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-                wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+                WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+                wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
 
                     @Override
                     public void onDataLoaded(List<WirelessTestModel> models) {

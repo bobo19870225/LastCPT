@@ -12,9 +12,9 @@ import java.util.List;
 import www.jingkan.com.base.baseMVP.BasePresenter;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.test.TestData;
+import www.jingkan.com.localData.test.TestDao;
 import www.jingkan.com.localData.test.TestModel;
-import www.jingkan.com.localData.testData.TestDataData;
+import www.jingkan.com.localData.testData.TestDataDao;
 
 /**
  * Created by lushengbo on 2017/6/1.
@@ -22,7 +22,7 @@ import www.jingkan.com.localData.testData.TestDataData;
  */
 
 public class HistoryDataPresenter extends BasePresenter<HistoryDataActivity> implements HistoryDataContract.Presenter {
-    private TestData testData = DataFactory.getBaseData(TestData.class);
+    private TestDao testData = DataFactory.getBaseData(TestDao.class);
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -63,7 +63,7 @@ public class HistoryDataPresenter extends BasePresenter<HistoryDataActivity> imp
     public void deleteOneHistoryData(TestModel testModel) {
         testData.deleteData(testModel.projectNumber, testModel.holeNumber);
         //同时删除试验数据
-        TestDataData testDataData = DataFactory.getBaseData(TestDataData.class);
+        TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);
         testDataData.deleteData(testModel.testDataID);
         getHistoryData();//刷新
     }

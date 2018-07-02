@@ -10,7 +10,7 @@ import android.content.Intent;
 import java.util.List;
 
 import www.jingkan.com.base.baseMVP.BasePresenter;
-import www.jingkan.com.localData.commonProbe.ProbeData;
+import www.jingkan.com.localData.commonProbe.ProbeDao;
 import www.jingkan.com.localData.commonProbe.ProbeModel;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
@@ -40,8 +40,8 @@ class CommonProbePresenter extends BasePresenter<CommonProbeActivity> implements
 
     @Override
     public void getProbeList() {
-        ProbeData probeData = DataFactory.getBaseData(ProbeData.class);
-        probeData.getData(new DataLoadCallBack<ProbeModel>() {
+        ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
+        probeDao.getData(new DataLoadCallBack<ProbeModel>() {
 
             @Override
             public void onDataLoaded(List<ProbeModel> models) {

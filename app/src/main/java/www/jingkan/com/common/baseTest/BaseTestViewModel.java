@@ -18,13 +18,13 @@ import www.jingkan.com.framework.utils.BluetoothUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.framework.utils.VibratorUtils;
 import www.jingkan.com.framework.utils.headset.HeadSetHelper;
-import www.jingkan.com.localData.commonProbe.ProbeData;
+import www.jingkan.com.localData.commonProbe.ProbeDao;
 import www.jingkan.com.localData.commonProbe.ProbeModel;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.test.TestData;
+import www.jingkan.com.localData.test.TestDao;
 import www.jingkan.com.localData.test.TestModel;
-import www.jingkan.com.localData.testData.TestDataData;
+import www.jingkan.com.localData.testData.TestDataDao;
 import www.jingkan.com.localData.testData.TestDataModel;
 import www.jingkan.com.mInterface.ISkip;
 import www.jingkan.com.saveUtils.DataUtils;
@@ -70,7 +70,7 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
     }
 
     private void getTestParameters(String projectNumber, String holeNumber) {
-        TestData testData = DataFactory.getBaseData(TestData.class);
+        TestDao testData = DataFactory.getBaseData(TestDao.class);
         testData.getData(new DataLoadCallBack<TestModel>() {
 
             @Override
@@ -106,7 +106,7 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
         Float faEffectiveValue = obsFaEffectiveValue.get();
         if (faEffectiveValue != null)
             testDataModel.fa = faEffectiveValue;
-        TestDataData testDataData = DataFactory.getBaseData(TestDataData.class);
+        TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);
         testDataData.addData(testDataModel);
         Boolean aBoolean = obsIsShock.get();
         if (aBoolean != null)
@@ -119,7 +119,7 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
 
 
     private void loadTestData(String testDataID) {
-        TestDataData testDataData = DataFactory.getBaseData(TestDataData.class);
+        TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);
         testDataData.getData(new DataLoadCallBack<TestDataModel>() {
 
             @Override
@@ -207,8 +207,8 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
         if (!isIdentification) {
             isIdentification = true;
             probeID = sn;
-            ProbeData probeData = DataFactory.getBaseData(ProbeData.class);
-            probeData.getData(new DataLoadCallBack<ProbeModel>() {
+            ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
+            probeDao.getData(new DataLoadCallBack<ProbeModel>() {
 
                 @Override
                 public void onDataLoaded(List<ProbeModel> models) {
@@ -302,7 +302,7 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
     private List mModels = new ArrayList();
 
     public void saveTestDataToSD(final int fileType) {
-        TestDataData testDataData = DataFactory.getBaseData(TestDataData.class);
+        TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);
         testDataData.getData(new DataLoadCallBack<TestDataModel>() {
 
             @Override

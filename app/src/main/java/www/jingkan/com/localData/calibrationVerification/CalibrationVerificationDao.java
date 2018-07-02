@@ -4,13 +4,12 @@
 
 package www.jingkan.com.localData.calibrationVerification;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import java.util.List;
 
-import www.jingkan.com.localData.dataFactory.BaseData;
+import www.jingkan.com.localData.dataFactory.BaseDao;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 
 /**
@@ -18,11 +17,11 @@ import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
  * 标定数据类
  */
 
-public class CalibrationVerificationData extends BaseData {
+public class CalibrationVerificationDao extends BaseDao<CalibrationVerificationModel> {
 
 
     @Override
-    public <T extends Model> void addData(T model) {
+    public void addData(CalibrationVerificationModel model) {
         model.save();
     }
 
@@ -34,13 +33,12 @@ public class CalibrationVerificationData extends BaseData {
     }
 
     @Override
-    public <T extends Model> void modifyData(T model) {
+    public void modifyData(CalibrationVerificationModel model) {
 
     }
 
-
     @Override
-    public void getData(DataLoadCallBack dataLoadCallBack, String... args) {
+    public void getData(DataLoadCallBack<CalibrationVerificationModel> dataLoadCallBack, String... args) {
         if (args.length == 2) {
             String selection = CalibrationVerificationConstant.COLUMN_NAME_PROBE_NO + " LIKE ?"
                     + " AND " + CalibrationVerificationConstant.COLUMN_NAME_TYPE + " LIKE ?";

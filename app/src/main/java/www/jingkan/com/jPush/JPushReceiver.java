@@ -18,7 +18,7 @@ import java.util.Iterator;
 import cn.jpush.android.api.JPushInterface;
 import www.jingkan.com.framework.utils.TimeUtils;
 import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.msgData.MsgData;
+import www.jingkan.com.localData.msgData.MsgDao;
 import www.jingkan.com.localData.msgData.MsgDataModel;
 
 /**
@@ -43,14 +43,14 @@ public class JPushReceiver extends BroadcastReceiver {
                 //send the Registration Id to your server...
 
             } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-                MsgData msgData = DataFactory.getBaseData(MsgData.class);
+                MsgDao msgDao = DataFactory.getBaseData(MsgDao.class);
                 MsgDataModel msgDataModel = new MsgDataModel();
                 if (bundle != null) {
                     msgDataModel.title = bundle.getString(JPushInterface.EXTRA_MESSAGE);
                     msgDataModel.msgID = Integer.parseInt(bundle.getString(JPushInterface.EXTRA_MSG_ID));
                     msgDataModel.time = TimeUtils.getCurrentTime();
                 }
-                msgData.addData(msgDataModel);
+                msgDao.addData(msgDataModel);
 
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
                 MsgDataModel msgDataModel = new MsgDataModel();
@@ -59,8 +59,8 @@ public class JPushReceiver extends BroadcastReceiver {
                     msgDataModel.title = bundle.getString(JPushInterface.EXTRA_ALERT);
                     msgDataModel.time = TimeUtils.getCurrentTime();
                 }
-                MsgData msgData = DataFactory.getBaseData(MsgData.class);
-                msgData.addData(msgDataModel);
+                MsgDao msgDao = DataFactory.getBaseData(MsgDao.class);
+                msgDao.addData(msgDataModel);
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
                 Logger.d(TAG, "[MyReceiver] 用户点击打开了通知");
 

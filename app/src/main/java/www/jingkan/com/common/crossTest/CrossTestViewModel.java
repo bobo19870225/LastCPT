@@ -20,13 +20,13 @@ import www.jingkan.com.bluetooth.BluetoothCommService;
 import www.jingkan.com.framework.utils.BluetoothUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.framework.utils.TimeUtils;
-import www.jingkan.com.localData.commonProbe.ProbeData;
+import www.jingkan.com.localData.commonProbe.ProbeDao;
 import www.jingkan.com.localData.commonProbe.ProbeModel;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.test.TestData;
+import www.jingkan.com.localData.test.TestDao;
 import www.jingkan.com.localData.test.TestModel;
-import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataData;
+import www.jingkan.com.localData.testData.CrossTestData.CrossTestDaoDao;
 import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataModel;
 import www.jingkan.com.mInterface.ISkip;
 import www.jingkan.com.saveUtils.DataUtils;
@@ -136,8 +136,8 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
         if (testNumber != null)
             crossTestDataModel.number = testNumber;
         crossTestDataModel.type = strSoilType.get();
-        CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
-        crossTestDataData.addData(crossTestDataModel);
+        CrossTestDaoDao crossTestDataDao = DataFactory.getBaseData(CrossTestDaoDao.class);
+        crossTestDataDao.addData(crossTestDataModel);
         deg.set(StringUtils.format(intDeg, 1));
         getView().showRecordValue(strCuEffective.get(), intDeg);
     }
@@ -186,18 +186,35 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
     private TestModel testModel;
 
     private void getTestParameters() {
-        TestData testData = DataFactory.getBaseData(TestData.class);
+        TestDao testData = DataFactory.getBaseData(TestDao.class);
         testData.getData(new DataLoadCallBack<TestModel>() {
             @Override
             public void onDataLoaded(List<TestModel> models) {
                 testModel = models.get(0);
                 if (testModel != null) {
-                    CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
-                    crossTestDataData.getData(new DataLoadCallBack<CrossTestDataModel>() {
+                    final CrossTestDaoDao crossTestDataDao = DataFactory.getBaseData(CrossTestDaoDao.class);
+                    crossTestDataDao.getData(new DataLoadCallBack<CrossTestDataModel>() {
                         @Override
                         public void onDataLoaded(List<CrossTestDataModel> models) {
-                            myView.get().showTestData(models);
-                            deg.set(String.valueOf(models.size()));
+                            CrossTestDataModel crossTestDataModel = models.get(models.size() - 1);
+                            deg.set(String.valueOf(crossTestDataModel.deg));
+                            strDeep.set(String.valueOf(crossTestDataModel.deep));
+                            intTestNumber.set(crossTestDataModel.number);
+                            strSoilType.set(crossTestDataModel.type);
+                            crossTestDataDao.getData(new DataLoadCallBack<CrossTestDataModel>() {
+
+                                @Override
+                                public void onDataLoaded(List<CrossTestDataModel> models) {
+                                    myView.get().showTestData(models);
+                                }
+
+                                @Override
+                                public void onDataNotAvailable() {
+
+                                }
+                            },strProjectNumber.get() + "_" + strHoleNumber.get(), String.valueOf(intTestNumber.get()));
+
+
                         }
 
                         @Override
@@ -247,8 +264,8 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
     private void IdentificationProbe(String sn) {
         if (!isIdentification) {
             isIdentification = true;
-            ProbeData probeData = DataFactory.getBaseData(ProbeData.class);
-            probeData.getData(new DataLoadCallBack<ProbeModel>() {
+            ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
+            probeDao.getData(new DataLoadCallBack<ProbeModel>() {
                 @Override
                 public void onDataLoaded(List<ProbeModel> models) {
                     probeModel = models.get(0);
@@ -280,11 +297,11 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
 
     }
 
-    List<CrossTestDataModel> crossTestDataModels;
+    private List<CrossTestDataModel> crossTestDataModels;
 
     public void saveTestDataToSD() {
-        CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
-        crossTestDataData.getData(new DataLoadCallBack<CrossTestDataModel>() {
+        CrossTestDaoDao crossTestDataDao = DataFactory.getBaseData(CrossTestDaoDao.class);
+        crossTestDataDao.getData(new DataLoadCallBack<CrossTestDataModel>() {
 
             @Override
             public void onDataLoaded(List<CrossTestDataModel> models) {

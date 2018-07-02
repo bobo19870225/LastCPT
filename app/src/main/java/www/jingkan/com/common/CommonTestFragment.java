@@ -25,7 +25,7 @@ import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.linkBluetooth.LinkBluetoothActivity;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.test.TestData;
+import www.jingkan.com.localData.test.TestDao;
 import www.jingkan.com.localData.test.TestModel;
 import www.jingkan.com.parameter.SystemConstant;
 
@@ -58,7 +58,7 @@ public class CommonTestFragment extends BaseFragment {
                 goTo(NewTestActivity.class, null);
                 break;
             case R.id.test_again:
-                TestData testData = DataFactory.getBaseData(TestData.class);
+                TestDao testData = DataFactory.getBaseData(TestDao.class);
                 testData.getData(new DataLoadCallBack<TestModel>() {
 
                     @Override

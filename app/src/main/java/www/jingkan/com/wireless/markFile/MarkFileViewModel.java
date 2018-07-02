@@ -16,7 +16,7 @@ import www.jingkan.com.base.baseMVVM.MVVMListViewModel;
 import www.jingkan.com.databinding.ItemMarkFileBinding;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessTest.WirelessTestData;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
 import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
 
 /**
@@ -46,8 +46,8 @@ public class MarkFileViewModel extends MVVMListViewModel<MarkFileActivity> {
     }
 
     private void loadMarkData() {
-        WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
 
             @Override
             public void onDataLoaded(List<WirelessTestModel> models) {

@@ -16,7 +16,7 @@ import www.jingkan.com.base.baseMVVM.MVVMListViewModel;
 import www.jingkan.com.databinding.ItemWirelessProbeListBinding;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessProbe.WirelessProbeData;
+import www.jingkan.com.localData.wirelessProbe.WirelessProbeDao;
 import www.jingkan.com.localData.wirelessProbe.WirelessProbeModel;
 
 /**
@@ -44,9 +44,9 @@ public class WirelessProbeViewModel extends MVVMListViewModel<WirelessProbeActiv
     }
 
     void getWirelessProbeList() {
-        WirelessProbeData wirelessProbeData = DataFactory.getBaseData(WirelessProbeData.class);
+        WirelessProbeDao wirelessProbeDao = DataFactory.getBaseData(WirelessProbeDao.class);
         wirelessProbeItemViewModels.clear();
-        wirelessProbeData.getData(new DataLoadCallBack<WirelessProbeModel>() {
+        wirelessProbeDao.getData(new DataLoadCallBack<WirelessProbeModel>() {
 
             @Override
             public void onDataLoaded(List<WirelessProbeModel> models) {

@@ -22,11 +22,11 @@ import www.jingkan.com.bluetooth.BluetoothCommService;
 import www.jingkan.com.framework.utils.BluetoothUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.framework.utils.VibratorUtils;
-import www.jingkan.com.localData.calibrationProbe.CalibrationProbeData;
+import www.jingkan.com.localData.calibrationProbe.CalibrationProbeDao;
 import www.jingkan.com.localData.calibrationProbe.CalibrationProbeModel;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.memoryData.MemoryData;
+import www.jingkan.com.localData.memoryData.MemoryDaoDao;
 import www.jingkan.com.localData.memoryData.MemoryDataModel;
 import www.jingkan.com.parameter.SystemConstant;
 
@@ -39,7 +39,7 @@ import www.jingkan.com.parameter.SystemConstant;
 public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDataActivity> implements SetCalibrationDataContract.Presenter {
     private String[] effectiveValues;
     private int effectiveValue = 0;
-    private MemoryData memoryData = DataFactory.getBaseData(MemoryData.class);
+    private MemoryDaoDao memoryData = DataFactory.getBaseData(MemoryDaoDao.class);
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
@@ -455,8 +455,8 @@ public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDat
     @Override
     public void initProbeParameters(final String sn, boolean isFs, final boolean isFa) {
         this.sn = sn;
-        CalibrationProbeData calibrationProbeData = DataFactory.getBaseData(CalibrationProbeData.class);
-        calibrationProbeData.getData(new DataLoadCallBack<CalibrationProbeModel>() {
+        CalibrationProbeDao calibrationProbeDao = DataFactory.getBaseData(CalibrationProbeDao.class);
+        calibrationProbeDao.getData(new DataLoadCallBack<CalibrationProbeModel>() {
 
 
             @Override

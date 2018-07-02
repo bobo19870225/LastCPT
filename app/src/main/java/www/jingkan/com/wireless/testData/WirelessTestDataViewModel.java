@@ -16,7 +16,7 @@ import www.jingkan.com.base.baseMVVM.MVVMListViewModel;
 import www.jingkan.com.databinding.ItemWirelessTestDataBinding;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessTest.WirelessTestData;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
 import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
 
 /**
@@ -53,9 +53,9 @@ public class WirelessTestDataViewModel extends MVVMListViewModel<WirelessTestDat
 
     @Override
     public void loadListViewData() {
-        WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
+        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
         wirelessTestDataItemVMS.clear();
-        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
 
             @Override
             public void onDataLoaded(List<WirelessTestModel> models) {

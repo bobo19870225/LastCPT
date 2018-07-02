@@ -20,7 +20,7 @@ import www.jingkan.com.framework.acp.AcpListener;
 import www.jingkan.com.framework.acp.AcpOptions;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.commonProbe.ProbeData;
+import www.jingkan.com.localData.commonProbe.ProbeDao;
 import www.jingkan.com.localData.commonProbe.ProbeModel;
 import www.jingkan.com.qrcode.qrSimple.CaptureActivity;
 
@@ -30,7 +30,7 @@ public class AddProbeActivity extends BaseActivity {
     @BindView(id = www.jingkan.com.R.id.input, click = true)
     private RelativeLayout input;
     private final int OK = 0;
-    private ProbeData probeData = DataFactory.getBaseData(ProbeData.class);
+    private ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
 
     @Override
     protected void setView() {
@@ -93,7 +93,7 @@ public class AddProbeActivity extends BaseActivity {
                                     return;
                                 }
 
-                                probeData.addData(probeModel);
+                                probeDao.addData(probeModel);
                                 goTo(CommonProbeActivity.class, null, true);
 
 
@@ -110,7 +110,7 @@ public class AddProbeActivity extends BaseActivity {
                                     return;
                                 }
                                 probeModel.qc_limit = 140;
-                                probeData.addData(probeModel);
+                                probeDao.addData(probeModel);
                                 goTo(CommonProbeActivity.class, null, true);
 
                             }
@@ -155,7 +155,7 @@ public class AddProbeActivity extends BaseActivity {
                                     return;
                                 }
                                 probeModel.fs_limit = Integer.parseInt(strProbeNumber[1]) * 120;
-                                probeData.addData(probeModel);
+                                probeDao.addData(probeModel);
                                 goTo(CommonProbeActivity.class, null, true);
 
                             }

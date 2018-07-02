@@ -4,13 +4,12 @@
 
 package www.jingkan.com.localData.test;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import java.util.List;
 
-import www.jingkan.com.localData.dataFactory.BaseData;
+import www.jingkan.com.localData.dataFactory.BaseDao;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 
 /**
@@ -18,9 +17,11 @@ import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
  * 试验数据类
  */
 
-public class TestData extends BaseData {
+public class TestDao extends BaseDao<TestModel> {
+
+
     @Override
-    public <T extends Model> void addData(T model) {
+    public void addData(TestModel model) {
         model.save();
     }
 
@@ -34,12 +35,12 @@ public class TestData extends BaseData {
     }
 
     @Override
-    public <T extends Model> void modifyData(T model) {
+    public void modifyData(TestModel model) {
 
     }
 
     @Override
-    public void getData(DataLoadCallBack dataLoadCallBack, String... args) {
+    public void getData(DataLoadCallBack<TestModel> dataLoadCallBack, String... args) {
         if (args.length == 0) {//按时间倒序
             List<TestModel> testModels =
                     new Select().all().from(TestModel.class).orderBy(TestConstant.COLUMN_TEST_DATE + " DESC").execute();
@@ -63,4 +64,6 @@ public class TestData extends BaseData {
         }
 
     }
+
+
 }

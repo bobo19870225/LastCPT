@@ -12,7 +12,7 @@ import java.util.List;
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.msgData.MsgData;
+import www.jingkan.com.localData.msgData.MsgDao;
 import www.jingkan.com.localData.msgData.MsgDataModel;
 
 /**
@@ -26,8 +26,8 @@ public class MyMsgDetailViewModel extends BaseViewModel<MyMsgDetailActivity> {
 
     @Override
     protected void init(Object data) {
-        MsgData msgData = DataFactory.getBaseData(MsgData.class);
-        msgData.getData(new DataLoadCallBack<MsgDataModel>() {
+        MsgDao msgDao = DataFactory.getBaseData(MsgDao.class);
+        msgDao.getData(new DataLoadCallBack<MsgDataModel>() {
 
             @Override
             public void onDataLoaded(List<MsgDataModel> models) {

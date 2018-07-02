@@ -24,9 +24,9 @@ import www.jingkan.com.framework.utils.MyFileUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessResultData.WirelessResultDataData;
+import www.jingkan.com.localData.wirelessResultData.WirelessResultDaoDao;
 import www.jingkan.com.localData.wirelessResultData.WirelessResultDataModel;
-import www.jingkan.com.localData.wirelessTest.WirelessTestData;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
 import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
 import www.jingkan.com.mInterface.ISkip;
 import www.jingkan.com.saveUtils.DataUtils;
@@ -144,8 +144,8 @@ public class DataSynViewModel extends BaseViewModel<DataSyncActivity> implements
      * 查无缆探头试验表
      */
     private void getTestMsg() {
-        WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
 
             @Override
             public void onDataLoaded(List<WirelessTestModel> models) {
@@ -168,8 +168,8 @@ public class DataSynViewModel extends BaseViewModel<DataSyncActivity> implements
      * FileUtils.listFiles 是一个卡UI的操作
      */
     void doDataSync() {
-        WirelessResultDataData wirelessResultDataData = DataFactory.getBaseData(WirelessResultDataData.class);
-        wirelessResultDataData.deleteData(strTestID);
+        WirelessResultDaoDao wirelessResultDataDao = DataFactory.getBaseData(WirelessResultDaoDao.class);
+        wirelessResultDataDao.deleteData(strTestID);
         if (cptR == null) {
             getView().showToast("请先打开定位文件*W.txt");
         } else {

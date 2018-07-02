@@ -10,13 +10,13 @@ import java.util.List;
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.test.TestData;
+import www.jingkan.com.localData.test.TestDao;
 import www.jingkan.com.localData.test.TestModel;
-import www.jingkan.com.localData.testData.TestDataData;
+import www.jingkan.com.localData.testData.TestDataDao;
 import www.jingkan.com.localData.testData.TestDataModel;
-import www.jingkan.com.localData.wirelessResultData.WirelessResultDataData;
+import www.jingkan.com.localData.wirelessResultData.WirelessResultDaoDao;
 import www.jingkan.com.localData.wirelessResultData.WirelessResultDataModel;
-import www.jingkan.com.localData.wirelessTest.WirelessTestData;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
 import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
 
 /**
@@ -102,7 +102,7 @@ public class ShowDataCharViewModel extends BaseViewModel<ShowDataCharActivity> {
 
     private void getTest() {
         String[] split = testDataID.split("_");
-        TestData testData = DataFactory.getBaseData(TestData.class);
+        TestDao testData = DataFactory.getBaseData(TestDao.class);
         testData.getData(new DataLoadCallBack<TestModel>() {
 
             @Override
@@ -123,7 +123,7 @@ public class ShowDataCharViewModel extends BaseViewModel<ShowDataCharActivity> {
     }
 
     private void getTestData() {
-        TestDataData testDataData = DataFactory.getBaseData(TestDataData.class);
+        TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);
         testDataData.getData(new DataLoadCallBack<TestDataModel>() {
 
             @Override
@@ -140,8 +140,8 @@ public class ShowDataCharViewModel extends BaseViewModel<ShowDataCharActivity> {
 
     private void getWirelessTest() {
         String[] split = testDataID.split("_");
-        WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
 
             @Override
             public void onDataLoaded(List<WirelessTestModel> models) {
@@ -162,8 +162,8 @@ public class ShowDataCharViewModel extends BaseViewModel<ShowDataCharActivity> {
     }
 
     private void getWirelessResultData() {
-        WirelessResultDataData wirelessResultDataData = DataFactory.getBaseData(WirelessResultDataData.class);
-        wirelessResultDataData.getData(new DataLoadCallBack<WirelessResultDataModel>() {
+        WirelessResultDaoDao wirelessResultDataDao = DataFactory.getBaseData(WirelessResultDaoDao.class);
+        wirelessResultDataDao.getData(new DataLoadCallBack<WirelessResultDataModel>() {
 
             @Override
             public void onDataLoaded(List<WirelessResultDataModel> models) {

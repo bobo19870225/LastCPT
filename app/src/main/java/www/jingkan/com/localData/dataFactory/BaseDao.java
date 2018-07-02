@@ -11,13 +11,13 @@ import com.activeandroid.Model;
  * 数据抽象类
  */
 
-public abstract class BaseData {
-    public abstract <T extends Model> void addData(T model);
+public abstract class BaseDao<T extends Model> {
+    public abstract void addData(T model);
 
     public abstract void deleteData(String... args);
 
-    public abstract<T extends Model> void modifyData(T model);
+    public abstract void modifyData(T model);
 
-    public abstract void getData(DataLoadCallBack dataLoadCallBack, String... args);
+    public abstract void getData(DataLoadCallBack<T> dataLoadCallBack, String... args);
 
 }

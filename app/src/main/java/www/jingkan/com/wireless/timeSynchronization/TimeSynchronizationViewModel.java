@@ -22,9 +22,9 @@ import www.jingkan.com.framework.utils.BluetoothUtils;
 import www.jingkan.com.framework.utils.TimeUtils;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessProbe.WirelessProbeData;
+import www.jingkan.com.localData.wirelessProbe.WirelessProbeDao;
 import www.jingkan.com.localData.wirelessProbe.WirelessProbeModel;
-import www.jingkan.com.localData.wirelessTest.WirelessTestData;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
 import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
 
 /**
@@ -91,8 +91,8 @@ public class TimeSynchronizationViewModel extends BaseViewModel<TimeSynchronizat
     private boolean isIdentification;
 
     private void getTestParameters(String projectNumber, String holeNumber) {
-        WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
 
             @Override
             public void onDataLoaded(List<WirelessTestModel> models) {
@@ -112,8 +112,8 @@ public class TimeSynchronizationViewModel extends BaseViewModel<TimeSynchronizat
     private void identificationProbe(String sn) {
         if (!isIdentification) {
             isIdentification = true;
-            WirelessProbeData wirelessProbeData = DataFactory.getBaseData(WirelessProbeData.class);
-            wirelessProbeData.getData(new DataLoadCallBack<WirelessProbeModel>() {
+            WirelessProbeDao wirelessProbeDao = DataFactory.getBaseData(WirelessProbeDao.class);
+            wirelessProbeDao.getData(new DataLoadCallBack<WirelessProbeModel>() {
 
                 @Override
                 public void onDataLoaded(List<WirelessProbeModel> models) {

@@ -18,7 +18,7 @@ import www.jingkan.com.R;
 import www.jingkan.com.base.baseMVVM.MVVMListActivity;
 import www.jingkan.com.databinding.ActivityWirelessProbeBinding;
 import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.wirelessProbe.WirelessProbeData;
+import www.jingkan.com.localData.wirelessProbe.WirelessProbeDao;
 import www.jingkan.com.localData.wirelessProbe.WirelessProbeModel;
 
 /**
@@ -68,8 +68,8 @@ public class WirelessProbeActivity extends MVVMListActivity<WirelessProbeViewMod
             case 0://删除
                 WirelessProbeModel wirelessProbeModel = wirelessProbeModels.get(index);
                 if (wirelessProbeModel != null) {
-                    WirelessProbeData wirelessProbeData = DataFactory.getBaseData(WirelessProbeData.class);
-                    wirelessProbeData.deleteData(wirelessProbeModel.probeID);
+                    WirelessProbeDao wirelessProbeDao = DataFactory.getBaseData(WirelessProbeDao.class);
+                    wirelessProbeDao.deleteData(wirelessProbeModel.probeID);
                 }
                 mViewModel.wirelessProbeItemViewModels.clear();
                 mViewModel.getWirelessProbeList();

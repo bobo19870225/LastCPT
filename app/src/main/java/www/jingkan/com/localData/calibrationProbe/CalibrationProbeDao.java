@@ -4,13 +4,12 @@
 
 package www.jingkan.com.localData.calibrationProbe;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import java.util.List;
 
-import www.jingkan.com.localData.dataFactory.BaseData;
+import www.jingkan.com.localData.dataFactory.BaseDao;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 
 /**
@@ -18,9 +17,11 @@ import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
  * 标定探头数据类
  */
 
-public class CalibrationProbeData extends BaseData {
+public class CalibrationProbeDao extends BaseDao<CalibrationProbeModel> {
+
+
     @Override
-    public <T extends Model> void addData(T model) {
+    public void addData(CalibrationProbeModel model) {
         model.save();
     }
 
@@ -31,13 +32,12 @@ public class CalibrationProbeData extends BaseData {
     }
 
     @Override
-    public <T extends Model> void modifyData(T model) {
+    public void modifyData(CalibrationProbeModel model) {
 
     }
 
-
     @Override
-    public void getData(DataLoadCallBack dataLoadCallBack, String... args) {
+    public void getData(DataLoadCallBack<CalibrationProbeModel> dataLoadCallBack, String... args) {
         if (args.length == 0) {
             List<CalibrationProbeModel> calibrationProbeModels = new Select().all().from(CalibrationProbeModel.class).execute();
             if (calibrationProbeModels != null && calibrationProbeModels.size() > 0) {
@@ -60,4 +60,6 @@ public class CalibrationProbeData extends BaseData {
 
 
     }
+
+
 }

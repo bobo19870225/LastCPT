@@ -4,13 +4,12 @@
 
 package www.jingkan.com.localData.msgData;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import java.util.List;
 
-import www.jingkan.com.localData.dataFactory.BaseData;
+import www.jingkan.com.localData.dataFactory.BaseDao;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 
 /**
@@ -18,9 +17,11 @@ import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
  * 内存数据类
  */
 
-public class MsgData extends BaseData {
+public class MsgDao extends BaseDao<MsgDataModel> {
+
+
     @Override
-    public <T extends Model> void addData(T model) {
+    public void addData(MsgDataModel model) {
         model.save();
     }
 
@@ -33,13 +34,12 @@ public class MsgData extends BaseData {
     }
 
     @Override
-    public <T extends Model> void modifyData(T model) {
+    public void modifyData(MsgDataModel model) {
 
     }
 
-
     @Override
-    public void getData(DataLoadCallBack dataLoadCallBack, String... args) {
+    public void getData(DataLoadCallBack<MsgDataModel> dataLoadCallBack, String... args) {
         if (args.length == 1) {
             String selection = MsgDataConstant.COLUMN_NAME_MSG_ID + " LIKE ?";
             List<MsgDataModel> msgDataModels = new Select().from(MsgDataModel.class).where(selection, (Object[]) args).execute();
@@ -58,4 +58,6 @@ public class MsgData extends BaseData {
             }
         }
     }
+
+
 }

@@ -4,13 +4,12 @@
 
 package www.jingkan.com.localData.testData;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import java.util.List;
 
-import www.jingkan.com.localData.dataFactory.BaseData;
+import www.jingkan.com.localData.dataFactory.BaseDao;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 
 /**
@@ -18,9 +17,11 @@ import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
  * 试验数据
  */
 
-public class TestDataData extends BaseData {
+public class TestDataDao extends BaseDao<TestDataModel> {
+
+
     @Override
-    public <T extends Model> void addData(T model) {
+    public void addData(TestDataModel model) {
         model.save();
     }
 
@@ -33,12 +34,12 @@ public class TestDataData extends BaseData {
     }
 
     @Override
-    public <T extends Model> void modifyData(T model) {
+    public void modifyData(TestDataModel model) {
 
     }
 
     @Override
-    public void getData(DataLoadCallBack dataLoadCallBack, String... args) {
+    public void getData(DataLoadCallBack<TestDataModel> dataLoadCallBack, String... args) {
         if (args.length == 1) {
             String selection = TestDataConstant.COLUMN_TEST_DATA_ID + " LIKE ?";
             List<TestDataModel> testDataModels =
@@ -52,4 +53,6 @@ public class TestDataData extends BaseData {
             }
         }
     }
+
+
 }

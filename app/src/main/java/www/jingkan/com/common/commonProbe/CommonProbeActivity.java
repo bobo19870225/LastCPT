@@ -23,7 +23,7 @@ import www.jingkan.com.annotation.BindView;
 import www.jingkan.com.base.baseMVP.BaseMvpActivity;
 import www.jingkan.com.base.baseMVP.BasePresenter;
 import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.commonProbe.ProbeData;
+import www.jingkan.com.localData.commonProbe.ProbeDao;
 import www.jingkan.com.localData.commonProbe.ProbeModel;
 
 public class CommonProbeActivity extends BaseMvpActivity<CommonProbePresenter> implements CommonProbeContract.View {
@@ -82,8 +82,8 @@ public class CommonProbeActivity extends BaseMvpActivity<CommonProbePresenter> i
         switch (item.getItemId()) {
             case 0://删除
                 if (selectedProbeModel != null) {
-                    ProbeData probeData = DataFactory.getBaseData(ProbeData.class);
-                    probeData.deleteData(selectedProbeModel.probeID);
+                    ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
+                    probeDao.deleteData(selectedProbeModel.probeID);
                 }
                 mPresenter.getProbeList();
                 return true;

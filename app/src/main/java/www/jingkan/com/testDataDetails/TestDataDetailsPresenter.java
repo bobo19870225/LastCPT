@@ -13,9 +13,9 @@ import java.util.List;
 import www.jingkan.com.base.baseMVP.BasePresenter;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.test.TestData;
+import www.jingkan.com.localData.test.TestDao;
 import www.jingkan.com.localData.test.TestModel;
-import www.jingkan.com.localData.testData.TestDataData;
+import www.jingkan.com.localData.testData.TestDataDao;
 import www.jingkan.com.localData.testData.TestDataModel;
 import www.jingkan.com.mInterface.ISkip;
 import www.jingkan.com.saveUtils.DataUtils;
@@ -49,7 +49,7 @@ class TestDataDetailsPresenter extends BasePresenter<TestDataDetailsActivity>
 
     @Override
     public void getTest(String projectNumber, String holeNumber) {
-        TestData testData = DataFactory.getBaseData(TestData.class);
+        TestDao testData = DataFactory.getBaseData(TestDao.class);
         testData.getData(new DataLoadCallBack<TestModel>() {
 
             @Override
@@ -67,7 +67,7 @@ class TestDataDetailsPresenter extends BasePresenter<TestDataDetailsActivity>
 
     @Override
     public void getTestData(String testDataID) {
-        TestDataData testDataData = DataFactory.getBaseData(TestDataData.class);
+        TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);
         testDataData.getData(new DataLoadCallBack<TestDataModel>() {
 
             @Override

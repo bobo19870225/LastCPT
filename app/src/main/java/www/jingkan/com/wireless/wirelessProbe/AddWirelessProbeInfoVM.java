@@ -13,7 +13,7 @@ import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessProbe.WirelessProbeData;
+import www.jingkan.com.localData.wirelessProbe.WirelessProbeDao;
 import www.jingkan.com.localData.wirelessProbe.WirelessProbeModel;
 
 /**
@@ -37,8 +37,8 @@ public class AddWirelessProbeInfoVM extends BaseViewModel<AddWirelessProbeInfoAc
     @Override
     protected void init(Object data) {
         if (data != null) {
-            WirelessProbeData wirelessProbeData = DataFactory.getBaseData(WirelessProbeData.class);
-            wirelessProbeData.getData(new DataLoadCallBack<WirelessProbeModel>() {
+            WirelessProbeDao wirelessProbeDao = DataFactory.getBaseData(WirelessProbeDao.class);
+            wirelessProbeDao.getData(new DataLoadCallBack<WirelessProbeModel>() {
 
                 @Override
                 public void onDataLoaded(List<WirelessProbeModel> models) {
@@ -153,8 +153,8 @@ public class AddWirelessProbeInfoVM extends BaseViewModel<AddWirelessProbeInfoAc
         wirelessProbeModel.qc_area = strQcArea.get();
         wirelessProbeModel.qc_coefficient = Float.parseFloat(strQcCoefficient.get());
         wirelessProbeModel.qc_limit = Integer.parseInt(strQcLimit.get());
-        WirelessProbeData wirelessProbeData = DataFactory.getBaseData(WirelessProbeData.class);
-        wirelessProbeData.addData(wirelessProbeModel);
+        WirelessProbeDao wirelessProbeDao = DataFactory.getBaseData(WirelessProbeDao.class);
+        wirelessProbeDao.addData(wirelessProbeModel);
         getView().goTo(WirelessProbeActivity.class, null, true);
         return true;
     }

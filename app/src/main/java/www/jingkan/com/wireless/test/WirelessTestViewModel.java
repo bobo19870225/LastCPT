@@ -16,9 +16,9 @@ import www.jingkan.com.framework.utils.TimeUtils;
 import www.jingkan.com.framework.utils.VibratorUtils;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessTest.WirelessTestData;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
 import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
-import www.jingkan.com.localData.wirelessTestData.WirelessTestDataData;
+import www.jingkan.com.localData.wirelessTestData.WirelessTestDaoDao;
 import www.jingkan.com.localData.wirelessTestData.WirelessTestDataModel;
 
 /**
@@ -39,7 +39,7 @@ public class WirelessTestViewModel extends BaseViewModel<WirelessTestActivity> {
     public final ObservableBoolean doubleBridge = new ObservableBoolean(false);
 
 
-    private WirelessTestDataData wirelessTestDataData = DataFactory.getBaseData(WirelessTestDataData.class);
+    private WirelessTestDaoDao wirelessTestDataDao = DataFactory.getBaseData(WirelessTestDaoDao.class);
 
 
     @Override
@@ -67,8 +67,8 @@ public class WirelessTestViewModel extends BaseViewModel<WirelessTestActivity> {
 
 
     private void getTestParameters() {
-        final WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
-        wirelessTestData.getData(new DataLoadCallBack<WirelessTestModel>() {
+        final WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
 
             @Override
             public void onDataLoaded(List<WirelessTestModel> models) {
@@ -87,7 +87,7 @@ public class WirelessTestViewModel extends BaseViewModel<WirelessTestActivity> {
 
     private void loadTestData(String testDataID) {
 
-        wirelessTestDataData.getData(new DataLoadCallBack<WirelessTestDataModel>() {
+        wirelessTestDataDao.getData(new DataLoadCallBack<WirelessTestDataModel>() {
 
             @Override
             public void onDataLoaded(List<WirelessTestDataModel> models) {
@@ -144,7 +144,7 @@ public class WirelessTestViewModel extends BaseViewModel<WirelessTestActivity> {
         wirelessTestDataModel.probeNumber = obsProbeNumber.get();
         wirelessTestDataModel.deep = dp;
         wirelessTestDataModel.rtc = RTC;
-        wirelessTestDataData.addData(wirelessTestDataModel);
+        wirelessTestDataDao.addData(wirelessTestDataModel);
         if (shock.get()) {
             VibratorUtils.Vibrate(myView.get(), 200);
         }

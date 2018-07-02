@@ -42,9 +42,9 @@ import www.jingkan.com.framework.utils.TimeUtils;
 import www.jingkan.com.linkBluetooth.LinkBluetoothActivity;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.test.TestData;
+import www.jingkan.com.localData.test.TestDao;
 import www.jingkan.com.localData.test.TestModel;
-import www.jingkan.com.localData.wirelessTest.WirelessTestData;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
 import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
 import www.jingkan.com.parameter.SystemConstant;
 import www.jingkan.com.wireless.timeSynchronization.TimeSynchronizationActivity;
@@ -85,8 +85,8 @@ public class NewTestActivity extends BaseActivity {
     private Button img_location;
     private PopupWindow popupWindow;
     private boolean isWireless = false;
-    private TestData testData = DataFactory.getBaseData(TestData.class);
-    private WirelessTestData wirelessTestData = DataFactory.getBaseData(WirelessTestData.class);
+    private TestDao testData = DataFactory.getBaseData(TestDao.class);
+    private WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
 
     @Override
     protected void setView() {
@@ -235,7 +235,7 @@ public class NewTestActivity extends BaseActivity {
         Map<String, String> linkerPreferences = preferencesUtils.getLinkerPreferences();
         final String add = linkerPreferences.get("add");
         if (isWireless) {
-            wirelessTestData.getData(new DataLoadCallBack() {
+            wirelessTestDao.getData(new DataLoadCallBack() {
                 @Override
                 public void onDataLoaded(List models) {
                     showToast("该试验已经存在，请更换工程编号或孔号");
@@ -260,7 +260,7 @@ public class NewTestActivity extends BaseActivity {
                     wirelessTestModel.tester = tester.getText().toString();
                     wirelessTestModel.testType = String.valueOf(test_type.getText());
                     wirelessTestModel.testDataID = strProjectNumber + "_" + strHoleNumber;
-                    wirelessTestData.addData(wirelessTestModel);
+                    wirelessTestDao.addData(wirelessTestModel);
 
                     if (StringUtils.isEmpty(add)) {
                         goTo(LinkBluetoothActivity.class, new String[]{strProjectNumber, strHoleNumber, strTestType});

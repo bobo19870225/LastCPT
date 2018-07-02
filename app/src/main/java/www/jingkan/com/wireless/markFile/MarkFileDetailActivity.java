@@ -16,7 +16,7 @@ import www.jingkan.com.framework.utils.MyFileUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessTestData.WirelessTestDataData;
+import www.jingkan.com.localData.wirelessTestData.WirelessTestDaoDao;
 import www.jingkan.com.localData.wirelessTestData.WirelessTestDataModel;
 import www.jingkan.com.wireless.dataSynchronization.DataSyncActivity;
 
@@ -54,8 +54,8 @@ public class MarkFileDetailActivity extends MVVMListActivity<MarkFileDetailViewM
             case R.id.save:
                 final String strReturn = "\r\n";
                 strContent = new StringBuilder();
-                WirelessTestDataData wirelessTestDataData = DataFactory.getBaseData(WirelessTestDataData.class);
-                wirelessTestDataData.getData(new DataLoadCallBack<WirelessTestDataModel>() {
+                WirelessTestDaoDao wirelessTestDataDao = DataFactory.getBaseData(WirelessTestDaoDao.class);
+                wirelessTestDataDao.getData(new DataLoadCallBack<WirelessTestDataModel>() {
 
                     @Override
                     public void onDataLoaded(List<WirelessTestDataModel> models) {

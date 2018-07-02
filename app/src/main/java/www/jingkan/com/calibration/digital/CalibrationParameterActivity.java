@@ -19,7 +19,7 @@ import www.jingkan.com.calibration.digital.setCalibrationData.SetCalibrationData
 import www.jingkan.com.framework.utils.PreferencesUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.linkBluetooth.LinkBluetoothActivity;
-import www.jingkan.com.localData.calibrationProbe.CalibrationProbeData;
+import www.jingkan.com.localData.calibrationProbe.CalibrationProbeDao;
 import www.jingkan.com.localData.calibrationProbe.CalibrationProbeModel;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
@@ -44,14 +44,14 @@ public class CalibrationParameterActivity extends BaseActivity {
     private EditText specification;
     @BindView(id = R.id.differential)
     private EditText differential;
-    private CalibrationProbeData calibrationProbeData = DataFactory.getBaseData(CalibrationProbeData.class);
+    private CalibrationProbeDao calibrationProbeDao = DataFactory.getBaseData(CalibrationProbeDao.class);
     private String[] strings;
 
     @Override
     protected void setView() {
         strings = (String[]) mData;
         setTitle(strings[1]);
-        calibrationProbeData.getData(new DataLoadCallBack<CalibrationProbeModel>() {
+        calibrationProbeDao.getData(new DataLoadCallBack<CalibrationProbeModel>() {
 
             @Override
             public void onDataLoaded(List<CalibrationProbeModel> models) {
@@ -89,7 +89,7 @@ public class CalibrationParameterActivity extends BaseActivity {
                 calibrationProbeModel.number = number.getText().toString();
                 calibrationProbeModel.work_area = area.getText().toString();
                 calibrationProbeModel.differential = differential.getText().toString();
-                calibrationProbeData.addData(calibrationProbeModel);
+                calibrationProbeDao.addData(calibrationProbeModel);
                 if (strings[0].equals("设置探头内存数据")) {
                     goToSetCalibrationData(strSn, add);
                 } else if (strings[0].equals("模拟标定")) {

@@ -4,14 +4,13 @@
 
 package www.jingkan.com.localData.commonProbe;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Update;
 
 import java.util.List;
 
-import www.jingkan.com.localData.dataFactory.BaseData;
+import www.jingkan.com.localData.dataFactory.BaseDao;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 
 /**
@@ -19,9 +18,11 @@ import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
  * 探头数据类
  */
 
-public class ProbeData extends BaseData {
+public class ProbeDao extends BaseDao<ProbeModel> {
+
+
     @Override
-    public <T extends Model> void addData(T model) {
+    public void addData(ProbeModel model) {
         model.save();
     }
 
@@ -32,7 +33,7 @@ public class ProbeData extends BaseData {
     }
 
     @Override
-    public <T extends Model> void modifyData(T model) {
+    public void modifyData(ProbeModel model) {
         Update update = new Update(ProbeModel.class);
         String add = " = ? , ";
         String toSet = ProbeConstant.COLUMN_NUMBER + add
@@ -44,20 +45,18 @@ public class ProbeData extends BaseData {
                 + ProbeConstant.COLUMN_FS_COEFFICIENT + add
                 + ProbeConstant.COLUMN_FS_LIMIT + " = ?";
         String selection = ProbeConstant.COLUMN_PROBE_ID + " = ?";
-        ProbeModel probeModel = (ProbeModel) model;
-        update.set(toSet, probeModel.number,
-                probeModel.type,
-                probeModel.qc_area,
-                probeModel.qc_coefficient,
-                probeModel.qc_limit,
-                probeModel.fs_area,
-                probeModel.fs_coefficient,
-                probeModel.fs_limit).where(selection, probeModel.probeID).execute();
+        update.set(toSet, model.number,
+                model.type,
+                model.qc_area,
+                model.qc_coefficient,
+                model.qc_limit,
+                model.fs_area,
+                model.fs_coefficient,
+                model.fs_limit).where(selection, model.probeID).execute();
     }
 
-
     @Override
-    public void getData(DataLoadCallBack dataLoadCallBack, String... args) {
+    public void getData(DataLoadCallBack<ProbeModel> dataLoadCallBack, String... args) {
         if (args.length == 0) {
             {
                 List<ProbeModel> probeModels = new Select().all().from(ProbeModel.class).execute();
@@ -81,4 +80,6 @@ public class ProbeData extends BaseData {
             }
         }
     }
+
+
 }

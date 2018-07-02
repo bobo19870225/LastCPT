@@ -4,14 +4,13 @@
 
 package www.jingkan.com.localData.wirelessProbe;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Update;
 
 import java.util.List;
 
-import www.jingkan.com.localData.dataFactory.BaseData;
+import www.jingkan.com.localData.dataFactory.BaseDao;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 
 /**
@@ -19,9 +18,11 @@ import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
  * 探头数据类
  */
 
-public class WirelessProbeData extends BaseData {
+public class WirelessProbeDao extends BaseDao<WirelessProbeModel> {
+
+
     @Override
-    public <T extends Model> void addData(T model) {
+    public void addData(WirelessProbeModel model) {
         model.save();
     }
 
@@ -32,7 +33,7 @@ public class WirelessProbeData extends BaseData {
     }
 
     @Override
-    public <T extends Model> void modifyData(T model) {
+    public void modifyData(WirelessProbeModel model) {
         Update update = new Update(WirelessProbeModel.class);
         String add = " = ? , ";
         String toSet = WirelessProbeConstant.COLUMN_NUMBER + add
@@ -44,20 +45,18 @@ public class WirelessProbeData extends BaseData {
                 + WirelessProbeConstant.COLUMN_FS_COEFFICIENT + add
                 + WirelessProbeConstant.COLUMN_FS_LIMIT + " = ?";
         String selection = WirelessProbeConstant.COLUMN_PROBE_ID + " = ?";
-        WirelessProbeModel wirelessProbeModel = (WirelessProbeModel) model;
-        update.set(toSet, wirelessProbeModel.number,
-                wirelessProbeModel.type,
-                wirelessProbeModel.qc_area,
-                wirelessProbeModel.qc_coefficient,
-                wirelessProbeModel.qc_limit,
-                wirelessProbeModel.fs_area,
-                wirelessProbeModel.fs_coefficient,
-                wirelessProbeModel.fs_limit).where(selection, wirelessProbeModel.probeID).execute();
+        update.set(toSet, model.number,
+                model.type,
+                model.qc_area,
+                model.qc_coefficient,
+                model.qc_limit,
+                model.fs_area,
+                model.fs_coefficient,
+                model.fs_limit).where(selection, model.probeID).execute();
     }
 
-
     @Override
-    public void getData(DataLoadCallBack dataLoadCallBack, String... args) {
+    public void getData(DataLoadCallBack<WirelessProbeModel> dataLoadCallBack, String... args) {
         if (args.length == 0) {
             {
                 List<WirelessProbeModel> wirelessProbeModels = new Select().all().from(WirelessProbeModel.class).execute();
@@ -81,4 +80,6 @@ public class WirelessProbeData extends BaseData {
             }
         }
     }
+
+
 }

@@ -4,13 +4,12 @@
 
 package www.jingkan.com.localData.wirelessTest;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import java.util.List;
 
-import www.jingkan.com.localData.dataFactory.BaseData;
+import www.jingkan.com.localData.dataFactory.BaseDao;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 
 /**
@@ -18,9 +17,10 @@ import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
  * 试验数据类
  */
 
-public class WirelessTestData extends BaseData {
+public class WirelessTestDao extends BaseDao<WirelessTestModel> {
+
     @Override
-    public <T extends Model> void addData(T model) {
+    public void addData(WirelessTestModel model) {
         model.save();
     }
 
@@ -34,12 +34,12 @@ public class WirelessTestData extends BaseData {
     }
 
     @Override
-    public <T extends Model> void modifyData(T model) {
+    public void modifyData(WirelessTestModel model) {
 
     }
 
     @Override
-    public void getData(DataLoadCallBack dataLoadCallBack, String... args) {
+    public void getData(DataLoadCallBack<WirelessTestModel> dataLoadCallBack, String... args) {
         if (args.length == 0) {//按时间倒序排列
             List<WirelessTestModel> wirelessTestModels =
                     new Select().all().from(WirelessTestModel.class).orderBy(WirelessTestConstant.COLUMN_TEST_DATE + " DESC").execute();
@@ -73,4 +73,6 @@ public class WirelessTestData extends BaseData {
         }
 
     }
+
+
 }

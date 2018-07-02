@@ -26,9 +26,9 @@ import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.framework.utils.TimeUtils;
 import www.jingkan.com.framework.utils.VibratorUtils;
 import www.jingkan.com.framework.utils.headset.HeadSetHelper;
-import www.jingkan.com.localData.calibrationProbe.CalibrationProbeData;
+import www.jingkan.com.localData.calibrationProbe.CalibrationProbeDao;
 import www.jingkan.com.localData.calibrationProbe.CalibrationProbeModel;
-import www.jingkan.com.localData.calibrationVerification.CalibrationVerificationData;
+import www.jingkan.com.localData.calibrationVerification.CalibrationVerificationDao;
 import www.jingkan.com.localData.calibrationVerification.CalibrationVerificationModel;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
@@ -44,7 +44,7 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
     private float initialValue = 0;
     private boolean isFs;
     private List<String[]> list;
-    private final CalibrationVerificationData calibrationVerificationData = DataFactory.getBaseData(CalibrationVerificationData.class);
+    private final CalibrationVerificationDao calibrationVerificationDao = DataFactory.getBaseData(CalibrationVerificationDao.class);
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
@@ -148,7 +148,7 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
     private void deleteData() {
 
         if (isFs) {
-            calibrationVerificationData.getData(new DataLoadCallBack() {
+            calibrationVerificationDao.getData(new DataLoadCallBack() {
                 @Override
                 public void onDataLoaded(List models) {
 
@@ -162,13 +162,13 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    calibrationVerificationData.deleteData(probeNo, "侧壁");
+                                    calibrationVerificationDao.deleteData(probeNo, "侧壁");
                                 }
                             });
                 }
             }, probeNo, "侧壁");
         } else {
-            calibrationVerificationData.getData(new DataLoadCallBack() {
+            calibrationVerificationDao.getData(new DataLoadCallBack() {
                 @Override
                 public void onDataLoaded(List model) {
                     myView.get().showMyDialog("清除数据",
@@ -177,7 +177,7 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    calibrationVerificationData.deleteData(probeNo, "锥头");
+                                    calibrationVerificationDao.deleteData(probeNo, "锥头");
                                 }
                             });
                 }
@@ -195,8 +195,8 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
     @Override
     public void initProbeParameters(final String sn, final boolean isFS) {
         this.isFs = isFS;
-        CalibrationProbeData calibrationProbeData = DataFactory.getBaseData(CalibrationProbeData.class);
-        calibrationProbeData.getData(new DataLoadCallBack() {
+        CalibrationProbeDao calibrationProbeDao = DataFactory.getBaseData(CalibrationProbeDao.class);
+        calibrationProbeDao.getData(new DataLoadCallBack() {
             @Override
             public void onDataLoaded(List model) {
                 CalibrationProbeModel calibrationProbeModel = (CalibrationProbeModel) model.get(0);
@@ -426,7 +426,7 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
 
     @SuppressWarnings("unchecked")
     private void loadData(String type) {
-        calibrationVerificationData.getData(new DataLoadCallBack() {
+        calibrationVerificationDao.getData(new DataLoadCallBack() {
             @Override
             public void onDataLoaded(List model) {
                 List<CalibrationVerificationModel> calibrationVerificationModels = (List<CalibrationVerificationModel>) model;
@@ -460,7 +460,7 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
                 haveData = false;
             }
         }, probeNo, type, "加荷");
-        calibrationVerificationData.getData(new DataLoadCallBack() {
+        calibrationVerificationDao.getData(new DataLoadCallBack() {
             @Override
             public void onDataLoaded(List model) {
                 List<CalibrationVerificationModel> calibrationVerificationModels = (List<CalibrationVerificationModel>) model;
