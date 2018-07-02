@@ -128,8 +128,11 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
         Float fDeep = Float.parseFloat(strDeep.get());
         CrossTestDataModel crossTestDataModel = new CrossTestDataModel();
         crossTestDataModel.testDataID = strProjectNumber.get() + "_" + strHoleNumber.get();
-        crossTestDataModel.deep = fDeep;
+        crossTestDataModel.deg = intDeg;
         crossTestDataModel.cu = Float.parseFloat(strCuEffective.get());
+        crossTestDataModel.deep = fDeep;
+        if (probeModel != null)
+            crossTestDataModel.probeID = probeModel.probeID;
         Integer testNumber = intTestNumber.get();
         if (testNumber != null)
             crossTestDataModel.number = testNumber;
@@ -240,6 +243,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
     }
 
     private boolean isIdentification;
+    private ProbeModel probeModel;
 
     private void IdentificationProbe(String sn) {
         if (!isIdentification) {
@@ -248,7 +252,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
             probeData.getData(new DataLoadCallBack<ProbeModel>() {
                 @Override
                 public void onDataLoaded(List<ProbeModel> models) {
-                    ProbeModel probeModel = models.get(0);
+                    probeModel = models.get(0);
                     strCuCoefficient.set(String.valueOf(probeModel.qc_coefficient));
                     strCuLimit.set(String.valueOf(probeModel.qc_limit));
                 }
