@@ -123,11 +123,12 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
     }
 
     private void doRecord() {
-        float parseFloat = Float.parseFloat(deg.get());
-        parseFloat += 1;
+        Integer intDeg = Integer.parseInt(deg.get());
+        intDeg += 1;
+        Float fDeep = Float.parseFloat(strDeep.get());
         CrossTestDataModel crossTestDataModel = new CrossTestDataModel();
-        crossTestDataModel.testDataID = strProjectNumber + "-" + strHoleNumber;
-        crossTestDataModel.deep = parseFloat;
+        crossTestDataModel.testDataID = strProjectNumber.get() + "_" + strHoleNumber.get();
+        crossTestDataModel.deep = fDeep;
         crossTestDataModel.cu = Float.parseFloat(strCuEffective.get());
         Integer testNumber = intTestNumber.get();
         if (testNumber != null)
@@ -135,8 +136,8 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
         crossTestDataModel.type = strSoilType.get();
         CrossTestDataData crossTestDataData = DataFactory.getBaseData(CrossTestDataData.class);
         crossTestDataData.addData(crossTestDataModel);
-        deg.set(StringUtils.format(parseFloat, 1));
-        getView().showRecordValue(strCuEffective.get(), parseFloat);
+        deg.set(StringUtils.format(intDeg, 1));
+        getView().showRecordValue(strCuEffective.get(), intDeg);
     }
 
     private @SuppressLint("HandlerLeak")
@@ -185,8 +186,6 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
     private void getTestParameters() {
         TestData testData = DataFactory.getBaseData(TestData.class);
         testData.getData(new DataLoadCallBack<TestModel>() {
-
-
             @Override
             public void onDataLoaded(List<TestModel> models) {
                 testModel = models.get(0);
@@ -327,6 +326,6 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
 
     @Override
     public void sendToastMsg(String msg) {
-
+        getView().showToast(msg);
     }
 }

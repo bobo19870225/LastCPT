@@ -5,7 +5,6 @@
 package www.jingkan.com.common.crossTest;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -62,56 +61,6 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
         return super.onOptionsItemSelected(item);
     }
 
-
-
-//    protected void showEmailDataDialog(final String testType) {
-//        final String[] items = {"溧阳科尔(.txt)", "溧阳科尔(.DAT)", "南京华宁(.111)", "北京理正(.txt)"};
-//        Dialog alertDialog = new AlertDialog.Builder(CrossTestActivity.this)
-//                .setTitle("请选择发送的数据类型")
-//                .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        emailType = which;
-//                    }
-//                })
-//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        String strProjectNumber = mViewModel.strProjectNumber.get();
-//                        String strHoleNumber = mViewModel.strHoleNumber.get();
-//                        mViewModel.saveTestDataToSD(strProjectNumber,
-//                                strHoleNumber, emailType, testType);
-//                        switch (emailType) {
-//                            case 0:
-//                                mViewModel.emailTestData(strProjectNumber
-//                                        + "_" + strHoleNumber + ".txt");
-//                                break;
-//                            case 1:
-//                                mViewModel.emailTestData(strProjectNumber
-//                                        + "_" + strHoleNumber + ".DAT");
-//                                break;
-//                            case 2:
-//                                mViewModel.emailTestData(strProjectNumber
-//                                        + "_" + strHoleNumber + ".111");
-//                                break;
-//                            case 3:
-//                                mViewModel.emailTestData(strProjectNumber
-//                                        + "_" + strHoleNumber + "LZ.txt");
-//                                break;
-//                        }
-//
-//                    }
-//                })
-//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        emailType = 0;
-//                        dialog.dismiss();
-//                    }
-//                }).create();
-//        alertDialog.show();
-//    }
-
     @Override
     public int initView() {
         return R.layout.activity_cross_test;
@@ -142,8 +91,8 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
         drawChartHelper.addPointsToChart(listPoints);
     }
 
-    public void showRecordValue(String strCu, float deep) {
-        drawChartHelper.addOnePointToChart(new float[]{Float.parseFloat(strCu), 0, 0, deep});
+    public void showRecordValue(String strCu, float deg) {
+        drawChartHelper.addOnePointToChart(new float[]{Float.parseFloat(strCu), 0, 0, deg});
     }
 
 
