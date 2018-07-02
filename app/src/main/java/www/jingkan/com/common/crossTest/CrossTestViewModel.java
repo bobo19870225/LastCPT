@@ -107,10 +107,9 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
         if (isStart != null && isStart) {//处于试验中则重置
             start.set(false);
             timeUtils.stopTimedTask();//切换土样类型时停止
-            deg.set("0");
-            getView().resetChart();
         }
-
+        deg.set("0");
+        getView().resetChart();
     }
 
     public String[] getType() {
