@@ -1,8 +1,15 @@
 package www.jingkan.com.activity;
 
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -33,7 +40,7 @@ public class GuideActivity extends BaseActivity {
         Uri uri = Uri.parse(path);
         videoView.setMediaController(new MediaController(this));
         videoView.setVideoURI(uri);
-        videoView.start();
+        //videoView.start();
         Aria.download(this).register();
         Aria.download(this).removeAllTask(false);
     }
@@ -60,16 +67,87 @@ public class GuideActivity extends BaseActivity {
         return R.layout.activity_guide;
     }
 
+    private long mTaskId;
+    private DownloadManager downloadManager;
+    //广播接受者，接收下载状态
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            checkDownloadStatus();//检查下载状态
+        }
+    };
+
+    //检查下载状态
+    private void checkDownloadStatus() {
+        DownloadManager.Query query = new DownloadManager.Query();
+        query.setFilterById(mTaskId);//筛选下载任务，传入任务ID，可变参数
+        Cursor c = downloadManager.query(query);
+        if (c.moveToFirst()) {
+            int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
+            switch (status) {
+                case DownloadManager.STATUS_PAUSED:
+                    showToast(">>>下载暂停");
+                case DownloadManager.STATUS_PENDING:
+                    showToast(">>>下载延迟");
+                case DownloadManager.STATUS_RUNNING:
+                    showToast(">>>正在下载");
+                    break;
+                case DownloadManager.STATUS_SUCCESSFUL:
+                    showToast(">>>下载完成");
+                    //下载完成安装APK
+                    //downloadPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + versionName;
+                    break;
+                case DownloadManager.STATUS_FAILED:
+                    showToast(">>>下载失败");
+                    break;
+            }
+        }
+    }
+
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ok:
-                DOWNLOAD_URL =
-                        "http://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=pdf&step_word=&hs=0&pn=10&spn=0&di=74950192900&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=2&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=-1&cs=2997184068%2C3595397134&os=2321460520%2C1807971895&simid=4208437194%2C398415641&adpicid=0&lpn=0&ln=1882&fr=&fmq=1523432333706_R&fm=index&ic=0&s=undefined&se=&sme=&tab=0&width=&height=&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fpic.5577.com%2Fup%2F2014-8%2F2014811105940.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3Bcc00_z%26e3Bv54AzdH3FhAzdH3Fr1u&gsm=0&rpstart=0&rpnum=0&islist=&querylist=";
-                Aria.download(this)
-                        .load(DOWNLOAD_URL)
-                        .setFilePath(Environment.getExternalStorageDirectory().getPath() + "/test.jpg")
-                        .start();
+                DOWNLOAD_URL = "http://101.132.103.25:8080/NewRDL/upload/sms.pdf";
+
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(DOWNLOAD_URL));
+                request.setAllowedOverRoaming(false);//漫游网络是否可以下载
+                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+                //设置文件类型，可以在下载结束后自动打开该文件
+                MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+                String mimeString = mimeTypeMap.getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(DOWNLOAD_URL));
+                request.setMimeType(mimeString);
+
+                //在通知栏中显示，默认就是显示的
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
+                request.setVisibleInDownloadsUi(true);
+
+//                //sdcard的目录下的download文件夹，必须设置
+//                request.setDestinationInExternalPublicDir("/download/", "test.pdf");
+                /**
+                 * 方法1:
+                 * 目录: Android -> data -> com.app -> files -> Download -> dxtj.apk
+                 * 这个文件是你的应用所专用的,软件卸载后，下载的文件将随着卸载全部被删除
+                 */
+                request.setDestinationInExternalFilesDir(this, Environment.DIRECTORY_DOWNLOADS, "sms.pdf");
+
+
+                //将下载请求加入下载队列
+                downloadManager = (DownloadManager) getApplicationContext().getSystemService(Context.DOWNLOAD_SERVICE);
+                //加入下载队列后会给该任务返回一个long型的id，
+                //通过该id可以取消任务，重启任务等等，看上面源码中框起来的方法
+                if (downloadManager != null) {
+                    mTaskId = downloadManager.enqueue(request);
+                }
+                //注册广播接收者，监听下载状态
+                getApplicationContext().registerReceiver(receiver,
+                        new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+//                Aria.download(this)
+//                        .load(DOWNLOAD_URL)
+//                        .setFilePath(Environment.getExternalStorageDirectory().getPath() + "/test.pdf")
+//                        .start();
                 break;
         }
     }

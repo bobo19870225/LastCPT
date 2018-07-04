@@ -21,7 +21,7 @@
         android:paddingRight="0dp"
         android:paddingStart="8dp"
         android:text="@string/ok"
-        android:visibility="gone" />
+         />
 
     <VideoView
         android:id="@+id/video"
