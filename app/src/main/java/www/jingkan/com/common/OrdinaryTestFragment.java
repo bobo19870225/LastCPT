@@ -5,6 +5,7 @@
 package www.jingkan.com.common;
 
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ import www.jingkan.com.localData.test.TestModel;
 import www.jingkan.com.parameter.SystemConstant;
 
 
-public class CommonTestFragment extends BaseFragment {
+public class OrdinaryTestFragment extends BaseFragment {
     @BindView(id = R.id.history_data, click = true)
     private RelativeLayout history_data;
     @BindView(id = R.id.new_test, click = true)
@@ -55,7 +56,8 @@ public class CommonTestFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.new_test:
-                goTo(NewTestActivity.class, null);
+                showChooseDialog();
+
                 break;
             case R.id.test_again:
                 TestDao testData = DataFactory.getBaseData(TestDao.class);
@@ -66,7 +68,7 @@ public class CommonTestFragment extends BaseFragment {
                         PreferencesUtils preferencesUtils = new PreferencesUtils(getContext());
                         Map<String, String> linkerPreferences = preferencesUtils.getLinkerPreferences();
                         String add = linkerPreferences.get("add");
-                        TestModel testModel = (TestModel) models.get(0);
+                        TestModel testModel = models.get(0);
                         if (StringUtils.isEmpty(add)) {
                             goTo(LinkBluetoothActivity.class, new String[]{testModel.projectNumber, testModel.holeNumber, testModel.testType});
                         } else {//mac地址，工程编号，孔号，试验类型。
@@ -105,6 +107,23 @@ public class CommonTestFragment extends BaseFragment {
                 break;
         }
 
+    }
+
+    private int probeType;
+
+    private void showChooseDialog() {
+
+        CharSequence[] saveItems = new CharSequence[]{"数字探头", "模拟探头"};
+
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                .setTitle("请选择要使用的探头类型")
+                .setSingleChoiceItems(saveItems, 0, (dialog, which) -> probeType = which)
+                .setPositiveButton("确定", (dialog, which) -> goTo(NewTestActivity.class, saveItems[probeType]))
+                .setNegativeButton("取消", (dialog, which) -> {
+                    probeType = 0;
+                    dialog.dismiss();
+                }).create();
+        alertDialog.show();
     }
 
 }

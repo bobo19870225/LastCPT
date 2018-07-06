@@ -27,7 +27,7 @@ import www.jingkan.com.adapter.MyStartAdapter;
 import www.jingkan.com.annotation.BindView;
 import www.jingkan.com.base.BaseActivity;
 import www.jingkan.com.calibration.InstrumentCalibrationFragment;
-import www.jingkan.com.common.CommonTestFragment;
+import www.jingkan.com.common.OrdinaryTestFragment;
 import www.jingkan.com.me.MeFragment;
 import www.jingkan.com.wireless.WirelessTestFragment;
 
@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity {
 
     private void initViewPage() {
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new CommonTestFragment());
+        fragmentList.add(new OrdinaryTestFragment());
         fragmentList.add(new WirelessTestFragment());
         fragmentList.add(new InstrumentCalibrationFragment());
         fragmentList.add(new MeFragment());
@@ -129,24 +129,12 @@ public class MainActivity extends BaseActivity {
                 window.setContentView(R.layout.dialog_exit);
                 Button ok = window.findViewById(R.id.ok);
                 View cancel = window.findViewById(R.id.cancel);
-                ok.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.dismiss();
-                        new Handler().postDelayed(new Runnable() {
-                            public void run() {
-                                finish();
-                            }
-                        }, 500);
+                ok.setOnClickListener(view -> {
+                    alertDialog.dismiss();
+                    new Handler().postDelayed(this::finish, 500);
 
-                    }
                 });
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.dismiss();
-                    }
-                });
+                cancel.setOnClickListener(view -> alertDialog.dismiss());
             }
 
 
