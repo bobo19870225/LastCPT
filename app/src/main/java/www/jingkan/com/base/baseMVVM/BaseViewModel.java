@@ -4,6 +4,7 @@
 
 package www.jingkan.com.base.baseMVVM;
 
+import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 
@@ -15,7 +16,7 @@ import java.lang.ref.WeakReference;
  * MVVM ViewModel 基类
  */
 
-public abstract class BaseViewModel<V extends BaseMVVMActivity> extends BaseObservable {
+public abstract class BaseViewModel<V extends BaseMVVMActivity> extends ViewModel {
     protected Reference<V> myView;
 
 

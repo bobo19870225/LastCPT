@@ -64,6 +64,9 @@ public class TestingViewModel extends BaseViewModel<TestingActivity> {
     protected void init(Object data) {
         mac = (String) data;
         link();
+        bluetoothCommService.mContent.observe(getView(), (String content) -> {
+            String content1 = content;
+        });
     }
 
     public void link() {
@@ -85,4 +88,6 @@ public class TestingViewModel extends BaseViewModel<TestingActivity> {
         bluetoothCommService.stop();
         bluetoothCommService = null;
     }
+
+
 }

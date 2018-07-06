@@ -57,6 +57,10 @@ android {
     }
 
 
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -84,4 +88,7 @@ dependencies {
 //    下载文件
     implementation 'com.arialyy.aria:aria-core:3.3.16'
     annotationProcessor 'com.arialyy.aria:aria-compiler:3.3.16'
+    //LiveData
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 }

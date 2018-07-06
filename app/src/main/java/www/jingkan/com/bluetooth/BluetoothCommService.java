@@ -4,6 +4,7 @@
 
 package www.jingkan.com.bluetooth;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
@@ -46,6 +47,7 @@ public class BluetoothCommService {
     public final static int MESSAGE_STATE_CHANGE = 4;
     public static String DEVICE_NAME = "device_name";
     public static String TOAST = "toast";
+    public final MutableLiveData<String> mContent = new MutableLiveData<>();
 
     public BluetoothCommService(Handler handler) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -415,6 +417,7 @@ public class BluetoothCommService {
                     if (b[0] != '\r' && b[0] != '\n') {
                         mHandler.obtainMessage(MESSAGE_READ, i, -1, b)
                                 .sendToTarget();
+                        mContent.postValue(new String(b));
                     }
 
                 } catch (IOException e) {
