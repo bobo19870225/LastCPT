@@ -20,6 +20,7 @@ import www.jingkan.com.base.BaseFragment;
 import www.jingkan.com.calibration.digital.DigitalCalibrationActivity;
 import www.jingkan.com.calibration.probeTest.TestingActivity;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -56,7 +57,9 @@ public class InstrumentCalibrationFragment extends BaseFragment {
                 Map<String, String> linkerPreferences = preferencesUtils.getLinkerPreferences();
                 String add = linkerPreferences.get("add");
                 if (StringUtils.isEmpty(add)) {
-                    goTo(LinkBluetoothActivity.class, "探头检测");
+                    HashMap<String,String> stringHashMap =new HashMap<>();
+                    stringHashMap.put("action","数字探头检测");
+                    goTo(LinkBluetoothActivity.class, stringHashMap);
                 } else {
                     goTo(TestingActivity.class, add);
                 }

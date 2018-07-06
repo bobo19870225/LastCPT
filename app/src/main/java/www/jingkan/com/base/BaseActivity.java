@@ -23,6 +23,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 
+import java.io.Serializable;
+import java.util.Map;
+
 import www.jingkan.com.R;
 import www.jingkan.com.annotation.AnnotateUtils;
 
@@ -149,6 +152,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 bundle.putStringArray("DATA", (String[]) data);
             } else if (data instanceof Parcelable) {
                 bundle.putParcelable("DATA", (Parcelable) data);
+            } else if (data instanceof Map) {
+                bundle.putSerializable("DATA", (Serializable) data);
             }
             intent.putExtra("BUNDLE", bundle);
         }
@@ -179,6 +184,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 bundle.putStringArray("DATA", (String[]) data);
             } else if (data instanceof Parcelable) {
                 bundle.putParcelable("DATA", (Parcelable) data);
+            } else if (data instanceof Map) {
+                bundle.putSerializable("DATA", (Serializable) data);
             }
             intent.putExtra("BUNDLE", bundle);
         }

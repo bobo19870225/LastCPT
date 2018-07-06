@@ -65,6 +65,31 @@ public class PreferencesUtils {
     }
 
     /**
+     * 保存参数
+     *
+     * @param add 蓝牙设备的地址
+     */
+    public void saveAnalogLinker(String add) {
+        //获得SharedPreferences对象
+        SharedPreferences preferences = context.getSharedPreferences("analogLinker", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("add", add);
+        editor.apply();
+    }
+
+    /**
+     * 获取蓝牙连接器各项参数
+     *
+     * @return Linker参数
+     */
+    public Map<String, String> getAnalogLinkerPreferences() {
+        Map<String, String> params = new HashMap<>();
+        SharedPreferences preferences = context.getSharedPreferences("analogLinker", Context.MODE_PRIVATE);
+        params.put("add", preferences.getString("add", ""));
+        return params;
+    }
+
+    /**
      * 获取各项参数
      *
      * @return email参数

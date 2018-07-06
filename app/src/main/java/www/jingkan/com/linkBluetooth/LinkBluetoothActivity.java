@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import www.jingkan.com.R;
@@ -72,19 +73,42 @@ public class LinkBluetoothActivity
 
     private void linkAndSaveBluetooth(String mac) {
         PreferencesUtils preferencesUtils = new PreferencesUtils(LinkBluetoothActivity.this);
-        preferencesUtils.saveLinker(mac);
+        if (mData instanceof HashMap) {
+            HashMap hashMap = (HashMap) this.mData;
+            String action = (String) hashMap.get("action");
+            switch (action) {
+                case "选择数字连接器":
+                    preferencesUtils.saveLinker(mac);
+                    break;
+                case "选择模拟连接器":
+                    preferencesUtils.saveAnalogLinker(mac);
+                    break;
+                case "设置探头内部数据":
+                    preferencesUtils.saveLinker(mac);
+                    //传递：1.蓝牙地址 2.探头序列号 3.标定类型
+                    goTo(SetCalibrationDataActivity.class, new String[]{mac, (String) hashMap.get("Sn"), (String) hashMap.get("type")});
+                    break;
+                case "数字探头标定":
+                    preferencesUtils.saveLinker(mac);
+                    //传递：1.蓝牙地址 2.探头序列号 3.标定类型
+                    goTo(CalibrationVerificationActivity.class, new String[]{mac, (String) hashMap.get("Sn"), (String) hashMap.get("type")});
+                    break;
+                case "模拟探头标定":
+                    preferencesUtils.saveAnalogLinker(mac);
+                    //传递：1.蓝牙地址 2.探头序列号 3.标定类型
+                    goTo(CalibrationVerificationActivity.class, new String[]{mac, (String) hashMap.get("Sn"), (String) hashMap.get("type")});
+                    break;
+                case "数字探头检测":
+                    preferencesUtils.saveLinker(mac);
+                    goTo(TestingActivity.class, mac);
+                    break;
+            }
+        }
+//        preferencesUtils.saveLinker(mac);
         if (mData instanceof String[]) {
             String[] strings = (String[]) mData;
             String[] dataToSend = {mac, strings[0], strings[1], strings[3]};
             switch (strings[2]) {
-                case "设置":
-                    //传递：1.蓝牙地址 2.探头序列号 3.标定类型
-                    goTo(SetCalibrationDataActivity.class, new String[]{mac, strings[0], strings[1]});
-                    break;
-                case "验证":
-                    //传递：1.蓝牙地址 2.探头序列号 3.标定类型
-                    goTo(CalibrationVerificationActivity.class, new String[]{mac, strings[0], strings[1]});
-                    break;
                 case SystemConstant.SINGLE_BRIDGE_TEST:
                     //mac地址，工程编号，孔号。
                     goTo(SingleBridgeTestActivity.class, dataToSend);
@@ -106,8 +130,6 @@ public class LinkBluetoothActivity
                     goTo(TimeSynchronizationActivity.class, new String[]{mac, strings[0], strings[1], strings[2]});
                     break;
             }
-        } else if (mData.equals("探头检测")) {
-            goTo(TestingActivity.class, mac);
         }
         finish();
     }

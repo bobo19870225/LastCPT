@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018. 代码著作权归卢声波所有。
   -->
 
@@ -27,7 +26,7 @@
             android:paddingLeft="18dp"
             android:paddingRight="0dp"
             android:paddingStart="18dp"
-            android:text="当前连接器物理地址："
+            android:text="当前数字连接器物理地址："
             android:textSize="18sp" />
 
         <TextView
@@ -55,5 +54,49 @@
             android:src="@mipmap/ic_change" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/set_analog_linker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/rl_gray">
+
+        <TextView
+            android:id="@+id/tt_analog_linker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="0dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="0dp"
+            android:paddingStart="18dp"
+            android:text="当前模拟连接器物理地址："
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/analog_linker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tt_analog_linker"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="0dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="0dp"
+            android:paddingStart="18dp"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/change"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/ic_change" />
+    </RelativeLayout>
 
 </LinearLayout>

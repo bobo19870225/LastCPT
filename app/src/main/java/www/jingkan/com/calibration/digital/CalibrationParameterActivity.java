@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -90,12 +91,16 @@ public class CalibrationParameterActivity extends BaseActivity {
                 calibrationProbeModel.work_area = area.getText().toString();
                 calibrationProbeModel.differential = differential.getText().toString();
                 calibrationProbeDao.addData(calibrationProbeModel);
-                if (strings[0].equals("设置探头内存数据")) {
-                    goToSetCalibrationData(strSn, add);
-                } else if (strings[0].equals("模拟标定")) {
-                    gotoAnalogCalibrationVerification(strSn, add);
-                } else {
-                    gotoCalibrationVerification(strSn, add);
+                switch (strings[0]) {
+                    case "设置探头内存数据":
+                        goToSetCalibrationData(strSn, add);
+                        break;
+                    case "模拟标定":
+                        gotoAnalogCalibrationVerification(strSn, add);
+                        break;
+                    default:
+                        gotoCalibrationVerification(strSn, add);
+                        break;
                 }
                 break;
 
@@ -104,15 +109,23 @@ public class CalibrationParameterActivity extends BaseActivity {
 
     private void gotoAnalogCalibrationVerification(String strSn, String add) {
         if (StringUtils.isEmpty(add)) {//探头序列号，标定类型，明文。
-            goTo(LinkBluetoothActivity.class, new String[]{strSn, strings[0] + strings[1], "验证"});
+            HashMap<String, String> stringHashMap = new HashMap<>();
+            stringHashMap.put("action", "模拟探头标定");
+            stringHashMap.put("Sn", strSn);
+            stringHashMap.put("type", strings[0] + strings[1]);
+            goTo(LinkBluetoothActivity.class, stringHashMap);
         } else {//传递：1.蓝牙地址 2.探头序列号 3.标定类型
             goTo(CalibrationVerificationActivity.class, new String[]{add, strSn, strings[0] + strings[1]});
         }
     }
 
     private void goToSetCalibrationData(String strSn, String add) {
-        if (StringUtils.isEmpty(add)) {//序列号，标定类型，明文。
-            goTo(LinkBluetoothActivity.class, new String[]{strSn, strings[1], "设置"});
+        if (StringUtils.isEmpty(add)) {
+            HashMap<String, String> stringHashMap = new HashMap<>();
+            stringHashMap.put("action", "设置探头内部数据");
+            stringHashMap.put("Sn", strSn);
+            stringHashMap.put("type", strings[1]);
+            goTo(LinkBluetoothActivity.class, stringHashMap);
         } else {//传递：1.蓝牙地址 2.探头序列号 3.标定类型
             goTo(SetCalibrationDataActivity.class, new String[]{add, strSn, strings[1]});
         }
@@ -120,7 +133,11 @@ public class CalibrationParameterActivity extends BaseActivity {
 
     private void gotoCalibrationVerification(String strSn, String add) {
         if (StringUtils.isEmpty(add)) {//探头序列号，标定类型，明文。
-            goTo(LinkBluetoothActivity.class, new String[]{strSn, strings[1], "验证"});
+            HashMap<String, String> stringHashMap = new HashMap<>();
+            stringHashMap.put("action", "数字探头标定");
+            stringHashMap.put("Sn", strSn);
+            stringHashMap.put("type", strings[1]);
+            goTo(LinkBluetoothActivity.class, stringHashMap);
         } else {//传递：1.蓝牙地址 2.探头序列号 3.标定类型
             goTo(CalibrationVerificationActivity.class, new String[]{add, strSn, strings[1]});
         }
