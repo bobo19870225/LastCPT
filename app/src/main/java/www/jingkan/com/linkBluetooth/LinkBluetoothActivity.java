@@ -7,7 +7,6 @@ package www.jingkan.com.linkBluetooth;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,15 +19,15 @@ import www.jingkan.com.annotation.BindView;
 import www.jingkan.com.base.baseMVP.BaseMvpActivity;
 import www.jingkan.com.calibration.calibrationVerification.CalibrationVerificationActivity;
 import www.jingkan.com.calibration.digital.setCalibrationData.SetCalibrationDataActivity;
-import www.jingkan.com.framework.utils.PreferencesUtils;
-import www.jingkan.com.localData.BluetoothDeviceModel;
-import www.jingkan.com.parameter.SystemConstant;
 import www.jingkan.com.calibration.probeTest.TestingActivity;
 import www.jingkan.com.common.DoubleBridgeMultifunctionTestActivity;
 import www.jingkan.com.common.DoubleBridgeTestActivity;
-import www.jingkan.com.common.SingleBridgeTestActivity;
 import www.jingkan.com.common.SingleBridgeMultifunctionTestActivity;
+import www.jingkan.com.common.SingleBridgeTestActivity;
 import www.jingkan.com.common.crossTest.CrossTestActivity;
+import www.jingkan.com.framework.utils.PreferencesUtils;
+import www.jingkan.com.localData.BluetoothDeviceModel;
+import www.jingkan.com.parameter.SystemConstant;
 import www.jingkan.com.wireless.timeSynchronization.TimeSynchronizationActivity;
 
 /**
@@ -64,13 +63,10 @@ public class LinkBluetoothActivity
         bondedDeviceList = new ArrayList<>();
         bondedDeviceAdapter = new DeviceAdapter(this, R.layout.device_item, bondedDeviceList);
         lv_devices.setAdapter(bondedDeviceAdapter);
-        lv_devices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView tv_item = view.findViewById(R.id.tv_new_address);
-                String mac = tv_item.getText().toString();
-                linkAndSaveBluetooth(mac);
-            }
+        lv_devices.setOnItemClickListener((parent, view, position, id) -> {
+            TextView tv_item = view.findViewById(R.id.tv_new_address);
+            String mac = tv_item.getText().toString();
+            linkAndSaveBluetooth(mac);
         });
     }
 
@@ -79,6 +75,7 @@ public class LinkBluetoothActivity
         preferencesUtils.saveLinker(mac);
         if (mData instanceof String[]) {
             String[] strings = (String[]) mData;
+            String[] dataToSend = {mac, strings[0], strings[1], strings[3]};
             switch (strings[2]) {
                 case "设置":
                     //传递：1.蓝牙地址 2.探头序列号 3.标定类型
@@ -90,19 +87,19 @@ public class LinkBluetoothActivity
                     break;
                 case SystemConstant.SINGLE_BRIDGE_TEST:
                     //mac地址，工程编号，孔号。
-                    goTo(SingleBridgeTestActivity.class, new String[]{mac, strings[0], strings[1]});
+                    goTo(SingleBridgeTestActivity.class, dataToSend);
                     break;
                 case SystemConstant.SINGLE_BRIDGE_MULTI_TEST:
-                    goTo(SingleBridgeMultifunctionTestActivity.class, new String[]{mac, strings[0], strings[1]});
+                    goTo(SingleBridgeMultifunctionTestActivity.class, dataToSend);
                     break;
                 case SystemConstant.DOUBLE_BRIDGE_TEST:
-                    goTo(DoubleBridgeTestActivity.class, new String[]{mac, strings[0], strings[1]});
+                    goTo(DoubleBridgeTestActivity.class, dataToSend);
                     break;
                 case SystemConstant.DOUBLE_BRIDGE_MULTI_TEST:
-                    goTo(DoubleBridgeMultifunctionTestActivity.class, new String[]{mac, strings[0], strings[1]});
+                    goTo(DoubleBridgeMultifunctionTestActivity.class, dataToSend);
                     break;
                 case SystemConstant.VANE_TEST:
-                    goTo(CrossTestActivity.class, new String[]{mac, strings[0], strings[1]});
+                    goTo(CrossTestActivity.class, dataToSend);
                     break;
                 case SystemConstant.SINGLE_BRIDGE_MULTI_WIRELESS_TEST:
                 case SystemConstant.DOUBLE_BRIDGE_MULTI_WIRELESS_TEST:
@@ -119,13 +116,10 @@ public class LinkBluetoothActivity
         newDeviceList = new ArrayList<>();
         deviceAdapter = new DeviceAdapter(this, R.layout.device_item, newDeviceList);
         lv_new_devices.setAdapter(deviceAdapter);
-        lv_new_devices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView tv_item = view.findViewById(R.id.tv_new_address);
-                String mac = tv_item.getText().toString();
-                linkAndSaveBluetooth(mac);
-            }
+        lv_new_devices.setOnItemClickListener((parent, view, position, id) -> {
+            TextView tv_item = view.findViewById(R.id.tv_new_address);
+            String mac = tv_item.getText().toString();
+            linkAndSaveBluetooth(mac);
         });
     }
 

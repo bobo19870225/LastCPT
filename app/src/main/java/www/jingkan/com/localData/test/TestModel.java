@@ -28,6 +28,8 @@ public class TestModel extends Model {
     public String tester;
     @Column(name = TestConstant.COLUMN_TEST_TYPE)
     public String testType;
+    @Column(name = TestConstant.COLUMN_TEST_PROBE_TYPE)
+    public String testProbeType;
     @Column(name = TestConstant.COLUMN_TEST_DATA_ID)
     public String testDataID;
 

@@ -11,8 +11,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -85,14 +83,19 @@ public class NewTestActivity extends BaseActivity {
     private Button img_location;
     private PopupWindow popupWindow;
     private boolean isWireless = false;
+    private boolean isAnalog = false;
     private TestDao testData = DataFactory.getBaseData(TestDao.class);
     private WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
 
     @Override
     protected void setView() {
         setToolBar("新增试验");
-        if (mData != null && mData.equals("无缆试验")) {
-            isWireless = true;
+        if (mData != null) {
+            if (mData.equals("无缆试验"))
+                isWireless = true;
+            if (mData.equals("模拟探头"))
+                isAnalog = true;
+
         }
     }
 
@@ -119,15 +122,11 @@ public class NewTestActivity extends BaseActivity {
             OneTextListAdapter adapter = new OneTextListAdapter(NewTestActivity.this, R.layout.listitem, ls);
             ListView listView = contentView.findViewById(R.id.lv_item);
             listView.setAdapter(adapter);
-            listView.setOnItemClickListener(new OnItemClickListener() {
+            listView.setOnItemClickListener((parent, view, position, id) -> {
 
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    TextView tv_item = view.findViewById(R.id.TextView);
-                    test_type.setText(tv_item.getText());
-                    popupWindow.dismiss();
-                }
+                TextView tv_item = view.findViewById(R.id.TextView);
+                test_type.setText(tv_item.getText());
+                popupWindow.dismiss();
             });
         } else {
             String[] s = {SINGLE_BRIDGE_TEST, SINGLE_BRIDGE_MULTI_TEST, DOUBLE_BRIDGE_TEST, DOUBLE_BRIDGE_MULTI_TEST, VANE_TEST};
@@ -140,23 +139,14 @@ public class NewTestActivity extends BaseActivity {
             OneTextListAdapter adapter = new OneTextListAdapter(NewTestActivity.this, R.layout.listitem, ls);
             ListView listView = contentView.findViewById(R.id.lv_item);
             listView.setAdapter(adapter);
-            listView.setOnItemClickListener(new OnItemClickListener() {
+            listView.setOnItemClickListener((parent, view, position, id) -> {
 
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    TextView tv_item = view.findViewById(R.id.TextView);
-                    test_type.setText(tv_item.getText());
-                    popupWindow.dismiss();
-                }
+                TextView tv_item = view.findViewById(R.id.TextView);
+                test_type.setText(tv_item.getText());
+                popupWindow.dismiss();
             });
         }
-        contentView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popupWindow.dismiss();
-            }
-        });
+        contentView.findViewById(R.id.cancel).setOnClickListener(view -> popupWindow.dismiss());
         // 显示在屏幕上
         popupWindow.showAtLocation(test_type, Gravity.CENTER, 0, 0);
 
@@ -235,7 +225,7 @@ public class NewTestActivity extends BaseActivity {
         Map<String, String> linkerPreferences = preferencesUtils.getLinkerPreferences();
         final String add = linkerPreferences.get("add");
         if (isWireless) {
-            wirelessTestDao.getData(new DataLoadCallBack() {
+            wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
                 @Override
                 public void onDataLoaded(List models) {
                     showToast("该试验已经存在，请更换工程编号或孔号");
@@ -272,7 +262,7 @@ public class NewTestActivity extends BaseActivity {
             }, strProjectNumber, strHoleNumber);
 
         } else {
-            testData.getData(new DataLoadCallBack() {
+            testData.getData(new DataLoadCallBack<TestModel>() {
                 @Override
                 public void onDataLoaded(List models) {
                     showToast("该试验已经存在，请更换工程编号或孔号");
@@ -296,27 +286,29 @@ public class NewTestActivity extends BaseActivity {
                     testModel.location = location.getText().toString();
                     testModel.tester = tester.getText().toString();
                     testModel.testType = String.valueOf(test_type.getText());
+                    testModel.testProbeType = isAnalog ? "模拟探头" : "数字探头";
                     testModel.testDataID = strProjectNumber + "_" + strHoleNumber;
                     testData.addData(testModel);
                     if (StringUtils.isEmpty(add)) {
-                        goTo(LinkBluetoothActivity.class, new String[]{strProjectNumber, strHoleNumber, strTestType});
+                        goTo(LinkBluetoothActivity.class, new String[]{strProjectNumber, strHoleNumber, strTestType, isAnalog ? "模拟探头" : "数字探头"});
                     } else {
+                        String[] dataToSend = {add, testModel.projectNumber, testModel.holeNumber, isAnalog ? "模拟探头" : "数字探头"};
                         switch (testModel.testType) {
                             case SINGLE_BRIDGE_TEST:
                                 //mac地址，工程编号，孔号。
-                                goTo(SingleBridgeTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+                                goTo(SingleBridgeTestActivity.class, dataToSend);
                                 break;
                             case SINGLE_BRIDGE_MULTI_TEST:
-                                goTo(SingleBridgeMultifunctionTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+                                goTo(SingleBridgeMultifunctionTestActivity.class, dataToSend);
                                 break;
                             case DOUBLE_BRIDGE_TEST:
-                                goTo(DoubleBridgeTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+                                goTo(DoubleBridgeTestActivity.class, dataToSend);
                                 break;
                             case DOUBLE_BRIDGE_MULTI_TEST:
-                                goTo(DoubleBridgeMultifunctionTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+                                goTo(DoubleBridgeMultifunctionTestActivity.class, dataToSend);
                                 break;
                             case SystemConstant.VANE_TEST:
-                                goTo(CrossTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+                                goTo(CrossTestActivity.class, dataToSend);
                                 break;
 
                         }

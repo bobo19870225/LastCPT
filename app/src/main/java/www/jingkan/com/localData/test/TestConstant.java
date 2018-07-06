@@ -20,5 +20,6 @@ public final class TestConstant {
     public static final String COLUMN_LOCATION = "location";
     public static final String COLUMN_TESTER = "tester";
     public static final String COLUMN_TEST_TYPE = "testType";
-    public static final String COLUMN_TEST_DATA_ID = "test_dataID";
+    public static final String COLUMN_TEST_PROBE_TYPE = "testProbeType";
+    public static final String COLUMN_TEST_DATA_ID = "testDataID";
 }
