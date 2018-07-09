@@ -214,9 +214,6 @@ public class AddProbeInfoActivity extends BaseActivity implements SingleBridgeFr
                     showToast("锥头限值不合法");
                     return;
                 }
-                probeModel.fs_area = "0";
-                probeModel.fs_coefficient = 0;
-                probeModel.fs_limit = 0;
                 break;
             case "双桥":
             case "双桥测斜":

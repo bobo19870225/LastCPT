@@ -22,17 +22,17 @@ public class ProbeModel extends Model implements Parcelable {
     @Column(name = ProbeConstant.COLUMN_TYPE)
     public String type;
     @Column(name = ProbeConstant.COLUMN_QC_AREA)
-    public String qc_area;
+    public String qc_area = "0";
     @Column(name = ProbeConstant.COLUMN_FS_AREA)
-    public String fs_area;
+    public String fs_area = "0";
     @Column(name = ProbeConstant.COLUMN_QC_COEFFICIENT)
-    public float qc_coefficient;
+    public float qc_coefficient = 1;
     @Column(name = ProbeConstant.COLUMN_FS_COEFFICIENT)
-    public float fs_coefficient;
+    public float fs_coefficient = 1;
     @Column(name = ProbeConstant.COLUMN_QC_LIMIT)
-    public int qc_limit;
+    public int qc_limit = 36;
     @Column(name = ProbeConstant.COLUMN_FS_LIMIT)
-    public int fs_limit;
+    public int fs_limit = 360;
 
     public ProbeModel() {
         super();
