@@ -229,11 +229,11 @@
             android:process=":TMAssistantDownloadSDKService" />
         <service android:name="com.amap.api.location.APSService" />
         <!--线控耳机监控-->
-        <receiver android:name=".framework.utils.headset.HeadSetReceiver">
-            <intent-filter android:priority="2147483647">
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver android:name=".framework.utils.headset.HeadSetReceiver">-->
+            <!--<intent-filter android:priority="2147483647">-->
+                <!--<action android:name="android.intent.action.HEADSET_PLUG" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
         <activity
             android:name="www.jingkan.com.activity.MainActivity"
             android:screenOrientation="portrait">

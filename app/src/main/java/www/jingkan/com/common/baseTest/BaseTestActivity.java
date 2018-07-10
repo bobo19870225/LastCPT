@@ -7,6 +7,7 @@ package www.jingkan.com.common.baseTest;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
@@ -152,5 +153,11 @@ public class BaseTestActivity extends MVVMDialogActivity<BaseTestViewModel, Acti
         drawChartHelper.addOnePointToChart(new float[]{qc, fs, fa, deep});
     }
 
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
+            mViewModel.doRecord();
+        }
+        return true;
+    }
 }

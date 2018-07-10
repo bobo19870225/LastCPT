@@ -104,10 +104,11 @@ public class LinkBluetoothActivity
                     break;
             }
         }
-//        preferencesUtils.saveLinker(mac);
+
         if (mData instanceof String[]) {
             String[] strings = (String[]) mData;
             String[] dataToSend = {mac, strings[0], strings[1], strings[3]};
+            preferencesUtils.saveLinker(mac);
             switch (strings[2]) {
                 case SystemConstant.SINGLE_BRIDGE_TEST:
                     //mac地址，工程编号，孔号。
