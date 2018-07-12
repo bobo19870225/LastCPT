@@ -57,12 +57,7 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
 
     @Override
     protected void init(Object data) {
-        HeadSetHelper.getInstance().setOnHeadSetListener(new HeadSetHelper.OnHeadSetListener() {
-            @Override
-            public void onClick() {
-                doRecord();
-            }
-        });
+        HeadSetHelper.getInstance().setOnHeadSetListener(this::doRecord);
         HeadSetHelper.getInstance().open(getView().getApplicationContext());
         String[] strings = (String[]) data;//1.mac,2.工程编号,3.孔号,4.试验类型
         loadTestData(strings[1] + "_" + strings[2]);
@@ -142,7 +137,7 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
 
     @Override
     protected void clear() {
-
+        bluetoothCommService.stop();
     }
 
 
