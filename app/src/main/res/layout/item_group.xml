@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
+    android:padding="16dp"
+    android:paddingBottom="4dp"
+    android:paddingTop="4dp">
+
+    <TextView
+        android:id="@+id/tt_test_deep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_deep"
+        android:textColor="@color/tv_black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/test_deep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/tt_test_deep"
+        android:layout_toRightOf="@+id/tt_test_deep"
+        android:textColor="@color/tv_black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tt_soil_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/test_deep"
+        android:layout_toRightOf="@+id/test_deep"
+        android:text="@string/soil_type"
+        android:textColor="@color/tv_black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/soil_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/tt_soil_type"
+        android:layout_toRightOf="@+id/tt_soil_type"
+        android:textColor="@color/tv_black"
+        android:textSize="16sp" />
+</RelativeLayout>

@@ -204,4 +204,6 @@
     <string name="modify_parameter">修改参数将重新进行新的试验，确定要修改吗？</string>
     <string name="input_deep">点击输入试验深度</string>
     <string name="pause">暂停</string>
+    <string name="cu_deg">转动角度：</string>
+    <string name="cu">剪切强度：</string>
 </resources>

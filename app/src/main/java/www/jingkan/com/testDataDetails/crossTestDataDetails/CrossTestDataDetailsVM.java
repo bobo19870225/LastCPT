@@ -46,13 +46,27 @@ public class CrossTestDataDetailsVM extends BaseViewModel<CrossTestDataDetailsAc
                 }
                 crossTestDataListAdapter = new CrossTestDataListAdapter(getView().getApplicationContext(),
                         groupList,
-                        childrenList, R.layout.item_common_probe_list, R.layout.item_file);
+                        childrenList, R.layout.item_group, R.layout.item_children);
                 myView.get().setListView(crossTestDataListAdapter);
             }
 
             @Override
             public void onDataNotAvailable() {
+                groupList = new ArrayList<>();
 
+                childrenList = new ArrayList<>();
+                for (int i = 0; i < 10; i++) {
+                    groupList.add(new DataGroup(i, "test", i + 1));
+                    itemList = new ArrayList<>();
+                    for (int j = 0; j < 5; j++) {
+                        itemList.add(new DataItem(j + i, j));
+                    }
+                    childrenList.add(itemList);
+                }
+                crossTestDataListAdapter = new CrossTestDataListAdapter(getView().getApplicationContext(),
+                        groupList,
+                        childrenList, R.layout.item_group, R.layout.item_children);
+                myView.get().setListView(crossTestDataListAdapter);
             }
         }, (String) data);
     }

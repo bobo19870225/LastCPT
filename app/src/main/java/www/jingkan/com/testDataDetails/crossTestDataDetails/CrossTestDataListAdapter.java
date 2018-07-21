@@ -6,8 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.TextView;
 
 import java.util.List;
+
+import www.jingkan.com.R;
+import www.jingkan.com.framework.utils.StringUtils;
 
 /**
  * Created by Sampson on 2018/7/21.
@@ -78,7 +82,12 @@ public class CrossTestDataListAdapter extends BaseExpandableListAdapter {
             mView = view;
         }
         DataGroup dataGroup = (DataGroup) getGroup(i);
+        TextView testDeep = mView.findViewById(R.id.test_deep);
+        TextView soilType = mView.findViewById(R.id.soil_type);
+        testDeep.setText(StringUtils.format(dataGroup.getDeep(), 2));
+        soilType.setText(dataGroup.getType());
         return mView;
+
     }
 
     @Override
@@ -90,6 +99,10 @@ public class CrossTestDataListAdapter extends BaseExpandableListAdapter {
             mView = view;
         }
         DataItem dataItem = (DataItem) getChild(i, i1);
+        TextView cuDeg = mView.findViewById(R.id.cu_deg);
+        TextView cu = mView.findViewById(R.id.cu);
+        cuDeg.setText(StringUtils.format(dataItem.getDeg(), 1));
+        cu.setText(StringUtils.format(dataItem.getCu(), 2));
         return mView;
     }
 

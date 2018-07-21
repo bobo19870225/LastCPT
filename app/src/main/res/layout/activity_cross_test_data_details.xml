@@ -45,7 +45,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginStart="15dp"
                             android:text="@string/project_number"
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/project_number"
@@ -54,7 +54,7 @@
                             android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/tv_dead"
                             android:layout_toRightOf="@+id/tv_dead"
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/tt_hole_number"
@@ -64,9 +64,10 @@
                             android:layout_marginLeft="196dp"
                             android:layout_marginStart="196dp"
                             android:text="@string/hole_number"
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <TextView
+                            android:textSize="18sp"
                             android:id="@+id/hole_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -88,7 +89,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginStart="15dp"
                             android:text="测试日期："
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/test_date"
@@ -96,7 +97,7 @@
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@+id/tt_test_date"
                             android:layout_toRightOf="@+id/tt_test_date"
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
 
                     </RelativeLayout>
@@ -119,7 +120,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <ExpandableListView
+                <www.jingkan.com.framework.view.NestedExpandableListView
                     android:id="@+id/ex"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />

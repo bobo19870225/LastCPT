@@ -1,10 +1,9 @@
 package www.jingkan.com.testDataDetails.crossTestDataDetails;
 
-import android.widget.ExpandableListView;
-
 import www.jingkan.com.R;
 import www.jingkan.com.base.baseMVVM.BaseMVVMActivity;
 import www.jingkan.com.databinding.ActivityCrossTestDataDetailsBinding;
+import www.jingkan.com.framework.view.NestedExpandableListView;
 
 /**
  * Created by Sampson on 2018/7/21.
@@ -27,7 +26,13 @@ public class CrossTestDataDetailsActivity extends BaseMVVMActivity<CrossTestData
     }
 
     public void setListView(CrossTestDataListAdapter crossTestDataListAdapter) {
-        ExpandableListView expandableListView = mViewDataBinding.ex;
-        expandableListView.setAdapter(crossTestDataListAdapter);
+        NestedExpandableListView nestedExpandableListView = mViewDataBinding.ex;
+        nestedExpandableListView.setAdapter(crossTestDataListAdapter);
+        int count = nestedExpandableListView.getCount();
+        for (int i = 0; i < count; i++) {
+            nestedExpandableListView.expandGroup(i);
+        }
+        nestedExpandableListView.setGroupIndicator(null);
+        nestedExpandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> true);
     }
 }
