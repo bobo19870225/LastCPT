@@ -8,9 +8,6 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,6 +21,9 @@ import www.jingkan.com.base.baseMVP.BaseMvpActivity;
 import www.jingkan.com.base.baseMVP.BasePresenter;
 import www.jingkan.com.localData.test.TestModel;
 import www.jingkan.com.testDataDetails.TestDataDetailsActivity;
+import www.jingkan.com.testDataDetails.crossTestDataDetails.CrossTestDataDetailsActivity;
+
+import static www.jingkan.com.parameter.SystemConstant.VANE_TEST;
 
 public class HistoryDataActivity extends BaseMvpActivity<HistoryDataPresenter>
         implements HistoryDataContract.View {
@@ -48,21 +48,19 @@ public class HistoryDataActivity extends BaseMvpActivity<HistoryDataPresenter>
         listHistoryAdapter = new ListHistoryAdapter(HistoryDataActivity.this, R.layout.item_history_test, mTestModels);
         lv_history.setEmptyView(empty);
         lv_history.setAdapter(listHistoryAdapter);
-        lv_history.setOnItemClickListener(new OnItemClickListener() {//查看详情
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TestModel testModel = mTestModels.get(position);
+        //查看详情
+        lv_history.setOnItemClickListener((parent, view, position, id) -> {
+            TestModel testModel = mTestModels.get(position);
+            if (testModel.testType.equals(VANE_TEST)) {
+                goTo(CrossTestDataDetailsActivity.class, testModel.testDataID);
+            } else {
                 goTo(TestDataDetailsActivity.class, testModel.testDataID);
             }
         });
         registerForContextMenu(lv_history);
-        lv_history.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                testModel = mTestModels.get(position);
-                return false;
-            }
+        lv_history.setOnItemLongClickListener((parent, view, position, id) -> {
+            testModel = mTestModels.get(position);
+            return false;
         });
     }
 

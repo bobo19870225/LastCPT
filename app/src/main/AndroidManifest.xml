@@ -369,7 +369,12 @@
         <activity
             android:name=".activity.GuideActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".common.baseTest.BaseTestActivity" />
+        <activity
+            android:name=".common.baseTest.BaseTestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".testDataDetails.crossTestDataDetails.CrossTestDataDetailsActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

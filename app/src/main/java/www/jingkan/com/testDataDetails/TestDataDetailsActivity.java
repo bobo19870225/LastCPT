@@ -5,15 +5,11 @@
 package www.jingkan.com.testDataDetails;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -103,24 +99,11 @@ public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPres
         }
         Dialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择要保存的数据类型")
-                .setSingleChoiceItems(saveItems, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveType = which;
-                    }
-                })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mPresenter.saveTestDataToSD(testModel.projectNumber, testModel.holeNumber, saveType, testModel.testType);
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveType = 0;
-                        dialog.dismiss();
-                    }
+                .setSingleChoiceItems(saveItems, 0, (dialog, which) -> saveType = which)
+                .setPositiveButton("确定", (dialog, which) -> mPresenter.saveTestDataToSD(testModel.projectNumber, testModel.holeNumber, saveType, testModel.testType))
+                .setNegativeButton("取消", (dialog, which) -> {
+                    saveType = 0;
+                    dialog.dismiss();
                 }).create();
         alertDialog.show();
     }
@@ -131,27 +114,16 @@ public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPres
     private void showEmailDataDialog(final TestModel testModel) {
         Dialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择发送的数据类型")
-                .setSingleChoiceItems(emailItems, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        emailType = which;
-                    }
-                })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mPresenter.saveTestDataToSD(testModel.projectNumber, testModel.holeNumber, emailType, testModel.testType);
+                .setSingleChoiceItems(emailItems, 0, (dialog, which) -> emailType = which)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    mPresenter.saveTestDataToSD(testModel.projectNumber, testModel.holeNumber, emailType, testModel.testType);
 
-                        mPresenter.emailTestData(testModel.projectNumber,
-                                testModel.holeNumber, emailType, testModel.testType);
-                    }
+                    mPresenter.emailTestData(testModel.projectNumber,
+                            testModel.holeNumber, emailType, testModel.testType);
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        emailType = 0;
-                        dialog.dismiss();
-                    }
+                .setNegativeButton("取消", (dialog, which) -> {
+                    emailType = 0;
+                    dialog.dismiss();
                 }).create();
         alertDialog.show();
     }
@@ -161,20 +133,14 @@ public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPres
         listTestDataAdapter = new ListTestDataAdapter(TestDataDetailsActivity.this, R.layout.item_test_data_details, mTestDataModels);
         lv_test_details.setEmptyView(empty);
         lv_test_details.setAdapter(listTestDataAdapter);
-        lv_test_details.setOnItemClickListener(new OnItemClickListener() {//查看详情
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //查看详情
+        lv_test_details.setOnItemClickListener((parent, view, position, id) -> {
 
-            }
         });
         registerForContextMenu(lv_test_details);
-        lv_test_details.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                testDataModel = mTestDataModels.get(position);
-                return false;
-            }
+        lv_test_details.setOnItemLongClickListener((parent, view, position, id) -> {
+            testDataModel = mTestDataModels.get(position);
+            return false;
         });
     }
 
