@@ -205,4 +205,5 @@
     <string name="pause">暂停</string>
     <string name="cu_deg">转动角度：</string>
     <string name="cu">剪切强度：</string>
+    <string name="distance">测量间距：</string>
 </resources>

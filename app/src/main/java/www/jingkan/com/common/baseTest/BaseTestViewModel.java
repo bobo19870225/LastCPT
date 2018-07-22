@@ -49,6 +49,7 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
     public final ObservableField<Float> obsFsEffectiveValue = new ObservableField<>(0f);
     public final ObservableField<Float> obsFaEffectiveValue = new ObservableField<>(0f);
     public final ObservableField<Float> obsTestDeep = new ObservableField<>(0f);
+    public final ObservableField<String> obsStringDeepDistance = new ObservableField<>("0.1");
     public final ObservableField<Boolean> obsIsShock = new ObservableField<>(false);
 
     private boolean isIdentification;
@@ -84,8 +85,15 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
 
     public void doRecord() {
         Float floatDeep = obsTestDeep.get();
-        if (floatDeep != null)
-            obsTestDeep.set(floatDeep + 0.1f);
+        if (floatDeep != null) {
+            if (StringUtils.isFloat(obsStringDeepDistance.get())) {
+                obsTestDeep.set(floatDeep + Float.valueOf(obsStringDeepDistance.get()));
+            } else {
+                getView().showToast("测量间距不合法！");
+                return;
+            }
+        }
+
         TestDataModel testDataModel = new TestDataModel();
         testDataModel.testDataID = testModel.projectNumber + "-" + testModel.holeNumber;
         testDataModel.probeID = probeID;

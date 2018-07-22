@@ -207,7 +207,7 @@
             <RelativeLayout
                 android:id="@+id/rl_qc"
                 android:layout_width="match_parent"
-                android:layout_height="40dp">
+                android:layout_height="24dp">
 
                 <View
                     android:layout_width="match_parent"
@@ -267,7 +267,7 @@
             <RelativeLayout
                 android:id="@+id/rl_fs"
                 android:layout_width="match_parent"
-                android:layout_height="40dp">
+                android:layout_height="24dp">
 
                 <TextView
                     android:id="@+id/tt_fs_initial"
@@ -322,7 +322,7 @@
             <RelativeLayout
                 android:id="@+id/rl_fa"
                 android:layout_width="match_parent"
-                android:layout_height="40dp">
+                android:layout_height="24dp">
 
                 <TextView
                     android:id="@+id/tt_fa_effective_value"
@@ -375,6 +375,39 @@
                     android:background="@color/v_gray" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/rl_distance"
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
+
+                <TextView
+                    android:id="@+id/tt_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:text="@string/distance"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/distance"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/tt_distance"
+                    android:layout_toRightOf="@+id/tt_distance"
+                    android:lines="1"
+                    android:text="@={model.obsStringDeepDistance}"
+                    android:textSize="16sp"
+                    android:inputType="numberSigned" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/v_gray" />
+            </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/line_chart"
                 android:layout_width="match_parent"
