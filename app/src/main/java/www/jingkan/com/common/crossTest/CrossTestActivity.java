@@ -102,7 +102,7 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
 
     public void showModifyDialog(final String deep, final String soilType) {
         LayoutInflater layoutInflater = getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.dialog_modify, (ViewGroup) findViewById(R.id.dialog));
+        View view = layoutInflater.inflate(R.layout.dialog_modify, findViewById(R.id.dialog));
         final Dialog alertDialog = new AlertDialog.Builder(CrossTestActivity.this)
                 .setView(view)
                 .create();

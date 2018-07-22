@@ -390,7 +390,7 @@
                     android:text="@string/distance"
                     android:textSize="16sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/distance"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
@@ -398,9 +398,21 @@
                     android:layout_toEndOf="@+id/tt_distance"
                     android:layout_toRightOf="@+id/tt_distance"
                     android:lines="1"
-                    android:text="@={model.obsStringDeepDistance}"
-                    android:textSize="16sp"
-                    android:inputType="numberSigned" />
+                    android:text="@{model.obsStringDeepDistance}"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/them_color"
+                    android:onClick="@{()->model.modifyDistance()}"
+                    android:text="@string/modify"
+                    android:textColor="@color/white" />
 
                 <View
                     android:layout_width="match_parent"

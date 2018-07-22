@@ -288,6 +288,9 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
         obsFsInitialValue.set(obsFsEffectiveValue.get());
     }
 
+    public void modifyDistance() {
+        getView().showModifyDialog(obsStringDeepDistance.get());
+    }
     public void linkDevice(String mac) {
         getView().showWaitDialog("正在连接蓝牙", false, false);
         BluetoothAdapter bluetoothAdapter = BluetoothUtils.getInstance().
@@ -356,5 +359,9 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
     @Override
     public void sendToastMsg(String msg) {
         getView().showToast(msg);
+    }
+
+    public void setDistance(String distance) {
+        obsStringDeepDistance.set(distance);
     }
 }

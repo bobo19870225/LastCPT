@@ -7,7 +7,11 @@ package www.jingkan.com.common.baseTest;
 import android.app.Dialog;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +20,7 @@ import www.jingkan.com.R;
 import www.jingkan.com.base.baseMVVM.MVVMDialogActivity;
 import www.jingkan.com.chart.DrawChartHelper;
 import www.jingkan.com.databinding.ActivityBaseTestBinding;
+import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.localData.testData.TestDataModel;
 
 import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_HN_111;
@@ -135,5 +140,31 @@ public class BaseTestActivity extends MVVMDialogActivity<BaseTestViewModel, Acti
             mViewModel.doRecord();
         }
         return true;
+    }
+
+    public void showModifyDialog(String strDistance) {
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.dialog_modify_distance, findViewById(R.id.dialog));
+        final Dialog alertDialog = new AlertDialog.Builder(BaseTestActivity.this)
+                .setView(view)
+                .create();
+        alertDialog.show();
+        final EditText distance = view.findViewById(R.id.distance);
+        distance.setText(strDistance);
+
+        Button ok = view.findViewById(R.id.ok);
+        ok.setOnClickListener(view1 -> {
+            String _distance = distance.getText().toString();
+            if (!_distance.equals(strDistance)) {
+                if (StringUtils.isFloat(_distance)) {
+                    mViewModel.setDistance(_distance);
+                } else {
+                    showToast("测量间距不合法");
+                }
+            }
+            alertDialog.dismiss();
+        });
+        Button cancel = view.findViewById(R.id.cancel);
+        cancel.setOnClickListener(view12 -> alertDialog.dismiss());
     }
 }

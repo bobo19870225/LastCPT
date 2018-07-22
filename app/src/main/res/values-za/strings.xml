@@ -206,4 +206,6 @@
     <string name="cu_deg">转动角度：</string>
     <string name="cu">剪切强度：</string>
     <string name="distance">测量间距：</string>
+    <string name="modify_distance">修改测试间距</string>
+    <string name="distance_hint">点击输入测量间距</string>
 </resources>
