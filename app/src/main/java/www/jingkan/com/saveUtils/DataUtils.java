@@ -460,8 +460,6 @@ public class DataUtils {
         }
     }
 
-    private List<Float> listDeep;
-    private List<Float> listMaxCu;
     private Float maxCu = 0f;
     @SuppressWarnings("unchecked")
     public void saveDataToSd(final Context context, List<CrossTestDataModel> models, TestModel testModel, final ISkip iSkip) {
@@ -475,8 +473,8 @@ public class DataUtils {
         content.append("孔号：").append(holeNumber).append(strReturn);
         content.append("试验类型：").append(testModel.testType).append(strReturn);
         content.append("操作员工：").append(testModel.tester).append(strReturn);
-        listMaxCu = new ArrayList<>();
-        listDeep = new ArrayList<>();
+        List<Float> listMaxCu = new ArrayList<>();
+        List<Float> listDeep = new ArrayList<>();
         String type = "";
         float deep = -1;
 

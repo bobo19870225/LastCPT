@@ -30,13 +30,13 @@ public class CrossTestDataDetailsVM extends BaseViewModel<CrossTestDataDetailsAc
             @Override
             public void onDataLoaded(List<CrossTestDataModel> models) {
                 groupList = new ArrayList<>();
-                itemList = new ArrayList<>();
+
                 childrenList = new ArrayList<>();
                 for (CrossTestDataModel crossTestDataModel : models) {
                     if (crossTestDataModel.number != testNumber) {
                         if (testNumber != -1)
                             childrenList.add(itemList);
-                        itemList.clear();
+                        itemList = new ArrayList<>();
                         testNumber = crossTestDataModel.number;
                         groupList.add(new DataGroup(crossTestDataModel.deep,
                                 crossTestDataModel.type,
@@ -52,21 +52,21 @@ public class CrossTestDataDetailsVM extends BaseViewModel<CrossTestDataDetailsAc
 
             @Override
             public void onDataNotAvailable() {
-                groupList = new ArrayList<>();
-
-                childrenList = new ArrayList<>();
-                for (int i = 0; i < 10; i++) {
-                    groupList.add(new DataGroup(i, "test", i + 1));
-                    itemList = new ArrayList<>();
-                    for (int j = 0; j < 5; j++) {
-                        itemList.add(new DataItem(j + i, j));
-                    }
-                    childrenList.add(itemList);
-                }
-                crossTestDataListAdapter = new CrossTestDataListAdapter(getView().getApplicationContext(),
-                        groupList,
-                        childrenList, R.layout.item_group, R.layout.item_children);
-                myView.get().setListView(crossTestDataListAdapter);
+//                测试代码
+//                groupList = new ArrayList<>();
+//                childrenList = new ArrayList<>();
+//                for (int i = 0; i < 10; i++) {
+//                    groupList.add(new DataGroup(i, "test", i + 1));
+//                    itemList = new ArrayList<>();
+//                    for (int j = 0; j < 5; j++) {
+//                        itemList.add(new DataItem(j + i, j));
+//                    }
+//                    childrenList.add(itemList);
+//                }
+//                crossTestDataListAdapter = new CrossTestDataListAdapter(getView().getApplicationContext(),
+//                        groupList,
+//                        childrenList, R.layout.item_group, R.layout.item_children);
+//                myView.get().setListView(crossTestDataListAdapter);
             }
         }, (String) data);
     }
