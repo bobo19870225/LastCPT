@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -459,10 +460,14 @@ public class DataUtils {
         }
     }
 
+    private List<Float> listDeep;
+    private List<Float> listMaxCu;
+    private Float maxCu = 0f;
     @SuppressWarnings("unchecked")
     public void saveDataToSd(final Context context, List<CrossTestDataModel> models, TestModel testModel, final ISkip iSkip) {
         StringBuilder content = new StringBuilder();
         String strReturn = "\r\n";
+        String strTable = "\t";
         String projectNumber = testModel.projectNumber;
         String holeNumber = testModel.holeNumber;
         content.append("试验日期：").append(testModel.testDate).append(strReturn);
@@ -470,13 +475,17 @@ public class DataUtils {
         content.append("孔号：").append(holeNumber).append(strReturn);
         content.append("试验类型：").append(testModel.testType).append(strReturn);
         content.append("操作员工：").append(testModel.tester).append(strReturn);
-
+        listMaxCu = new ArrayList<>();
+        listDeep = new ArrayList<>();
         String type = "";
         float deep = -1;
 
         for (CrossTestDataModel crossTestDataModel : models) {
             if (crossTestDataModel.deep != deep) {
                 deep = crossTestDataModel.deep;
+                listMaxCu.add(maxCu);
+                maxCu = 0f;
+                listDeep.add(deep);
                 content.append("试验深度：").append(StringUtils.format(deep, 2)).append(strReturn);
                 type = crossTestDataModel.type;
                 content.append("土样类型：").append(type).append(strReturn);
@@ -485,9 +494,14 @@ public class DataUtils {
                 type = crossTestDataModel.type;
                 content.append("土样类型：").append(type).append(strReturn);
             }
+            maxCu = crossTestDataModel.cu > maxCu ? crossTestDataModel.cu : maxCu;
             content.append(StringUtils.format(crossTestDataModel.cu, 3)).append(strReturn);
         }
-
+        content.append("各深度的极限抗剪切值").append(strReturn);
+        content.append("d/m").append(strTable).append("maxCu/kPa").append(strReturn);
+        for (int i = 0; i < listDeep.size(); i++) {
+            content.append(StringUtils.format(listDeep.get(i), 1)).append(strTable).append(StringUtils.format(listMaxCu.get(i), 2)).append(strReturn);
+        }
         MyFileUtils.getInstance().saveToSD(context,
                 projectNumber + "_" + holeNumber,
                 content.toString(),
