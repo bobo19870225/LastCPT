@@ -5,7 +5,6 @@
 package www.jingkan.com.common.baseTest;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -27,6 +26,7 @@ import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_HN_111;
 import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_LY_DAT;
 import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_LY_TXT;
 import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_LZ_TXT;
+import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_ZHD_TXT;
 
 
 /**
@@ -62,60 +62,36 @@ public class BaseTestActivity extends MVVMDialogActivity<BaseTestViewModel, Acti
         return super.onOptionsItemSelected(item);
     }
 
-    int emailType = 0;
+    private String emailType = EMAIL_TYPE_LY_TXT;
     protected String[] emailItems = {EMAIL_TYPE_LY_TXT, EMAIL_TYPE_LY_DAT, EMAIL_TYPE_HN_111, EMAIL_TYPE_LZ_TXT};
 
     protected void showEmailDataDialog() {
         Dialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择发送的数据类型")
-                .setSingleChoiceItems(emailItems, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        emailType = which;
-                    }
+                .setSingleChoiceItems(emailItems, 0, (dialog, which) -> emailType = emailItems[which])
+                .setPositiveButton("确定", (dialog, which) -> {
+                    mViewModel.saveTestDataToSD(emailType);
+                    mViewModel.emailTestData(emailType);
                 })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mViewModel.saveTestDataToSD(emailType);
-                        mViewModel.emailTestData(emailType);
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        emailType = 0;
-                        dialog.dismiss();
-                    }
+                .setNegativeButton("取消", (dialog, which) -> {
+                    emailType = emailItems[0];
+                    dialog.dismiss();
                 }).create();
         alertDialog.show();
     }
 
-    private int saveType = 0;
-    protected String[] saveItems = {SAVE_TYPE_LY_TXT, SAVE_TYPE_LY_DAT, SAVE_TYPE_HN_111, SAVE_TYPE_LZ_TXT};
+    private String saveType = SAVE_TYPE_ZHD_TXT;
+    protected String[] saveItems = {SAVE_TYPE_ZHD_TXT, SAVE_TYPE_LY_TXT, SAVE_TYPE_LY_DAT, SAVE_TYPE_HN_111, SAVE_TYPE_LZ_TXT};
 
     protected void showSaveDataDialog() {
 
         Dialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择要保存的数据类型")
-                .setSingleChoiceItems(saveItems, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveType = which;
-                    }
-                })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mViewModel.saveTestDataToSD(saveType);
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveType = 0;
-                        dialog.dismiss();
-                    }
+                .setSingleChoiceItems(saveItems, 0, (dialog, which) -> saveType = saveItems[which])
+                .setPositiveButton("确定", (dialog, which) -> mViewModel.saveTestDataToSD(saveType))
+                .setNegativeButton("取消", (dialog, which) -> {
+                    saveType = saveItems[0];
+                    dialog.dismiss();
                 }).create();
         alertDialog.show();
     }

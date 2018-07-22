@@ -120,7 +120,7 @@ public class WirelessResultDataDetailVM extends MVVMListViewModel<WirelessResult
 
     }
 
-    public void saveTestDataToSD(int saveType) {
+    public void saveTestDataToSD(String saveType) {
         DataUtils.getInstance().saveDataToSd(
                 getView().getApplicationContext(),
                 wirelessResultDataModels,
@@ -129,9 +129,9 @@ public class WirelessResultDataDetailVM extends MVVMListViewModel<WirelessResult
                 this);
     }
 
-    private int mEmailType;
+    private String mEmailType;
 
-    public void emailTestData(int emailType) {
+    public void emailTestData(String emailType) {
         mEmailType = emailType;
         DataUtils.getInstance().emailData(
                 getView().getApplicationContext(),

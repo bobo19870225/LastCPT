@@ -304,7 +304,7 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
 
     private List mModels = new ArrayList();
 
-    public void saveTestDataToSD(final int fileType) {
+    public void saveTestDataToSD(final String fileType) {
         TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);
         testDataData.getData(new DataLoadCallBack<TestDataModel>() {
 
@@ -327,9 +327,9 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
 
     }
 
-    private int mFileType;
+    private String mFileType;
 
-    public void emailTestData(int fileType) {
+    public void emailTestData(String fileType) {
         mFileType = fileType;
         sendEmail();
     }

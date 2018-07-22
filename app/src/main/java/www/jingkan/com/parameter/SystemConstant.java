@@ -37,7 +37,7 @@ public class SystemConstant {
 //    public static final String JPUSH_APP_KEY = "e87122fdb968a4fd6512bc2d";
     public static final String TX_CHANNEL_NUMBER = "1003143";
 
-
+    public static final String SAVE_TYPE_ZHD_TXT = "浙海大(.txt)";
     public static final String SAVE_TYPE_LY_TXT = "溧阳科尔(.txt)";
     public static final String SAVE_TYPE_LY_DAT = "溧阳科尔(.DAT)";
     public static final String SAVE_TYPE_HN_111 = "南京华宁(.111)";
@@ -45,6 +45,7 @@ public class SystemConstant {
     public static final String SAVE_TYPE_ORIGINAL_TXT = "原始数据*ORI.txt";
     public static final String SAVE_TYPE_CORRECT_TXT = "修正深度*X.txt";
 
+    public static final String EMAIL_TYPE_ZHD_TXT = "发送浙海大(.txt)";
     public static final String EMAIL_TYPE_LY_TXT = "发送溧阳科尔(.txt)";
     public static final String EMAIL_TYPE_LY_DAT = "发送溧阳科尔(.DAT)";
     public static final String EMAIL_TYPE_HN_111 = "发送南京华宁(.111)";

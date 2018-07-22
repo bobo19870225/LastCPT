@@ -32,6 +32,7 @@ import www.jingkan.com.mInterface.ISkip;
 import www.jingkan.com.saveUtils.DataUtils;
 import www.jingkan.com.wireless.openFile.OpenWFileActivity;
 
+import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_ORIGINAL_TXT;
 import static www.jingkan.com.saveUtils.DataUtils.SET_EMAIL;
 import static www.jingkan.com.wireless.dataSynchronization.DataSyncActivity.REQUEST_OPEN_MARK_FILE;
 
@@ -57,7 +58,7 @@ public class DataSynViewModel extends BaseViewModel<DataSyncActivity> implements
     private ArrayList<OriginalTestData> originalTestDataList;
     private boolean find;
     private String strTestID;
-    private int mSaveType;
+    private String mSaveType;
 
 
     @Override
@@ -382,12 +383,12 @@ public class DataSynViewModel extends BaseViewModel<DataSyncActivity> implements
         }
     }
 
-    void saveDataAndSendEmail(int saveType, boolean isSave) {
+    void saveDataAndSendEmail(String saveType, boolean isSave) {
         mSaveType = saveType;
         if (rwaData == null) {
             getView().showToast("未打开定位文件*W.txt或未找到对应的原始记录文件*.REC");
         } else if (isSave) {//保存数据
-            if (saveType == 5) {
+            if (saveType.equals(SAVE_TYPE_ORIGINAL_TXT)) {
                 DataUtils.getInstance().saveDataToSd(
                         getView().getApplicationContext(),
                         originalTestDataList,
@@ -411,7 +412,7 @@ public class DataSynViewModel extends BaseViewModel<DataSyncActivity> implements
     }
 
     private void sendEmail() {
-        if (this.mSaveType == 5) {
+        if (mSaveType.equals(SAVE_TYPE_ORIGINAL_TXT)) {
             DataUtils.getInstance().emailData(
                     getView().getApplicationContext(),
                     originalTestDataList,

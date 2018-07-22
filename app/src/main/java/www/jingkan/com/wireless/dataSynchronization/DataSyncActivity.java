@@ -10,7 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
@@ -60,6 +59,8 @@ public class DataSyncActivity extends MVVMDialogActivity<DataSynViewModel, Activ
     }
 
 
+    private String[] saveTypes = {SAVE_TYPE_LY_TXT, SAVE_TYPE_LY_DAT, SAVE_TYPE_HN_111, SAVE_TYPE_LZ_TXT, SAVE_TYPE_CORRECT_TXT, SAVE_TYPE_ORIGINAL_TXT};
+    private String[] emailTypes = {EMAIL_TYPE_LY_TXT, EMAIL_TYPE_LY_DAT, EMAIL_TYPE_HN_111, EMAIL_TYPE_LZ_TXT, EMAIL_TYPE_CORRECT_TXT, EMAIL_TYPE_ORIGINAL_TXT};
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -72,24 +73,10 @@ public class DataSyncActivity extends MVVMDialogActivity<DataSynViewModel, Activ
                 mViewModel.doDataSync();
                 return false;
             case R.id.save://保存数据
-                showSaveOrEmailWindow(new String[]{
-                        SAVE_TYPE_LY_TXT,
-                        SAVE_TYPE_LY_DAT,
-                        SAVE_TYPE_HN_111,
-                        SAVE_TYPE_LZ_TXT,
-                        SAVE_TYPE_CORRECT_TXT,
-                        SAVE_TYPE_ORIGINAL_TXT
-                }, true);
+                showSaveOrEmailWindow(saveTypes, true);
                 return false;
             case R.id.email:
-                showSaveOrEmailWindow(new String[]{
-                        EMAIL_TYPE_LY_TXT,
-                        EMAIL_TYPE_LY_DAT,
-                        EMAIL_TYPE_HN_111,
-                        EMAIL_TYPE_LZ_TXT,
-                        EMAIL_TYPE_CORRECT_TXT,
-                        EMAIL_TYPE_ORIGINAL_TXT
-                }, false);
+                showSaveOrEmailWindow(emailTypes, false);
                 return false;
         }
         return super.onOptionsItemSelected(item);
@@ -109,20 +96,11 @@ public class DataSyncActivity extends MVVMDialogActivity<DataSynViewModel, Activ
         OneTextListAdapter adapter = new OneTextListAdapter(DataSyncActivity.this, R.layout.listitem, ls);
         ListView listView = contentView.findViewById(R.id.lv_item);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.saveDataAndSendEmail(position, isSave);
-                popupWindow.dismiss();
-            }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            mViewModel.saveDataAndSendEmail(emailTypes[position], isSave);
+            popupWindow.dismiss();
         });
-        contentView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popupWindow.dismiss();
-            }
-        });
+        contentView.findViewById(R.id.cancel).setOnClickListener(view -> popupWindow.dismiss());
         // 显示在屏幕上
         popupWindow.showAtLocation(mRootView, Gravity.CENTER, 0, 0);
 

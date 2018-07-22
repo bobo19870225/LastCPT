@@ -26,9 +26,9 @@ public interface TestDataDetailsContract {
 
         void getTestData(String testDataID);
 
-        void saveTestDataToSD(final String projectNumber, final String holeNumber, final int fileType, final String testType);
+        void saveTestDataToSD(final String projectNumber, final String holeNumber, final String fileType, final String testType);
 
-        void emailTestData(final String projectNumber, final String holeNumber, final int fileType, final String testType);
+        void emailTestData(final String projectNumber, final String holeNumber, final String fileType, final String testType);
 
         void deleteOneTestData(TestDataModel testDataModel);
 

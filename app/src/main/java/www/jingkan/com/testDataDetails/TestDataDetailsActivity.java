@@ -29,11 +29,13 @@ import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_HN_111;
 import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_LY_DAT;
 import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_LY_TXT;
 import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_LZ_TXT;
+import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_ZHD_TXT;
 import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_CORRECT_TXT;
 import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_HN_111;
 import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_LY_DAT;
 import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_LY_TXT;
 import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_LZ_TXT;
+import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_ZHD_TXT;
 
 public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPresenter>
         implements TestDataDetailsContract.View {
@@ -85,12 +87,13 @@ public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPres
         return super.onOptionsItemSelected(item);
     }
 
-    private int saveType = 0;
-    private String[] saveItems = {SAVE_TYPE_LY_TXT, SAVE_TYPE_LY_DAT, SAVE_TYPE_HN_111, SAVE_TYPE_LZ_TXT};
+    private String saveType = SAVE_TYPE_ZHD_TXT;
+    private String[] saveItems = {SAVE_TYPE_ZHD_TXT, SAVE_TYPE_LY_TXT, SAVE_TYPE_LY_DAT, SAVE_TYPE_HN_111, SAVE_TYPE_LZ_TXT};
 
     private void showSaveDataDialog(final TestModel testModel) {
         if (testModel.testType.contains("测斜")) {
             saveItems = new String[]{
+                    SAVE_TYPE_ZHD_TXT,
                     SAVE_TYPE_LY_TXT,
                     SAVE_TYPE_LY_DAT,
                     SAVE_TYPE_HN_111,
@@ -99,22 +102,22 @@ public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPres
         }
         Dialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择要保存的数据类型")
-                .setSingleChoiceItems(saveItems, 0, (dialog, which) -> saveType = which)
+                .setSingleChoiceItems(saveItems, 0, (dialog, which) -> saveType = saveItems[which])
                 .setPositiveButton("确定", (dialog, which) -> mPresenter.saveTestDataToSD(testModel.projectNumber, testModel.holeNumber, saveType, testModel.testType))
                 .setNegativeButton("取消", (dialog, which) -> {
-                    saveType = 0;
+                    saveType = saveItems[0];
                     dialog.dismiss();
                 }).create();
         alertDialog.show();
     }
 
-    int emailType = 0;
-    private String[] emailItems = {EMAIL_TYPE_LY_TXT, EMAIL_TYPE_LY_DAT, EMAIL_TYPE_HN_111, EMAIL_TYPE_LZ_TXT};
+    private String emailType = EMAIL_TYPE_ZHD_TXT;
+    private String[] emailItems = {EMAIL_TYPE_ZHD_TXT, EMAIL_TYPE_LY_TXT, EMAIL_TYPE_LY_DAT, EMAIL_TYPE_HN_111, EMAIL_TYPE_LZ_TXT};
 
     private void showEmailDataDialog(final TestModel testModel) {
         Dialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择发送的数据类型")
-                .setSingleChoiceItems(emailItems, 0, (dialog, which) -> emailType = which)
+                .setSingleChoiceItems(emailItems, 0, (dialog, which) -> emailType = emailItems[which])
                 .setPositiveButton("确定", (dialog, which) -> {
                     mPresenter.saveTestDataToSD(testModel.projectNumber, testModel.holeNumber, emailType, testModel.testType);
 
@@ -122,7 +125,7 @@ public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPres
                             testModel.holeNumber, emailType, testModel.testType);
                 })
                 .setNegativeButton("取消", (dialog, which) -> {
-                    emailType = 0;
+                    emailType = emailItems[0];
                     dialog.dismiss();
                 }).create();
         alertDialog.show();

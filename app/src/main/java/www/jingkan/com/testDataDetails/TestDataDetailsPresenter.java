@@ -31,7 +31,7 @@ class TestDataDetailsPresenter extends BasePresenter<TestDataDetailsActivity>
         implements TestDataDetailsContract.Presenter, ISkip {
 
 
-    private int mFileType;
+    private String mFileType;
 
     @Override
     public void clear() {
@@ -84,9 +84,8 @@ class TestDataDetailsPresenter extends BasePresenter<TestDataDetailsActivity>
 
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public void saveTestDataToSD(final String projectNumber, final String holeNumber, final int fileType, final String testType) {
+    public void saveTestDataToSD(String projectNumber, String holeNumber, String fileType, String testType) {
         if (testDataModels != null) {
             DataUtils.getInstance()
                     .saveDataToSd(getView().getApplicationContext(),
@@ -100,10 +99,11 @@ class TestDataDetailsPresenter extends BasePresenter<TestDataDetailsActivity>
     }
 
     @Override
-    public void emailTestData(String projectNumber, String holeNumber, int fileType, String testType) {
+    public void emailTestData(String projectNumber, String holeNumber, String fileType, String testType) {
         mFileType = fileType;
         sendEmail();
     }
+
 
     private void sendEmail() {
         DataUtils.getInstance().emailData(

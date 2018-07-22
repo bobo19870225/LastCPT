@@ -5,7 +5,6 @@
 package www.jingkan.com.wireless.testData;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -61,64 +60,34 @@ public class WirelessResultDataDetailActivity extends MVVMListActivity<WirelessR
         return super.onOptionsItemSelected(item);
     }
 
-    int emailType = 0;
+    private String emailType = EMAIL_TYPE_LY_TXT;
     private String[] emailItems = {EMAIL_TYPE_LY_TXT, EMAIL_TYPE_LY_DAT, EMAIL_TYPE_HN_111, EMAIL_TYPE_LZ_TXT, EMAIL_TYPE_CORRECT_TXT};
 
     private void showEmailDataDialog() {
         Dialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择发送的数据类型")
-                .setSingleChoiceItems(emailItems, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        emailType = which;
-                    }
-                })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mViewModel.emailTestData(emailType);
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        emailType = 0;
-                        dialog.dismiss();
-                    }
+                .setSingleChoiceItems(emailItems, 0, (dialog, which) -> emailType = emailItems[which])
+                .setPositiveButton("确定", (dialog, which) -> mViewModel.emailTestData(emailType))
+                .setNegativeButton("取消", (dialog, which) -> {
+                    emailType = emailItems[0];
+                    dialog.dismiss();
                 }).create();
         alertDialog.show();
     }
 
-    private int saveType = 0;
-    private String[] saveItems = {
-            SAVE_TYPE_LY_TXT,
-            SAVE_TYPE_LY_DAT,
-            SAVE_TYPE_HN_111,
-            SAVE_TYPE_LZ_TXT,
-            SAVE_TYPE_CORRECT_TXT};
+    private String saveType = SAVE_TYPE_LY_TXT;
+    private String[] saveItems = {SAVE_TYPE_LY_TXT, SAVE_TYPE_LY_DAT, SAVE_TYPE_HN_111,
+            SAVE_TYPE_LZ_TXT, SAVE_TYPE_CORRECT_TXT};
 
     private void showSaveDataDialog() {
 
         Dialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择要保存的数据类型")
-                .setSingleChoiceItems(saveItems, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveType = which;
-                    }
-                })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mViewModel.saveTestDataToSD(saveType);
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveType = 0;
-                        dialog.dismiss();
-                    }
+                .setSingleChoiceItems(saveItems, 0, (dialog, which) -> saveType = saveItems[which])
+                .setPositiveButton("确定", (dialog, which) -> mViewModel.saveTestDataToSD(saveType))
+                .setNegativeButton("取消", (dialog, which) -> {
+                    saveType = saveItems[0];
+                    dialog.dismiss();
                 }).create();
         alertDialog.show();
     }
