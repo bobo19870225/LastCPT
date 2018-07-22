@@ -49,7 +49,7 @@ public class MailSenderRunnable implements Runnable {
             sender.sendMail(subject, body, user, receiver, attachment);
         } catch (Exception e) {
             Looper.prepare();
-            Toast.makeText(context, "发送失败", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "发送失败" + e.toString(), Toast.LENGTH_LONG).show();
             Looper.loop();
         }
     }

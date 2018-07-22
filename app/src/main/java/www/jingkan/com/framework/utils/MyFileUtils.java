@@ -49,7 +49,7 @@ public class MyFileUtils {
                         String strPath = getSDPath();
                         try {//不存在就创建，存在就覆盖
                             FileOutputStream fileOutputStream = new FileOutputStream(strPath + "/" + fileNameAndFileType, false);
-                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream, "UTF-8");//要与编辑器的编码一致
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream, "utf-8");//要与编辑器的编码一致
                             bufferedWriter = new BufferedWriter(outputStreamWriter);
                             bufferedWriter.write(content);
                             saveFileCallBack.onSuccess();

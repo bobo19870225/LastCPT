@@ -20,6 +20,13 @@ import www.jingkan.com.mInterface.ISkip;
 import www.jingkan.com.me.SetEmailActivity;
 import www.jingkan.com.wireless.dataSynchronization.OriginalTestData;
 
+import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_CORRECT_TXT;
+import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_HN_111;
+import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_LY_DAT;
+import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_LY_TXT;
+import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_LZ_TXT;
+import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_ORIGINAL_TXT;
+import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_ZHD_TXT;
 import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_CORRECT_TXT;
 import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_HN_111;
 import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_LY_DAT;
@@ -59,7 +66,7 @@ public class DataUtils {
             final Context context, List models, String saveType, Object testModel, final ISkip iSkip) {
         StringBuilder content = new StringBuilder();
         String strReturn = "\r\n";
-        String strSpace = "\032";
+        String strTable = "\t";
         TestModel mTestModel = null;
         WirelessTestModel wirelessTestModel = null;
         String testType = null;
@@ -81,62 +88,70 @@ public class DataUtils {
                 case SAVE_TYPE_ZHD_TXT://浙海大.txt
                     switch (testType) {
                         case "单桥试验":
+                            content.append("deep").append(strTable).append("ps").append(strReturn);
                             if (models.get(0) instanceof TestDataModel) {
                                 for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(StringUtils.format(mTestDataModels.deep, 1)).append(strSpace)
+                                    content.append(StringUtils.format(mTestDataModels.deep, 1)).append(strTable)
                                             .append(StringUtils.format(mTestDataModels.qc, 3)).append(strReturn);
                                 }
                             } else if (models.get(0) instanceof WirelessResultDataModel) {
                                 for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
-                                    content.append(StringUtils.format(wirelessResultDataModel.deep, 1)).append(strSpace)
+                                    content.append(StringUtils.format(wirelessResultDataModel.deep, 1)).append(strTable)
                                             .append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strReturn);
                                 }
                             }
                             break;
                         case "单桥测斜试验":
+                            content.append("deep/m").append(strTable).append("ps/MPa")
+                                    .append(strTable).append("fa/.").append(strReturn);
                             if (models.get(0) instanceof TestDataModel) {
                                 for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(StringUtils.format(mTestDataModels.deep, 1)).append(strSpace)
-                                            .append(StringUtils.format(mTestDataModels.qc, 3)).append(strSpace)
+                                    content.append(StringUtils.format(mTestDataModels.deep, 1)).append(strTable)
+                                            .append(StringUtils.format(mTestDataModels.qc, 3)).append(strTable)
                                             .append(StringUtils.format(mTestDataModels.fa, 3)).append(strReturn);
                                 }
                             } else if (models.get(0) instanceof WirelessResultDataModel) {
                                 for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
-                                    content.append(StringUtils.format(wirelessResultDataModel.deep, 1)).append(strSpace)
-                                            .append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strSpace)
+                                    content.append(StringUtils.format(wirelessResultDataModel.deep, 1)).append(strTable)
+                                            .append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strTable)
                                             .append(StringUtils.format(wirelessResultDataModel.fa, 3)).append(strReturn);
                                 }
                             }
 
                             break;
                         case "双桥试验":
+                            content.append("deep/m").append(strTable).append("qc/MPa")
+                                    .append(strTable).append("fs/kPa").append(strReturn);
                             if (models.get(0) instanceof TestDataModel) {
                                 for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(StringUtils.format(mTestDataModels.deep, 1)).append(strSpace)
-                                            .append(StringUtils.format(mTestDataModels.qc, 3)).append(strSpace)
+                                    content.append(StringUtils.format(mTestDataModels.deep, 1)).append(strTable)
+                                            .append(StringUtils.format(mTestDataModels.qc, 3)).append(strTable)
                                             .append(StringUtils.format(mTestDataModels.fs, 3)).append(strReturn);
                                 }
                             } else if (models.get(0) instanceof WirelessResultDataModel) {
                                 for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
-                                    content.append(StringUtils.format(wirelessResultDataModel.deep, 1)).append(strSpace)
-                                            .append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strSpace)
+                                    content.append(StringUtils.format(wirelessResultDataModel.deep, 1)).append(strTable)
+                                            .append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strTable)
                                             .append(StringUtils.format(wirelessResultDataModel.fs, 3)).append(strReturn);
                                 }
                             }
                             break;
                         case "双桥测斜试验":
+                            content.append("deep/m").append(strTable).append("qc/MPa")
+                                    .append(strTable).append("fs/kPa").append(strTable)
+                                    .append("fa/.").append(strReturn);
                             if (models.get(0) instanceof TestDataModel) {
                                 for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(StringUtils.format(mTestDataModels.deep, 1)).append(strSpace)
-                                            .append(StringUtils.format(mTestDataModels.qc, 3)).append(strSpace)
-                                            .append(StringUtils.format(mTestDataModels.fs, 3)).append(strSpace)
+                                    content.append(StringUtils.format(mTestDataModels.deep, 1)).append(strTable)
+                                            .append(StringUtils.format(mTestDataModels.qc, 3)).append(strTable)
+                                            .append(StringUtils.format(mTestDataModels.fs, 3)).append(strTable)
                                             .append(StringUtils.format(mTestDataModels.fa, 1)).append(strReturn);
                                 }
                             } else if (models.get(0) instanceof WirelessResultDataModel) {
                                 for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
-                                    content.append(StringUtils.format(wirelessResultDataModel.deep, 1)).append(strSpace)
-                                            .append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strSpace)
-                                            .append(StringUtils.format(wirelessResultDataModel.fs, 3)).append(strSpace)
+                                    content.append(StringUtils.format(wirelessResultDataModel.deep, 1)).append(strTable)
+                                            .append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strTable)
+                                            .append(StringUtils.format(wirelessResultDataModel.fs, 3)).append(strTable)
                                             .append(StringUtils.format(wirelessResultDataModel.fa, 1)).append(strReturn);
                                 }
                             }
@@ -610,25 +625,25 @@ public class DataUtils {
             name = ((WirelessTestModel) testModel).projectNumber + "_" + ((WirelessTestModel) testModel).holeNumber;
         }
         switch (saveType) {
-            case SAVE_TYPE_ZHD_TXT:
+            case EMAIL_TYPE_ZHD_TXT:
                 fileName = name + ".txt";
                 break;
-            case SAVE_TYPE_LY_TXT:
+            case EMAIL_TYPE_LY_TXT:
                 fileName = name + "LY.txt";
                 break;
-            case SAVE_TYPE_LY_DAT:
+            case EMAIL_TYPE_LY_DAT:
                 fileName = name + ".DAT";
                 break;
-            case SAVE_TYPE_HN_111:
+            case EMAIL_TYPE_HN_111:
                 fileName = name + ".111";
                 break;
-            case SAVE_TYPE_LZ_TXT:
+            case EMAIL_TYPE_LZ_TXT:
                 fileName = name + "LZ.txt";
                 break;
-            case SAVE_TYPE_CORRECT_TXT:
+            case EMAIL_TYPE_CORRECT_TXT:
                 fileName = name + "X.txt";
                 break;
-            case SAVE_TYPE_ORIGINAL_TXT:
+            case EMAIL_TYPE_ORIGINAL_TXT:
                 fileName = name + "ORI.txt";
                 break;
         }
