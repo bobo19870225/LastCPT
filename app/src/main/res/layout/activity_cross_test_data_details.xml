@@ -48,6 +48,7 @@
                             android:textSize="18sp" />
 
                         <TextView
+                            android:text="@{model.obsProjectNumber}"
                             android:id="@+id/project_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -67,6 +68,7 @@
                             android:textSize="18sp" />
 
                         <TextView
+                            android:text="@{model.obsHoleNumber}"
                             android:textSize="18sp"
                             android:id="@+id/hole_number"
                             android:layout_width="wrap_content"
@@ -88,10 +90,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:layout_marginStart="15dp"
-                            android:text="测试日期："
+                            android:text="@string/test_date"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:text="@{model.obsTestDate}"
                             android:id="@+id/test_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -130,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="暂无数据"
+                    android:text="@string/no_data"
                     android:textSize="24sp"
                     android:visibility="gone" />
 

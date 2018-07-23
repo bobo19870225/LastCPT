@@ -9,7 +9,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -119,23 +118,15 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
         }
 
         Button ok = view.findViewById(R.id.ok);
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String _deep = et_deep.getText().toString();
-                String _soilType = listSoilType[sp_soil.getSelectedItemPosition()];
-                if (!_deep.equals(deep) || !_soilType.equals(soilType)) {
-                    mViewModel.setModify(_deep, _soilType);
-                }
-                alertDialog.dismiss();
+        ok.setOnClickListener(view1 -> {
+            String _deep = et_deep.getText().toString();
+            String _soilType = listSoilType[sp_soil.getSelectedItemPosition()];
+            if (!_deep.equals(deep) || !_soilType.equals(soilType)) {
+                mViewModel.setModify(_deep, _soilType);
             }
+            alertDialog.dismiss();
         });
         Button cancel = view.findViewById(R.id.cancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertDialog.dismiss();
-            }
-        });
+        cancel.setOnClickListener(view12 -> alertDialog.dismiss());
     }
 }

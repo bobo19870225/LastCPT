@@ -49,6 +49,17 @@ public class TestDao extends BaseDao<TestModel> {
             } else {
                 dataLoadCallBack.onDataNotAvailable();
             }
+        } else if (args.length == 1) {
+            String selection = TestConstant.COLUMN_TEST_DATA_ID + " LIKE ?";
+            List<TestModel> testModels =
+                    new Select().from(TestModel.class)
+                            .where(selection, (Object[]) args).execute();
+
+            if (testModels != null && testModels.size() > 0) {
+                dataLoadCallBack.onDataLoaded(testModels);
+            } else {
+                dataLoadCallBack.onDataNotAvailable();
+            }
         } else if (args.length == 2) {
             String selection = TestConstant.COLUMN_PROJECT_NUMBER + " LIKE ?"
                     + " AND " + TestConstant.COLUMN_HOLE_NUMBER + " LIKE ?";

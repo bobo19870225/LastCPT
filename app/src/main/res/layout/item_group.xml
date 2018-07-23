@@ -25,6 +25,7 @@
         android:textSize="16sp" />
 
     <TextView
+        android:layout_marginLeft="16dp"
         android:id="@+id/tt_soil_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,6 +33,7 @@
         android:layout_toRightOf="@+id/test_deep"
         android:text="@string/soil_type"
         android:textColor="@color/tv_black"
+        android:layout_marginStart="16dp"
         android:textSize="16sp" />
 
     <TextView
