@@ -480,8 +480,10 @@ public class DataUtils {
 
         for (CrossTestDataModel crossTestDataModel : models) {
             if (crossTestDataModel.deep != deep) {
+                if (deep != -1) {
+                    listMaxCu.add(maxCu);
+                }
                 deep = crossTestDataModel.deep;
-                listMaxCu.add(maxCu);
                 maxCu = 0f;
                 listDeep.add(deep);
                 content.append("试验深度：").append(StringUtils.format(deep, 2)).append(strReturn);
@@ -495,6 +497,7 @@ public class DataUtils {
             maxCu = crossTestDataModel.cu > maxCu ? crossTestDataModel.cu : maxCu;
             content.append(StringUtils.format(crossTestDataModel.cu, 3)).append(strReturn);
         }
+        listMaxCu.add(maxCu);//添加最后一组数据
         content.append("各深度的极限抗剪切值").append(strReturn);
         content.append("d/m").append(strTable).append("maxCu/kPa").append(strReturn);
         for (int i = 0; i < listDeep.size(); i++) {

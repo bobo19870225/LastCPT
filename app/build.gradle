@@ -30,8 +30,8 @@ android {
         minSdkVersion 15
         //必须6.0以下版本，不然数据库框架会出现问题
         targetSdkVersion 20
-        versionCode 4
-        versionName '2.0.1'
+        versionCode 5
+        versionName '2.0.2'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk { //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
             abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "arm64-v8a", "x86_64", "mips", "mips64"

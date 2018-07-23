@@ -10,12 +10,10 @@ import android.net.Uri;
 import android.os.Environment;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.arialyy.annotations.Download;
-import com.arialyy.aria.core.Aria;
 import com.arialyy.aria.core.download.DownloadTask;
 
 import www.jingkan.com.R;
@@ -35,14 +33,14 @@ public class GuideActivity extends BaseActivity {
 
     @Override
     protected void setView() {
-        setToolBar("视频教学");
-        String path = "android.resource://" + getPackageName() + "/" + R.raw.test;
-        Uri uri = Uri.parse(path);
-        videoView.setMediaController(new MediaController(this));
-        videoView.setVideoURI(uri);
-        //videoView.start();
-        Aria.download(this).register();
-        Aria.download(this).removeAllTask(false);
+//        setToolBar("视频教学");
+//        String path = "android.resource://" + getPackageName() + "/" + R.raw.test;
+//        Uri uri = Uri.parse(path);
+//        videoView.setMediaController(new MediaController(this));
+//        videoView.setVideoURI(uri);
+//        videoView.start();
+//        Aria.download(this).register();
+//        Aria.download(this).removeAllTask(false);
     }
 
     //在这里处理任务执行中的状态，如进度进度条的刷新
