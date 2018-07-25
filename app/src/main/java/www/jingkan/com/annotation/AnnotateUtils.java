@@ -208,7 +208,7 @@ public class AnnotateUtils {
 			return null;
 		}
 
-		Map<String, String> retMap = new HashMap<String, String>();
+		Map<String, String> retMap = new HashMap<>();
 		Class clazz;
 		try {
 			clazz = Class.forName(name);

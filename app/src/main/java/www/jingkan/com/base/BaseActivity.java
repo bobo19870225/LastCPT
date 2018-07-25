@@ -53,12 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         setView();
         if (toolbar != null) {
             setSupportActionBar(toolbar);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onBackPressed();
-                }
-            });
+            toolbar.setNavigationOnClickListener(view -> onBackPressed());
         }
     }
 
@@ -229,12 +224,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     public void showMyDialog(String title, String message, boolean isNegativeButton, DialogInterface.OnClickListener sureListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         if (isNegativeButton) {
-            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            builder.setNegativeButton("取消", (dialog, which) -> dialog.dismiss());
         }
         Dialog alertDialog = builder
                 .setTitle(title)
