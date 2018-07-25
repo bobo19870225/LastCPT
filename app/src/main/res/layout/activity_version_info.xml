@@ -13,27 +13,43 @@
         layout="@layout/toolbar" />
 
     <RelativeLayout
+        android:layout_below="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_margin="24dp">
 
-        <ImageView
-            android:id="@+id/ic_current_version"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:src="@mipmap/ic_current_version" />
-
+        <TextView
+            android:id="@+id/current_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前版本："
+            android:textSize="18sp" />
 
         <TextView
+            android:layout_toEndOf="@+id/current_version"
             android:id="@+id/version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ic_current_version"
+            android:layout_toRightOf="@+id/current_version"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"
             android:textColor="@color/tv_black"
-            android:textSize="24sp" />
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/version_feature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/current_version"
+            android:layout_marginTop="8dp"
+            android:text="版本特性："
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/version_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/version_feature"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <Button

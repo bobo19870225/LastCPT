@@ -29,9 +29,10 @@ import www.jingkan.com.parameter.SystemConstant;
 public class VersionInfoActivity extends BaseActivity {
     @BindView(id = R.id.check_version, click = true)
     private Button check_version;
-    @BindView(id = R.id.version, click = true)
+    @BindView(id = R.id.version)
     private TextView version;
-
+    @BindView(id = R.id.version_description)
+    private TextView version_description;
     private TMSelfUpdateManager tmSelfUpdateManager;
 
     @Override
@@ -46,11 +47,11 @@ public class VersionInfoActivity extends BaseActivity {
         try {
             verName = getApplication().getPackageManager().
                     getPackageInfo(getApplication().getPackageName(), 0).versionName;
-            version.setText("当前版本：" + verName);
+            version.setText(verName);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
+        version_description.setText(SystemConstant.version_description);
     }
 
     private void initUpdate() {
