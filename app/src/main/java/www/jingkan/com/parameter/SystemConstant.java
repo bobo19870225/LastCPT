@@ -32,11 +32,11 @@ public class SystemConstant {
     public static final String DOUBLE_BRIDGE_4 = "双桥4型";
     public static final String DOUBLE_BRIDGE_6 = "双桥6型";
     public static final String VANE = "十字板";
-    //    public static final String APP_ID = "1106510070";
+//    public static final String APP_ID = "1106510070";
 //    public static final String APP_KEY = "mrCPpB1zl3qyhmWi";
 //    public static final String JPUSH_APP_KEY = "e87122fdb968a4fd6512bc2d";
     public static final String TX_CHANNEL_NUMBER = "1003143";
-    public static final String version_description = "修复十字板试验深度和静力触探试验测试间隔不能填入小数的错误。";
+    public static final String version_description = "完善浙海大导出数据的信息";
     public static final String SAVE_TYPE_ZHD_TXT = "浙海大(.txt)";
     public static final String SAVE_TYPE_LY_TXT = "溧阳科尔(.txt)";
     public static final String SAVE_TYPE_LY_DAT = "溧阳科尔(.DAT)";

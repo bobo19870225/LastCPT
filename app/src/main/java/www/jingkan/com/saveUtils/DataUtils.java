@@ -70,23 +70,47 @@ public class DataUtils {
         String strTable = "\t";
         TestModel mTestModel = null;
         WirelessTestModel wirelessTestModel = null;
-        String testType = null;
         String projectNumber = null;
         String holeNumber = null;
+        String testDate = null;
+        String holeHigh = null;
+        String waterLevel = null;
+        String location = null;
+        String tester = null;
+        String testType = null;
         if (testModel instanceof TestModel) {
             mTestModel = (TestModel) testModel;
             testType = mTestModel.testType;
             projectNumber = mTestModel.projectNumber;
             holeNumber = mTestModel.holeNumber;
+            testDate = mTestModel.testDate;
+            holeHigh = StringUtils.format(mTestModel.holeHigh, 1);
+            waterLevel = StringUtils.format(mTestModel.waterLevel, 1);
+            location = mTestModel.location;
+            tester = mTestModel.tester;
         } else if (testModel instanceof WirelessTestModel) {
             wirelessTestModel = (WirelessTestModel) testModel;
             testType = wirelessTestModel.testType;
             projectNumber = wirelessTestModel.projectNumber;
             holeNumber = wirelessTestModel.holeNumber;
+            testDate = wirelessTestModel.testDate;
+            holeHigh = StringUtils.format(wirelessTestModel.holeHigh, 1);
+            waterLevel = StringUtils.format(wirelessTestModel.waterLevel, 1);
+            location = wirelessTestModel.location;
+            tester = wirelessTestModel.tester;
         }
         if (testType != null) {
             switch (saveType) {
                 case SAVE_TYPE_ZHD_TXT://浙海大.txt
+                    content.append("试验日期：").append(testDate).append(strReturn);
+                    content.append("工程编号：").append(projectNumber).append(strReturn);
+                    content.append("孔号：").append(holeNumber).append(strReturn);
+                    content.append("孔口高程：").append(holeHigh).append(strReturn);
+                    content.append("地下水位：").append(waterLevel).append(strReturn);
+                    if (location != null)
+                        content.append("孔位：").append(location).append(strReturn);
+                    content.append("测试员工：").append(tester).append(strReturn);
+                    content.append("试验类型：").append(testType).append(strReturn);
                     switch (testType) {
                         case "单桥试验":
                             content.append("deep").append(strTable).append("ps").append(strReturn);
@@ -468,11 +492,18 @@ public class DataUtils {
         String strTable = "\t";
         String projectNumber = testModel.projectNumber;
         String holeNumber = testModel.holeNumber;
+        String holeHigh = StringUtils.format(testModel.holeHigh, 1);
+        String waterLevel = StringUtils.format(testModel.waterLevel, 1);
+        String location = testModel.location;
         content.append("试验日期：").append(testModel.testDate).append(strReturn);
         content.append("工程编号：").append(projectNumber).append(strReturn);
         content.append("孔号：").append(holeNumber).append(strReturn);
-        content.append("试验类型：").append(testModel.testType).append(strReturn);
+        content.append("孔口高程：").append(holeHigh).append(strReturn);
+        content.append("地下水位：").append(waterLevel).append(strReturn);
+        if (location != null)
+            content.append("孔位：").append(location).append(strReturn);
         content.append("操作员工：").append(testModel.tester).append(strReturn);
+        content.append("试验类型：").append(testModel.testType).append(strReturn);
         List<Float> listMaxCu = new ArrayList<>();
         List<Float> listDeep = new ArrayList<>();
         String type = "";

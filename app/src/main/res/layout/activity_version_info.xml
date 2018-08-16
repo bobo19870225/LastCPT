@@ -68,6 +68,47 @@
                 android:layout_marginTop="8dp">
 
                 <TextView
+                    android:id="@+id/tt_version_number1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="版本号："
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/version_number1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toEndOf="@+id/tt_version_number1"
+                    android:layout_toRightOf="@+id/tt_version_number1"
+                    android:text="2.0.3"
+                    android:textColor="@color/tv_black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/version_feature2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/version_number1"
+                    android:layout_marginTop="8dp"
+                    android:text="版本特性："
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/version_description2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/version_feature2"
+                    android:text="修复十字板试验深度和静力触探试验测试间隔不能填入小数的错误"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <TextView
                     android:id="@+id/tt_version_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
