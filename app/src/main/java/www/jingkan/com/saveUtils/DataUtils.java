@@ -520,13 +520,15 @@ public class DataUtils {
                 content.append("试验深度：").append(StringUtils.format(deep, 2)).append(strReturn);
                 type = crossTestDataModel.type;
                 content.append("土样类型：").append(type).append(strReturn);
+                content.append("角度/。").append(strTable).append("Cu/kPa").append(strReturn);
             }
             if (!crossTestDataModel.type.equals(type)) {
                 type = crossTestDataModel.type;
                 content.append("土样类型：").append(type).append(strReturn);
+                content.append("角度/。").append(strTable).append("Cu/kPa").append(strReturn);
             }
             maxCu = crossTestDataModel.cu > maxCu ? crossTestDataModel.cu : maxCu;
-            content.append(StringUtils.format(crossTestDataModel.cu, 3)).append(strReturn);
+            content.append(StringUtils.format(crossTestDataModel.deg, 1)).append(strTable).append(StringUtils.format(crossTestDataModel.cu, 3)).append(strReturn);
         }
         listMaxCu.add(maxCu);//添加最后一组数据
         content.append("各深度的极限抗剪切值").append(strReturn);
