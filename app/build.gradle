@@ -29,7 +29,7 @@ android {
         applicationId "www.jingkan.com"
         minSdkVersion 15
         //必须6.0以下版本，不然数据库框架会出现问题
-        targetSdkVersion 26
+        targetSdkVersion 22
         versionCode 8
         versionName '2.0.5'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
