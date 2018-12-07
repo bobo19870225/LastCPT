@@ -20,19 +20,20 @@ android {
             storePassword '123456'
         }
     }
-    compileSdkVersion 26
+//    compileSdkVersion 26
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
     dataBinding {
         enabled = true
     }
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId "www.jingkan.com"
-        minSdkVersion 15
-        //必须6.0以下版本，不然数据库框架会出现问题
-        targetSdkVersion 22
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
         versionCode 8
         versionName '2.0.5'
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk { //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
             abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "arm64-v8a", "x86_64", "mips", "mips64"
             // 还可以添加   'mips', 'mips64'
@@ -65,12 +66,12 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
+    implementation 'com.google.android.material:material:1.1.0-alpha01'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'androidx.test:runner:1.1.1-alpha01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1-alpha01'
     implementation files('libs/achartengine-1.2.0.jar')
     implementation files('libs/guava-r07.jar')
     implementation files('libs/additionnal.jar')
@@ -88,7 +89,21 @@ dependencies {
 //    下载文件
     implementation 'com.arialyy.aria:aria-core:3.3.16'
     annotationProcessor 'com.arialyy.aria:aria-compiler:3.3.16'
+    // Architecture components
     //LiveData
-    implementation "android.arch.lifecycle:extensions:1.1.1"
-    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+    implementation deps.lifecycle.runtime
+    implementation deps.lifecycle.extensions
+    annotationProcessor deps.lifecycle.compiler
+    //room数据库orm
+    implementation deps.room.runtime
+    annotationProcessor deps.room.compiler
+   //dagger2
+//    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+//    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
+//    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
+//    implementation "com.google.dagger:dagger-android:$rootProject.daggerVersion"
+//    implementation "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
+//    annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
+
+
 }
