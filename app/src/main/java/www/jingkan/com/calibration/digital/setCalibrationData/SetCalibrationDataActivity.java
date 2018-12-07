@@ -6,7 +6,8 @@ package www.jingkan.com.calibration.digital.setCalibrationData;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import androidx.appcompat.app.AlertDialog;
+
+import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -262,8 +263,18 @@ public class SetCalibrationDataActivity extends BaseMvpActivity<SetCalibrationDa
         Dialog alertDialog = new AlertDialog.Builder(SetCalibrationDataActivity.this)
                 .setTitle("设置探头内存数据")
                 .setMessage("确定要设置探头内存数据吗？请拔掉蓝牙连接器电源，重插，重连开关打到B再点“确定”")
-                .setPositiveButton("确定", (dialog, which) -> mPresenter.setDataToProbe())
-                .setNegativeButton("取消", (dialog, which) -> dialog.dismiss()).create();
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPresenter.setDataToProbe();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
         alertDialog.show();
     }
 
@@ -273,11 +284,24 @@ public class SetCalibrationDataActivity extends BaseMvpActivity<SetCalibrationDa
         final String[] items = {"全部", "锥头", "侧壁", "无"};
         Dialog alertDialog = new AlertDialog.Builder(SetCalibrationDataActivity.this)
                 .setTitle("请选择手机中要清除的数据")
-                .setSingleChoiceItems(items, 0, (dialog, which) -> deleteWhich = which)
-                .setPositiveButton("确定", (dialog, which) -> mPresenter.resetDataToProbe(deleteWhich))
-                .setNegativeButton("取消", (dialog, which) -> {
-                    deleteWhich = 0;
-                    dialog.dismiss();
+                .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteWhich = which;
+                    }
+                })
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPresenter.resetDataToProbe(deleteWhich);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteWhich = 0;
+                        dialog.dismiss();
+                    }
                 }).create();
         alertDialog.show();
     }
