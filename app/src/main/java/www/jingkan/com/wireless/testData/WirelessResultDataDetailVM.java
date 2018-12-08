@@ -6,7 +6,7 @@ package www.jingkan.com.wireless.testData;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 
 import java.util.ArrayList;
 import java.util.List;

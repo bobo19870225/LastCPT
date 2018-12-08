@@ -4,9 +4,9 @@
 
 package www.jingkan.com.base.baseMVVM;
 
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel;
 import android.content.Intent;
-import android.databinding.BaseObservable;
+import androidx.databinding.BaseObservable;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;

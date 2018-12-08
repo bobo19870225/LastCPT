@@ -128,7 +128,7 @@
                 android:textSize="16sp" />
         </RelativeLayout>
 
-        <android.support.v4.widget.SwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/srl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -142,7 +142,7 @@
                 app:adapter="@{model.adapter}" />
 
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         <!--这个东西一定要放到SwipeRefreshLayout外面-->
         <TextView
             android:id="@+id/hint"

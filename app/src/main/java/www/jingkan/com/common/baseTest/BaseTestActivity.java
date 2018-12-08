@@ -5,7 +5,7 @@
 package www.jingkan.com.common.baseTest;
 
 import android.app.Dialog;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;

@@ -5,7 +5,7 @@
 package www.jingkan.com.wireless.wirelessProbe;
 
 import android.content.Intent;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 
 import java.util.List;
 

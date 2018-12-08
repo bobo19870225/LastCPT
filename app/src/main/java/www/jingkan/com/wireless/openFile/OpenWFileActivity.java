@@ -6,7 +6,7 @@ package www.jingkan.com.wireless.openFile;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;

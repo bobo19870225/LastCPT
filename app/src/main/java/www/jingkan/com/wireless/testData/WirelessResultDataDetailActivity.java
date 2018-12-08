@@ -6,8 +6,8 @@ package www.jingkan.com.wireless.testData;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.app.AlertDialog;
 import android.view.MenuItem;
 
 import java.util.List;

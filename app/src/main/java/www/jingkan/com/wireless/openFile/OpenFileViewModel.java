@@ -5,7 +5,7 @@
 package www.jingkan.com.wireless.openFile;
 
 import android.content.Intent;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 import android.os.Environment;
 
 import java.io.File;

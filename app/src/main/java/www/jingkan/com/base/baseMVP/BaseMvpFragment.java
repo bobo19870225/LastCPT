@@ -5,7 +5,7 @@
 package www.jingkan.com.base.baseMVP;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import www.jingkan.com.base.BaseFragment;
 import www.jingkan.com.mInterface.MvpView;

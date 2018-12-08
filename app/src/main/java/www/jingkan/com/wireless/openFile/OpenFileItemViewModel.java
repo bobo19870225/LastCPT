@@ -4,8 +4,8 @@
 
 package www.jingkan.com.wireless.openFile;
 
-import android.databinding.BaseObservable;
-import android.databinding.ObservableField;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.ObservableField;
 
 /**
  * Created by lushengbo on 2018/1/29.

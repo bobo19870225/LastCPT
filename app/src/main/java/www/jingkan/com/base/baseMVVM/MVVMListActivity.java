@@ -4,8 +4,8 @@
 
 package www.jingkan.com.base.baseMVVM;
 
-import android.databinding.ViewDataBinding;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.databinding.ViewDataBinding;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
 

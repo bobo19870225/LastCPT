@@ -1,7 +1,7 @@
 package www.jingkan.com.testDataDetails.crossTestDataDetails;
 
 import android.content.Intent;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 
 import java.util.ArrayList;
 import java.util.List;

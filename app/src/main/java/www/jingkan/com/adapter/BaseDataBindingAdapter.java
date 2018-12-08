@@ -4,9 +4,9 @@
 
 package www.jingkan.com.adapter;
 
-import android.databinding.BaseObservable;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

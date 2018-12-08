@@ -7,7 +7,7 @@ package www.jingkan.com.calibration.probeTest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;

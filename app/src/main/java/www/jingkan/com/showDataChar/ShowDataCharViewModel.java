@@ -1,7 +1,7 @@
 package www.jingkan.com.showDataChar;
 
 import android.content.Intent;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 
 import org.achartengine.util.IndexXYMap;
 

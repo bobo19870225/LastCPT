@@ -1,9 +1,9 @@
 package www.jingkan.com.framework.view;
 
 import android.content.Context;
-import android.databinding.InverseBindingListener;
-import android.databinding.InverseBindingMethod;
-import android.databinding.InverseBindingMethods;
+import androidx.databinding.InverseBindingListener;
+import androidx.databinding.InverseBindingMethod;
+import androidx.databinding.InverseBindingMethods;
 import android.util.AttributeSet;
 import android.widget.SeekBar;
 
@@ -13,7 +13,7 @@ import android.widget.SeekBar;
  */
 @InverseBindingMethods({@InverseBindingMethod(type = DataBindingSeekBar.class, attribute = "progress", event = "progressAttrChanged")})
 
-public class DataBindingSeekBar extends android.support.v7.widget.AppCompatSeekBar {
+public class DataBindingSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
 
 
     private int progress = 0;

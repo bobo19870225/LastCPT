@@ -5,8 +5,8 @@
 package www.jingkan.com.wireless.test;
 
 import android.content.Intent;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
 
 import java.util.List;
 

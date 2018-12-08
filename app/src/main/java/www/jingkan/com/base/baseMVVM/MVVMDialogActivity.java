@@ -5,7 +5,7 @@
 package www.jingkan.com.base.baseMVVM;
 
 import android.app.Dialog;
-import android.databinding.ViewDataBinding;
+import androidx.databinding.ViewDataBinding;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
