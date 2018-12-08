@@ -4,7 +4,8 @@
 
 apply plugin: 'com.android.application'
 android {
-
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
@@ -20,7 +21,6 @@ android {
             storePassword '123456'
         }
     }
-    compileSdkVersion 28
     dataBinding {
         enabled = true
     }
@@ -65,16 +65,41 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-    implementation 'com.google.android.material:material:1.1.0-alpha01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1-alpha01'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1-alpha01'
     implementation files('libs/achartengine-1.2.0.jar')
     implementation files('libs/guava-r07.jar')
     implementation files('libs/additionnal.jar')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+// Support libraries
+    implementation deps.support.app_compat
+    implementation deps.support.v4
+    implementation deps.support.design
+    //    implementation deps.support.cardview
+    implementation deps.constraint_layout
+// Architecture components
+    implementation deps.lifecycle.runtime
+    implementation deps.lifecycle.extensions
+    annotationProcessor deps.lifecycle.compiler
+    implementation deps.room.runtime
+    annotationProcessor deps.room.compiler
+
+    // Android Testing Support Library's runner and rules
+//    androidTestImplementation deps.atsl.runner
+//    androidTestImplementation deps.atsl.rules
+//    androidTestImplementation deps.room.testing
+//    androidTestImplementation deps.arch_core.testing
+
+    // Espresso UI Testing
+//    androidTestImplementation deps.espresso.core
+//    androidTestImplementation deps.espresso.contrib
+//    androidTestImplementation deps.espresso.intents
+
+    // Resolve conflicts between main and test APK:
+    androidTestImplementation deps.support.annotations
+    androidTestImplementation deps.support.v4
+    androidTestImplementation deps.support.app_compat
+    androidTestImplementation deps.support.design
+
+
     //2D地图so及jar
 
     implementation 'com.amap.api:map2d:latest.integration'
@@ -89,7 +114,5 @@ dependencies {
 //    下载文件
     implementation 'com.arialyy.aria:aria-core:3.3.16'
     annotationProcessor 'com.arialyy.aria:aria-compiler:3.3.16'
-    //LiveData
-    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.0.0"
+
 }
