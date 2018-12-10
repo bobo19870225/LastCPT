@@ -27,6 +27,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+import www.jingkan.com.localData.test.TestDaoForRoom;
 import www.jingkan.com.localData.test.TestEntity;
 import www.jingkan.com.localData.testData.TestDataDaoForRoom;
 import www.jingkan.com.localData.testData.TestDataEntity;
@@ -43,6 +44,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TestDataDaoForRoom testDataDaoForRoom();
 
+    public abstract TestDaoForRoom testDaoForRoom();
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
     public static AppDatabase getInstance(final Context context) {

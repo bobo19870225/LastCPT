@@ -26,12 +26,9 @@ public class MyMsgActivity extends MVVMListActivity<MyMsgViewModel, ActivityMyMs
     public void setListView(final List list) {
         ListView listView = mViewDataBinding.list;
         listView.setEmptyView(mViewDataBinding.hint);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                MsgDataModel msgDataModel = (MsgDataModel) list.get(i);
-                goTo(MyMsgDetailActivity.class, msgDataModel.msgID);
-            }
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            MsgDataModel msgDataModel = (MsgDataModel) list.get(i);
+            goTo(MyMsgDetailActivity.class, msgDataModel.msgID);
         });
     }
 
