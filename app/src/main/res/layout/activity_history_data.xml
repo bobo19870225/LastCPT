@@ -2,25 +2,34 @@
 <!--
   ~ Copyright (c) 2018. 代码著作权归卢声波所有。
   -->
+<layout>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    <data>
 
-    <include layout="@layout/toolbar" />
+        <variable
+            name="model"
+            type="www.jingkan.com.common.historyData.HistoryDataViewModel" />
+    </data>
 
-    <ListView
-        android:id="@+id/lv_history"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <TextView
-        android:id="@+id/empty"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="暂无数据"
-        android:textSize="24sp"
-        android:visibility="gone" />
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar" />
+
+        <ListView
+            android:id="@+id/lv_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="暂无数据"
+            android:textSize="24sp"
+            android:visibility="gone" />
 </LinearLayout>
+</layout>

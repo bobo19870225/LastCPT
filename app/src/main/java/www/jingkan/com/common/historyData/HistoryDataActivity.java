@@ -14,19 +14,19 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import www.jingkan.com.R;
 import www.jingkan.com.adapter.ListHistoryAdapter;
 import www.jingkan.com.annotation.BindView;
-import www.jingkan.com.base.baseMVP.BaseMvpActivity;
-import www.jingkan.com.base.baseMVP.BasePresenter;
+import www.jingkan.com.base.baseMVVM.MVVMListActivity;
+import www.jingkan.com.databinding.ActivityHistoryDataBinding;
 import www.jingkan.com.localData.test.TestModel;
 import www.jingkan.com.testDataDetails.TestDataDetailsActivity;
 import www.jingkan.com.testDataDetails.crossTestDataDetails.CrossTestDataDetailsActivity;
 
 import static www.jingkan.com.parameter.SystemConstant.VANE_TEST;
 
-public class HistoryDataActivity extends BaseMvpActivity<HistoryDataPresenter>
-        implements HistoryDataContract.View {
+public class HistoryDataActivity extends MVVMListActivity<HistoryDataViewModel, ActivityHistoryDataBinding> {
     @BindView(id = R.id.lv_history)
     private ListView lv_history;
     @BindView(id = R.id.empty)
@@ -37,10 +37,20 @@ public class HistoryDataActivity extends BaseMvpActivity<HistoryDataPresenter>
 
     private ListHistoryAdapter listHistoryAdapter;
 
+
     @Override
-    protected void setView() {
+    protected void setViewWithOutListView() {
         setToolBar("历史数据");
-        setListView();
+    }
+
+    @Override
+    public void setListView(List list) {
+
+    }
+
+    @Override
+    protected SwipeRefreshLayout setSwipeRefreshLayout() {
+        return null;
     }
 
     private void setListView() {
@@ -66,7 +76,7 @@ public class HistoryDataActivity extends BaseMvpActivity<HistoryDataPresenter>
 
     @Override
     protected void toRefresh() {
-        mPresenter.getHistoryData();
+        mViewModel.getHistoryData();
     }
 
     @Override
@@ -86,7 +96,7 @@ public class HistoryDataActivity extends BaseMvpActivity<HistoryDataPresenter>
         switch (item.getItemId()) {
             case 0:
                 if (testModel != null) {
-                    mPresenter.deleteOneHistoryData(testModel);
+                    mViewModel.deleteOneHistoryData(testModel);
                 }
                 break;
             case 1:
@@ -100,24 +110,22 @@ public class HistoryDataActivity extends BaseMvpActivity<HistoryDataPresenter>
 
 
     @Override
+    protected HistoryDataViewModel createdViewModel() {
+        return new HistoryDataViewModel();
+    }
+
+    @Override
     public void onClick(View view) {
 
     }
 
 
-    @Override
-    public BasePresenter createdPresenter() {
-        return new HistoryDataPresenter();
-
-    }
-
-
-    @Override
-    public void showHistoryData(List<TestModel> testModels) {
-        mTestModels.clear();
-        if (testModels != null) {
-            mTestModels.addAll(testModels);
-        }
-        listHistoryAdapter.notifyDataSetChanged();
-    }
+//    @Override
+//    public void showHistoryData(List<TestModel> testModels) {
+//        mTestModels.clear();
+//        if (testModels != null) {
+//            mTestModels.addAll(testModels);
+//        }
+//        listHistoryAdapter.notifyDataSetChanged();
+//    }
 }
