@@ -27,5 +27,5 @@ public interface CalibrationVerificationDaoForRoom {
 
     @Query("SELECT * FROM CalibrationVerification " +
             "WHERE probeNo = :probeNo AND type = :type AND forceType = :forceType")
-    LiveData<List<CalibrationVerificationEntity>> getCVEntityByProbeNoAndType(String probeNo, String type, String forceType);
+    LiveData<List<CalibrationVerificationEntity>> getCVEntityByProbeNoAndTypeAndForceType(String probeNo, String type, String forceType);
 }

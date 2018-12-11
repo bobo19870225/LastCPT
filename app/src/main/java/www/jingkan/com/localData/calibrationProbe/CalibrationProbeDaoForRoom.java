@@ -24,6 +24,6 @@ public interface CalibrationProbeDaoForRoom {
     LiveData<List<CalibrationProbeEntity>> getAllCalbrationProbeEntity();
 
     @Query("SELECT * FROM calibrationProbe WHERE probeID = :probeId")
-    LiveData<List<CalibrationProbeEntity>> getAllCalbrationProbeEntity(String probeId);
+    LiveData<List<CalibrationProbeEntity>> getCalbrationProbeEntityByProbeId(String probeId);
 
 }

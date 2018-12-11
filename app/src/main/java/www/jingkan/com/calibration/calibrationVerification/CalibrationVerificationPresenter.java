@@ -8,7 +8,6 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.base.baseMVP.BasePresenter;
 import www.jingkan.com.bluetooth.BluetoothCommService;
 import www.jingkan.com.framework.utils.BluetoothUtils;
@@ -26,12 +26,11 @@ import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.framework.utils.TimeUtils;
 import www.jingkan.com.framework.utils.VibratorUtils;
 import www.jingkan.com.framework.utils.headset.HeadSetHelper;
-import www.jingkan.com.localData.calibrationProbe.CalibrationProbeDao;
-import www.jingkan.com.localData.calibrationProbe.CalibrationProbeModel;
-import www.jingkan.com.localData.calibrationVerification.CalibrationVerificationDao;
-import www.jingkan.com.localData.calibrationVerification.CalibrationVerificationModel;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.calibrationProbe.CalibrationProbeDaoForRoom;
+import www.jingkan.com.localData.calibrationProbe.CalibrationProbeEntity;
+import www.jingkan.com.localData.calibrationVerification.CalibrationVerificationDaoForRoom;
+import www.jingkan.com.localData.calibrationVerification.CalibrationVerificationEntity;
 
 /**
  * Created by lushengbo on 2017/5/26.
@@ -44,7 +43,9 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
     private float initialValue = 0;
     private boolean isFs;
     private List<String[]> list;
-    private final CalibrationVerificationDao calibrationVerificationDao = DataFactory.getBaseData(CalibrationVerificationDao.class);
+    //    private final CalibrationVerificationDao calibrationVerificationDao = DataFactory.getBaseData(CalibrationVerificationDao.class);
+    private CalibrationVerificationDaoForRoom calibrationVerificationDaoForRoom = AppDatabase.getInstance(getView().getApplication()).calibrationVerificationDaoForRoom();
+    
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
@@ -87,7 +88,7 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
                 } else if (mDate.contains("KPa")) {
                     fs = mDate.substring(mDate.indexOf("Fs:") + 3, mDate.indexOf("KPa"));
                 }
-                if (StringUtils.isFloat(fs)) {
+                if (fs != null && StringUtils.isFloat(fs)) {
                     effectiveValue = Float.parseFloat(fs) - initialValue;
                     myView.get().showEffectiveValue(StringUtils.format(effectiveValue, 2));
                 }
@@ -130,12 +131,7 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
         isFs = strings[2].contains("侧壁");
         initProbeParameters(strings[1], isFs);
         list = new ArrayList<>();
-        HeadSetHelper.getInstance().setOnHeadSetListener(new HeadSetHelper.OnHeadSetListener() {
-            @Override
-            public void onClick() {
-                doRecord();
-            }
-        });
+        HeadSetHelper.getInstance().setOnHeadSetListener(this::doRecord);
         HeadSetHelper.getInstance().open(context);
     }
 
@@ -148,45 +144,61 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
     private void deleteData() {
 
         if (isFs) {
-            calibrationVerificationDao.getData(new DataLoadCallBack() {
-                @Override
-                public void onDataLoaded(List models) {
-
-                }
-
-                @Override
-                public void onDataNotAvailable() {
-                    myView.get().showMyDialog("清除数据",
-                            "要重新标定需清除原有侧壁数据，确定清除请点击【确定】",
-                            true,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    calibrationVerificationDao.deleteData(probeNo, "侧壁");
-                                }
-                            });
-                }
-            }, probeNo, "侧壁");
+            LiveData<List<CalibrationVerificationEntity>> liveData = calibrationVerificationDaoForRoom.getCVEntityByProbeNoAndType(probeNo, "侧壁");
+            List<CalibrationVerificationEntity> calibrationVerificationEntities = liveData.getValue();
+            if (calibrationVerificationEntities == null || calibrationVerificationEntities.isEmpty()) {
+                myView.get().showMyDialog("清除数据",
+                        "要重新标定需清除原有侧壁数据，确定清除请点击【确定】",
+                        true,
+                        (dialog, which) -> calibrationVerificationDaoForRoom.deleteCVEntityByProbeNoAndType(probeNo, "侧壁"));
+            }
+//            calibrationVerificationDao.getData(new DataLoadCallBack() {
+//                @Override
+//                public void onDataLoaded(List models) {
+//
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {
+//                    myView.get().showMyDialog("清除数据",
+//                            "要重新标定需清除原有侧壁数据，确定清除请点击【确定】",
+//                            true,
+//                            new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    calibrationVerificationDao.deleteData(probeNo, "侧壁");
+//                                }
+//                            });
+//                }
+//            }, probeNo, "侧壁");
         } else {
-            calibrationVerificationDao.getData(new DataLoadCallBack() {
-                @Override
-                public void onDataLoaded(List model) {
-                    myView.get().showMyDialog("清除数据",
-                            "要重新标定需清除原有锥头数据，确定清除请点击【确定】",
-                            true,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    calibrationVerificationDao.deleteData(probeNo, "锥头");
-                                }
-                            });
-                }
-
-                @Override
-                public void onDataNotAvailable() {
-
-                }
-            }, probeNo, "锥头");
+            LiveData<List<CalibrationVerificationEntity>> liveData = calibrationVerificationDaoForRoom.getCVEntityByProbeNoAndType(probeNo, "锥头");
+            List<CalibrationVerificationEntity> calibrationVerificationEntities = liveData.getValue();
+            if (calibrationVerificationEntities == null || calibrationVerificationEntities.isEmpty()) {
+                myView.get().showMyDialog("清除数据",
+                        "要重新标定需清除原有锥头数据，确定清除请点击【确定】",
+                        true,
+                        (dialog, which) -> calibrationVerificationDaoForRoom.deleteCVEntityByProbeNoAndType(probeNo, "锥头"));
+            }
+//            calibrationVerificationDao.getData(new DataLoadCallBack() {
+//                @Override
+//                public void onDataLoaded(List model) {
+//                    myView.get().showMyDialog("清除数据",
+//                            "要重新标定需清除原有锥头数据，确定清除请点击【确定】",
+//                            true,
+//                            new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    calibrationVerificationDao.deleteData(probeNo, "锥头");
+//                                }
+//                            });
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {
+//
+//                }
+//            }, probeNo, "锥头");
 
         }
 
@@ -195,29 +207,46 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
     @Override
     public void initProbeParameters(final String sn, final boolean isFS) {
         this.isFs = isFS;
-        CalibrationProbeDao calibrationProbeDao = DataFactory.getBaseData(CalibrationProbeDao.class);
-        calibrationProbeDao.getData(new DataLoadCallBack() {
-            @Override
-            public void onDataLoaded(List model) {
-                CalibrationProbeModel calibrationProbeModel = (CalibrationProbeModel) model.get(0);
-                probeNo = calibrationProbeModel.number;
-                workArea = calibrationProbeModel.work_area;
-                if (isFS) {
-                    differential = Integer.parseInt(calibrationProbeModel.differential) * 10;
-                } else {
-                    differential = Integer.parseInt(calibrationProbeModel.differential);
-                }
-                myView.get().showProbeParameters(probeNo,
-                        sn,
-                        String.valueOf(differential), workArea
-                );
+        CalibrationProbeDaoForRoom calibrationProbeDaoForRoom = AppDatabase.getInstance(getView().getApplication()).calibrationProbeDaoForRoom();
+        LiveData<List<CalibrationProbeEntity>> liveData = calibrationProbeDaoForRoom.getCalbrationProbeEntityByProbeId(sn);
+        List<CalibrationProbeEntity> calibrationProbeEntities = liveData.getValue();
+        if (calibrationProbeEntities != null && !calibrationProbeEntities.isEmpty()) {
+            CalibrationProbeEntity calibrationProbeEntity = calibrationProbeEntities.get(0);
+            probeNo = calibrationProbeEntity.number;
+            workArea = calibrationProbeEntity.work_area;
+            if (isFS) {
+                differential = Integer.parseInt(calibrationProbeEntity.differential) * 10;
+            } else {
+                differential = Integer.parseInt(calibrationProbeEntity.differential);
             }
-
-            @Override
-            public void onDataNotAvailable() {
-
-            }
-        }, sn);
+            myView.get().showProbeParameters(probeNo,
+                    sn,
+                    String.valueOf(differential), workArea
+            );
+        }
+//        CalibrationProbeDao calibrationProbeDao = DataFactory.getBaseData(CalibrationProbeDao.class);
+//        calibrationProbeDao.getData(new DataLoadCallBack() {
+//            @Override
+//            public void onDataLoaded(List model) {
+//                CalibrationProbeModel calibrationProbeModel = (CalibrationProbeModel) model.get(0);
+//                probeNo = calibrationProbeModel.number;
+//                workArea = calibrationProbeModel.work_area;
+//                if (isFS) {
+//                    differential = Integer.parseInt(calibrationProbeModel.differential) * 10;
+//                } else {
+//                    differential = Integer.parseInt(calibrationProbeModel.differential);
+//                }
+//                myView.get().showProbeParameters(probeNo,
+//                        sn,
+//                        String.valueOf(differential), workArea
+//                );
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//
+//            }
+//        }, sn);
 
         deleteData();
     }
@@ -308,17 +337,29 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
      *             3.实际读数
      */
     private void putDateBase(String[] data) {
-        CalibrationVerificationModel calibrationVerificationModel = new CalibrationVerificationModel();
-        calibrationVerificationModel.probeNo = probeNo;
+        CalibrationVerificationEntity calibrationVerificationEntity = new CalibrationVerificationEntity();
+        calibrationVerificationEntity.probeNo = probeNo;
         if (isFs) {
-            calibrationVerificationModel.type = "侧壁";
+            calibrationVerificationEntity.type = "侧壁";
         } else {
-            calibrationVerificationModel.type = "锥头";
+            calibrationVerificationEntity.type = "锥头";
         }
-        calibrationVerificationModel.standardValue = data[0];
-        calibrationVerificationModel.forceType = data[1];
-        calibrationVerificationModel.loadValue = Float.parseFloat(data[2]);
-        calibrationVerificationModel.save();//入库
+        calibrationVerificationEntity.standardValue = data[0];
+        calibrationVerificationEntity.forceType = data[1];
+        calibrationVerificationEntity.loadValue = Float.parseFloat(data[2]);
+        calibrationVerificationDaoForRoom.insertCVEntity(calibrationVerificationEntity);//入库
+
+//        CalibrationVerificationModel calibrationVerificationModel = new CalibrationVerificationModel();
+//        calibrationVerificationModel.probeNo = probeNo;
+//        if (isFs) {
+//            calibrationVerificationModel.type = "侧壁";
+//        } else {
+//            calibrationVerificationModel.type = "锥头";
+//        }
+//        calibrationVerificationModel.standardValue = data[0];
+//        calibrationVerificationModel.forceType = data[1];
+//        calibrationVerificationModel.loadValue = Float.parseFloat(data[2]);
+//        calibrationVerificationModel.save();//入库
     }
 
 
@@ -426,74 +467,134 @@ public class CalibrationVerificationPresenter extends BasePresenter<CalibrationV
 
     @SuppressWarnings("unchecked")
     private void loadData(String type) {
-        calibrationVerificationDao.getData(new DataLoadCallBack() {
-            @Override
-            public void onDataLoaded(List model) {
-                List<CalibrationVerificationModel> calibrationVerificationModels = (List<CalibrationVerificationModel>) model;
-                int size = calibrationVerificationModels.size();
-                load = new float[size / 2];
-                load1 = new float[size / 2];
-                loadAverage = new float[size / 2];
-                for (int i = 0; i < size / 2; i++) {
-                    loadAverage[i] =
-                            (calibrationVerificationModels.get(0).loadValue
-                                    + calibrationVerificationModels.get(size / 2).loadValue)
-                                    / 2;
-                    load[i] = calibrationVerificationModels.get(0).loadValue;
-                    calibrationVerificationModels.remove(0);
-                }
-                for (int i = 0; i < calibrationVerificationModels.size(); i++) {
-                    load1[i] = calibrationVerificationModels.get(i).loadValue;
-                }
-                for (int i = 0; i < size / 2; i++) {
-                    float loadDifferenceValue = Math.abs(load[i] - load1[i]);
-                    maxLoadDifferenceValue =
-                            loadDifferenceValue > maxLoadDifferenceValue ?
-                                    loadDifferenceValue : maxLoadDifferenceValue;
-
-                }
-                haveData = true;
+        LiveData<List<CalibrationVerificationEntity>> liveData
+                = calibrationVerificationDaoForRoom
+                .getCVEntityByProbeNoAndTypeAndForceType(probeNo, type, "加荷");
+        List<CalibrationVerificationEntity> calibrationVerificationEntities = liveData.getValue();
+        if (calibrationVerificationEntities != null && !calibrationVerificationEntities.isEmpty()) {
+//            List<CalibrationVerificationModel> calibrationVerificationModels = (List<CalibrationVerificationModel>) model;
+            int size = calibrationVerificationEntities.size();
+            load = new float[size / 2];
+            load1 = new float[size / 2];
+            loadAverage = new float[size / 2];
+            for (int i = 0; i < size / 2; i++) {
+                loadAverage[i] =
+                        (calibrationVerificationEntities.get(0).loadValue
+                                + calibrationVerificationEntities.get(size / 2).loadValue)
+                                / 2;
+                load[i] = calibrationVerificationEntities.get(0).loadValue;
+                calibrationVerificationEntities.remove(0);
             }
-
-            @Override
-            public void onDataNotAvailable() {
-                haveData = false;
+            for (int i = 0; i < calibrationVerificationEntities.size(); i++) {
+                load1[i] = calibrationVerificationEntities.get(i).loadValue;
             }
-        }, probeNo, type, "加荷");
-        calibrationVerificationDao.getData(new DataLoadCallBack() {
-            @Override
-            public void onDataLoaded(List model) {
-                List<CalibrationVerificationModel> calibrationVerificationModels = (List<CalibrationVerificationModel>) model;
-                int size = calibrationVerificationModels.size();
-                unLoad = new float[size / 2];
-                unLoad1 = new float[size / 2];
-                unLoadAverage = new float[size / 2];
-                Collections.reverse(calibrationVerificationModels);//倒序
-                for (int i = 0; i < size / 2; i++) {
-                    unLoadAverage[i] =
-                            (calibrationVerificationModels.get(0).loadValue
-                                    + calibrationVerificationModels.get(size / 2).loadValue)
-                                    / 2;
-                    unLoad[i] = calibrationVerificationModels.get(0).loadValue;
-                    calibrationVerificationModels.remove(0);
-                }
-
-                for (int i = 0; i < calibrationVerificationModels.size(); i++) {
-                    unLoad1[i] = calibrationVerificationModels.get(i).loadValue;
-                }
-                for (int i = 0; i < size / 2; i++) {
-                    float unLoadDifference = Math.abs(unLoad[i] - unLoad1[i]);
-                    maxUnLoadDifferenceValue = unLoadDifference > maxUnLoadDifferenceValue ?
-                            unLoadDifference : maxUnLoadDifferenceValue;
-                }
-                haveData = true;
-            }
-
-            @Override
-            public void onDataNotAvailable() {
+            for (int i = 0; i < size / 2; i++) {
+                float loadDifferenceValue = Math.abs(load[i] - load1[i]);
+                maxLoadDifferenceValue =
+                        loadDifferenceValue > maxLoadDifferenceValue ?
+                                loadDifferenceValue : maxLoadDifferenceValue;
 
             }
-        }, probeNo, type, "卸荷");
+            haveData = true;
+        } else {
+            haveData = false;
+        }
+        LiveData<List<CalibrationVerificationEntity>> liveData1 = calibrationVerificationDaoForRoom.getCVEntityByProbeNoAndTypeAndForceType(probeNo, type, "卸荷");
+        List<CalibrationVerificationEntity> calibrationVerificationEntities1 = liveData1.getValue();
+        if (calibrationVerificationEntities1 != null && !calibrationVerificationEntities1.isEmpty()) {
+//            List<CalibrationVerificationModel> calibrationVerificationModels = (List<CalibrationVerificationModel>) model;
+            int size = calibrationVerificationEntities1.size();
+            unLoad = new float[size / 2];
+            unLoad1 = new float[size / 2];
+            unLoadAverage = new float[size / 2];
+            Collections.reverse(calibrationVerificationEntities1);//倒序
+            for (int i = 0; i < size / 2; i++) {
+                unLoadAverage[i] =
+                        (calibrationVerificationEntities1.get(0).loadValue
+                                + calibrationVerificationEntities1.get(size / 2).loadValue)
+                                / 2;
+                unLoad[i] = calibrationVerificationEntities1.get(0).loadValue;
+                calibrationVerificationEntities1.remove(0);
+            }
+
+            for (int i = 0; i < calibrationVerificationEntities1.size(); i++) {
+                unLoad1[i] = calibrationVerificationEntities1.get(i).loadValue;
+            }
+            for (int i = 0; i < size / 2; i++) {
+                float unLoadDifference = Math.abs(unLoad[i] - unLoad1[i]);
+                maxUnLoadDifferenceValue = unLoadDifference > maxUnLoadDifferenceValue ?
+                        unLoadDifference : maxUnLoadDifferenceValue;
+            }
+            haveData = true;
+        }
+//        calibrationVerificationDao.getData(new DataLoadCallBack() {
+//            @Override
+//            public void onDataLoaded(List model) {
+//                List<CalibrationVerificationModel> calibrationVerificationModels = (List<CalibrationVerificationModel>) model;
+//                int size = calibrationVerificationModels.size();
+//                load = new float[size / 2];
+//                load1 = new float[size / 2];
+//                loadAverage = new float[size / 2];
+//                for (int i = 0; i < size / 2; i++) {
+//                    loadAverage[i] =
+//                            (calibrationVerificationModels.get(0).loadValue
+//                                    + calibrationVerificationModels.get(size / 2).loadValue)
+//                                    / 2;
+//                    load[i] = calibrationVerificationModels.get(0).loadValue;
+//                    calibrationVerificationModels.remove(0);
+//                }
+//                for (int i = 0; i < calibrationVerificationModels.size(); i++) {
+//                    load1[i] = calibrationVerificationModels.get(i).loadValue;
+//                }
+//                for (int i = 0; i < size / 2; i++) {
+//                    float loadDifferenceValue = Math.abs(load[i] - load1[i]);
+//                    maxLoadDifferenceValue =
+//                            loadDifferenceValue > maxLoadDifferenceValue ?
+//                                    loadDifferenceValue : maxLoadDifferenceValue;
+//
+//                }
+//                haveData = true;
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                haveData = false;
+//            }
+//        }, probeNo, type, "加荷");
+//        calibrationVerificationDao.getData(new DataLoadCallBack() {
+//            @Override
+//            public void onDataLoaded(List model) {
+//                List<CalibrationVerificationModel> calibrationVerificationModels = (List<CalibrationVerificationModel>) model;
+//                int size = calibrationVerificationModels.size();
+//                unLoad = new float[size / 2];
+//                unLoad1 = new float[size / 2];
+//                unLoadAverage = new float[size / 2];
+//                Collections.reverse(calibrationVerificationModels);//倒序
+//                for (int i = 0; i < size / 2; i++) {
+//                    unLoadAverage[i] =
+//                            (calibrationVerificationModels.get(0).loadValue
+//                                    + calibrationVerificationModels.get(size / 2).loadValue)
+//                                    / 2;
+//                    unLoad[i] = calibrationVerificationModels.get(0).loadValue;
+//                    calibrationVerificationModels.remove(0);
+//                }
+//
+//                for (int i = 0; i < calibrationVerificationModels.size(); i++) {
+//                    unLoad1[i] = calibrationVerificationModels.get(i).loadValue;
+//                }
+//                for (int i = 0; i < size / 2; i++) {
+//                    float unLoadDifference = Math.abs(unLoad[i] - unLoad1[i]);
+//                    maxUnLoadDifferenceValue = unLoadDifference > maxUnLoadDifferenceValue ?
+//                            unLoadDifference : maxUnLoadDifferenceValue;
+//                }
+//                haveData = true;
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//
+//            }
+//        }, probeNo, type, "卸荷");
 
     }
 

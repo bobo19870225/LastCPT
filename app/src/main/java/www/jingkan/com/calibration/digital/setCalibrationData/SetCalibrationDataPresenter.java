@@ -17,17 +17,17 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.base.baseMVP.BasePresenter;
 import www.jingkan.com.bluetooth.BluetoothCommService;
 import www.jingkan.com.framework.utils.BluetoothUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.framework.utils.VibratorUtils;
-import www.jingkan.com.localData.calibrationProbe.CalibrationProbeDao;
-import www.jingkan.com.localData.calibrationProbe.CalibrationProbeModel;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.memoryData.MemoryDaoDao;
-import www.jingkan.com.localData.memoryData.MemoryDataModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.calibrationProbe.CalibrationProbeDaoForRoom;
+import www.jingkan.com.localData.calibrationProbe.CalibrationProbeEntity;
+import www.jingkan.com.localData.memoryData.MemoryDataDaoForRoom;
+import www.jingkan.com.localData.memoryData.MemoryDataEntity;
 import www.jingkan.com.parameter.SystemConstant;
 
 
@@ -39,7 +39,8 @@ import www.jingkan.com.parameter.SystemConstant;
 public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDataActivity> implements SetCalibrationDataContract.Presenter {
     private String[] effectiveValues;
     private int effectiveValue = 0;
-    private MemoryDaoDao memoryData = DataFactory.getBaseData(MemoryDaoDao.class);
+    private MemoryDataDaoForRoom memoryDataDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).memoryDataDaoForRoom();
+    //    private MemoryDaoDao memoryData = DataFactory.getBaseData(MemoryDaoDao.class);
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
@@ -161,70 +162,103 @@ public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDat
     @SuppressWarnings("unchecked")
     @Override
     public void setDataToProbe() {
+        LiveData<List<MemoryDataEntity>> liveDataQc = memoryDataDaoForRoom.getMemoryDataByProbeIdAndType(sn, "qc");
+        List<MemoryDataEntity> memoryDataEntitiesQc = liveDataQc.getValue();
         if (isFs) {//侧壁标定
-            memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
 
-
-                @Override
-                public void onDataLoaded(List<MemoryDataModel> models) {
-                    getQcData(models);
-                    memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
-                        @Override
-                        public void onDataLoaded(List<MemoryDataModel> models) {
-                            for (int i = 0; i < models.size(); i++) {
-                                if (i < 7) {//侧壁加荷
-                                    Acc[1][1][i] = models.get(i).ADValue;
-                                } else {//侧壁卸荷
-                                    Acc[1][2][i - 7] = models.get(i).ADValue;
-                                }
-
-                            }
-                            sendData();
+            if (memoryDataEntitiesQc != null && !memoryDataEntitiesQc.isEmpty()) {
+                getQcData(memoryDataEntitiesQc);
+                LiveData<List<MemoryDataEntity>> liveDataFs = memoryDataDaoForRoom.getMemoryDataByProbeIdAndType(sn, "fs");
+                List<MemoryDataEntity> memoryDataEntitiesFs = liveDataFs.getValue();
+                if (memoryDataEntitiesFs != null && !memoryDataEntitiesFs.isEmpty()) {
+                    for (int i = 0; i < memoryDataEntitiesFs.size(); i++) {
+                        if (i < 7) {//侧壁加荷
+                            Acc[1][1][i] = memoryDataEntitiesFs.get(i).ADValue;
+                        } else {//侧壁卸荷
+                            Acc[1][2][i - 7] = memoryDataEntitiesFs.get(i).ADValue;
                         }
 
-                        @Override
-                        public void onDataNotAvailable() {
-                            myView.get().showToast("没有侧壁数据,不能标定");
-                        }
-                    }, sn, "fs");
-                }
-
-                @Override
-                public void onDataNotAvailable() {
-                    myView.get().showToast("没有锥头数据,不能标定");
-                }
-            }, sn, "qc");
-
-        } else {//锥头标定
-            memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
-
-                @Override
-                public void onDataLoaded(List<MemoryDataModel> models) {
-                    getQcData(models);
-                    //侧壁数据
-                    for (int i = 0; i < 7; i++) {
-                        Acc[1][1][i] = i * 1200;
-                        Acc[1][2][i] = Acc[1][1][i];
                     }
                     sendData();
+                } else {
+                    myView.get().showToast("没有侧壁数据,不能标定");
                 }
+            } else {
+                myView.get().showToast("没有锥头数据,不能标定");
+            }
 
-                @Override
-                public void onDataNotAvailable() {
-                    myView.get().showToast("没有锥头数据,不能标定");
+//            memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
+//                @Override
+//                public void onDataLoaded(List<MemoryDataModel> models) {
+//                    getQcData(models);
+//                    memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
+//                        @Override
+//                        public void onDataLoaded(List<MemoryDataModel> models) {
+//                            for (int i = 0; i < models.size(); i++) {
+//                                if (i < 7) {//侧壁加荷
+//                                    Acc[1][1][i] = models.get(i).ADValue;
+//                                } else {//侧壁卸荷
+//                                    Acc[1][2][i - 7] = models.get(i).ADValue;
+//                                }
+//
+//                            }
+//                            sendData();
+//                        }
+//
+//                        @Override
+//                        public void onDataNotAvailable() {
+//                            myView.get().showToast("没有侧壁数据,不能标定");
+//                        }
+//                    }, sn, "fs");
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {
+//                    myView.get().showToast("没有锥头数据,不能标定");
+//                }
+//            }, sn, "qc");
+
+        } else {//锥头标定
+            if (memoryDataEntitiesQc != null && !memoryDataEntitiesQc.isEmpty()) {
+                getQcData(memoryDataEntitiesQc);
+                //侧壁数据
+                for (int i = 0; i < 7; i++) {
+                    Acc[1][1][i] = i * 1200;
+                    Acc[1][2][i] = Acc[1][1][i];
                 }
-            }, sn, "qc");
+                sendData();
+            } else {
+                myView.get().showToast("没有锥头数据,不能标定");
+            }
+//            memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
+//
+//                @Override
+//                public void onDataLoaded(List<MemoryDataModel> models) {
+//                    getQcData(models);
+//                    //侧壁数据
+//                    for (int i = 0; i < 7; i++) {
+//                        Acc[1][1][i] = i * 1200;
+//                        Acc[1][2][i] = Acc[1][1][i];
+//                    }
+//                    sendData();
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {
+//                    myView.get().showToast("没有锥头数据,不能标定");
+//                }
+//            }, sn, "qc");
 
         }
 
     }
 
-    private void getQcData(List<MemoryDataModel> memoryDataModels) {
-        for (int i = 0; i < memoryDataModels.size(); i++) {
+    private void getQcData(List<MemoryDataEntity> memoryDataEntities) {
+        for (int i = 0; i < memoryDataEntities.size(); i++) {
             if (i < 7) {//锥头加荷
-                Acc[0][1][i] = memoryDataModels.get(i).ADValue;
+                Acc[0][1][i] = memoryDataEntities.get(i).ADValue;
             } else {//锥头卸荷
-                Acc[0][2][i - 7] = memoryDataModels.get(i).ADValue;
+                Acc[0][2][i - 7] = memoryDataEntities.get(i).ADValue;
             }
         }
     }
@@ -406,15 +440,15 @@ public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDat
         //先删除以前数据库里的数据
         switch (which) {
             case 0://全部数据
-                memoryData.deleteData(sn);
+                memoryDataDaoForRoom.deleteMemoryDataEntityByProbeId(sn);
                 switchingChannel(0);//切换到锥头通道
                 break;
             case 1://锥头
-                memoryData.deleteData(sn, "qc");
+                memoryDataDaoForRoom.deleteMemoryDataEntityByProbeIdAndType(sn, "qc");
                 switchingChannel(0);//切换到锥头通道
                 break;
             case 2://侧壁
-                memoryData.deleteData(sn, "fs");
+                memoryDataDaoForRoom.deleteMemoryDataEntityByProbeIdAndType(sn, "fs");
                 switchingChannel(1);//切换到侧壁通道
                 break;
             case 3:
@@ -450,186 +484,286 @@ public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDat
     private String sn;
     private String area;
     private String strModel;
-    private String differential;
 
     @Override
     public void initProbeParameters(final String sn, boolean isFs, final boolean isFa) {
         this.sn = sn;
-        CalibrationProbeDao calibrationProbeDao = DataFactory.getBaseData(CalibrationProbeDao.class);
-        calibrationProbeDao.getData(new DataLoadCallBack<CalibrationProbeModel>() {
-
-
-            @Override
-            public void onDataLoaded(List<CalibrationProbeModel> models) {
-                CalibrationProbeModel calibrationProbeModel = models.get(0);
-                number = calibrationProbeModel.number;
-                area = calibrationProbeModel.work_area;
-                differential = calibrationProbeModel.differential;
-                myView.get().showProbeParameters(number, sn,
-                        differential, calibrationProbeModel.work_area);
-                String[] split = number.split("-");
-                String type = null;
-                String strModel1 = null;
-                if (split.length == 3) {
-                    type = split[0].substring(2, 3);
-                    strModel1 = split[1];
-                }
-                if (type != null) {
-                    switch (type) {
-                        case "D":
-                            switch (strModel1) {
-                                case "3":
-                                    mType = 3;
-                                    initDifferential();
-                                    strModel = SystemConstant.SINGLE_BRIDGE_3;
-                                    initAcc(3);
-                                    break;
-                                case "4":
-                                    mType = 4;
-                                    initDifferential();
-                                    strModel = SystemConstant.SINGLE_BRIDGE_4;
-                                    initAcc(4);
-                                    break;
-                                case "6":
-                                    mType = 6;
-                                    initDifferential();
-                                    strModel = SystemConstant.SINGLE_BRIDGE_6;
-                                    initAcc(6);
-                                    break;
-                            }
-                            break;
-                        case "S":
-                            switch (strModel1) {
-                                case "3":
-                                    mType = 3;
-                                    initDifferential();
-                                    strModel = SystemConstant.DOUBLE_BRIDGE_3;
-                                    initAcc(3);
-                                    break;
-                                case "4":
-                                    mType = 4;
-                                    initDifferential();
-                                    strModel = SystemConstant.DOUBLE_BRIDGE_4;
-                                    initAcc(4);
-                                    break;
-                                case "6":
-                                    mType = 6;
-                                    initDifferential();
-                                    strModel = SystemConstant.DOUBLE_BRIDGE_6;
-                                    initAcc(6);
-                                    break;
-                            }
-                            break;
-                        case "V":
-                            strModel = SystemConstant.VANE;
-                            for (int i = 0; i < 7; i++) {
-                                Acc[0][0][i] = i * 20000;
-                                Acc[1][0][i] = i * 20000;
-                            }
-                            Acc[0][0][7] = 140000;
-                            Acc[1][0][7] = 140000;
-                            break;
-                    }
+        CalibrationProbeDaoForRoom calibrationProbeDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).calibrationProbeDaoForRoom();
+        LiveData<List<CalibrationProbeEntity>> liveData = calibrationProbeDaoForRoom.getCalbrationProbeEntityByProbeId(sn);
+        List<CalibrationProbeEntity> calibrationProbeEntities = liveData.getValue();
+        if (calibrationProbeEntities != null && !calibrationProbeEntities.isEmpty()) {
+            CalibrationProbeEntity calibrationProbeEntity = calibrationProbeEntities.get(0);
+            number = calibrationProbeEntity.number;
+            area = calibrationProbeEntity.work_area;
+            String differential = calibrationProbeEntity.differential;
+            myView.get().showProbeParameters(number, sn,
+                    differential, calibrationProbeEntity.work_area);
+            String[] split = number.split("-");
+            String type = null;
+            String strModel1 = null;
+            if (split.length == 3) {
+                type = split[0].substring(2, 3);
+                strModel1 = split[1];
+            }
+            if (type != null) {
+                switch (type) {
+                    case "D":
+                        switch (strModel1) {
+                            case "3":
+                                mType = 3;
+                                initDifferential();
+                                strModel = SystemConstant.SINGLE_BRIDGE_3;
+                                initAcc(3);
+                                break;
+                            case "4":
+                                mType = 4;
+                                initDifferential();
+                                strModel = SystemConstant.SINGLE_BRIDGE_4;
+                                initAcc(4);
+                                break;
+                            case "6":
+                                mType = 6;
+                                initDifferential();
+                                strModel = SystemConstant.SINGLE_BRIDGE_6;
+                                initAcc(6);
+                                break;
+                        }
+                        break;
+                    case "S":
+                        switch (strModel1) {
+                            case "3":
+                                mType = 3;
+                                initDifferential();
+                                strModel = SystemConstant.DOUBLE_BRIDGE_3;
+                                initAcc(3);
+                                break;
+                            case "4":
+                                mType = 4;
+                                initDifferential();
+                                strModel = SystemConstant.DOUBLE_BRIDGE_4;
+                                initAcc(4);
+                                break;
+                            case "6":
+                                mType = 6;
+                                initDifferential();
+                                strModel = SystemConstant.DOUBLE_BRIDGE_6;
+                                initAcc(6);
+                                break;
+                        }
+                        break;
+                    case "V":
+                        strModel = SystemConstant.VANE;
+                        for (int i = 0; i < 7; i++) {
+                            Acc[0][0][i] = i * 20000;
+                            Acc[1][0][i] = i * 20000;
+                        }
+                        Acc[0][0][7] = 140000;
+                        Acc[1][0][7] = 140000;
+                        break;
                 }
             }
-
-            @Override
-            public void onDataNotAvailable() {
-                myView.get().showToast("序列号错误");
-            }
-        }, sn);
+        } else {
+            myView.get().showToast("序列号错误");
+        }
 
 
+//        CalibrationProbeDao calibrationProbeDao = DataFactory.getBaseData(CalibrationProbeDao.class);
+//        calibrationProbeDao.getData(new DataLoadCallBack<CalibrationProbeModel>() {
+//
+//
+//            @Override
+//            public void onDataLoaded(List<CalibrationProbeModel> models) {
+//                CalibrationProbeModel calibrationProbeModel = models.get(0);
+//                number = calibrationProbeModel.number;
+//                area = calibrationProbeModel.work_area;
+//                differential = calibrationProbeModel.differential;
+//                myView.get().showProbeParameters(number, sn,
+//                        differential, calibrationProbeModel.work_area);
+//                String[] split = number.split("-");
+//                String type = null;
+//                String strModel1 = null;
+//                if (split.length == 3) {
+//                    type = split[0].substring(2, 3);
+//                    strModel1 = split[1];
+//                }
+//                if (type != null) {
+//                    switch (type) {
+//                        case "D":
+//                            switch (strModel1) {
+//                                case "3":
+//                                    mType = 3;
+//                                    initDifferential();
+//                                    strModel = SystemConstant.SINGLE_BRIDGE_3;
+//                                    initAcc(3);
+//                                    break;
+//                                case "4":
+//                                    mType = 4;
+//                                    initDifferential();
+//                                    strModel = SystemConstant.SINGLE_BRIDGE_4;
+//                                    initAcc(4);
+//                                    break;
+//                                case "6":
+//                                    mType = 6;
+//                                    initDifferential();
+//                                    strModel = SystemConstant.SINGLE_BRIDGE_6;
+//                                    initAcc(6);
+//                                    break;
+//                            }
+//                            break;
+//                        case "S":
+//                            switch (strModel1) {
+//                                case "3":
+//                                    mType = 3;
+//                                    initDifferential();
+//                                    strModel = SystemConstant.DOUBLE_BRIDGE_3;
+//                                    initAcc(3);
+//                                    break;
+//                                case "4":
+//                                    mType = 4;
+//                                    initDifferential();
+//                                    strModel = SystemConstant.DOUBLE_BRIDGE_4;
+//                                    initAcc(4);
+//                                    break;
+//                                case "6":
+//                                    mType = 6;
+//                                    initDifferential();
+//                                    strModel = SystemConstant.DOUBLE_BRIDGE_6;
+//                                    initAcc(6);
+//                                    break;
+//                            }
+//                            break;
+//                        case "V":
+//                            strModel = SystemConstant.VANE;
+//                            for (int i = 0; i < 7; i++) {
+//                                Acc[0][0][i] = i * 20000;
+//                                Acc[1][0][i] = i * 20000;
+//                            }
+//                            Acc[0][0][7] = 140000;
+//                            Acc[1][0][7] = 140000;
+//                            break;
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                myView.get().showToast("序列号错误");
+//            }
+//        }, sn);
+
+
+        LiveData<List<MemoryDataEntity>> liveDataQc = memoryDataDaoForRoom.getMemoryDataByProbeIdAndType(sn, "qc");
+        List<MemoryDataEntity> memoryDataEntitiesQc = liveDataQc.getValue();
         if (isFs) {//双桥
-            memoryData.getData(new DataLoadCallBack() {
-                @Override
-                public void onDataLoaded(List model) {//有锥头数据判断有无侧壁数据
-                    memoryData.getData(new DataLoadCallBack() {
-                        @Override
-                        public void onDataLoaded(List model) {
-                            if (isFa) {
-                                switchingChannel(2);//切换到测斜通道
-                            }
-                        }
+            if (memoryDataEntitiesQc != null && !memoryDataEntitiesQc.isEmpty()) {//有锥头数据判断有无侧壁数据
+                LiveData<List<MemoryDataEntity>> liveDataFs = memoryDataDaoForRoom.getMemoryDataByProbeIdAndType(sn, "fs");
+                List<MemoryDataEntity> memoryDataEntitiesFs = liveDataFs.getValue();
 
-                        @Override
-                        public void onDataNotAvailable() {//没有侧壁数据时准备采集侧壁数据
-                            switchingChannel(1);//切换到侧壁
-                        }
-                    }, sn, "fs");
-
-                }
-
-                @Override
-                public void onDataNotAvailable() {//无锥头数据时准备采集锥头数据
-                    //switchingChannel(0);//切换到锥头通道
-                    myView.get().showToast("没有历史数据");
-                }
-            }, sn, "qc");
-
-        } else {//单桥或十字板
-            memoryData.getData(new DataLoadCallBack() {
-                @Override
-                public void onDataLoaded(List model) {//有锥头数据时直接采集侧壁的数据
+                if (memoryDataEntitiesFs != null && !memoryDataEntitiesFs.isEmpty()) {
                     if (isFa) {
                         switchingChannel(2);//切换到测斜通道
-                    } else {
-                        switchingChannel(0);//切换到锥头通道
                     }
+                } else {//没有侧壁数据时准备采集侧壁数据
+                    switchingChannel(1);//切换到侧壁
                 }
 
-                @Override
-                public void onDataNotAvailable() {
-                    myView.get().showToast("没有历史数据");
+            } else {//无锥头数据时准备采集锥头数据
+                //switchingChannel(0);//切换到锥头通道
+                myView.get().showToast("没有历史数据");
+            }
+//            memoryData.getData(new DataLoadCallBack() {
+//                @Override
+//                public void onDataLoaded(List model) {//有锥头数据判断有无侧壁数据
+//                    memoryData.getData(new DataLoadCallBack() {
+//                        @Override
+//                        public void onDataLoaded(List model) {
+//                            if (isFa) {
+//                                switchingChannel(2);//切换到测斜通道
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onDataNotAvailable() {//没有侧壁数据时准备采集侧壁数据
+//                            switchingChannel(1);//切换到侧壁
+//                        }
+//                    }, sn, "fs");
+//
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {//无锥头数据时准备采集锥头数据
+//                    //switchingChannel(0);//切换到锥头通道
+//                    myView.get().showToast("没有历史数据");
+//                }
+//            }, sn, "qc");
+
+        } else {//单桥或十字板
+            if (memoryDataEntitiesQc != null && !memoryDataEntitiesQc.isEmpty()) {
+                if (isFa) {
+                    switchingChannel(2);//切换到测斜通道
+                } else {
+                    switchingChannel(0);//切换到锥头通道
                 }
-            }, sn, "qc");
+            } else {
+                myView.get().showToast("没有历史数据");
+            }
+//            memoryData.getData(new DataLoadCallBack() {
+//                @Override
+//                public void onDataLoaded(List model) {//有锥头数据时直接采集侧壁的数据
+//                    if (isFa) {
+//                        switchingChannel(2);//切换到测斜通道
+//                    } else {
+//                        switchingChannel(0);//切换到锥头通道
+//                    }
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {
+//                    myView.get().showToast("没有历史数据");
+//                }
+//            }, sn, "qc");
         }
 
 
     }
 
     private void storeData(String type) {
-        MemoryDataModel memoryDataModel;
+
+//        MemoryDataModel memoryDataModel;
         if (type.equals("qc")) {
             for (int i = 0; i < 7; i++) {
                 Acc[0][1][i] = YBL[4][i];// 锥头加荷平均
-                memoryDataModel = new MemoryDataModel();
-                memoryDataModel.probeID = sn;
-                memoryDataModel.type = type;
-                memoryDataModel.forceType = "加荷";
-                memoryDataModel.ADValue = YBL[4][i];
-                memoryData.addData(memoryDataModel);
+                insertMemoryDataEntity(type, "加荷",YBL[4][i]);
+//                memoryData.addData(memoryDataModel);
             }
             for (int i = 0; i < 7; i++) {
                 Acc[0][2][i] = YBL[5][i];// 锥头卸荷平均
-                memoryDataModel = new MemoryDataModel();
-                memoryDataModel.probeID = sn;
-                memoryDataModel.type = type;
-                memoryDataModel.forceType = "卸荷";
-                memoryDataModel.ADValue = YBL[5][i];
-                memoryData.addData(memoryDataModel);
+                insertMemoryDataEntity(type,"卸荷",YBL[5][i]);
+//                memoryData.addData(memoryDataModel);
             }
         } else {
             for (int i = 0; i < 7; i++) {
                 Acc[1][1][i] = YBL[4][i];// 侧壁加荷平均
-                memoryDataModel = new MemoryDataModel();
-                memoryDataModel.probeID = sn;
-                memoryDataModel.type = type;
-                memoryDataModel.forceType = "加荷";
-                memoryDataModel.ADValue = YBL[4][i];
-                memoryData.addData(memoryDataModel);
+                insertMemoryDataEntity(type,"加荷" ,YBL[4][i]);
+//                memoryData.addData(memoryDataModel);
             }
             for (int i = 0; i < 7; i++) {
                 Acc[1][2][i] = YBL[5][i];// 侧壁卸荷平均
-                memoryDataModel = new MemoryDataModel();
-                memoryDataModel.probeID = sn;
-                memoryDataModel.type = type;
-                memoryDataModel.forceType = "卸荷";
-                memoryDataModel.ADValue = YBL[5][i];
-                memoryData.addData(memoryDataModel);
+                insertMemoryDataEntity(type,"卸荷",YBL[5][i]);
+//                memoryData.addData(memoryDataModel);
             }
         }
 
+    }
+
+    private void insertMemoryDataEntity(String type, String forceType ,int ADValue) {
+        MemoryDataEntity memoryDataEntity;
+        memoryDataEntity = new MemoryDataEntity();
+        memoryDataEntity.probeID = sn;
+        memoryDataEntity.type = type;
+        memoryDataEntity.forceType = forceType;
+        memoryDataEntity.ADValue = ADValue;
+        memoryDataDaoForRoom.insertMemoryDataEntity(memoryDataEntity);
     }
 
 
@@ -766,17 +900,24 @@ public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDat
         switch (which) {
             case 0://锥头
                 isFs = false;
-                memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
-                    @Override
-                    public void onDataLoaded(List<MemoryDataModel> models) {//有锥头数据时直接采集侧壁的数据
-                        myView.get().resetView("锥头", models);
-                    }
-
-                    @Override
-                    public void onDataNotAvailable() {
-                        myView.get().resetView("锥头", null);
-                    }
-                }, sn, "qc");
+                LiveData<List<MemoryDataEntity>> liveDataQc = memoryDataDaoForRoom.getMemoryDataByProbeIdAndType(sn, "qc");
+                List<MemoryDataEntity> memoryDataEntitiesQc = liveDataQc.getValue();
+                if(memoryDataEntitiesQc!=null&&!memoryDataEntitiesQc.isEmpty()){
+                    myView.get().resetView("锥头", memoryDataEntitiesQc);
+            }else {
+                    myView.get().resetView("锥头", null);
+                }
+//                memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
+//                    @Override
+//                    public void onDataLoaded(List<MemoryDataModel> models) {//有锥头数据时直接采集侧壁的数据
+//                        myView.get().resetView("锥头", models);
+//                    }
+//
+//                    @Override
+//                    public void onDataNotAvailable() {
+//                        myView.get().resetView("锥头", null);
+//                    }
+//                }, sn, "qc");
 
                 initialValue = 0;
                 myView.get().showInitialValue(String.valueOf(initialValue));
@@ -785,17 +926,24 @@ public class SetCalibrationDataPresenter extends BasePresenter<SetCalibrationDat
                 break;
             case 1://侧壁通道
                 isFs = true;
-                memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
-                    @Override
-                    public void onDataLoaded(List<MemoryDataModel> models) {//有锥头数据时直接采集侧壁的数据
-                        myView.get().resetView("侧壁", models);
-                    }
-
-                    @Override
-                    public void onDataNotAvailable() {
-                        myView.get().resetView("侧壁", null);
-                    }
-                }, sn, "fs");
+                LiveData<List<MemoryDataEntity>> liveDataFs = memoryDataDaoForRoom.getMemoryDataByProbeIdAndType(sn, "fs");
+                List<MemoryDataEntity> memoryDataEntitiesFs = liveDataFs.getValue();
+                if(memoryDataEntitiesFs!=null&&!memoryDataEntitiesFs.isEmpty()){
+                    myView.get().resetView("侧壁", memoryDataEntitiesFs);
+                }else {
+                    myView.get().resetView("侧壁", null);
+                }
+//                memoryData.getData(new DataLoadCallBack<MemoryDataModel>() {
+//                    @Override
+//                    public void onDataLoaded(List<MemoryDataModel> models) {//有锥头数据时直接采集侧壁的数据
+//                        myView.get().resetView("侧壁", models);
+//                    }
+//
+//                    @Override
+//                    public void onDataNotAvailable() {
+//                        myView.get().resetView("侧壁", null);
+//                    }
+//                }, sn, "fs");
 
                 initialValue = 0;
                 myView.get().showInitialValue(String.valueOf(initialValue));

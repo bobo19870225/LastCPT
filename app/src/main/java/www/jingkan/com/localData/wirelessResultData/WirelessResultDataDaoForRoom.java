@@ -14,7 +14,7 @@ import androidx.room.Update;
  * LastCPT 2
  */
 @Dao
-public interface WirelessResultDaoForRoom {
+public interface WirelessResultDataDaoForRoom {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertWirelessResultDataEntity(WirelessResultDataEntity wirelessResultDataEntity);
 

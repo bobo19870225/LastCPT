@@ -5,14 +5,10 @@
 package www.jingkan.com.calibration.digital.setCalibrationData;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
-
-import androidx.appcompat.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -21,10 +17,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
 import www.jingkan.com.R;
 import www.jingkan.com.annotation.BindView;
 import www.jingkan.com.base.baseMVP.BaseMvpActivity;
-import www.jingkan.com.localData.memoryData.MemoryDataModel;
+import www.jingkan.com.localData.memoryData.MemoryDataEntity;
 
 /**
  * 设置探头内部数据界面
@@ -199,12 +196,7 @@ public class SetCalibrationDataActivity extends BaseMvpActivity<SetCalibrationDa
         textViews.add(ulo1);
 
 
-        shock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mPresenter.enableShock(isChecked);
-            }
-        });
+        shock.setOnCheckedChangeListener((buttonView, isChecked) -> mPresenter.enableShock(isChecked));
     }
 
     @Override
@@ -234,24 +226,14 @@ public class SetCalibrationDataActivity extends BaseMvpActivity<SetCalibrationDa
                 Dialog alertDialog = new AlertDialog.Builder(SetCalibrationDataActivity.this)
                         .setTitle("变换采集通道")
                         .setMessage("即将为您变换到侧壁数据通道")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                mPresenter.switchingChannel(1);
-                            }
-                        }).setCancelable(false).create();
+                        .setPositiveButton("确定", (dialog, which1) -> mPresenter.switchingChannel(1)).setCancelable(false).create();
                 alertDialog.show();
                 break;
             case 1://测斜通道
                 alertDialog = new AlertDialog.Builder(SetCalibrationDataActivity.this)
                         .setTitle("变换采集通道")
                         .setMessage("即将为您变换到测斜数据通道")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                mPresenter.switchingChannel(2);
-                            }
-                        }).setCancelable(false).create();
+                        .setPositiveButton("确定", (dialog, which12) -> mPresenter.switchingChannel(2)).setCancelable(false).create();
                 alertDialog.show();
                 break;
         }
@@ -263,18 +245,8 @@ public class SetCalibrationDataActivity extends BaseMvpActivity<SetCalibrationDa
         Dialog alertDialog = new AlertDialog.Builder(SetCalibrationDataActivity.this)
                 .setTitle("设置探头内存数据")
                 .setMessage("确定要设置探头内存数据吗？请拔掉蓝牙连接器电源，重插，重连开关打到B再点“确定”")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mPresenter.setDataToProbe();
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).create();
+                .setPositiveButton("确定", (dialog, which) -> mPresenter.setDataToProbe())
+                .setNegativeButton("取消", (dialog, which) -> dialog.dismiss()).create();
         alertDialog.show();
     }
 
@@ -284,24 +256,11 @@ public class SetCalibrationDataActivity extends BaseMvpActivity<SetCalibrationDa
         final String[] items = {"全部", "锥头", "侧壁", "无"};
         Dialog alertDialog = new AlertDialog.Builder(SetCalibrationDataActivity.this)
                 .setTitle("请选择手机中要清除的数据")
-                .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteWhich = which;
-                    }
-                })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mPresenter.resetDataToProbe(deleteWhich);
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteWhich = 0;
-                        dialog.dismiss();
-                    }
+                .setSingleChoiceItems(items, 0, (dialog, which) -> deleteWhich = which)
+                .setPositiveButton("确定", (dialog, which) -> mPresenter.resetDataToProbe(deleteWhich))
+                .setNegativeButton("取消", (dialog, which) -> {
+                    deleteWhich = 0;
+                    dialog.dismiss();
                 }).create();
         alertDialog.show();
     }
@@ -413,29 +372,54 @@ public class SetCalibrationDataActivity extends BaseMvpActivity<SetCalibrationDa
     }
 
     @Override
-    public void resetView(String strChannel, List<MemoryDataModel> memoryDataModels) {
+    public void resetView(String strChannel, List<MemoryDataEntity> memoryDataEntities) {
         tb_ybl.setVisibility(View.VISIBLE);
         rl_fa.setVisibility(View.GONE);
         channel.setText(strChannel);
-        if (memoryDataModels == null) {
+        if (memoryDataEntities == null || memoryDataEntities.isEmpty()) {
             for (TextView textView : textViews) {
                 textView.setText("null");
             }
         } else {
-            int halfSize = memoryDataModels.size() / 2;
+            int halfSize = memoryDataEntities.size() / 2;
             for (int i = 0; i < halfSize; i++) {
-                int adValue = memoryDataModels.get(0).ADValue;
+                int adValue = memoryDataEntities.get(0).ADValue;
                 textViews.get(i + 7).setText(String.valueOf(adValue));
-                memoryDataModels.remove(0);
+                memoryDataEntities.remove(0);
             }
-            Collections.reverse(memoryDataModels);
-            for (int i = 0; i < memoryDataModels.size(); i++) {
-                int adValue = memoryDataModels.get(i).ADValue;
-                textViews.get(i + memoryDataModels.size() + 7).setText(String.valueOf(adValue));
+            Collections.reverse(memoryDataEntities);
+            for (int i = 0; i < memoryDataEntities.size(); i++) {
+                int adValue = memoryDataEntities.get(i).ADValue;
+                textViews.get(i + memoryDataEntities.size() + 7).setText(String.valueOf(adValue));
             }
         }
         index = 7;
     }
+
+//    @Override
+//    public void resetView(String strChannel, List<MemoryDataModel> memoryDataModels) {
+//        tb_ybl.setVisibility(View.VISIBLE);
+//        rl_fa.setVisibility(View.GONE);
+//        channel.setText(strChannel);
+//        if (memoryDataModels == null) {
+//            for (TextView textView : textViews) {
+//                textView.setText("null");
+//            }
+//        } else {
+//            int halfSize = memoryDataModels.size() / 2;
+//            for (int i = 0; i < halfSize; i++) {
+//                int adValue = memoryDataModels.get(0).ADValue;
+//                textViews.get(i + 7).setText(String.valueOf(adValue));
+//                memoryDataModels.remove(0);
+//            }
+//            Collections.reverse(memoryDataModels);
+//            for (int i = 0; i < memoryDataModels.size(); i++) {
+//                int adValue = memoryDataModels.get(i).ADValue;
+//                textViews.get(i + memoryDataModels.size() + 7).setText(String.valueOf(adValue));
+//            }
+//        }
+//        index = 7;
+//    }
 
     @Override
     public void showFaChannel() {

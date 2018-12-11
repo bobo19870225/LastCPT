@@ -11,18 +11,29 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+import www.jingkan.com.localData.calibrationProbe.CalibrationProbeDaoForRoom;
 import www.jingkan.com.localData.calibrationProbe.CalibrationProbeEntity;
+import www.jingkan.com.localData.calibrationVerification.CalibrationVerificationDaoForRoom;
 import www.jingkan.com.localData.calibrationVerification.CalibrationVerificationEntity;
+import www.jingkan.com.localData.commonProbe.ProbeDaoForRoom;
 import www.jingkan.com.localData.commonProbe.ProbeEntity;
+import www.jingkan.com.localData.memoryData.MemoryDataDaoForRoom;
 import www.jingkan.com.localData.memoryData.MemoryDataEntity;
+import www.jingkan.com.localData.msgData.MsgDaoForRoom;
 import www.jingkan.com.localData.msgData.MsgDataEntity;
 import www.jingkan.com.localData.test.TestDaoForRoom;
 import www.jingkan.com.localData.test.TestEntity;
+import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataDaoForRoom;
 import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataEntity;
+import www.jingkan.com.localData.testData.TestDataDaoForRoom;
 import www.jingkan.com.localData.testData.TestDataEntity;
+import www.jingkan.com.localData.wirelessProbe.WirelessProbeDaoForRoom;
 import www.jingkan.com.localData.wirelessProbe.WirelessProbeEntity;
+import www.jingkan.com.localData.wirelessResultData.WirelessResultDataDaoForRoom;
 import www.jingkan.com.localData.wirelessResultData.WirelessResultDataEntity;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDaoForRoom;
 import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
+import www.jingkan.com.localData.wirelessTestData.WirelessTestDataDaoForRoom;
 import www.jingkan.com.localData.wirelessTestData.WirelessTestDataEntity;
 
 /**
@@ -50,9 +61,30 @@ public abstract class AppDatabase extends RoomDatabase {
     @VisibleForTesting
     public static final String DATABASE_NAME = "jk_data";
 
+
+    public abstract CalibrationProbeDaoForRoom calibrationProbeDaoForRoom();
+
+    public abstract CalibrationVerificationDaoForRoom calibrationVerificationDaoForRoom();
+
+    public abstract ProbeDaoForRoom probeDaoForRoom();
+
+    public abstract MemoryDataDaoForRoom memoryDataDaoForRoom();
+
+    public abstract MsgDaoForRoom msgDaoForRoom();
+
     public abstract TestDaoForRoom testDaoForRoom();
 
+    public abstract TestDataDaoForRoom testDataDaoForRoom();
 
+    public abstract CrossTestDataDaoForRoom crossTestDataDaoForRoom();
+
+    public abstract WirelessProbeDaoForRoom wirelessProbeDaoForRoom();
+
+    public abstract WirelessResultDataDaoForRoom wirelessResultDataDaoForRoom();
+
+    public abstract WirelessTestDaoForRoom wirelessTestDaoForRoom();
+
+    public abstract WirelessTestDataDaoForRoom wirelessTestDataDaoForRoom();
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
     public static AppDatabase getInstance(final Context context) {

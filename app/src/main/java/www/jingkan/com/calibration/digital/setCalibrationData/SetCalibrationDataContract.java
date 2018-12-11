@@ -6,7 +6,7 @@ package www.jingkan.com.calibration.digital.setCalibrationData;
 
 import java.util.List;
 
-import www.jingkan.com.localData.memoryData.MemoryDataModel;
+import www.jingkan.com.localData.memoryData.MemoryDataEntity;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -30,7 +30,8 @@ public interface SetCalibrationDataContract {
 
         void showDifferential(int differential);
 
-        void resetView(String strChannel, List<MemoryDataModel> memoryDataModels);
+        void resetView(String strChannel, List<MemoryDataEntity> memoryDataEntities);
+//        void resetView(String strChannel, List<MemoryDataModel> memoryDataModels);
 
         void showFaChannel();
 
