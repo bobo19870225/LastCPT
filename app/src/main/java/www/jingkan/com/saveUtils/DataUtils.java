@@ -12,11 +12,11 @@ import www.jingkan.com.framework.email.MailSenderRunnable;
 import www.jingkan.com.framework.utils.MyFileUtils;
 import www.jingkan.com.framework.utils.PreferencesUtils;
 import www.jingkan.com.framework.utils.StringUtils;
-import www.jingkan.com.localData.test.TestModel;
-import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataModel;
-import www.jingkan.com.localData.testData.TestDataModel;
-import www.jingkan.com.localData.wirelessResultData.WirelessResultDataModel;
-import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
+import www.jingkan.com.localData.test.TestEntity;
+import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataEntity;
+import www.jingkan.com.localData.testData.TestDataEntity;
+import www.jingkan.com.localData.wirelessResultData.WirelessResultDataEntity;
+import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
 import www.jingkan.com.mInterface.ISkip;
 import www.jingkan.com.me.SetEmailActivity;
 import www.jingkan.com.wireless.dataSynchronization.OriginalTestData;
@@ -68,8 +68,8 @@ public class DataUtils {
         StringBuilder content = new StringBuilder();
         String strReturn = "\r\n";
         String strTable = "\t";
-        TestModel mTestModel = null;
-        WirelessTestModel wirelessTestModel = null;
+        TestEntity mTestEntity = null;
+        WirelessTestEntity wirelessTestEntity = null;
         String projectNumber = null;
         String holeNumber = null;
         String testDate = null;
@@ -78,26 +78,26 @@ public class DataUtils {
         String location = null;
         String tester = null;
         String testType = null;
-        if (testModel instanceof TestModel) {
-            mTestModel = (TestModel) testModel;
-            testType = mTestModel.testType;
-            projectNumber = mTestModel.projectNumber;
-            holeNumber = mTestModel.holeNumber;
-            testDate = mTestModel.testDate;
-            holeHigh = StringUtils.format(mTestModel.holeHigh, 1);
-            waterLevel = StringUtils.format(mTestModel.waterLevel, 1);
-            location = mTestModel.location;
-            tester = mTestModel.tester;
-        } else if (testModel instanceof WirelessTestModel) {
-            wirelessTestModel = (WirelessTestModel) testModel;
-            testType = wirelessTestModel.testType;
-            projectNumber = wirelessTestModel.projectNumber;
-            holeNumber = wirelessTestModel.holeNumber;
-            testDate = wirelessTestModel.testDate;
-            holeHigh = StringUtils.format(wirelessTestModel.holeHigh, 1);
-            waterLevel = StringUtils.format(wirelessTestModel.waterLevel, 1);
-            location = wirelessTestModel.location;
-            tester = wirelessTestModel.tester;
+        if (testModel instanceof TestEntity) {
+            mTestEntity = (TestEntity) testModel;
+            testType = mTestEntity.testType;
+            projectNumber = mTestEntity.projectNumber;
+            holeNumber = mTestEntity.holeNumber;
+            testDate = mTestEntity.testDate;
+            holeHigh = StringUtils.format(mTestEntity.holeHigh, 1);
+            waterLevel = StringUtils.format(mTestEntity.waterLevel, 1);
+            location = mTestEntity.location;
+            tester = mTestEntity.tester;
+        } else if (testModel instanceof WirelessTestEntity) {
+            wirelessTestEntity = (WirelessTestEntity) testModel;
+            testType = wirelessTestEntity.testType;
+            projectNumber = wirelessTestEntity.projectNumber;
+            holeNumber = wirelessTestEntity.holeNumber;
+            testDate = wirelessTestEntity.testDate;
+            holeHigh = StringUtils.format(wirelessTestEntity.holeHigh, 1);
+            waterLevel = StringUtils.format(wirelessTestEntity.waterLevel, 1);
+            location = wirelessTestEntity.location;
+            tester = wirelessTestEntity.tester;
         }
         if (testType != null) {
             switch (saveType) {
@@ -114,13 +114,13 @@ public class DataUtils {
                     switch (testType) {
                         case "单桥试验":
                             content.append("deep").append(strTable).append("ps").append(strReturn);
-                            if (models.get(0) instanceof TestDataModel) {
-                                for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(StringUtils.format(mTestDataModels.deep, 1)).append(strTable)
-                                            .append(StringUtils.format(mTestDataModels.qc, 3)).append(strReturn);
+                            if (models.get(0) instanceof TestDataEntity) {
+                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+                                    content.append(StringUtils.format(mTestDataEntitys.deep, 1)).append(strTable)
+                                            .append(StringUtils.format(mTestDataEntitys.qc, 3)).append(strReturn);
                                 }
-                            } else if (models.get(0) instanceof WirelessResultDataModel) {
-                                for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                                     content.append(StringUtils.format(wirelessResultDataModel.deep, 1)).append(strTable)
                                             .append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strReturn);
                                 }
@@ -129,14 +129,14 @@ public class DataUtils {
                         case "单桥测斜试验":
                             content.append("deep/m").append(strTable).append("ps/MPa")
                                     .append(strTable).append("fa/.").append(strReturn);
-                            if (models.get(0) instanceof TestDataModel) {
-                                for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(StringUtils.format(mTestDataModels.deep, 1)).append(strTable)
-                                            .append(StringUtils.format(mTestDataModels.qc, 3)).append(strTable)
-                                            .append(StringUtils.format(mTestDataModels.fa, 3)).append(strReturn);
+                            if (models.get(0) instanceof TestDataEntity) {
+                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+                                    content.append(StringUtils.format(mTestDataEntitys.deep, 1)).append(strTable)
+                                            .append(StringUtils.format(mTestDataEntitys.qc, 3)).append(strTable)
+                                            .append(StringUtils.format(mTestDataEntitys.fa, 3)).append(strReturn);
                                 }
-                            } else if (models.get(0) instanceof WirelessResultDataModel) {
-                                for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                                     content.append(StringUtils.format(wirelessResultDataModel.deep, 1)).append(strTable)
                                             .append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strTable)
                                             .append(StringUtils.format(wirelessResultDataModel.fa, 3)).append(strReturn);
@@ -147,14 +147,14 @@ public class DataUtils {
                         case "双桥试验":
                             content.append("deep/m").append(strTable).append("qc/MPa")
                                     .append(strTable).append("fs/kPa").append(strReturn);
-                            if (models.get(0) instanceof TestDataModel) {
-                                for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(StringUtils.format(mTestDataModels.deep, 1)).append(strTable)
-                                            .append(StringUtils.format(mTestDataModels.qc, 3)).append(strTable)
-                                            .append(StringUtils.format(mTestDataModels.fs, 3)).append(strReturn);
+                            if (models.get(0) instanceof TestDataEntity) {
+                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+                                    content.append(StringUtils.format(mTestDataEntitys.deep, 1)).append(strTable)
+                                            .append(StringUtils.format(mTestDataEntitys.qc, 3)).append(strTable)
+                                            .append(StringUtils.format(mTestDataEntitys.fs, 3)).append(strReturn);
                                 }
-                            } else if (models.get(0) instanceof WirelessResultDataModel) {
-                                for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                                     content.append(StringUtils.format(wirelessResultDataModel.deep, 1)).append(strTable)
                                             .append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strTable)
                                             .append(StringUtils.format(wirelessResultDataModel.fs, 3)).append(strReturn);
@@ -165,15 +165,15 @@ public class DataUtils {
                             content.append("deep/m").append(strTable).append("qc/MPa")
                                     .append(strTable).append("fs/kPa").append(strTable)
                                     .append("fa/.").append(strReturn);
-                            if (models.get(0) instanceof TestDataModel) {
-                                for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(StringUtils.format(mTestDataModels.deep, 1)).append(strTable)
-                                            .append(StringUtils.format(mTestDataModels.qc, 3)).append(strTable)
-                                            .append(StringUtils.format(mTestDataModels.fs, 3)).append(strTable)
-                                            .append(StringUtils.format(mTestDataModels.fa, 1)).append(strReturn);
+                            if (models.get(0) instanceof TestDataEntity) {
+                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+                                    content.append(StringUtils.format(mTestDataEntitys.deep, 1)).append(strTable)
+                                            .append(StringUtils.format(mTestDataEntitys.qc, 3)).append(strTable)
+                                            .append(StringUtils.format(mTestDataEntitys.fs, 3)).append(strTable)
+                                            .append(StringUtils.format(mTestDataEntitys.fa, 1)).append(strReturn);
                                 }
-                            } else if (models.get(0) instanceof WirelessResultDataModel) {
-                                for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                                     content.append(StringUtils.format(wirelessResultDataModel.deep, 1)).append(strTable)
                                             .append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strTable)
                                             .append(StringUtils.format(wirelessResultDataModel.fs, 3)).append(strTable)
@@ -203,12 +203,12 @@ public class DataUtils {
                     switch (testType) {
                         case "单桥试验":
                         case "单桥测斜试验":
-                            if (models.get(0) instanceof TestDataModel) {
-                                for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(StringUtils.format(mTestDataModels.qc, 3)).append(strReturn);
+                            if (models.get(0) instanceof TestDataEntity) {
+                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+                                    content.append(StringUtils.format(mTestDataEntitys.qc, 3)).append(strReturn);
                                 }
-                            } else if (models.get(0) instanceof WirelessResultDataModel) {
-                                for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                                     content.append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strReturn);
                                 }
                             }
@@ -216,13 +216,13 @@ public class DataUtils {
                             break;
                         case "双桥试验":
                         case "双桥测斜试验":
-                            if (models.get(0) instanceof TestDataModel) {
-                                for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(StringUtils.format(mTestDataModels.qc, 3)).append(strReturn)
-                                            .append(StringUtils.format(mTestDataModels.fs, 3)).append(strReturn);
+                            if (models.get(0) instanceof TestDataEntity) {
+                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+                                    content.append(StringUtils.format(mTestDataEntitys.qc, 3)).append(strReturn)
+                                            .append(StringUtils.format(mTestDataEntitys.fs, 3)).append(strReturn);
                                 }
-                            } else if (models.get(0) instanceof WirelessResultDataModel) {
-                                for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                                     content.append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strReturn)
                                             .append(StringUtils.format(wirelessResultDataModel.fs, 3)).append(strReturn);
                                 }
@@ -247,10 +247,10 @@ public class DataUtils {
                             });
                     break;
                 case SAVE_TYPE_LY_DAT://溧阳科尔.DAT
-                    if (testModel instanceof TestModel) {
-                        getDATContent(models, content, strReturn, mTestModel, testType);
+                    if (testModel instanceof TestEntity) {
+                        getDATContent(models, content, strReturn, mTestEntity, testType);
                     } else {
-                        getDATContent(models, content, strReturn, wirelessTestModel, testType);
+                        getDATContent(models, content, strReturn, wirelessTestEntity, testType);
                     }
                     MyFileUtils.getInstance().saveToSD(context,
                             projectNumber + "_" + holeNumber,
@@ -273,12 +273,12 @@ public class DataUtils {
                         case "单桥试验":
                         case "单桥测斜试验":
                             content.append(" 1").append(strReturn);
-                            if (models.get(0) instanceof TestDataModel) {
-                                for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(" ").append(StringUtils.format(mTestDataModels.qc, 3)).append(strReturn);
+                            if (models.get(0) instanceof TestDataEntity) {
+                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+                                    content.append(" ").append(StringUtils.format(mTestDataEntitys.qc, 3)).append(strReturn);
                                 }
-                            } else if (models.get(0) instanceof WirelessResultDataModel) {
-                                for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                                     content.append(" ").append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strReturn);
                                 }
                             }
@@ -287,15 +287,15 @@ public class DataUtils {
                         case "双桥试验":
                         case "双桥测斜试验":
                             content.append(" 1 ，1").append(strReturn);
-                            if (models.get(0) instanceof TestDataModel) {
-                                for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(" ").append(StringUtils.format(mTestDataModels.qc, 3))
+                            if (models.get(0) instanceof TestDataEntity) {
+                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+                                    content.append(" ").append(StringUtils.format(mTestDataEntitys.qc, 3))
                                             .append(" ， ")
-                                            .append(StringUtils.format(mTestDataModels.fs, 3))
+                                            .append(StringUtils.format(mTestDataEntitys.fs, 3))
                                             .append(strReturn);
                                 }
-                            } else if (models.get(0) instanceof WirelessResultDataModel) {
-                                for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                                     content.append(" ").append(StringUtils.format(wirelessResultDataModel.qc, 3))
                                             .append(" ， ")
                                             .append(StringUtils.format(wirelessResultDataModel.fs, 3))
@@ -326,15 +326,15 @@ public class DataUtils {
                         case "单桥试验":
                         case "单桥测斜试验":
                             content.append(holeNumber).append("，").append("1").append(strReturn);
-                            if (models.get(0) instanceof TestDataModel) {
-                                for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(String.valueOf(mTestDataModels.deep))
+                            if (models.get(0) instanceof TestDataEntity) {
+                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+                                    content.append(String.valueOf(mTestDataEntitys.deep))
                                             .append("，")
-                                            .append(StringUtils.format(mTestDataModels.qc, 3))
+                                            .append(StringUtils.format(mTestDataEntitys.qc, 3))
                                             .append(strReturn);
                                 }
-                            } else if (models.get(0) instanceof WirelessResultDataModel) {
-                                for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                                     content.append(String.valueOf(wirelessResultDataModel.deep))
                                             .append("，")
                                             .append(StringUtils.format(wirelessResultDataModel.qc, 3))
@@ -346,17 +346,17 @@ public class DataUtils {
                         case "双桥试验":
                         case "双桥测斜试验":
                             content.append(holeNumber).append("，").append("2").append(strReturn);
-                            if (models.get(0) instanceof TestDataModel) {
-                                for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    content.append(String.valueOf(mTestDataModels.deep))
+                            if (models.get(0) instanceof TestDataEntity) {
+                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+                                    content.append(String.valueOf(mTestDataEntitys.deep))
                                             .append("，")
-                                            .append(StringUtils.format(mTestDataModels.qc, 3))
+                                            .append(StringUtils.format(mTestDataEntitys.qc, 3))
                                             .append("，")
-                                            .append(StringUtils.format(mTestDataModels.fs, 3))
+                                            .append(StringUtils.format(mTestDataEntitys.fs, 3))
                                             .append(strReturn);
                                 }
-                            } else if (models.get(0) instanceof WirelessResultDataModel) {
-                                for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                                     content.append(String.valueOf(wirelessResultDataModel.deep))
                                             .append("，")
                                             .append(StringUtils.format(wirelessResultDataModel.qc, 3))
@@ -388,16 +388,16 @@ public class DataUtils {
                     switch (testType) {
                         case "单桥测斜试验":
                             float mDeep = 0;
-                            if (models.get(0) instanceof TestDataModel) {
-                                for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    mDeep += 0.1 * Math.cos(2 * PI / 360 * mTestDataModels.fa);
+                            if (models.get(0) instanceof TestDataEntity) {
+                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+                                    mDeep += 0.1 * Math.cos(2 * PI / 360 * mTestDataEntitys.fa);
                                     content.append(StringUtils.format(mDeep, 3))
                                             .append(",")
-                                            .append(StringUtils.format(mTestDataModels.qc, 3))
+                                            .append(StringUtils.format(mTestDataEntitys.qc, 3))
                                             .append(strReturn);
                                 }
-                            } else if (models.get(0) instanceof WirelessResultDataModel) {
-                                for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                                     mDeep += 0.1 * Math.cos(2 * PI / 360 * wirelessResultDataModel.fa);
                                     content.append(StringUtils.format(mDeep, 3))
                                             .append(",")
@@ -409,18 +409,18 @@ public class DataUtils {
                             break;
                         case "双桥测斜试验":
                             mDeep = 0;
-                            if (models.get(0) instanceof TestDataModel) {
-                                for (TestDataModel mTestDataModels : (List<TestDataModel>) models) {
-                                    mDeep += 0.1 * Math.cos(2 * PI / 360 * mTestDataModels.fa);
+                            if (models.get(0) instanceof TestDataEntity) {
+                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+                                    mDeep += 0.1 * Math.cos(2 * PI / 360 * mTestDataEntitys.fa);
                                     content.append(StringUtils.format(mDeep, 3))
                                             .append(",")
-                                            .append(StringUtils.format(mTestDataModels.qc, 3))
+                                            .append(StringUtils.format(mTestDataEntitys.qc, 3))
                                             .append(",")
-                                            .append(StringUtils.format(mTestDataModels.fs, 3))
+                                            .append(StringUtils.format(mTestDataEntitys.fs, 3))
                                             .append(strReturn);
                                 }
-                            } else if (models.get(0) instanceof WirelessResultDataModel) {
-                                for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                                     mDeep += 0.1 * Math.cos(2 * PI / 360 * wirelessResultDataModel.fa);
                                     content.append(StringUtils.format(mDeep, 3))
                                             .append(",")
@@ -486,7 +486,7 @@ public class DataUtils {
 
     private Float maxCu = 0f;
     @SuppressWarnings("unchecked")
-    public void saveDataToSd(final Context context, List<CrossTestDataModel> models, TestModel testModel, final ISkip iSkip) {
+    public void saveDataToSd(final Context context, List<CrossTestDataEntity> models, TestEntity testModel, final ISkip iSkip) {
         StringBuilder content = new StringBuilder();
         String strReturn = "\r\n";
         String strTable = "\t";
@@ -509,26 +509,26 @@ public class DataUtils {
         String type = "";
         float deep = -1;
 
-        for (CrossTestDataModel crossTestDataModel : models) {
-            if (crossTestDataModel.deep != deep) {
+        for (CrossTestDataEntity crossTestDataEntity : models) {
+            if (crossTestDataEntity.deep != deep) {
                 if (deep != -1) {
                     listMaxCu.add(maxCu);
                 }
-                deep = crossTestDataModel.deep;
+                deep = crossTestDataEntity.deep;
                 maxCu = 0f;
                 listDeep.add(deep);
                 content.append("试验深度：").append(StringUtils.format(deep, 2)).append(strReturn);
-                type = crossTestDataModel.type;
+                type = crossTestDataEntity.type;
                 content.append("土样类型：").append(type).append(strReturn);
                 content.append("角度/。").append(strTable).append("Cu/kPa").append(strReturn);
             }
-            if (!crossTestDataModel.type.equals(type)) {
-                type = crossTestDataModel.type;
+            if (!crossTestDataEntity.type.equals(type)) {
+                type = crossTestDataEntity.type;
                 content.append("土样类型：").append(type).append(strReturn);
                 content.append("角度/。").append(strTable).append("Cu/kPa").append(strReturn);
             }
-            maxCu = crossTestDataModel.cu > maxCu ? crossTestDataModel.cu : maxCu;
-            content.append(StringUtils.format(crossTestDataModel.deg, 1)).append(strTable).append(StringUtils.format(crossTestDataModel.cu, 3)).append(strReturn);
+            maxCu = crossTestDataEntity.cu > maxCu ? crossTestDataEntity.cu : maxCu;
+            content.append(StringUtils.format(crossTestDataEntity.deg, 1)).append(strTable).append(StringUtils.format(crossTestDataEntity.cu, 3)).append(strReturn);
         }
         listMaxCu.add(maxCu);//添加最后一组数据
         content.append("各深度的极限抗剪切值").append(strReturn);
@@ -555,16 +555,16 @@ public class DataUtils {
     }
 
     @SuppressWarnings("unchecked")
-    private void getDATContent(List models, StringBuilder content, String strReturn, TestModel
-            mTestModel, String testType) {
+    private void getDATContent(List models, StringBuilder content, String strReturn, TestEntity
+            mTestEntity, String testType) {
         switch (testType) {
             case "单桥试验":
             case "单桥测斜试验":
-                content.append(mTestModel.testDate).append(strReturn);//测试日期
-                content.append(mTestModel.holeNumber).append(strReturn);//孔号
-                content.append(mTestModel.projectNumber).append(strReturn);//工程编号
-                content.append(mTestModel.holeHigh).append(strReturn);//孔口高程
-                content.append(mTestModel.waterLevel).append(strReturn);//地下水位
+                content.append(mTestEntity.testDate).append(strReturn);//测试日期
+                content.append(mTestEntity.holeNumber).append(strReturn);//孔号
+                content.append(mTestEntity.projectNumber).append(strReturn);//工程编号
+                content.append(mTestEntity.holeHigh).append(strReturn);//孔口高程
+                content.append(mTestEntity.waterLevel).append(strReturn);//地下水位
                 content.append("JKD10-4-001").append(strReturn);//探头编号
                 content.append("10").append(strReturn);//锥头面积
                 content.append("1").append(strReturn);//锥头系数
@@ -573,23 +573,23 @@ public class DataUtils {
                 content.append("0").append(strReturn);//侧壁面积
                 content.append("0").append(strReturn);
                 content.append("").append(strReturn);
-                if (models.get(0) instanceof TestDataModel) {
-                    for (TestDataModel testDataModel : (List<TestDataModel>) models) {
+                if (models.get(0) instanceof TestDataEntity) {
+                    for (TestDataEntity testDataModel : (List<TestDataEntity>) models) {
                         content.append(StringUtils.format(testDataModel.qc, 3)).append(strReturn);
                     }
-                } else if (models.get(0) instanceof WirelessResultDataModel) {
-                    for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                    for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                         content.append(StringUtils.format(wirelessResultDataModel.qc, 3)).append(strReturn);
                     }
                 }
                 break;
             case "双桥试验":
             case "双桥测斜试验":
-                content.append(mTestModel.testDate).append(strReturn);//测试日期
-                content.append(mTestModel.holeNumber).append(strReturn);//孔号
-                content.append(mTestModel.projectNumber).append(strReturn);//工程编号
-                content.append(mTestModel.holeHigh).append(strReturn);//孔口高程
-                content.append(mTestModel.waterLevel).append(strReturn);//地下水位
+                content.append(mTestEntity.testDate).append(strReturn);//测试日期
+                content.append(mTestEntity.holeNumber).append(strReturn);//孔号
+                content.append(mTestEntity.projectNumber).append(strReturn);//工程编号
+                content.append(mTestEntity.holeHigh).append(strReturn);//孔口高程
+                content.append(mTestEntity.waterLevel).append(strReturn);//地下水位
                 content.append("JKD10-4-001").append(strReturn);//探头编号
                 content.append("10").append(strReturn);//锥头面积
                 content.append("1").append(strReturn);//锥头系数
@@ -598,13 +598,13 @@ public class DataUtils {
                 content.append("200").append(strReturn);//侧壁面积
                 content.append("0").append(strReturn);
                 content.append("").append(strReturn);
-                if (models.get(0) instanceof TestDataModel) {
-                    for (TestDataModel testDataModel : (List<TestDataModel>) models) {
+                if (models.get(0) instanceof TestDataEntity) {
+                    for (TestDataEntity testDataModel : (List<TestDataEntity>) models) {
                         content.append(StringUtils.format(testDataModel.qc, 3));
                         content.append(StringUtils.format(testDataModel.fs, 3));
                     }
-                } else if (models.get(0) instanceof WirelessResultDataModel) {
-                    for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                    for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                         content.append(StringUtils.format(wirelessResultDataModel.qc, 3));
                         content.append(StringUtils.format(wirelessResultDataModel.fs, 3));
                     }
@@ -616,46 +616,46 @@ public class DataUtils {
 
     @SuppressWarnings("unchecked")
     private void getDATContent(List models, StringBuilder content, String
-            strReturn, WirelessTestModel wirelessTestModel, String testType) {
+            strReturn, WirelessTestEntity wirelessTestEntity, String testType) {
         switch (testType) {
             case "单桥试验":
             case "单桥测斜试验":
-                content.append(wirelessTestModel.testDate).append(strReturn);//测试日期
-                content.append(wirelessTestModel.holeNumber).append(strReturn);//孔号
-                content.append(wirelessTestModel.projectNumber).append(strReturn);//工程编号
-                content.append(wirelessTestModel.holeHigh).append(strReturn);//孔口高程
-                content.append(wirelessTestModel.waterLevel).append(strReturn);//地下水位
+                content.append(wirelessTestEntity.testDate).append(strReturn);//测试日期
+                content.append(wirelessTestEntity.holeNumber).append(strReturn);//孔号
+                content.append(wirelessTestEntity.projectNumber).append(strReturn);//工程编号
+                content.append(wirelessTestEntity.holeHigh).append(strReturn);//孔口高程
+                content.append(wirelessTestEntity.waterLevel).append(strReturn);//地下水位
                 content.append("JKD").append(strReturn);//探头编号
                 content.append("0").append(strReturn);
                 content.append("0").append(strReturn);
                 content.append("").append(strReturn);
-                if (models.get(0) instanceof TestDataModel) {
-                    for (TestDataModel testDataModel : (List<TestDataModel>) models) {
+                if (models.get(0) instanceof TestDataEntity) {
+                    for (TestDataEntity testDataModel : (List<TestDataEntity>) models) {
                         content.append(StringUtils.format(testDataModel.qc, 3));
                     }
-                } else if (models.get(0) instanceof WirelessResultDataModel) {
-                    for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                    for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                         content.append(StringUtils.format(wirelessResultDataModel.qc, 3));
                     }
                 }
                 break;
             case "双桥试验":
             case "双桥测斜试验":
-                content.append(wirelessTestModel.testDate).append(strReturn);//测试日期
-                content.append(wirelessTestModel.holeNumber).append(strReturn);//孔号
-                content.append(wirelessTestModel.projectNumber).append(strReturn);//工程编号
-                content.append(wirelessTestModel.holeHigh).append(strReturn);//孔口高程
-                content.append(wirelessTestModel.waterLevel).append(strReturn);//地下水位
+                content.append(wirelessTestEntity.testDate).append(strReturn);//测试日期
+                content.append(wirelessTestEntity.holeNumber).append(strReturn);//孔号
+                content.append(wirelessTestEntity.projectNumber).append(strReturn);//工程编号
+                content.append(wirelessTestEntity.holeHigh).append(strReturn);//孔口高程
+                content.append(wirelessTestEntity.waterLevel).append(strReturn);//地下水位
                 content.append("JKD").append(strReturn);//探头编号
                 content.append("0").append(strReturn);
                 content.append("").append(strReturn);
-                if (models.get(0) instanceof TestDataModel) {
-                    for (TestDataModel testDataModel : (List<TestDataModel>) models) {
+                if (models.get(0) instanceof TestDataEntity) {
+                    for (TestDataEntity testDataModel : (List<TestDataEntity>) models) {
                         content.append(StringUtils.format(testDataModel.qc, 3));
                         content.append(StringUtils.format(testDataModel.fs, 3));
                     }
-                } else if (models.get(0) instanceof WirelessResultDataModel) {
-                    for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) models) {
+                } else if (models.get(0) instanceof WirelessResultDataEntity) {
+                    for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
                         content.append(StringUtils.format(wirelessResultDataModel.qc, 3));
                         content.append(StringUtils.format(wirelessResultDataModel.fs, 3));
                     }
@@ -667,10 +667,10 @@ public class DataUtils {
     public void emailData(Context context, List models, String saveType, Object testModel, ISkip iSkip) {
         String fileName = null;
         String name = null;
-        if (testModel instanceof TestModel) {
-            name = ((TestModel) testModel).projectNumber + "_" + ((TestModel) testModel).holeNumber;
-        } else if (testModel instanceof WirelessTestModel) {
-            name = ((WirelessTestModel) testModel).projectNumber + "_" + ((WirelessTestModel) testModel).holeNumber;
+        if (testModel instanceof TestEntity) {
+            name = ((TestEntity) testModel).projectNumber + "_" + ((TestEntity) testModel).holeNumber;
+        } else if (testModel instanceof WirelessTestEntity) {
+            name = ((WirelessTestEntity) testModel).projectNumber + "_" + ((WirelessTestEntity) testModel).holeNumber;
         }
         switch (saveType) {
             case EMAIL_TYPE_ZHD_TXT:
@@ -715,7 +715,7 @@ public class DataUtils {
         }
     }
 
-    public void emailData(Context context, List<CrossTestDataModel> models, TestModel testModel, ISkip iSkip) {
+    public void emailData(Context context, List<CrossTestDataEntity> models, TestEntity testModel, ISkip iSkip) {
         String fileName = testModel.projectNumber + "_" + testModel.holeNumber + ".txt";
         PreferencesUtils preferencesUtils = new PreferencesUtils(context);
         Map<String, String> emailPreferences = preferencesUtils.getEmailPreferences();

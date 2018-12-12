@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import androidx.databinding.ObservableField;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,20 +11,21 @@ import android.os.Message;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.bluetooth.BluetoothCommService;
 import www.jingkan.com.framework.utils.BluetoothUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.framework.utils.VibratorUtils;
 import www.jingkan.com.framework.utils.headset.HeadSetHelper;
-import www.jingkan.com.localData.commonProbe.ProbeDao;
-import www.jingkan.com.localData.commonProbe.ProbeModel;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.test.TestDao;
-import www.jingkan.com.localData.test.TestModel;
-import www.jingkan.com.localData.testData.TestDataDao;
-import www.jingkan.com.localData.testData.TestDataModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.commonProbe.ProbeDaoForRoom;
+import www.jingkan.com.localData.commonProbe.ProbeEntity;
+import www.jingkan.com.localData.test.TestDaoForRoom;
+import www.jingkan.com.localData.test.TestEntity;
+import www.jingkan.com.localData.testData.TestDataDaoForRoom;
+import www.jingkan.com.localData.testData.TestDataEntity;
 import www.jingkan.com.mInterface.ISkip;
 import www.jingkan.com.saveUtils.DataUtils;
 
@@ -54,7 +54,7 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
 
     private boolean isIdentification;
     private String probeID;
-    private TestModel testModel;
+    private TestEntity testModel;
 
     @Override
     protected void init(Object data) {
@@ -66,21 +66,32 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
     }
 
     private void getTestParameters(String projectNumber, String holeNumber) {
-        TestDao testData = DataFactory.getBaseData(TestDao.class);
-        testData.getData(new DataLoadCallBack<TestModel>() {
+        TestDaoForRoom testDao = AppDatabase.getInstance(getView().getApplicationContext()).testDaoForRoom();
+        LiveData<List<TestEntity>> liveData = testDao.getTestEntityByPrjNumberAndHoleNumber(projectNumber, holeNumber);
+        List<TestEntity> testEntities = liveData.getValue();
+        if (testEntities != null && !testEntities.isEmpty()) {
+            testModel = testEntities.get(0);
+            obsProjectNumber.set(testModel.projectNumber);
+            obsHoleNumber.set(testModel.holeNumber);
+        } else {
+            myView.get().showToast("找不到该孔信息");
+        }
 
-            @Override
-            public void onDataLoaded(List<TestModel> models) {
-                testModel = models.get(0);
-                obsProjectNumber.set(testModel.projectNumber);
-                obsHoleNumber.set(testModel.holeNumber);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                myView.get().showToast("找不到该孔信息");
-            }
-        }, projectNumber, holeNumber);
+//        TestDao testData = DataFactory.getBaseData(TestDao.class);
+//        testData.getData(new DataLoadCallBack<TestModel>() {
+//
+//            @Override
+//            public void onDataLoaded(List<TestModel> models) {
+//                testModel = models.get(0);
+//                obsProjectNumber.set(testModel.projectNumber);
+//                obsHoleNumber.set(testModel.holeNumber);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                myView.get().showToast("找不到该孔信息");
+//            }
+//        }, projectNumber, holeNumber);
     }
 
     public void doRecord() {
@@ -94,7 +105,7 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
             }
         }
 
-        TestDataModel testDataModel = new TestDataModel();
+        TestDataEntity testDataModel = new TestDataEntity();
         testDataModel.testDataID = testModel.projectNumber + "-" + testModel.holeNumber;
         testDataModel.probeID = probeID;
         Float aFloat = obsTestDeep.get();
@@ -109,8 +120,8 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
         Float faEffectiveValue = obsFaEffectiveValue.get();
         if (faEffectiveValue != null)
             testDataModel.fa = faEffectiveValue;
-        TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);
-        testDataData.addData(testDataModel);
+        TestDataDaoForRoom testDataDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).testDataDaoForRoom();
+        testDataDaoForRoom.insertTestDataEntity(testDataModel);
         Boolean aBoolean = obsIsShock.get();
         if (aBoolean != null)
             if (aBoolean) {
@@ -122,20 +133,26 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
 
 
     private void loadTestData(String testDataID) {
-        TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);
-        testDataData.getData(new DataLoadCallBack<TestDataModel>() {
-
-            @Override
-            public void onDataLoaded(List<TestDataModel> models) {
-                myView.get().showTestData(models);
-                obsTestDeep.set(models.get(models.size() - 1).deep);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-
-            }
-        }, testDataID);
+        TestDataDaoForRoom testDataDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).testDataDaoForRoom();
+        LiveData<List<TestDataEntity>> liveData = testDataDaoForRoom.getTestDataByTestId(testDataID);
+        List<TestDataEntity> testDataEntities = liveData.getValue();
+        if (testDataEntities != null && !testDataEntities.isEmpty()) {
+            myView.get().showTestData(testDataEntities);
+            obsTestDeep.set(testDataEntities.get(testDataEntities.size() - 1).deep);
+        }
+//        testDataData.getData(new DataLoadCallBack<TestDataModel>() {
+//
+//            @Override
+//            public void onDataLoaded(List<TestDataModel> models) {
+//                myView.get().showTestData(models);
+//                obsTestDeep.set(models.get(models.size() - 1).deep);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//
+//            }
+//        }, testDataID);
     }
 
     @Override
@@ -210,24 +227,38 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
         if (!isIdentification) {
             isIdentification = true;
             probeID = sn;
-            ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
-            probeDao.getData(new DataLoadCallBack<ProbeModel>() {
+            ProbeDaoForRoom probeDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).probeDaoForRoom();
+            LiveData<List<ProbeEntity>> liveData = probeDaoForRoom.getProbeByProbeId(sn);
+            List<ProbeEntity> probeEntities = liveData.getValue();
+            if (probeEntities != null && !probeEntities.isEmpty()) {
+                ProbeEntity probeModel = probeEntities.get(0);
+                obsProbeNumber.set(probeModel.number);
+                obsQcCoefficient.set(String.valueOf(probeModel.qc_coefficient));
+                obsQcLimit.set(String.valueOf(probeModel.qc_limit));
+                obsFsCoefficient.set(String.valueOf(probeModel.fs_coefficient));
+                obsFsLimit.set(String.valueOf(probeModel.fs_limit));
+            } else {
+                myView.get().showToast("该探头未添加到探头列表中，暂时不能使用，请在探头列表里添加该探头");
+            }
 
-                @Override
-                public void onDataLoaded(List<ProbeModel> models) {
-                    ProbeModel probeModel = models.get(0);
-                    obsProbeNumber.set(probeModel.number);
-                    obsQcCoefficient.set(String.valueOf(probeModel.qc_coefficient));
-                    obsQcLimit.set(String.valueOf(probeModel.qc_limit));
-                    obsFsCoefficient.set(String.valueOf(probeModel.fs_coefficient));
-                    obsFsLimit.set(String.valueOf(probeModel.fs_limit));
-                }
-
-                @Override
-                public void onDataNotAvailable() {
-                    myView.get().showToast("该探头未添加到探头列表中，暂时不能使用，请在探头列表里添加该探头");
-                }
-            }, sn);
+//            ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
+//            probeDao.getData(new DataLoadCallBack<ProbeModel>() {
+//
+//                @Override
+//                public void onDataLoaded(List<ProbeModel> models) {
+//                    ProbeModel probeModel = models.get(0);
+//                    obsProbeNumber.set(probeModel.number);
+//                    obsQcCoefficient.set(String.valueOf(probeModel.qc_coefficient));
+//                    obsQcLimit.set(String.valueOf(probeModel.qc_limit));
+//                    obsFsCoefficient.set(String.valueOf(probeModel.fs_coefficient));
+//                    obsFsLimit.set(String.valueOf(probeModel.fs_limit));
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {
+//                    myView.get().showToast("该探头未添加到探头列表中，暂时不能使用，请在探头列表里添加该探头");
+//                }
+//            }, sn);
         }
 
     }
@@ -308,25 +339,40 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
     private List mModels = new ArrayList();
 
     public void saveTestDataToSD(final String fileType) {
-        TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);
-        testDataData.getData(new DataLoadCallBack<TestDataModel>() {
+        TestDataDaoForRoom testDataDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).testDataDaoForRoom();
+        LiveData<List<TestDataEntity>> liveData = testDataDaoForRoom.getTestDataByTestId(testModel.projectNumber + "_" + testModel.holeNumber);
+        List<TestDataEntity> testDataEntities = liveData.getValue();
+        if (testDataEntities != null && !testDataEntities.isEmpty()) {
+            mModels = testDataEntities;
+            DataUtils.getInstance()
+                    .saveDataToSd(getView().getApplicationContext(),
+                            testDataEntities,
+                            fileType,
+                            testModel,
+                            BaseTestViewModel.this);
+        } else {
+            myView.get().showToast("读取数据失败！");
+        }
 
-            @Override
-            public void onDataLoaded(List<TestDataModel> models) {
-                mModels = models;
-                DataUtils.getInstance()
-                        .saveDataToSd(getView().getApplicationContext(),
-                                models,
-                                fileType,
-                                testModel,
-                                BaseTestViewModel.this);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                myView.get().showToast("读取数据失败！");
-            }
-        }, testModel.projectNumber + "_" + testModel.holeNumber);
+//        TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);
+//        testDataData.getData(new DataLoadCallBack<TestDataModel>() {
+//
+//            @Override
+//            public void onDataLoaded(List<TestDataModel> models) {
+//                mModels = models;
+//                DataUtils.getInstance()
+//                        .saveDataToSd(getView().getApplicationContext(),
+//                                models,
+//                                fileType,
+//                                testModel,
+//                                BaseTestViewModel.this);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                myView.get().showToast("读取数据失败！");
+//            }
+//        }, testModel.projectNumber + "_" + testModel.holeNumber);
 
     }
 

@@ -8,26 +8,26 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import androidx.databinding.ObservableField;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
 import java.util.List;
 
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.bluetooth.BluetoothCommService;
 import www.jingkan.com.framework.utils.BluetoothUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.framework.utils.TimeUtils;
-import www.jingkan.com.localData.commonProbe.ProbeDao;
-import www.jingkan.com.localData.commonProbe.ProbeModel;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.test.TestDao;
-import www.jingkan.com.localData.test.TestModel;
-import www.jingkan.com.localData.testData.CrossTestData.CrossTestDaoDao;
-import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.commonProbe.ProbeDaoForRoom;
+import www.jingkan.com.localData.commonProbe.ProbeEntity;
+import www.jingkan.com.localData.test.TestDaoForRoom;
+import www.jingkan.com.localData.test.TestEntity;
+import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataDaoForRoom;
+import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataEntity;
 import www.jingkan.com.mInterface.ISkip;
 import www.jingkan.com.saveUtils.DataUtils;
 
@@ -125,7 +125,7 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
         Integer intDeg = Integer.parseInt(deg.get());
         intDeg += 1;
         Float fDeep = Float.parseFloat(strDeep.get());
-        CrossTestDataModel crossTestDataModel = new CrossTestDataModel();
+        CrossTestDataEntity crossTestDataModel = new CrossTestDataEntity();
         crossTestDataModel.testDataID = strProjectNumber.get() + "_" + strHoleNumber.get();
         crossTestDataModel.deg = intDeg;
         crossTestDataModel.cu = Float.parseFloat(strCuEffective.get());
@@ -136,8 +136,8 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
         if (testNumber != null)
             crossTestDataModel.number = testNumber;
         crossTestDataModel.type = strSoilType.get();
-        CrossTestDaoDao crossTestDataDao = DataFactory.getBaseData(CrossTestDaoDao.class);
-        crossTestDataDao.addData(crossTestDataModel);
+        CrossTestDataDaoForRoom crossTestDataDao = AppDatabase.getInstance(getView().getApplicationContext()).crossTestDataDaoForRoom();
+        crossTestDataDao.insertCrossTestDataEntity(crossTestDataModel);
         deg.set(StringUtils.format(intDeg, 1));
         getView().showRecordValue(strCuEffective.get(), intDeg);
     }
@@ -183,56 +183,86 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
         linkDevice();
     }
 
-    private TestModel testModel;
+    private TestEntity testModel;
 
     private void getTestParameters() {
-        TestDao testData = DataFactory.getBaseData(TestDao.class);
-        testData.getData(new DataLoadCallBack<TestModel>() {
-            @Override
-            public void onDataLoaded(List<TestModel> models) {
-                testModel = models.get(0);
-                if (testModel != null) {
-                    final CrossTestDaoDao crossTestDataDao = DataFactory.getBaseData(CrossTestDaoDao.class);
-                    crossTestDataDao.getData(new DataLoadCallBack<CrossTestDataModel>() {
-                        @Override
-                        public void onDataLoaded(List<CrossTestDataModel> models) {
-                            CrossTestDataModel crossTestDataModel = models.get(models.size() - 1);
-                            deg.set(String.valueOf(crossTestDataModel.deg));
-                            strDeep.set(String.valueOf(crossTestDataModel.deep));
-                            intTestNumber.set(crossTestDataModel.number);
-                            strSoilType.set(crossTestDataModel.type);
-                            crossTestDataDao.getData(new DataLoadCallBack<CrossTestDataModel>() {
-
-                                @Override
-                                public void onDataLoaded(List<CrossTestDataModel> models) {
-                                    myView.get().showTestData(models);
-                                }
-
-                                @Override
-                                public void onDataNotAvailable() {
-
-                                }
-                            },strProjectNumber.get() + "_" + strHoleNumber.get(), String.valueOf(intTestNumber.get()));
+        TestDaoForRoom testDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).testDaoForRoom();
+        LiveData<List<TestEntity>> liveData = testDaoForRoom.getTestEntityByPrjNumberAndHoleNumber(strProjectNumber.get(), strHoleNumber.get());
+        List<TestEntity> testEntities = liveData.getValue();
+        if (testEntities != null && !testEntities.isEmpty()) {
+            testModel = testEntities.get(0);
+            if (testModel != null) {
+                CrossTestDataDaoForRoom crossTestDataDao = AppDatabase.getInstance(getView().getApplicationContext()).crossTestDataDaoForRoom();
+                LiveData<List<CrossTestDataEntity>> liveDataCTDE = crossTestDataDao.
+                        getCrossTestDataByTestDataIdAndNumber(strProjectNumber.get() + "_" + strHoleNumber.get()
+                                , intTestNumber.get());
+                List<CrossTestDataEntity> crossTestDataEntities = liveDataCTDE.getValue();
+                if (crossTestDataEntities != null && !crossTestDataEntities.isEmpty()) {
 
 
-                        }
-
-                        @Override
-                        public void onDataNotAvailable() {
-
-                        }
-                    }, strProjectNumber.get() + "_" + strHoleNumber.get());
+                    CrossTestDataEntity crossTestDataModel = crossTestDataEntities.get(crossTestDataEntities.size() - 1);
+                    deg.set(String.valueOf(crossTestDataModel.deg));
+                    strDeep.set(String.valueOf(crossTestDataModel.deep));
+                    intTestNumber.set(crossTestDataModel.number);
+                    strSoilType.set(crossTestDataModel.type);
+                    LiveData<List<CrossTestDataEntity>> liveDataCTDE1 = crossTestDataDao.getCrossTestDataByTestDataIdAndNumber(strProjectNumber.get() + "_" + strHoleNumber.get(), intTestNumber.get());
+                    List<CrossTestDataEntity> crossTestDataEntities1 = liveDataCTDE1.getValue();
+                    if (crossTestDataEntities1 != null && !crossTestDataEntities1.isEmpty()) {
+                        myView.get().showTestData(crossTestDataEntities1);
+                    }
                 }
 
-            }
-
-            @Override
-            public void onDataNotAvailable() {
+            } else {
                 myView.get().showToast("找不到该孔信息");
             }
-        }, strProjectNumber.get(), strHoleNumber.get());
-    }
 
+//        TestDao testData = DataFactory.getBaseData(TestDao.class);
+//        testData.getData(new DataLoadCallBack<TestEntity>() {
+//            @Override
+//            public void onDataLoaded(List<TestEntity> models) {
+//                testModel = models.get(0);
+//                if (testModel != null) {
+//                    final CrossTestDaoDao crossTestDataDao = DataFactory.getBaseData(CrossTestDaoDao.class);
+//                    crossTestDataDao.getData(new DataLoadCallBack<CrossTestDataEntity>() {
+//                        @Override
+//                        public void onDataLoaded(List<CrossTestDataEntity> models) {
+//                            CrossTestDataEntity crossTestDataModel = models.get(models.size() - 1);
+//                            deg.set(String.valueOf(crossTestDataModel.deg));
+//                            strDeep.set(String.valueOf(crossTestDataModel.deep));
+//                            intTestNumber.set(crossTestDataModel.number);
+//                            strSoilType.set(crossTestDataModel.type);
+//                            crossTestDataDao.getData(new DataLoadCallBack<CrossTestDataEntity>() {
+//
+//                                @Override
+//                                public void onDataLoaded(List<CrossTestDataEntity> models) {
+//                                    myView.get().showTestData(models);
+//                                }
+//
+//                                @Override
+//                                public void onDataNotAvailable() {
+//
+//                                }
+//                            },strProjectNumber.get() + "_" + strHoleNumber.get(), String.valueOf(intTestNumber.get()));
+//
+//
+//                        }
+//
+//                        @Override
+//                        public void onDataNotAvailable() {
+//
+//                        }
+//                    }, strProjectNumber.get() + "_" + strHoleNumber.get());
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                myView.get().showToast("找不到该孔信息");
+//            }
+//        }, strProjectNumber.get(), strHoleNumber.get());
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -259,25 +289,36 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
     }
 
     private boolean isIdentification;
-    private ProbeModel probeModel;
+    private ProbeEntity probeModel;
 
     private void IdentificationProbe(String sn) {
         if (!isIdentification) {
             isIdentification = true;
-            ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
-            probeDao.getData(new DataLoadCallBack<ProbeModel>() {
-                @Override
-                public void onDataLoaded(List<ProbeModel> models) {
-                    probeModel = models.get(0);
-                    strCuCoefficient.set(String.valueOf(probeModel.qc_coefficient));
-                    strCuLimit.set(String.valueOf(probeModel.qc_limit));
-                }
+            ProbeDaoForRoom probeDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).probeDaoForRoom();
+            LiveData<List<ProbeEntity>> liveData = probeDaoForRoom.getProbeByProbeId(sn);
+            List<ProbeEntity> probeEntities = liveData.getValue();
+            if (probeEntities != null && !probeEntities.isEmpty()) {
+                probeModel = probeEntities.get(0);
+                strCuCoefficient.set(String.valueOf(probeModel.qc_coefficient));
+                strCuLimit.set(String.valueOf(probeModel.qc_limit));
+            } else {
+                myView.get().showToast("该探头未添加到探头列表中，暂时不能使用，请在探头列表里添加该探头");
+            }
 
-                @Override
-                public void onDataNotAvailable() {
-                    myView.get().showToast("该探头未添加到探头列表中，暂时不能使用，请在探头列表里添加该探头");
-                }
-            }, sn);
+//            ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
+//            probeDao.getData(new DataLoadCallBack<ProbeEntity>() {
+//                @Override
+//                public void onDataLoaded(List<ProbeEntity> models) {
+//                    probeModel = models.get(0);
+//                    strCuCoefficient.set(String.valueOf(probeModel.qc_coefficient));
+//                    strCuLimit.set(String.valueOf(probeModel.qc_limit));
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {
+//                    myView.get().showToast("该探头未添加到探头列表中，暂时不能使用，请在探头列表里添加该探头");
+//                }
+//            }, sn);
         }
 
     }
@@ -297,24 +338,35 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
 
     }
 
-    private List<CrossTestDataModel> crossTestDataModels;
+    private List<CrossTestDataEntity> crossTestDataModels;
 
     public void saveTestDataToSD() {
-        CrossTestDaoDao crossTestDataDao = DataFactory.getBaseData(CrossTestDaoDao.class);
-        crossTestDataDao.getData(new DataLoadCallBack<CrossTestDataModel>() {
+        CrossTestDataDaoForRoom testDataDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).crossTestDataDaoForRoom();
+        LiveData<List<CrossTestDataEntity>> liveData = testDataDaoForRoom.getCrossTestDataByTestDataId(testModel.projectNumber + "_" + testModel.holeNumber);
+        List<CrossTestDataEntity> crossTestDataEntities = liveData.getValue();
+        if (crossTestDataEntities != null && !crossTestDataEntities.isEmpty()) {
+            crossTestDataModels = crossTestDataEntities;
+            DataUtils.getInstance().saveDataToSd(getView().getApplicationContext(),
+                    crossTestDataModels, testModel, CrossTestViewModel.this);
+        } else {
+            myView.get().showToast("读取数据失败！");
+        }
 
-            @Override
-            public void onDataLoaded(List<CrossTestDataModel> models) {
-                crossTestDataModels = models;
-                DataUtils.getInstance().saveDataToSd(getView().getApplicationContext(),
-                        models, testModel, CrossTestViewModel.this);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                myView.get().showToast("读取数据失败！");
-            }
-        }, testModel.projectNumber + "_" + testModel.holeNumber);
+//        CrossTestDaoDao crossTestDataDao = DataFactory.getBaseData(CrossTestDaoDao.class);
+//        crossTestDataDao.getData(new DataLoadCallBack<CrossTestDataEntity>() {
+//
+//            @Override
+//            public void onDataLoaded(List<CrossTestDataEntity> models) {
+//                crossTestDataModels = models;
+//                DataUtils.getInstance().saveDataToSd(getView().getApplicationContext(),
+//                        models, testModel, CrossTestViewModel.this);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                myView.get().showToast("读取数据失败！");
+//            }
+//        }, testModel.projectNumber + "_" + testModel.holeNumber);
 
     }
 
@@ -348,4 +400,5 @@ public class CrossTestViewModel extends BaseViewModel<CrossTestActivity> impleme
     public void sendToastMsg(String msg) {
         getView().showToast(msg);
     }
+
 }

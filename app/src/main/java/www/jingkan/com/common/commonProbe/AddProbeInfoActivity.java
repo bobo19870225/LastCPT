@@ -8,8 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,6 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.R;
 import www.jingkan.com.adapter.OneTextListAdapter;
 import www.jingkan.com.annotation.BindView;
@@ -28,10 +27,9 @@ import www.jingkan.com.fragment.CrossFragment;
 import www.jingkan.com.fragment.DoubleBridgeFragment;
 import www.jingkan.com.fragment.SingleBridgeFragment;
 import www.jingkan.com.framework.utils.StringUtils;
-import www.jingkan.com.localData.commonProbe.ProbeDao;
-import www.jingkan.com.localData.commonProbe.ProbeModel;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.commonProbe.ProbeDaoForRoom;
+import www.jingkan.com.localData.commonProbe.ProbeEntity;
 
 public class AddProbeInfoActivity extends BaseActivity implements SingleBridgeFragment.SingleBridgeData,
         DoubleBridgeFragment.DoubleBridgeData,
@@ -54,7 +52,9 @@ public class AddProbeInfoActivity extends BaseActivity implements SingleBridgeFr
     private String[] crossData;
 
     private String strProbeType, sn, strNumber;
-    private ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
+    private ProbeDaoForRoom probeDaoForRoom = AppDatabase.getInstance(getApplicationContext()).probeDaoForRoom();
+
+//    private ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
 
     @Override
     protected void setView() {
@@ -62,9 +62,9 @@ public class AddProbeInfoActivity extends BaseActivity implements SingleBridgeFr
         doubleBridgeData = new String[6];
         crossData = new String[3];
 
-        if (mData != null && mData instanceof ProbeModel) {
+        if (mData instanceof ProbeEntity) {
             setToolBar("编辑探头参数");
-            ProbeModel mProbeModel = (ProbeModel) mData;
+            ProbeEntity mProbeModel = (ProbeEntity) mData;
             tt_probe_type.setText("探头类型：");
             String type = mProbeModel.type;
             probe_type.setText(type);
@@ -104,18 +104,14 @@ public class AddProbeInfoActivity extends BaseActivity implements SingleBridgeFr
         list.add("十字板");
         OneTextListAdapter adapter = new OneTextListAdapter(AddProbeInfoActivity.this, R.layout.listitem, list);
         lv_list.setAdapter(adapter);
-        lv_list.setOnItemClickListener(new OnItemClickListener() {
+        lv_list.setOnItemClickListener((parent, view, position, id) -> {
+            TextView t = view.findViewById(R.id.TextView);
+            tt_probe_type.setText("探头类型：");
+            String type = t.getText().toString();
+            probe_type.setText(type);
+            setMyFragment(type);
+            popupWindow.dismiss();
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView t = view.findViewById(R.id.TextView);
-                tt_probe_type.setText("探头类型：");
-                String type = t.getText().toString();
-                probe_type.setText(type);
-                setMyFragment(type);
-                popupWindow.dismiss();
-
-            }
         });
         popupWindow.showAtLocation(add, Gravity.CENTER, 0, 0);
 
@@ -161,21 +157,30 @@ public class AddProbeInfoActivity extends BaseActivity implements SingleBridgeFr
                 sn = et_sn.getText().toString();
                 strNumber = et_id.getText().toString();
                 if (sn.length() > 0) {
-                    probeDao.getData(new DataLoadCallBack() {
-                        @Override
-                        public void onDataLoaded(List model) {//修改
-                            saveDataToLocal(true);
-                            goTo(CommonProbeActivity.class, null, true);
-
-                        }
-
-                        @Override
-                        public void onDataNotAvailable() {
-                            saveDataToLocal(false);
-                            goTo(CommonProbeActivity.class, null, true);
-
-                        }
-                    }, sn);
+                    LiveData<List<ProbeEntity>> liveData = probeDaoForRoom.getProbeByProbeId(sn);
+                    List<ProbeEntity> probeEntities = liveData.getValue();
+                    if (probeEntities != null && !probeEntities.isEmpty()) {
+                        saveDataToLocal(true);
+                        goTo(CommonProbeActivity.class, null, true);
+                    } else {
+                        saveDataToLocal(false);
+                        goTo(CommonProbeActivity.class, null, true);
+                    }
+//                    probeDao.getData(new DataLoadCallBack() {
+//                        @Override
+//                        public void onDataLoaded(List model) {//修改
+//                            saveDataToLocal(true);
+//                            goTo(CommonProbeActivity.class, null, true);
+//
+//                        }
+//
+//                        @Override
+//                        public void onDataNotAvailable() {
+//                            saveDataToLocal(false);
+//                            goTo(CommonProbeActivity.class, null, true);
+//
+//                        }
+//                    }, sn);
 
                 } else {
                     showToast("请将参数填写完整");
@@ -188,7 +193,7 @@ public class AddProbeInfoActivity extends BaseActivity implements SingleBridgeFr
     }
 
     private void saveDataToLocal(boolean isUpdate) {
-        ProbeModel probeModel = new ProbeModel();
+        ProbeEntity probeModel = new ProbeEntity();
         probeModel.probeID = sn;
         probeModel.sn = sn;
         probeModel.number = strNumber;
@@ -277,9 +282,9 @@ public class AddProbeInfoActivity extends BaseActivity implements SingleBridgeFr
                 break;
         }
         if (isUpdate) {
-            probeDao.modifyData(probeModel);
+            probeDaoForRoom.upDateProbe(probeModel);
         } else {
-            probeDao.addData(probeModel);
+            probeDaoForRoom.insertProbeEntity(probeModel);
         }
 
     }

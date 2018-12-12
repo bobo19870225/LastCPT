@@ -21,7 +21,7 @@ import www.jingkan.com.base.baseMVVM.MVVMDialogActivity;
 import www.jingkan.com.chart.CrossStrategy;
 import www.jingkan.com.chart.DrawChartHelper;
 import www.jingkan.com.databinding.ActivityCrossTestBinding;
-import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataModel;
+import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataEntity;
 import www.jingkan.com.parameter.SystemConstant;
 
 /**
@@ -82,9 +82,9 @@ public class CrossTestActivity extends MVVMDialogActivity<CrossTestViewModel, Ac
     }
 
 
-    public void showTestData(List<CrossTestDataModel> crossTestDataModels) {
+    public void showTestData(List<CrossTestDataEntity> crossTestDataModels) {
         List<float[]> listPoints = new ArrayList<>();
-        for (CrossTestDataModel crossTestDataModel : crossTestDataModels) {
+        for (CrossTestDataEntity crossTestDataModel : crossTestDataModels) {
             listPoints.add(new float[]{crossTestDataModel.cu, 0, 0, crossTestDataModel.deg});
         }
         drawChartHelper.addPointsToChart(listPoints);

@@ -5,7 +5,6 @@
 package www.jingkan.com.common.baseTest;
 
 import android.app.Dialog;
-import androidx.appcompat.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -16,12 +15,13 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
 import www.jingkan.com.R;
 import www.jingkan.com.base.baseMVVM.MVVMDialogActivity;
 import www.jingkan.com.chart.DrawChartHelper;
 import www.jingkan.com.databinding.ActivityBaseTestBinding;
 import www.jingkan.com.framework.utils.StringUtils;
-import www.jingkan.com.localData.testData.TestDataModel;
+import www.jingkan.com.localData.testData.TestDataEntity;
 
 import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_HN_111;
 import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_LY_DAT;
@@ -118,10 +118,10 @@ public class BaseTestActivity extends MVVMDialogActivity<BaseTestViewModel, Acti
     }
 
 
-    public void showTestData(List<TestDataModel> testDataModels) {
+    public void showTestData(List<TestDataEntity> testDataModels) {
 //        deep.setText(StringUtils.format(testDataModels.get(testDataModels.size() - 1).deep, 1));
         List<float[]> listPoints = new ArrayList<>();
-        for (TestDataModel testDataModel : testDataModels) {
+        for (TestDataEntity testDataModel : testDataModels) {
             listPoints.add(new float[]{testDataModel.qc,
                     testDataModel.fs,
                     testDataModel.fa,

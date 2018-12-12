@@ -19,9 +19,9 @@ import www.jingkan.com.framework.acp.Acp;
 import www.jingkan.com.framework.acp.AcpListener;
 import www.jingkan.com.framework.acp.AcpOptions;
 import www.jingkan.com.framework.utils.StringUtils;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.commonProbe.ProbeDao;
-import www.jingkan.com.localData.commonProbe.ProbeModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.commonProbe.ProbeDaoForRoom;
+import www.jingkan.com.localData.commonProbe.ProbeEntity;
 import www.jingkan.com.qrcode.qrSimple.CaptureActivity;
 
 public class AddProbeActivity extends BaseActivity {
@@ -30,7 +30,7 @@ public class AddProbeActivity extends BaseActivity {
     @BindView(id = www.jingkan.com.R.id.input, click = true)
     private RelativeLayout input;
     private final int OK = 0;
-    private ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
+    private ProbeDaoForRoom probeDao = AppDatabase.getInstance(getApplicationContext()).probeDaoForRoom();
 
     @Override
     protected void setView() {
@@ -60,7 +60,7 @@ public class AddProbeActivity extends BaseActivity {
                             strings = result.split("\n");
                         }
                         if (strings.length == 3) {//单桥或十字板探头
-                            ProbeModel probeModel = new ProbeModel();
+                            ProbeEntity probeModel = new ProbeEntity();
                             String[] strProbeNumber = strings[1].split("-");
                             if (strProbeNumber[0].contains("D")) {//单桥探头
                                 String mj;
@@ -93,7 +93,7 @@ public class AddProbeActivity extends BaseActivity {
                                     return;
                                 }
 
-                                probeDao.addData(probeModel);
+                                probeDao.insertProbeEntity(probeModel);
                                 goTo(CommonProbeActivity.class, null, true);
 
 
@@ -110,12 +110,12 @@ public class AddProbeActivity extends BaseActivity {
                                     return;
                                 }
                                 probeModel.qc_limit = 140;
-                                probeDao.addData(probeModel);
+                                probeDao.insertProbeEntity(probeModel);
                                 goTo(CommonProbeActivity.class, null, true);
 
                             }
                         } else if (strings.length == 4) {//双桥探头
-                            ProbeModel probeModel = new ProbeModel();
+                            ProbeEntity probeModel = new ProbeEntity();
                             String[] strProbeNumber = strings[1].split("-");
                             String mj;
                             if (strProbeNumber[0].contains("S")) {//双桥探头
@@ -155,7 +155,7 @@ public class AddProbeActivity extends BaseActivity {
                                     return;
                                 }
                                 probeModel.fs_limit = Integer.parseInt(strProbeNumber[1]) * 120;
-                                probeDao.addData(probeModel);
+                                probeDao.insertProbeEntity(probeModel);
                                 goTo(CommonProbeActivity.class, null, true);
 
                             }

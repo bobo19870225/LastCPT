@@ -23,6 +23,9 @@ public interface TestDaoForRoom {
     @Query("SELECT * FROM TEST ORDER BY testDate DESC")
     LiveData<List<TestEntity>> getAllTestes();
 
+    @Query("SELECT * FROM TEST WHERE testDataID = :testDataId")
+    LiveData<List<TestEntity>> getTestEntityByTestDataId(String testDataId);
+
     @Query("SELECT * FROM TEST WHERE projectNumber = :projectNumber AND holeNumber = :holeNumber")
     LiveData<List<TestEntity>> getTestEntityByPrjNumberAndHoleNumber(String projectNumber, String holeNumber);
 
