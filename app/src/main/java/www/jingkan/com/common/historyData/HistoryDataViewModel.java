@@ -9,7 +9,7 @@ import www.jingkan.com.R;
 import www.jingkan.com.adapter.BaseDataBindingAdapter;
 import www.jingkan.com.base.baseMVVM.MVVMListViewModel;
 import www.jingkan.com.databinding.ItemHistoryTestBinding;
-import www.jingkan.com.localData.test.TestModel;
+import www.jingkan.com.localData.test.TestEntity;
 
 /**
  * Created by Sampson on 2018/12/10.
@@ -62,7 +62,7 @@ public class HistoryDataViewModel extends MVVMListViewModel<HistoryDataActivity>
 //        getView().setListView(allTestes.getValue());
     }
 
-    public void deleteOneHistoryData(TestModel testEntity) {
+    public void deleteOneHistoryData(TestEntity testEntity) {
 
     }
 }

@@ -4,9 +4,9 @@
 
 package www.jingkan.com.common.historyData;
 
-import www.jingkan.com.localData.test.TestModel;
-
 import java.util.List;
+
+import www.jingkan.com.localData.test.TestEntity;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -15,7 +15,7 @@ public interface HistoryDataContract {
 
     interface View {
 
-        void showHistoryData(List<TestModel> testModels);
+        void showHistoryData(List<TestEntity> testModels);
 
     }
 
@@ -23,7 +23,7 @@ public interface HistoryDataContract {
 
         void getHistoryData();
 
-        void deleteOneHistoryData(TestModel testModel);
+        void deleteOneHistoryData(TestEntity testModel);
 
     }
 }

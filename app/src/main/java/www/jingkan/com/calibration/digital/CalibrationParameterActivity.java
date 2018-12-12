@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.R;
 import www.jingkan.com.annotation.BindView;
 import www.jingkan.com.base.BaseActivity;
@@ -20,10 +21,9 @@ import www.jingkan.com.calibration.digital.setCalibrationData.SetCalibrationData
 import www.jingkan.com.framework.utils.PreferencesUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.linkBluetooth.LinkBluetoothActivity;
-import www.jingkan.com.localData.calibrationProbe.CalibrationProbeDao;
-import www.jingkan.com.localData.calibrationProbe.CalibrationProbeModel;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.calibrationProbe.CalibrationProbeDaoForRoom;
+import www.jingkan.com.localData.calibrationProbe.CalibrationProbeEntity;
 
 /**
  * Created by bobo on 2017/3/19.
@@ -45,29 +45,40 @@ public class CalibrationParameterActivity extends BaseActivity {
     private EditText specification;
     @BindView(id = R.id.differential)
     private EditText differential;
-    private CalibrationProbeDao calibrationProbeDao = DataFactory.getBaseData(CalibrationProbeDao.class);
+    private CalibrationProbeDaoForRoom calibrationProbeDaoForRoom = AppDatabase.getInstance(getApplicationContext()).calibrationProbeDaoForRoom();
     private String[] strings;
 
     @Override
     protected void setView() {
         strings = (String[]) mData;
         setTitle(strings[1]);
-        calibrationProbeDao.getData(new DataLoadCallBack<CalibrationProbeModel>() {
-
-            @Override
-            public void onDataLoaded(List<CalibrationProbeModel> models) {
-                CalibrationProbeModel calibrationProbeModel = models.get(models.size() - 1);
-                sn.setText(calibrationProbeModel.probeID);
-                number.setText(calibrationProbeModel.number);
-                area.setText(calibrationProbeModel.work_area);
-                differential.setText(calibrationProbeModel.differential);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                showToast("还没有标定数据");
-            }
-        });
+        LiveData<List<CalibrationProbeEntity>> liveDataCPE = calibrationProbeDaoForRoom.getAllCalbrationProbeEntity();
+        List<CalibrationProbeEntity> calibrationProbeEntities = liveDataCPE.getValue();
+        if (calibrationProbeEntities != null && !calibrationProbeEntities.isEmpty()) {
+            CalibrationProbeEntity calibrationProbeEntity = calibrationProbeEntities.get(calibrationProbeEntities.size() - 1);
+            sn.setText(calibrationProbeEntity.probeID);
+            number.setText(calibrationProbeEntity.number);
+            area.setText(calibrationProbeEntity.work_area);
+            differential.setText(calibrationProbeEntity.differential);
+        } else {
+            showToast("还没有标定数据");
+        }
+//        calibrationProbeDaoForRoom.getData(new DataLoadCallBack<CalibrationProbeModel>() {
+//
+//            @Override
+//            public void onDataLoaded(List<CalibrationProbeModel> models) {
+//                CalibrationProbeModel calibrationProbeModel = models.get(models.size() - 1);
+//                sn.setText(calibrationProbeModel.probeID);
+//                number.setText(calibrationProbeModel.number);
+//                area.setText(calibrationProbeModel.work_area);
+//                differential.setText(calibrationProbeModel.differential);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                showToast("还没有标定数据");
+//            }
+//        });
     }
 
 
@@ -85,12 +96,12 @@ public class CalibrationParameterActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.confirm:
                 if (checkParameter(strSn)) break;
-                CalibrationProbeModel calibrationProbeModel = new CalibrationProbeModel();
-                calibrationProbeModel.probeID = strSn;
-                calibrationProbeModel.number = number.getText().toString();
-                calibrationProbeModel.work_area = area.getText().toString();
-                calibrationProbeModel.differential = differential.getText().toString();
-                calibrationProbeDao.addData(calibrationProbeModel);
+                CalibrationProbeEntity calibrationProbeEntity = new CalibrationProbeEntity();
+                calibrationProbeEntity.probeID = strSn;
+                calibrationProbeEntity.number = number.getText().toString();
+                calibrationProbeEntity.work_area = area.getText().toString();
+                calibrationProbeEntity.differential = differential.getText().toString();
+                calibrationProbeDaoForRoom.insertCalibrationProbe(calibrationProbeEntity);
                 switch (strings[0]) {
                     case "设置探头内存数据":
                         goToSetCalibrationData(strSn, add);

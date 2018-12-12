@@ -5,25 +5,25 @@
 package www.jingkan.com.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import www.jingkan.com.R;
-import www.jingkan.com.localData.test.TestModel;
-
 import java.util.List;
 
-public class ListHistoryAdapter extends ArrayAdapter<TestModel> {
+import androidx.annotation.NonNull;
+import www.jingkan.com.R;
+import www.jingkan.com.localData.test.TestEntity;
+
+public class ListHistoryAdapter extends ArrayAdapter<TestEntity> {
 
     private Context context;
     private int resource;
-    private List<TestModel> objects;
+    private List<TestEntity> objects;
 
-    public ListHistoryAdapter(Context context, int resource, List<TestModel> objects) {
+    public ListHistoryAdapter(Context context, int resource, List<TestEntity> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
@@ -41,7 +41,7 @@ public class ListHistoryAdapter extends ArrayAdapter<TestModel> {
     }
 
     @Override
-    public TestModel getItem(int position) {
+    public TestEntity getItem(int position) {
         if (objects == null) {
             return null;
         } else {
@@ -62,7 +62,7 @@ public class ListHistoryAdapter extends ArrayAdapter<TestModel> {
         TextView project_number = v.findViewById(R.id.project_number);
         TextView hole_number = v.findViewById(R.id.hole_number);
         TextView date = v.findViewById(R.id.date);
-        TestModel testModel = getItem(position);
+        TestEntity testModel = getItem(position);
         if (testModel != null) {
             project_number.setText(testModel.projectNumber);
             hole_number.setText(testModel.holeNumber);

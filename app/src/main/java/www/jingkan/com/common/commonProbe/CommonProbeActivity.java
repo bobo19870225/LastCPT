@@ -4,15 +4,15 @@
 
 package www.jingkan.com.common.commonProbe;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +22,9 @@ import www.jingkan.com.adapter.CommonProbeListAdapter;
 import www.jingkan.com.annotation.BindView;
 import www.jingkan.com.base.baseMVP.BaseMvpActivity;
 import www.jingkan.com.base.baseMVP.BasePresenter;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.commonProbe.ProbeDao;
-import www.jingkan.com.localData.commonProbe.ProbeModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.commonProbe.ProbeDaoForRoom;
+import www.jingkan.com.localData.commonProbe.ProbeEntity;
 
 public class CommonProbeActivity extends BaseMvpActivity<CommonProbePresenter> implements CommonProbeContract.View {
     @BindView(id = R.id.probes)
@@ -35,8 +35,8 @@ public class CommonProbeActivity extends BaseMvpActivity<CommonProbePresenter> i
     private TextView hint;
 
     private CommonProbeListAdapter commonProbeListAdapter;
-    private ArrayList<ProbeModel> probeModels;
-    private ProbeModel selectedProbeModel;
+    private ArrayList<ProbeEntity> probeModels;
+    private ProbeEntity selectedProbeModel;
 
     @Override
     protected void setView() {
@@ -46,18 +46,10 @@ public class CommonProbeActivity extends BaseMvpActivity<CommonProbePresenter> i
         commonProbeListAdapter = new CommonProbeListAdapter(CommonProbeActivity.this,
                 R.layout.item_common_probe_list, probeModels);
         probes.setAdapter(commonProbeListAdapter);
-        probes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                goTo(AddProbeInfoActivity.class, probeModels.get(position));
-            }
-        });
-        probes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedProbeModel = probeModels.get(position);
-                return false;
-            }
+        probes.setOnItemClickListener((parent, view, position, id) -> goTo(AddProbeInfoActivity.class, probeModels.get(position)));
+        probes.setOnItemLongClickListener((parent, view, position, id) -> {
+            selectedProbeModel = probeModels.get(position);
+            return false;
         });
     }
 
@@ -82,8 +74,11 @@ public class CommonProbeActivity extends BaseMvpActivity<CommonProbePresenter> i
         switch (item.getItemId()) {
             case 0://删除
                 if (selectedProbeModel != null) {
-                    ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
-                    probeDao.deleteData(selectedProbeModel.probeID);
+                    ProbeDaoForRoom probeDaoForRoom = AppDatabase.getInstance(getApplicationContext()).probeDaoForRoom();
+                    probeDaoForRoom.deleteProbeByProbeId(selectedProbeModel.probeID);
+
+//                    ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
+//                    probeDao.deleteData(selectedProbeModel.probeID);
                 }
                 mPresenter.getProbeList();
                 return true;
@@ -118,7 +113,7 @@ public class CommonProbeActivity extends BaseMvpActivity<CommonProbePresenter> i
 
 
     @Override
-    public void showProbeList(List<ProbeModel> probeModels) {
+    public void showProbeList(List<ProbeEntity> probeModels) {
         this.probeModels.clear();//避免出现重复数据
         this.probeModels.addAll(probeModels);
         hint.setVisibility(View.GONE);

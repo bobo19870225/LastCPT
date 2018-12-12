@@ -5,23 +5,23 @@
 package www.jingkan.com.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import www.jingkan.com.R;
-import www.jingkan.com.localData.commonProbe.ProbeModel;
-
 import java.util.List;
 
-public class CommonProbeListAdapter extends ArrayAdapter<ProbeModel> {
-    private int resource;
-    private List<ProbeModel> list;
+import androidx.annotation.NonNull;
+import www.jingkan.com.R;
+import www.jingkan.com.localData.commonProbe.ProbeEntity;
 
-    public CommonProbeListAdapter(Context context, int resource, List<ProbeModel> list) {
+public class CommonProbeListAdapter extends ArrayAdapter<ProbeEntity> {
+    private int resource;
+    private List<ProbeEntity> list;
+
+    public CommonProbeListAdapter(Context context, int resource, List<ProbeEntity> list) {
         super(context, resource, list);
         this.resource = resource;
         this.list = list;
@@ -33,7 +33,7 @@ public class CommonProbeListAdapter extends ArrayAdapter<ProbeModel> {
     }
 
     @Override
-    public ProbeModel getItem(int position) {
+    public ProbeEntity getItem(int position) {
         return list.get(position);
     }
 
@@ -48,7 +48,7 @@ public class CommonProbeListAdapter extends ArrayAdapter<ProbeModel> {
             v = convertView;
         }
         TextView textView = v.findViewById(R.id.tv_common);
-        ProbeModel probeModel = getItem(position);
+        ProbeEntity probeModel = getItem(position);
         if (probeModel != null) {
             String number = probeModel.number;
             textView.setText(number);

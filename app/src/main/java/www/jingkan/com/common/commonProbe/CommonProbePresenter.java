@@ -9,11 +9,11 @@ import android.content.Intent;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.base.baseMVP.BasePresenter;
-import www.jingkan.com.localData.commonProbe.ProbeDao;
-import www.jingkan.com.localData.commonProbe.ProbeModel;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.commonProbe.ProbeDaoForRoom;
+import www.jingkan.com.localData.commonProbe.ProbeEntity;
 
 /**
  * Created by lushengbo on 2017/4/23.
@@ -40,19 +40,29 @@ class CommonProbePresenter extends BasePresenter<CommonProbeActivity> implements
 
     @Override
     public void getProbeList() {
-        ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
-        probeDao.getData(new DataLoadCallBack<ProbeModel>() {
+        ProbeDaoForRoom probeDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).probeDaoForRoom();
+        LiveData<List<ProbeEntity>> liveData = probeDaoForRoom.getAllProbe();
+        List<ProbeEntity> probeEntities = liveData.getValue();
+        if (probeEntities != null && !probeEntities.isEmpty()) {
+            myView.get().showProbeList(probeEntities);
+        } else {
+            myView.get().showNoProbeList();
+        }
 
-            @Override
-            public void onDataLoaded(List<ProbeModel> models) {
-                myView.get().showProbeList(models);
-            }
 
-            @Override
-            public void onDataNotAvailable() {
-                myView.get().showNoProbeList();
-            }
-        });
+//        ProbeDao probeDao = DataFactory.getBaseData(ProbeDao.class);
+//        probeDao.getData(new DataLoadCallBack<ProbeModel>() {
+//
+//            @Override
+//            public void onDataLoaded(List<ProbeModel> models) {
+//                myView.get().showProbeList(models);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                myView.get().showNoProbeList();
+//            }
+//        });
     }
 
     @Override

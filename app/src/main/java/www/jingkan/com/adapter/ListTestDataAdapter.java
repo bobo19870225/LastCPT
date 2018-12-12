@@ -5,25 +5,25 @@
 package www.jingkan.com.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import www.jingkan.com.localData.testData.TestDataModel;
-import www.jingkan.com.framework.utils.StringUtils;
-
 import java.util.List;
 
-public class ListTestDataAdapter extends ArrayAdapter<TestDataModel> {
+import androidx.annotation.NonNull;
+import www.jingkan.com.framework.utils.StringUtils;
+import www.jingkan.com.localData.testData.TestDataEntity;
+
+public class ListTestDataAdapter extends ArrayAdapter<TestDataEntity> {
 
     private Context context;
     private int resource;
-    private List<TestDataModel> objects;
+    private List<TestDataEntity> objects;
 
-    public ListTestDataAdapter(Context context, int resource, List<TestDataModel> objects) {
+    public ListTestDataAdapter(Context context, int resource, List<TestDataEntity> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
@@ -41,7 +41,7 @@ public class ListTestDataAdapter extends ArrayAdapter<TestDataModel> {
     }
 
     @Override
-    public TestDataModel getItem(int position) {
+    public TestDataEntity getItem(int position) {
         if (objects == null) {
             return null;
         } else {
@@ -63,12 +63,12 @@ public class ListTestDataAdapter extends ArrayAdapter<TestDataModel> {
         TextView qc = v.findViewById(www.jingkan.com.R.id.qc);
         TextView fs = v.findViewById(www.jingkan.com.R.id.fs);
         TextView fa = v.findViewById(www.jingkan.com.R.id.fa);
-        TestDataModel testDataModel = getItem(position);
-        if (testDataModel != null) {
-            deep.setText(StringUtils.format(testDataModel.deep, 1));
-            qc.setText(StringUtils.format(testDataModel.qc, 2));
-            fs.setText(StringUtils.format(testDataModel.fs, 2));
-            fa.setText(StringUtils.format(testDataModel.fa, 1));
+        TestDataEntity testDataEntity = getItem(position);
+        if (testDataEntity != null) {
+            deep.setText(StringUtils.format(testDataEntity.deep, 1));
+            qc.setText(StringUtils.format(testDataEntity.qc, 2));
+            fs.setText(StringUtils.format(testDataEntity.fs, 2));
+            fa.setText(StringUtils.format(testDataEntity.fa, 1));
         }
         return v;
     }

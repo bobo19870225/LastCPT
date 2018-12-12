@@ -4,9 +4,9 @@
 
 package www.jingkan.com.common.commonProbe;
 
-import www.jingkan.com.localData.commonProbe.ProbeModel;
-
 import java.util.List;
+
+import www.jingkan.com.localData.commonProbe.ProbeEntity;
 
 /**
  * Created by lushengbo on 2017/4/24.
@@ -15,7 +15,7 @@ import java.util.List;
 
 public interface CommonProbeContract {
     interface View {
-        void showProbeList(List<ProbeModel> probeModels);
+        void showProbeList(List<ProbeEntity> probeModels);
 
         void showNoProbeList();
     }

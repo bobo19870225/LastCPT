@@ -20,7 +20,7 @@ import www.jingkan.com.adapter.ListHistoryAdapter;
 import www.jingkan.com.annotation.BindView;
 import www.jingkan.com.base.baseMVVM.MVVMListActivity;
 import www.jingkan.com.databinding.ActivityHistoryDataBinding;
-import www.jingkan.com.localData.test.TestModel;
+import www.jingkan.com.localData.test.TestEntity;
 import www.jingkan.com.testDataDetails.TestDataDetailsActivity;
 import www.jingkan.com.testDataDetails.crossTestDataDetails.CrossTestDataDetailsActivity;
 
@@ -32,8 +32,8 @@ public class HistoryDataActivity extends MVVMListActivity<HistoryDataViewModel, 
     @BindView(id = R.id.empty)
     private TextView empty;
 
-    private List<TestModel> mTestModels;
-    private TestModel testModel;
+    private List<TestEntity> mTestModels;
+    private TestEntity testModel;
 
     private ListHistoryAdapter listHistoryAdapter;
 
@@ -60,7 +60,7 @@ public class HistoryDataActivity extends MVVMListActivity<HistoryDataViewModel, 
         lv_history.setAdapter(listHistoryAdapter);
         //查看详情
         lv_history.setOnItemClickListener((parent, view, position, id) -> {
-            TestModel testModel = mTestModels.get(position);
+            TestEntity testModel = mTestModels.get(position);
             if (testModel.testType.equals(VANE_TEST)) {
                 goTo(CrossTestDataDetailsActivity.class, testModel.testDataID);
             } else {
