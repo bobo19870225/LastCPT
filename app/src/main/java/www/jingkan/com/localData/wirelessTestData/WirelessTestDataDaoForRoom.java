@@ -20,6 +20,7 @@ public interface WirelessTestDataDaoForRoom {
     @Query("DELETE FROM WIRELESSTESTDATA WHERE testDataID = :testDataId")
     void deleteWirelessTestDataEntityByTestDataId(String testDataId);
 
-    @Query("SELECT * FROM WIRELESSTESTDATA WHERE testDataID = testDataId")
+    @Query("SELECT * FROM WIRELESSTESTDATA WHERE testDataID = :testDataId")
     LiveData<List<WirelessTestDataEntity>> getWTDEByTestDataId(String testDataId);
+
 }

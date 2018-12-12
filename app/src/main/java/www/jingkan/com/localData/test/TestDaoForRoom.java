@@ -4,6 +4,8 @@ import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 /**
@@ -12,7 +14,17 @@ import androidx.room.Query;
  */
 @Dao
 public interface TestDaoForRoom {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertTestEntity(TestEntity testEntity);
+
+    @Query("DELETE FROM TEST WHERE projectNumber = :projectNumber AND holeNumber = :holeNumber")
+    LiveData<List<TestEntity>> deleteTestEntityByPrjNumberAndHoleNumber(String projectNumber, String holeNumber);
+
     @Query("SELECT * FROM TEST ORDER BY testDate DESC")
     LiveData<List<TestEntity>> getAllTestes();
+
+    @Query("SELECT * FROM TEST WHERE projectNumber = :projectNumber AND holeNumber = :holeNumber")
+    LiveData<List<TestEntity>> getTestEntityByPrjNumberAndHoleNumber(String projectNumber, String holeNumber);
+
 }
 

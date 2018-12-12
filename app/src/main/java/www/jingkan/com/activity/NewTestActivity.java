@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.R;
 import www.jingkan.com.adapter.OneTextListAdapter;
 import www.jingkan.com.annotation.BindView;
@@ -38,12 +39,11 @@ import www.jingkan.com.framework.utils.PreferencesUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.framework.utils.TimeUtils;
 import www.jingkan.com.linkBluetooth.LinkBluetoothActivity;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.test.TestDao;
-import www.jingkan.com.localData.test.TestModel;
-import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
-import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.test.TestDaoForRoom;
+import www.jingkan.com.localData.test.TestEntity;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDaoForRoom;
+import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
 import www.jingkan.com.parameter.SystemConstant;
 import www.jingkan.com.wireless.timeSynchronization.TimeSynchronizationActivity;
 
@@ -84,8 +84,10 @@ public class NewTestActivity extends BaseActivity {
     private PopupWindow popupWindow;
     private boolean isWireless = false;
     private boolean isAnalog = false;
-    private TestDao testData = DataFactory.getBaseData(TestDao.class);
-    private WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+    private TestDaoForRoom testDaoForRoom = AppDatabase.getInstance(getApplicationContext()).testDaoForRoom();
+    private WirelessTestDaoForRoom wirelessTestDaoForRoom = AppDatabase.getInstance(getApplicationContext()).wirelessTestDaoForRoom();
+//    private TestDao testData = DataFactory.getBaseData(TestDao.class);
+//    private WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
 
     @Override
     protected void setView() {
@@ -225,97 +227,179 @@ public class NewTestActivity extends BaseActivity {
         Map<String, String> linkerPreferences = preferencesUtils.getLinkerPreferences();
         final String add = linkerPreferences.get("add");
         if (isWireless) {
-            wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
-                @Override
-                public void onDataLoaded(List models) {
-                    showToast("该试验已经存在，请更换工程编号或孔号");
+            LiveData<List<WirelessTestEntity>> liveDataWirelessTest = wirelessTestDaoForRoom.getWirelessTestEntityByPrjNumberAndHoleNumber(strProjectNumber, strHoleNumber);
+            List<WirelessTestEntity> wirelessTestEntities = liveDataWirelessTest.getValue();
+            if (wirelessTestEntities != null && !wirelessTestEntities.isEmpty()) {
+                showToast("该试验已经存在，请更换工程编号或孔号");
+            } else {
+                WirelessTestEntity wirelessTestEntity = new WirelessTestEntity();
+                wirelessTestEntity.testID = strProjectNumber + "_" + strHoleNumber;
+                wirelessTestEntity.testDate = TimeUtils.getCurrentTime();
+                wirelessTestEntity.projectNumber = strProjectNumber;
+                wirelessTestEntity.holeNumber = strHoleNumber;
+                String strHoleHigh = hole_high.getText().toString();
+                if (StringUtils.isFloat(strHoleHigh)) {
+                    wirelessTestEntity.holeHigh = Float.parseFloat(strHoleHigh);
                 }
-
-                @Override
-                public void onDataNotAvailable() {
-                    WirelessTestModel wirelessTestModel = new WirelessTestModel();
-                    wirelessTestModel.testID = strProjectNumber + "_" + strHoleNumber;
-                    wirelessTestModel.testDate = TimeUtils.getCurrentTime();
-                    wirelessTestModel.projectNumber = strProjectNumber;
-                    wirelessTestModel.holeNumber = strHoleNumber;
-                    String strHoleHigh = hole_high.getText().toString();
-                    if (StringUtils.isFloat(strHoleHigh)) {
-                        wirelessTestModel.holeHigh = Float.parseFloat(strHoleHigh);
-                    }
-                    String strWaterLevel = water_level.getText().toString();
-                    if (StringUtils.isFloat(strWaterLevel)) {
-                        wirelessTestModel.waterLevel = Float.parseFloat(strWaterLevel);
-                    }
-                    wirelessTestModel.location = location.getText().toString();
-                    wirelessTestModel.tester = tester.getText().toString();
-                    wirelessTestModel.testType = String.valueOf(test_type.getText());
-                    wirelessTestModel.testDataID = strProjectNumber + "_" + strHoleNumber;
-                    wirelessTestDao.addData(wirelessTestModel);
-
-                    if (StringUtils.isEmpty(add)) {
-                        goTo(LinkBluetoothActivity.class, new String[]{strProjectNumber, strHoleNumber, strTestType});
-                    } else {
-                        //如果是无缆试验，先进行时间同步。
-                        goTo(TimeSynchronizationActivity.class, new String[]{add, strProjectNumber, strHoleNumber, strTestType});
-                    }
+                String strWaterLevel = water_level.getText().toString();
+                if (StringUtils.isFloat(strWaterLevel)) {
+                    wirelessTestEntity.waterLevel = Float.parseFloat(strWaterLevel);
                 }
-            }, strProjectNumber, strHoleNumber);
+                wirelessTestEntity.location = location.getText().toString();
+                wirelessTestEntity.tester = tester.getText().toString();
+                wirelessTestEntity.testType = String.valueOf(test_type.getText());
+                wirelessTestEntity.testDataID = strProjectNumber + "_" + strHoleNumber;
+                wirelessTestDaoForRoom.insertWirelessTestEntity(wirelessTestEntity);
+
+                if (StringUtils.isEmpty(add)) {
+                    goTo(LinkBluetoothActivity.class, new String[]{strProjectNumber, strHoleNumber, strTestType});
+                } else {
+                    //如果是无缆试验，先进行时间同步。
+                    goTo(TimeSynchronizationActivity.class, new String[]{add, strProjectNumber, strHoleNumber, strTestType});
+                }
+            }
+
+//            wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
+//                @Override
+//                public void onDataLoaded(List models) {
+//                    showToast("该试验已经存在，请更换工程编号或孔号");
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {
+//                    WirelessTestModel wirelessTestModel = new WirelessTestModel();
+//                    wirelessTestModel.testID = strProjectNumber + "_" + strHoleNumber;
+//                    wirelessTestModel.testDate = TimeUtils.getCurrentTime();
+//                    wirelessTestModel.projectNumber = strProjectNumber;
+//                    wirelessTestModel.holeNumber = strHoleNumber;
+//                    String strHoleHigh = hole_high.getText().toString();
+//                    if (StringUtils.isFloat(strHoleHigh)) {
+//                        wirelessTestModel.holeHigh = Float.parseFloat(strHoleHigh);
+//                    }
+//                    String strWaterLevel = water_level.getText().toString();
+//                    if (StringUtils.isFloat(strWaterLevel)) {
+//                        wirelessTestModel.waterLevel = Float.parseFloat(strWaterLevel);
+//                    }
+//                    wirelessTestModel.location = location.getText().toString();
+//                    wirelessTestModel.tester = tester.getText().toString();
+//                    wirelessTestModel.testType = String.valueOf(test_type.getText());
+//                    wirelessTestModel.testDataID = strProjectNumber + "_" + strHoleNumber;
+//                    wirelessTestDao.addData(wirelessTestModel);
+//
+//                    if (StringUtils.isEmpty(add)) {
+//                        goTo(LinkBluetoothActivity.class, new String[]{strProjectNumber, strHoleNumber, strTestType});
+//                    } else {
+//                        //如果是无缆试验，先进行时间同步。
+//                        goTo(TimeSynchronizationActivity.class, new String[]{add, strProjectNumber, strHoleNumber, strTestType});
+//                    }
+//                }
+//            }, strProjectNumber, strHoleNumber);
 
         } else {
-            testData.getData(new DataLoadCallBack<TestModel>() {
-                @Override
-                public void onDataLoaded(List models) {
-                    showToast("该试验已经存在，请更换工程编号或孔号");
+            LiveData<List<TestEntity>> liveDataTest = testDaoForRoom.getTestEntityByPrjNumberAndHoleNumber(strProjectNumber, strHoleNumber);
+            List<TestEntity> testEntities = liveDataTest.getValue();
+            if (testEntities != null && !testEntities.isEmpty()) {
+                showToast("该试验已经存在，请更换工程编号或孔号");
+            } else {//入库操作
+                TestEntity testEntity = new TestEntity();
+                testEntity.testID = strProjectNumber + "_" + strHoleNumber;
+                testEntity.testDate = TimeUtils.getCurrentTime();
+                testEntity.projectNumber = strProjectNumber;
+                testEntity.holeNumber = strHoleNumber;
+                String strHoleHigh = hole_high.getText().toString();
+                if (StringUtils.isFloat(strHoleHigh)) {
+                    testEntity.holeHigh = Float.parseFloat(strHoleHigh);
                 }
-
-                @Override
-                public void onDataNotAvailable() {//入库操作
-                    TestModel testModel = new TestModel();
-                    testModel.testID = strProjectNumber + "_" + strHoleNumber;
-                    testModel.testDate = TimeUtils.getCurrentTime();
-                    testModel.projectNumber = strProjectNumber;
-                    testModel.holeNumber = strHoleNumber;
-                    String strHoleHigh = hole_high.getText().toString();
-                    if (StringUtils.isFloat(strHoleHigh)) {
-                        testModel.holeHigh = Float.parseFloat(strHoleHigh);
-                    }
-                    String strWaterLevel = water_level.getText().toString();
-                    if (StringUtils.isFloat(strWaterLevel)) {
-                        testModel.waterLevel = Float.parseFloat(strWaterLevel);
-                    }
-                    testModel.location = location.getText().toString();
-                    testModel.tester = tester.getText().toString();
-                    testModel.testType = String.valueOf(test_type.getText());
-                    testModel.testProbeType = isAnalog ? "模拟探头" : "数字探头";
-                    testModel.testDataID = strProjectNumber + "_" + strHoleNumber;
-                    testData.addData(testModel);
-                    if (StringUtils.isEmpty(add)) {
-                        goTo(LinkBluetoothActivity.class, new String[]{strProjectNumber, strHoleNumber, strTestType, isAnalog ? "模拟探头" : "数字探头"});
-                    } else {
-                        String[] dataToSend = {add, testModel.projectNumber, testModel.holeNumber, isAnalog ? "模拟探头" : "数字探头"};
-                        switch (testModel.testType) {
-                            case SINGLE_BRIDGE_TEST:
-                                //mac地址，工程编号，孔号。
-                                goTo(SingleBridgeTestActivity.class, dataToSend);
-                                break;
-                            case SINGLE_BRIDGE_MULTI_TEST:
-                                goTo(SingleBridgeMultifunctionTestActivity.class, dataToSend);
-                                break;
-                            case DOUBLE_BRIDGE_TEST:
-                                goTo(DoubleBridgeTestActivity.class, dataToSend);
-                                break;
-                            case DOUBLE_BRIDGE_MULTI_TEST:
-                                goTo(DoubleBridgeMultifunctionTestActivity.class, dataToSend);
-                                break;
-                            case SystemConstant.VANE_TEST:
-                                goTo(CrossTestActivity.class, dataToSend);
-                                break;
-
-                        }
-                    }
-
+                String strWaterLevel = water_level.getText().toString();
+                if (StringUtils.isFloat(strWaterLevel)) {
+                    testEntity.waterLevel = Float.parseFloat(strWaterLevel);
                 }
-            }, strProjectNumber, strHoleNumber);
+                testEntity.location = location.getText().toString();
+                testEntity.tester = tester.getText().toString();
+                testEntity.testType = String.valueOf(test_type.getText());
+                testEntity.testProbeType = isAnalog ? "模拟探头" : "数字探头";
+                testEntity.testDataID = strProjectNumber + "_" + strHoleNumber;
+                testDaoForRoom.insertTestEntity(testEntity);
+                if (StringUtils.isEmpty(add)) {
+                    goTo(LinkBluetoothActivity.class, new String[]{strProjectNumber, strHoleNumber, strTestType, isAnalog ? "模拟探头" : "数字探头"});
+                } else {
+                    String[] dataToSend = {add, testEntity.projectNumber, testEntity.holeNumber, isAnalog ? "模拟探头" : "数字探头"};
+                    switch (testEntity.testType) {
+                        case SINGLE_BRIDGE_TEST:
+                            //mac地址，工程编号，孔号。
+                            goTo(SingleBridgeTestActivity.class, dataToSend);
+                            break;
+                        case SINGLE_BRIDGE_MULTI_TEST:
+                            goTo(SingleBridgeMultifunctionTestActivity.class, dataToSend);
+                            break;
+                        case DOUBLE_BRIDGE_TEST:
+                            goTo(DoubleBridgeTestActivity.class, dataToSend);
+                            break;
+                        case DOUBLE_BRIDGE_MULTI_TEST:
+                            goTo(DoubleBridgeMultifunctionTestActivity.class, dataToSend);
+                            break;
+                        case SystemConstant.VANE_TEST:
+                            goTo(CrossTestActivity.class, dataToSend);
+                            break;
+
+                    }
+                }
+            }
+
+//            testData.getData(new DataLoadCallBack<TestModel>() {
+//                @Override
+//                public void onDataLoaded(List models) {
+//                    showToast("该试验已经存在，请更换工程编号或孔号");
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {//入库操作
+//                    TestModel testModel = new TestModel();
+//                    testModel.testID = strProjectNumber + "_" + strHoleNumber;
+//                    testModel.testDate = TimeUtils.getCurrentTime();
+//                    testModel.projectNumber = strProjectNumber;
+//                    testModel.holeNumber = strHoleNumber;
+//                    String strHoleHigh = hole_high.getText().toString();
+//                    if (StringUtils.isFloat(strHoleHigh)) {
+//                        testModel.holeHigh = Float.parseFloat(strHoleHigh);
+//                    }
+//                    String strWaterLevel = water_level.getText().toString();
+//                    if (StringUtils.isFloat(strWaterLevel)) {
+//                        testModel.waterLevel = Float.parseFloat(strWaterLevel);
+//                    }
+//                    testModel.location = location.getText().toString();
+//                    testModel.tester = tester.getText().toString();
+//                    testModel.testType = String.valueOf(test_type.getText());
+//                    testModel.testProbeType = isAnalog ? "模拟探头" : "数字探头";
+//                    testModel.testDataID = strProjectNumber + "_" + strHoleNumber;
+//                    testData.addData(testModel);
+//                    if (StringUtils.isEmpty(add)) {
+//                        goTo(LinkBluetoothActivity.class, new String[]{strProjectNumber, strHoleNumber, strTestType, isAnalog ? "模拟探头" : "数字探头"});
+//                    } else {
+//                        String[] dataToSend = {add, testModel.projectNumber, testModel.holeNumber, isAnalog ? "模拟探头" : "数字探头"};
+//                        switch (testModel.testType) {
+//                            case SINGLE_BRIDGE_TEST:
+//                                //mac地址，工程编号，孔号。
+//                                goTo(SingleBridgeTestActivity.class, dataToSend);
+//                                break;
+//                            case SINGLE_BRIDGE_MULTI_TEST:
+//                                goTo(SingleBridgeMultifunctionTestActivity.class, dataToSend);
+//                                break;
+//                            case DOUBLE_BRIDGE_TEST:
+//                                goTo(DoubleBridgeTestActivity.class, dataToSend);
+//                                break;
+//                            case DOUBLE_BRIDGE_MULTI_TEST:
+//                                goTo(DoubleBridgeMultifunctionTestActivity.class, dataToSend);
+//                                break;
+//                            case SystemConstant.VANE_TEST:
+//                                goTo(CrossTestActivity.class, dataToSend);
+//                                break;
+//
+//                        }
+//                    }
+//
+//                }
+//            }, strProjectNumber, strHoleNumber);
         }
 
     }
