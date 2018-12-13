@@ -1,5 +1,6 @@
 package www.jingkan.com.localData.wirelessTest;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import www.jingkan.com.localData.test.TestEntity;
@@ -11,6 +12,7 @@ import www.jingkan.com.localData.test.TestEntity;
 @Entity(tableName = WirelessTestConstant.TABLE_NAME)
 public class WirelessTestEntity {
     @PrimaryKey
+    @NonNull
     public String testID;//projectNumber_holeNumber
     public String testDate;
     public String projectNumber;

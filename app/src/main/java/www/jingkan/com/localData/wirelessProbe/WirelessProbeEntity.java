@@ -1,5 +1,6 @@
 package www.jingkan.com.localData.wirelessProbe;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,6 +11,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = WirelessProbeConstant.TABLE_NAME)
 public class WirelessProbeEntity {
     @PrimaryKey
+    @NonNull
     public String probeID;
     public String sn;
     public String number;

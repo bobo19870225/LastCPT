@@ -1,5 +1,6 @@
 package www.jingkan.com.localData.testData.CrossTestData;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,6 +11,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = CrossTestDataConstant.TABLE_NAME)
 public class CrossTestDataEntity {
     @PrimaryKey
+    @NonNull
     //strProjectNumber + "_" + strHoleNumber.
     public String testDataID;
     public String probeID;

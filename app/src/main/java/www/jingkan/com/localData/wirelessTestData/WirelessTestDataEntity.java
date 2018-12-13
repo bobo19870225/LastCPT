@@ -1,5 +1,6 @@
 package www.jingkan.com.localData.wirelessTestData;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -11,6 +12,7 @@ import androidx.room.PrimaryKey;
 public class WirelessTestDataEntity {
     //strProjectNumber + "_" + strHoleNumber.
     @PrimaryKey
+    @NonNull
     public String testDataID;
     public String probeNumber;
     public float deep;

@@ -1,5 +1,6 @@
 package www.jingkan.com.localData.test;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,6 +11,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = TestConstant.TABLE_NAME)
 public class TestEntity {
     @PrimaryKey
+    @NonNull
     public String testID;
     public String testDate;
     public String projectNumber;

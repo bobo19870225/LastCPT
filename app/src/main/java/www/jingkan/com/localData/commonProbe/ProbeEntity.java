@@ -1,5 +1,6 @@
 package www.jingkan.com.localData.commonProbe;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,6 +11,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = ProbeConstant.TABLE_NAME)
 public class ProbeEntity {
     @PrimaryKey
+    @NonNull
     public String probeID;
     public String sn;
     public String number;
