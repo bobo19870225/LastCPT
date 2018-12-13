@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey;
 public class WirelessProbeEntity {
     @PrimaryKey
     @NonNull
-    public String probeID;
+    public String probeID = "";
     public String sn;
     public String number;
     public String type;

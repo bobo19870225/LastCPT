@@ -13,7 +13,7 @@ public class CrossTestDataEntity {
     @PrimaryKey
     @NonNull
     //strProjectNumber + "_" + strHoleNumber.
-    public String testDataID;
+    public String testDataID = "";
     public String probeID;
     public float deep;
     public String type;

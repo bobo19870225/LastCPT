@@ -13,7 +13,7 @@ import www.jingkan.com.localData.test.TestEntity;
 public class WirelessTestEntity {
     @PrimaryKey
     @NonNull
-    public String testID;//projectNumber_holeNumber
+    public String testID = "";//projectNumber_holeNumber
     public String testDate;
     public String projectNumber;
     public String holeNumber;

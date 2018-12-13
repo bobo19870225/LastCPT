@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey;
 public class TestEntity {
     @PrimaryKey
     @NonNull
-    public String testID;
+    public String testID = "";
     public String testDate;
     public String projectNumber;
     public String holeNumber;

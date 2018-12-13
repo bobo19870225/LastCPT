@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey;
 public class TestDataEntity {
     @PrimaryKey
     @NonNull
-    public String testDataID;
+    public String testDataID = "";
     public String probeID;
     public float deep;
     public float qc;

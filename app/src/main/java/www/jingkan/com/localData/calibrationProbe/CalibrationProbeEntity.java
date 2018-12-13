@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey;
 public class CalibrationProbeEntity {
     @PrimaryKey
     @NonNull
-    public String probeID;//其实就是sn
+    public String probeID = "";//其实就是sn
     public String number;
     public String work_area;
     public String differential;
