@@ -4,22 +4,21 @@
 
 package www.jingkan.com.wireless.wirelessProbe;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import www.jingkan.com.R;
 import www.jingkan.com.base.baseMVVM.MVVMListActivity;
 import www.jingkan.com.databinding.ActivityWirelessProbeBinding;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.wirelessProbe.WirelessProbeDao;
-import www.jingkan.com.localData.wirelessProbe.WirelessProbeModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.wirelessProbe.WirelessProbeDaoForRoom;
+import www.jingkan.com.localData.wirelessProbe.WirelessProbeEntity;
 
 /**
  * Created by lushengbo on 2018/1/24.
@@ -28,7 +27,7 @@ import www.jingkan.com.localData.wirelessProbe.WirelessProbeModel;
 
 public class WirelessProbeActivity extends MVVMListActivity<WirelessProbeViewModel, ActivityWirelessProbeBinding> {
     private int index = 0;
-    private List<WirelessProbeModel> wirelessProbeModels;
+    private List<WirelessProbeEntity> wirelessProbeModels;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -36,20 +35,14 @@ public class WirelessProbeActivity extends MVVMListActivity<WirelessProbeViewMod
         wirelessProbeModels = list;
         ListView listView = mViewDataBinding.list;
         listView.setEmptyView(mViewDataBinding.hint);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                WirelessProbeModel wirelessProbeModel = (WirelessProbeModel) list.get(i);
-                goTo(AddWirelessProbeInfoActivity.class, wirelessProbeModel.probeID);
-            }
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            WirelessProbeEntity wirelessProbeModel = (WirelessProbeEntity) list.get(i);
+            goTo(AddWirelessProbeInfoActivity.class, wirelessProbeModel.probeID);
         });
         registerForContextMenu(listView);
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                index = i;
-                return false;
-            }
+        listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            index = i;
+            return false;
         });
     }
 
@@ -66,10 +59,14 @@ public class WirelessProbeActivity extends MVVMListActivity<WirelessProbeViewMod
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 0://删除
-                WirelessProbeModel wirelessProbeModel = wirelessProbeModels.get(index);
+                WirelessProbeEntity wirelessProbeModel = wirelessProbeModels.get(index);
                 if (wirelessProbeModel != null) {
-                    WirelessProbeDao wirelessProbeDao = DataFactory.getBaseData(WirelessProbeDao.class);
-                    wirelessProbeDao.deleteData(wirelessProbeModel.probeID);
+                    WirelessProbeDaoForRoom wirelessProbeDaoForRoom = AppDatabase.getInstance(getApplicationContext()).wirelessProbeDaoForRoom();
+                    wirelessProbeDaoForRoom.deleteWirelessProbeEntityByProbeId(wirelessProbeModel.probeID);
+
+
+//                    WirelessProbeDao wirelessProbeDao = DataFactory.getBaseData(WirelessProbeDao.class);
+//                    wirelessProbeDao.deleteData(wirelessProbeModel.probeID);
                 }
                 mViewModel.wirelessProbeItemViewModels.clear();
                 mViewModel.getWirelessProbeList();

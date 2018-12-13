@@ -18,7 +18,7 @@ public interface TestDaoForRoom {
     void insertTestEntity(TestEntity testEntity);
 
     @Query("DELETE FROM TEST WHERE projectNumber = :projectNumber AND holeNumber = :holeNumber")
-    LiveData<List<TestEntity>> deleteTestEntityByPrjNumberAndHoleNumber(String projectNumber, String holeNumber);
+    void deleteTestEntityByPrjNumberAndHoleNumber(String projectNumber, String holeNumber);
 
     @Query("SELECT * FROM TEST ORDER BY testDate DESC")
     LiveData<List<TestEntity>> getAllTestes();

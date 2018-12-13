@@ -6,7 +6,6 @@ package www.jingkan.com.wireless.dataSynchronization;
 
 import android.app.Activity;
 import android.content.Intent;
-import androidx.databinding.ObservableField;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -19,15 +18,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.framework.utils.MyFileUtils;
 import www.jingkan.com.framework.utils.StringUtils;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessResultData.WirelessResultDaoDao;
-import www.jingkan.com.localData.wirelessResultData.WirelessResultDataModel;
-import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
-import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.wirelessResultData.WirelessResultDataDaoForRoom;
+import www.jingkan.com.localData.wirelessResultData.WirelessResultDataEntity;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDaoForRoom;
+import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
 import www.jingkan.com.mInterface.ISkip;
 import www.jingkan.com.saveUtils.DataUtils;
 import www.jingkan.com.wireless.openFile.OpenWFileActivity;
@@ -54,7 +54,7 @@ public class DataSynViewModel extends BaseViewModel<DataSyncActivity> implements
     private long maxR;
     private long[] cptR;
     private int[] rwaData;
-    private List<WirelessResultDataModel> wirelessResultDataModels = new ArrayList<>();
+    private List<WirelessResultDataEntity> wirelessResultDataModels = new ArrayList<>();
     private ArrayList<OriginalTestData> originalTestDataList;
     private boolean find;
     private String strTestID;
@@ -139,25 +139,33 @@ public class DataSynViewModel extends BaseViewModel<DataSyncActivity> implements
         getView().showToast(msg);
     }
 
-    private WirelessTestModel wirelessTestModel;
+    private WirelessTestEntity wirelessTestEntity;
 
     /**
      * 查无缆探头试验表
      */
     private void getTestMsg() {
-        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
-        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
+        WirelessTestDaoForRoom wirelessTestDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).wirelessTestDaoForRoom();
+        LiveData<List<WirelessTestEntity>> liveData = wirelessTestDaoForRoom.getWirelessTestEntityByTestId(strTestID);
+        List<WirelessTestEntity> wirelessTestEntities = liveData.getValue();
+        if (wirelessTestEntities != null && !wirelessTestEntities.isEmpty()) {
+            wirelessTestEntity = wirelessTestEntities.get(0);
+        }
 
-            @Override
-            public void onDataLoaded(List<WirelessTestModel> models) {
-                wirelessTestModel = models.get(0);
-            }
 
-            @Override
-            public void onDataNotAvailable() {
-
-            }
-        }, strTestID);
+//        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+//        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestEntity>() {
+//
+//            @Override
+//            public void onDataLoaded(List<WirelessTestEntity> models) {
+//                wirelessTestEntity = models.get(0);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//
+//            }
+//        }, strTestID);
     }
 
     @Override
@@ -169,8 +177,10 @@ public class DataSynViewModel extends BaseViewModel<DataSyncActivity> implements
      * FileUtils.listFiles 是一个卡UI的操作
      */
     void doDataSync() {
-        WirelessResultDaoDao wirelessResultDataDao = DataFactory.getBaseData(WirelessResultDaoDao.class);
-        wirelessResultDataDao.deleteData(strTestID);
+        WirelessResultDataDaoForRoom wirelessResultDataDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).wirelessResultDataDaoForRoom();
+        wirelessResultDataDaoForRoom.deleteWirelessResultDataEntityByTestDataId(strTestID);
+//        WirelessResultDaoDao wirelessResultDataDao = DataFactory.getBaseData(WirelessResultDaoDao.class);
+//        wirelessResultDataDao.deleteData(strTestID);
         if (cptR == null) {
             getView().showToast("请先打开定位文件*W.txt");
         } else {
@@ -364,14 +374,16 @@ public class DataSynViewModel extends BaseViewModel<DataSyncActivity> implements
                         cpt[i][3] = cpt[i - 1][3];
                     }
                 }
-                WirelessResultDataModel wirelessResultDataModel = new WirelessResultDataModel();
+                WirelessResultDataEntity wirelessResultDataModel = new WirelessResultDataEntity();
                 wirelessResultDataModel.testDataID = projectNumber.get() + "_" + holeNumber.get();
                 wirelessResultDataModel.probeNumber = probeNumber.get();
                 wirelessResultDataModel.deep = cpt[i][0];
                 wirelessResultDataModel.qc = cpt[i][1];
                 wirelessResultDataModel.fs = cpt[i][2];
                 wirelessResultDataModel.fa = cpt[i][3];
-                wirelessResultDataModel.save();
+                WirelessResultDataDaoForRoom wirelessResultDataDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).wirelessResultDataDaoForRoom();
+                wirelessResultDataDaoForRoom.insertWirelessResultDataEntity(wirelessResultDataModel);
+//                wirelessResultDataModel.save();
                 wirelessResultDataModels.add(wirelessResultDataModel);
             }
             synchronizationRate.set("同步率"
@@ -393,14 +405,14 @@ public class DataSynViewModel extends BaseViewModel<DataSyncActivity> implements
                         getView().getApplicationContext(),
                         originalTestDataList,
                         saveType,
-                        wirelessTestModel,
+                        wirelessTestEntity,
                         this);
             } else {
                 DataUtils.getInstance().saveDataToSd(
                         getView().getApplicationContext(),
                         wirelessResultDataModels,
                         saveType,
-                        wirelessTestModel,
+                        wirelessTestEntity,
                         this);
             }
 
@@ -417,14 +429,14 @@ public class DataSynViewModel extends BaseViewModel<DataSyncActivity> implements
                     getView().getApplicationContext(),
                     originalTestDataList,
                     mSaveType,
-                    wirelessTestModel,
+                    wirelessTestEntity,
                     this);
         } else {
             DataUtils.getInstance().emailData(
                     getView().getApplicationContext(),
                     wirelessResultDataModels,
                     mSaveType,
-                    wirelessTestModel,
+                    wirelessTestEntity,
                     this);
         }
     }

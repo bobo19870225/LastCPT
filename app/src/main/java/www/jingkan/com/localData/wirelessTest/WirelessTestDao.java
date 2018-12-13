@@ -17,10 +17,10 @@
 // * 试验数据类
 // */
 //
-//public class WirelessTestDao extends BaseDao<WirelessTestModel> {
+//public class WirelessTestDao extends BaseDao<WirelessTestEntity> {
 //
 //    @Override
-//    public void addData(WirelessTestModel model) {
+//    public void addData(WirelessTestEntity model) {
 //        model.save();
 //    }
 //
@@ -29,44 +29,44 @@
 //        if (args.length == 2) {
 //            String selection = WirelessTestConstant.COLUMN_PROJECT_NUMBER + " LIKE ?"
 //                    + " AND " + WirelessTestConstant.COLUMN_HOLE_NUMBER + " LIKE ?";
-//            new Delete().from(WirelessTestModel.class).where(selection, (Object[]) args).execute();
+//            new Delete().from(WirelessTestEntity.class).where(selection, (Object[]) args).execute();
 //        }
 //    }
 //
 //    @Override
-//    public void modifyData(WirelessTestModel model) {
+//    public void modifyData(WirelessTestEntity model) {
 //
 //    }
 //
 //    @Override
-//    public void getData(DataLoadCallBack<WirelessTestModel> dataLoadCallBack, String... args) {
+//    public void getData(DataLoadCallBack<WirelessTestEntity> dataLoadCallBack, String... args) {
 //        if (args.length == 0) {//按时间倒序排列
-//            List<WirelessTestModel> wirelessTestModels =
-//                    new Select().all().from(WirelessTestModel.class).orderBy(WirelessTestConstant.COLUMN_TEST_DATE + " DESC").execute();
-//            if (wirelessTestModels != null && wirelessTestModels.size() > 0) {
-//                dataLoadCallBack.onDataLoaded(wirelessTestModels);
+//            List<WirelessTestEntity> wirelessTestEntitys =
+//                    new Select().all().from(WirelessTestEntity.class).orderBy(WirelessTestConstant.COLUMN_TEST_DATE + " DESC").execute();
+//            if (wirelessTestEntitys != null && wirelessTestEntitys.size() > 0) {
+//                dataLoadCallBack.onDataLoaded(wirelessTestEntitys);
 //            } else {
 //                dataLoadCallBack.onDataNotAvailable();
 //            }
 //        } else if (args.length == 1) {
 //            String selection = WirelessTestConstant.COLUMN_TEST_ID + " LIKE ?";
-//            List<WirelessTestModel> wirelessTestModels =
-//                    new Select().from(WirelessTestModel.class)
+//            List<WirelessTestEntity> wirelessTestEntitys =
+//                    new Select().from(WirelessTestEntity.class)
 //                            .where(selection, (Object[]) args).execute();
-//            if (wirelessTestModels != null && wirelessTestModels.size() > 0) {
-//                dataLoadCallBack.onDataLoaded(wirelessTestModels);
+//            if (wirelessTestEntitys != null && wirelessTestEntitys.size() > 0) {
+//                dataLoadCallBack.onDataLoaded(wirelessTestEntitys);
 //            } else {
 //                dataLoadCallBack.onDataNotAvailable();
 //            }
 //        } else if (args.length == 2) {
 //            String selection = WirelessTestConstant.COLUMN_PROJECT_NUMBER + " LIKE ?"
 //                    + " AND " + WirelessTestConstant.COLUMN_HOLE_NUMBER + " LIKE ?";
-//            List<WirelessTestModel> wirelessTestModels =
-//                    new Select().from(WirelessTestModel.class)
+//            List<WirelessTestEntity> wirelessTestEntitys =
+//                    new Select().from(WirelessTestEntity.class)
 //                            .where(selection, (Object[]) args).execute();
 //
-//            if (wirelessTestModels != null && wirelessTestModels.size() > 0) {
-//                dataLoadCallBack.onDataLoaded(wirelessTestModels);
+//            if (wirelessTestEntitys != null && wirelessTestEntitys.size() > 0) {
+//                dataLoadCallBack.onDataLoaded(wirelessTestEntitys);
 //            } else {
 //                dataLoadCallBack.onDataNotAvailable();
 //            }

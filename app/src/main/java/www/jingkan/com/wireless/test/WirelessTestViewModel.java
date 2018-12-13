@@ -5,21 +5,21 @@
 package www.jingkan.com.wireless.test;
 
 import android.content.Intent;
-import androidx.databinding.ObservableBoolean;
-import androidx.databinding.ObservableField;
 
 import java.util.List;
 
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.framework.utils.TimeUtils;
 import www.jingkan.com.framework.utils.VibratorUtils;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
-import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
-import www.jingkan.com.localData.wirelessTestData.WirelessTestDaoDao;
-import www.jingkan.com.localData.wirelessTestData.WirelessTestDataModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDaoForRoom;
+import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
+import www.jingkan.com.localData.wirelessTestData.WirelessTestDataDaoForRoom;
+import www.jingkan.com.localData.wirelessTestData.WirelessTestDataEntity;
 
 /**
  * Created by lushengbo on 2017/10/25.
@@ -39,7 +39,8 @@ public class WirelessTestViewModel extends BaseViewModel<WirelessTestActivity> {
     public final ObservableBoolean doubleBridge = new ObservableBoolean(false);
 
 
-    private WirelessTestDaoDao wirelessTestDataDao = DataFactory.getBaseData(WirelessTestDaoDao.class);
+    private WirelessTestDataDaoForRoom wirelessTestDataDao = AppDatabase.getInstance(getView().getApplicationContext()).wirelessTestDataDaoForRoom();
+
 
 
     @Override
@@ -67,40 +68,60 @@ public class WirelessTestViewModel extends BaseViewModel<WirelessTestActivity> {
 
 
     private void getTestParameters() {
-        final WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
-        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
+        WirelessTestDaoForRoom wirelessTestDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).wirelessTestDaoForRoom();
+        LiveData<List<WirelessTestEntity>> liveData = wirelessTestDaoForRoom.getWirelessTestEntityByPrjNumberAndHoleNumber(projectNumber.get(), holeNumber.get());
+        List<WirelessTestEntity> wirelessTestEntities = liveData.getValue();
+        if (wirelessTestEntities != null && !wirelessTestEntities.isEmpty()) {
+            WirelessTestEntity wirelessTestEntity = wirelessTestEntities.get(0);
+            projectNumber.set(wirelessTestEntity.projectNumber);
+            holeNumber.set(wirelessTestEntity.holeNumber);
+        } else {
+            myView.get().showToast("找不到该孔信息");
+        }
 
-            @Override
-            public void onDataLoaded(List<WirelessTestModel> models) {
-                WirelessTestModel wirelessTestModel = models.get(0);
-                projectNumber.set(wirelessTestModel.projectNumber);
-                holeNumber.set(wirelessTestModel.holeNumber);
-            }
 
-            @Override
-            public void onDataNotAvailable() {
-                myView.get().showToast("找不到该孔信息");
-            }
-        }, projectNumber.get(), holeNumber.get());
+//        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+//        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestEntity>() {
+//
+//            @Override
+//            public void onDataLoaded(List<WirelessTestEntity> models) {
+//                WirelessTestEntity wirelessTestEntity = models.get(0);
+//                projectNumber.set(wirelessTestEntity.projectNumber);
+//                holeNumber.set(wirelessTestEntity.holeNumber);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                myView.get().showToast("找不到该孔信息");
+//            }
+//        }, projectNumber.get(), holeNumber.get());
     }
 
 
     private void loadTestData(String testDataID) {
+        LiveData<List<WirelessTestDataEntity>> liveData = wirelessTestDataDao.getWTDEByTestDataId(testDataID);
+        List<WirelessTestDataEntity> wirelessTestDataEntities = liveData.getValue();
+        if (wirelessTestDataEntities != null && !wirelessTestDataEntities.isEmpty()) {
+            WirelessTestDataEntity wirelessTestDataModel = wirelessTestDataEntities.get(wirelessTestDataEntities.size() - 1);
+            dp = wirelessTestDataModel.deep;
+            strDeep.set(StringUtils.format(dp, 2));
+        }
 
-        wirelessTestDataDao.getData(new DataLoadCallBack<WirelessTestDataModel>() {
 
-            @Override
-            public void onDataLoaded(List<WirelessTestDataModel> models) {
-                WirelessTestDataModel wirelessTestDataModel = models.get(models.size() - 1);
-                dp = wirelessTestDataModel.deep;
-                strDeep.set(StringUtils.format(dp, 2));
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-
-            }
-        }, testDataID);
+//        wirelessTestDataDao.getData(new DataLoadCallBack<WirelessTestDataModel>() {
+//
+//            @Override
+//            public void onDataLoaded(List<WirelessTestDataModel> models) {
+//                WirelessTestDataModel wirelessTestDataModel = models.get(models.size() - 1);
+//                dp = wirelessTestDataModel.deep;
+//                strDeep.set(StringUtils.format(dp, 2));
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//
+//            }
+//        }, testDataID);
     }
 
 
@@ -139,12 +160,12 @@ public class WirelessTestViewModel extends BaseViewModel<WirelessTestActivity> {
         RTC = RTC + day - 1;
         RTC = RTC * 86400 + hr * 3600 + min * 60 + sec;
         RTC = RTC * 256 + 128; // sytM\5
-        WirelessTestDataModel wirelessTestDataModel = new WirelessTestDataModel();
+        WirelessTestDataEntity wirelessTestDataModel = new WirelessTestDataEntity();
         wirelessTestDataModel.testDataID = projectNumber.get() + "-" + holeNumber.get();
         wirelessTestDataModel.probeNumber = obsProbeNumber.get();
         wirelessTestDataModel.deep = dp;
         wirelessTestDataModel.rtc = RTC;
-        wirelessTestDataDao.addData(wirelessTestDataModel);
+        wirelessTestDataDao.insertWirelessTestDataEntity(wirelessTestDataModel);
         if (shock.get()) {
             VibratorUtils.Vibrate(myView.get(), 200);
         }

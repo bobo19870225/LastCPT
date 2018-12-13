@@ -17,11 +17,11 @@
 // * 试验数据类
 // */
 //
-//public class TestDao extends BaseDao<TestModel> {
+//public class TestDao extends BaseDao<TestEntity> {
 //
 //
 //    @Override
-//    public void addData(TestModel model) {
+//    public void addData(TestEntity model) {
 //        model.save();
 //    }
 //
@@ -30,20 +30,20 @@
 //        if (args.length == 2) {
 //            String selection = TestConstant.COLUMN_PROJECT_NUMBER + " LIKE ?"
 //                    + " AND " + TestConstant.COLUMN_HOLE_NUMBER + " LIKE ?";
-//            new Delete().from(TestModel.class).where(selection, (Object[]) args).execute();
+//            new Delete().from(TestEntity.class).where(selection, (Object[]) args).execute();
 //        }
 //    }
 //
 //    @Override
-//    public void modifyData(TestModel model) {
+//    public void modifyData(TestEntity model) {
 //
 //    }
 //
 //    @Override
-//    public void getData(DataLoadCallBack<TestModel> dataLoadCallBack, String... args) {
+//    public void getData(DataLoadCallBack<TestEntity> dataLoadCallBack, String... args) {
 //        if (args.length == 0) {//按时间倒序
-//            List<TestModel> testModels =
-//                    new Select().all().from(TestModel.class).orderBy(TestConstant.COLUMN_TEST_DATE + " DESC").execute();
+//            List<TestEntity> testModels =
+//                    new Select().all().from(TestEntity.class).orderBy(TestConstant.COLUMN_TEST_DATE + " DESC").execute();
 //            if (testModels != null && testModels.size() > 0) {
 //                dataLoadCallBack.onDataLoaded(testModels);
 //            } else {
@@ -51,8 +51,8 @@
 //            }
 //        } else if (args.length == 1) {
 //            String selection = TestConstant.COLUMN_TEST_DATA_ID + " LIKE ?";
-//            List<TestModel> testModels =
-//                    new Select().from(TestModel.class)
+//            List<TestEntity> testModels =
+//                    new Select().from(TestEntity.class)
 //                            .where(selection, (Object[]) args).execute();
 //
 //            if (testModels != null && testModels.size() > 0) {
@@ -63,8 +63,8 @@
 //        } else if (args.length == 2) {
 //            String selection = TestConstant.COLUMN_PROJECT_NUMBER + " LIKE ?"
 //                    + " AND " + TestConstant.COLUMN_HOLE_NUMBER + " LIKE ?";
-//            List<TestModel> testModels =
-//                    new Select().from(TestModel.class)
+//            List<TestEntity> testModels =
+//                    new Select().from(TestEntity.class)
 //                            .where(selection, (Object[]) args).execute();
 //
 //            if (testModels != null && testModels.size() > 0) {

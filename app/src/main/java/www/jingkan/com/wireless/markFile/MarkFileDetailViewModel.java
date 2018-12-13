@@ -19,7 +19,7 @@ import www.jingkan.com.databinding.ItemMarkFileDetailBinding;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
-import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
+import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
 import www.jingkan.com.localData.wirelessTestData.WirelessTestDaoDao;
 import www.jingkan.com.localData.wirelessTestData.WirelessTestDataModel;
 
@@ -60,14 +60,14 @@ public class MarkFileDetailViewModel extends MVVMListViewModel<MarkFileDetailAct
 
     private void loadTestParameter(String projectNumber, String holeNumber) {
         WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
-        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
+        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestEntity>() {
 
             @Override
-            public void onDataLoaded(List<WirelessTestModel> models) {
-                WirelessTestModel wirelessTestModel = models.get(0);
-                strProjectNumber.set(wirelessTestModel.projectNumber);
-                strHoleNumber.set(wirelessTestModel.holeNumber);
-                strTestDate.set(wirelessTestModel.testDate);
+            public void onDataLoaded(List<WirelessTestEntity> models) {
+                WirelessTestEntity wirelessTestEntity = models.get(0);
+                strProjectNumber.set(wirelessTestEntity.projectNumber);
+                strHoleNumber.set(wirelessTestEntity.holeNumber);
+                strTestDate.set(wirelessTestEntity.testDate);
             }
 
             @Override

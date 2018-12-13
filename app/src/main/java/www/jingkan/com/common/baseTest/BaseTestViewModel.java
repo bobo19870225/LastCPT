@@ -78,10 +78,10 @@ public class BaseTestViewModel extends BaseViewModel<BaseTestActivity> implement
         }
 
 //        TestDao testData = DataFactory.getBaseData(TestDao.class);
-//        testData.getData(new DataLoadCallBack<TestModel>() {
+//        testData.getData(new DataLoadCallBack<TestEntity>() {
 //
 //            @Override
-//            public void onDataLoaded(List<TestModel> models) {
+//            public void onDataLoaded(List<TestEntity> models) {
 //                testModel = models.get(0);
 //                obsProjectNumber.set(testModel.projectNumber);
 //                obsHoleNumber.set(testModel.holeNumber);

@@ -8,15 +8,15 @@ import android.view.MenuItem;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.R;
 import www.jingkan.com.base.baseMVVM.BaseMVVMActivity;
 import www.jingkan.com.databinding.ActivityWirelessTestBinding;
 import www.jingkan.com.framework.utils.MyFileUtils;
 import www.jingkan.com.framework.utils.StringUtils;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessTestData.WirelessTestDaoDao;
-import www.jingkan.com.localData.wirelessTestData.WirelessTestDataModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.wirelessTestData.WirelessTestDataDaoForRoom;
+import www.jingkan.com.localData.wirelessTestData.WirelessTestDataEntity;
 import www.jingkan.com.wireless.dataSynchronization.DataSyncActivity;
 
 /**
@@ -56,25 +56,40 @@ public class WirelessTestActivity extends BaseMVVMActivity<WirelessTestViewModel
             case R.id.save:
                 final String strReturn = "\r\n";
                 strContent = new StringBuilder();
-                WirelessTestDaoDao wirelessTestDataDao = DataFactory.getBaseData(WirelessTestDaoDao.class);
-                wirelessTestDataDao.getData(new DataLoadCallBack<WirelessTestDataModel>() {
-
-                    @Override
-                    public void onDataLoaded(List<WirelessTestDataModel> models) {
-                        strContent.append(models.get(0).probeNumber).append(strReturn);//探头编号
-                        strContent.append(strTestID).append(strReturn);//试验ID
-                        for (WirelessTestDataModel wirelessTestDataModel : models) {
-                            strContent.append(wirelessTestDataModel.deep).append(strReturn);
-                            strContent.append(wirelessTestDataModel.rtc).append(strReturn);
-                        }
-                        saveDataToSD();
+                WirelessTestDataDaoForRoom wirelessTestDataDaoForRoom = AppDatabase.getInstance(getApplicationContext()).wirelessTestDataDaoForRoom();
+                LiveData<List<WirelessTestDataEntity>> liveData = wirelessTestDataDaoForRoom.getWTDEByTestDataId(strTestID);
+                List<WirelessTestDataEntity> wirelessTestDataEntities = liveData.getValue();
+                if (wirelessTestDataEntities != null && !wirelessTestDataEntities.isEmpty()) {
+                    strContent.append(wirelessTestDataEntities.get(0).probeNumber).append(strReturn);//探头编号
+                    strContent.append(strTestID).append(strReturn);//试验ID
+                    for (WirelessTestDataEntity wirelessTestDataModel : wirelessTestDataEntities) {
+                        strContent.append(wirelessTestDataModel.deep).append(strReturn);
+                        strContent.append(wirelessTestDataModel.rtc).append(strReturn);
                     }
+                    saveDataToSD();
+                } else {
+                    showToast("当前无可保存的数据");
+                }
 
-                    @Override
-                    public void onDataNotAvailable() {
-                        showToast("当前无可保存的数据");
-                    }
-                }, strTestID);
+//                WirelessTestDaoDao wirelessTestDataDao = DataFactory.getBaseData(WirelessTestDaoDao.class);
+//                wirelessTestDataDao.getData(new DataLoadCallBack<WirelessTestDataModel>() {
+//
+//                    @Override
+//                    public void onDataLoaded(List<WirelessTestDataModel> models) {
+//                        strContent.append(models.get(0).probeNumber).append(strReturn);//探头编号
+//                        strContent.append(strTestID).append(strReturn);//试验ID
+//                        for (WirelessTestDataModel wirelessTestDataModel : models) {
+//                            strContent.append(wirelessTestDataModel.deep).append(strReturn);
+//                            strContent.append(wirelessTestDataModel.rtc).append(strReturn);
+//                        }
+//                        saveDataToSD();
+//                    }
+//
+//                    @Override
+//                    public void onDataNotAvailable() {
+//                        showToast("当前无可保存的数据");
+//                    }
+//                }, strTestID);
 
                 return false;
             case R.id.data_syn:

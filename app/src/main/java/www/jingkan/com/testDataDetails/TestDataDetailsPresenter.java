@@ -14,7 +14,7 @@ import www.jingkan.com.base.baseMVP.BasePresenter;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 import www.jingkan.com.localData.test.TestDao;
-import www.jingkan.com.localData.test.TestModel;
+import www.jingkan.com.localData.test.TestEntity;
 import www.jingkan.com.localData.testData.TestDataDao;
 import www.jingkan.com.localData.testData.TestDataModel;
 import www.jingkan.com.mInterface.ISkip;
@@ -45,15 +45,15 @@ class TestDataDetailsPresenter extends BasePresenter<TestDataDetailsActivity>
 
 
     private List<TestDataModel> testDataModels;
-    private TestModel testModel;
+    private TestEntity testModel;
 
     @Override
     public void getTest(String projectNumber, String holeNumber) {
         TestDao testData = DataFactory.getBaseData(TestDao.class);
-        testData.getData(new DataLoadCallBack<TestModel>() {
+        testData.getData(new DataLoadCallBack<TestEntity>() {
 
             @Override
-            public void onDataLoaded(List<TestModel> models) {
+            public void onDataLoaded(List<TestEntity> models) {
                 testModel = models.get(0);
                 getView().showTest(testModel);
             }

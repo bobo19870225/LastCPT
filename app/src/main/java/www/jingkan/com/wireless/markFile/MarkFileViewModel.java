@@ -17,7 +17,7 @@ import www.jingkan.com.databinding.ItemMarkFileBinding;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
-import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
+import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
 
 /**
  * Created by lushengbo on 2018/1/15.
@@ -47,22 +47,22 @@ public class MarkFileViewModel extends MVVMListViewModel<MarkFileActivity> {
 
     private void loadMarkData() {
         WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
-        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
+        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestEntity>() {
 
             @Override
-            public void onDataLoaded(List<WirelessTestModel> models) {
-                //items.addAll((Collection<? extends WirelessTestModel>) models);
-                List<WirelessTestModel> wirelessTestModels = (List<WirelessTestModel>) models;
+            public void onDataLoaded(List<WirelessTestEntity> models) {
+                //items.addAll((Collection<? extends WirelessTestEntity>) models);
+                List<WirelessTestEntity> wirelessTestEntitys = (List<WirelessTestEntity>) models;
                 markFileItemViewModes.clear();
-                for (WirelessTestModel wirelessTestModel : wirelessTestModels) {
+                for (WirelessTestEntity wirelessTestEntity : wirelessTestEntitys) {
                     MarkFileItemViewMode markFileItemViewMode = new MarkFileItemViewMode();
-                    markFileItemViewMode.testID.set(wirelessTestModel.testID);
-                    markFileItemViewMode.testData.set(wirelessTestModel.testDate);
+                    markFileItemViewMode.testID.set(wirelessTestEntity.testID);
+                    markFileItemViewMode.testData.set(wirelessTestEntity.testDate);
                     markFileItemViewModes.add(markFileItemViewMode);
                 }
                 adapter.notifyDataSetChanged();
                 getView().stopLoading();
-                getView().setListView(wirelessTestModels);
+                getView().setListView(wirelessTestEntitys);
 
             }
 

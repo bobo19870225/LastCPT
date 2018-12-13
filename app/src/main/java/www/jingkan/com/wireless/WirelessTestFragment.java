@@ -4,7 +4,6 @@
 
 package www.jingkan.com.wireless;
 
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,8 @@ import android.widget.RelativeLayout;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.R;
 import www.jingkan.com.activity.NewTestActivity;
 import www.jingkan.com.annotation.BindView;
@@ -20,10 +21,9 @@ import www.jingkan.com.base.BaseFragment;
 import www.jingkan.com.framework.utils.PreferencesUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.linkBluetooth.LinkBluetoothActivity;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
-import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDaoForRoom;
+import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
 import www.jingkan.com.wireless.dataSynchronization.DataSyncActivity;
 import www.jingkan.com.wireless.markFile.MarkFileActivity;
 import www.jingkan.com.wireless.testData.WirelessTestDataActivity;
@@ -63,34 +63,58 @@ public class WirelessTestFragment extends BaseFragment {
                 goTo(NewTestActivity.class, "无缆试验");
                 break;
             case R.id.test_again:
-                WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
-                wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
-
-                    @Override
-                    public void onDataLoaded(List<WirelessTestModel> models) {
-                        PreferencesUtils preferencesUtils = new PreferencesUtils(getContext());
-                        Map<String, String> linkerPreferences = preferencesUtils.getLinkerPreferences();
-                        String add = linkerPreferences.get("add");
-                        WirelessTestModel wirelessTestModel = models.get(0);
-                        if (StringUtils.isEmpty(add)) {
-                            goTo(LinkBluetoothActivity.class,
-                                    new String[]{wirelessTestModel.projectNumber,
-                                            wirelessTestModel.holeNumber,
-                                            wirelessTestModel.testType});
-                        } else {//mac地址，工程编号，孔号，试验类型。
-                            goTo(TimeSynchronizationActivity.class,
-                                    new String[]{add,
-                                            wirelessTestModel.projectNumber,
-                                            wirelessTestModel.holeNumber,
-                                            wirelessTestModel.testType});
-                        }
+                WirelessTestDaoForRoom wirelessTestDaoForRoom = AppDatabase.getInstance(getContext()).wirelessTestDaoForRoom();
+                LiveData<List<WirelessTestEntity>> liveData = wirelessTestDaoForRoom.getAllWirelessTestEntity();
+                List<WirelessTestEntity> wirelessTestEntities = liveData.getValue();
+                if (wirelessTestEntities != null && !wirelessTestEntities.isEmpty()) {
+                    PreferencesUtils preferencesUtils = new PreferencesUtils(getContext());
+                    Map<String, String> linkerPreferences = preferencesUtils.getLinkerPreferences();
+                    String add = linkerPreferences.get("add");
+                    WirelessTestEntity wirelessTestEntity = wirelessTestEntities.get(0);
+                    if (StringUtils.isEmpty(add)) {
+                        goTo(LinkBluetoothActivity.class,
+                                new String[]{wirelessTestEntity.projectNumber,
+                                        wirelessTestEntity.holeNumber,
+                                        wirelessTestEntity.testType});
+                    } else {//mac地址，工程编号，孔号，试验类型。
+                        goTo(TimeSynchronizationActivity.class,
+                                new String[]{add,
+                                        wirelessTestEntity.projectNumber,
+                                        wirelessTestEntity.holeNumber,
+                                        wirelessTestEntity.testType});
                     }
+                } else {
+                    showToast("暂无可进行二次测量的试验");
+                }
 
-                    @Override
-                    public void onDataNotAvailable() {
-                        showToast("暂无可进行二次测量的试验");
-                    }
-                });
+//                WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+//                wirelessTestDao.getData(new DataLoadCallBack<WirelessTestEntity>() {
+//
+//                    @Override
+//                    public void onDataLoaded(List<WirelessTestEntity> models) {
+//                        PreferencesUtils preferencesUtils = new PreferencesUtils(getContext());
+//                        Map<String, String> linkerPreferences = preferencesUtils.getLinkerPreferences();
+//                        String add = linkerPreferences.get("add");
+//                        WirelessTestEntity wirelessTestEntity = models.get(0);
+//                        if (StringUtils.isEmpty(add)) {
+//                            goTo(LinkBluetoothActivity.class,
+//                                    new String[]{wirelessTestEntity.projectNumber,
+//                                            wirelessTestEntity.holeNumber,
+//                                            wirelessTestEntity.testType});
+//                        } else {//mac地址，工程编号，孔号，试验类型。
+//                            goTo(TimeSynchronizationActivity.class,
+//                                    new String[]{add,
+//                                            wirelessTestEntity.projectNumber,
+//                                            wirelessTestEntity.holeNumber,
+//                                            wirelessTestEntity.testType});
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onDataNotAvailable() {
+//                        showToast("暂无可进行二次测量的试验");
+//                    }
+//                });
                 break;
             case R.id.markup_file:
                 goTo(MarkFileActivity.class, null);

@@ -259,7 +259,7 @@ public class NewTestActivity extends BaseActivity {
                 }
             }
 
-//            wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
+//            wirelessTestDao.getData(new DataLoadCallBack<WirelessTestEntity>() {
 //                @Override
 //                public void onDataLoaded(List models) {
 //                    showToast("该试验已经存在，请更换工程编号或孔号");
@@ -267,24 +267,24 @@ public class NewTestActivity extends BaseActivity {
 //
 //                @Override
 //                public void onDataNotAvailable() {
-//                    WirelessTestModel wirelessTestModel = new WirelessTestModel();
-//                    wirelessTestModel.testID = strProjectNumber + "_" + strHoleNumber;
-//                    wirelessTestModel.testDate = TimeUtils.getCurrentTime();
-//                    wirelessTestModel.projectNumber = strProjectNumber;
-//                    wirelessTestModel.holeNumber = strHoleNumber;
+//                    WirelessTestEntity wirelessTestEntity = new WirelessTestEntity();
+//                    wirelessTestEntity.testID = strProjectNumber + "_" + strHoleNumber;
+//                    wirelessTestEntity.testDate = TimeUtils.getCurrentTime();
+//                    wirelessTestEntity.projectNumber = strProjectNumber;
+//                    wirelessTestEntity.holeNumber = strHoleNumber;
 //                    String strHoleHigh = hole_high.getText().toString();
 //                    if (StringUtils.isFloat(strHoleHigh)) {
-//                        wirelessTestModel.holeHigh = Float.parseFloat(strHoleHigh);
+//                        wirelessTestEntity.holeHigh = Float.parseFloat(strHoleHigh);
 //                    }
 //                    String strWaterLevel = water_level.getText().toString();
 //                    if (StringUtils.isFloat(strWaterLevel)) {
-//                        wirelessTestModel.waterLevel = Float.parseFloat(strWaterLevel);
+//                        wirelessTestEntity.waterLevel = Float.parseFloat(strWaterLevel);
 //                    }
-//                    wirelessTestModel.location = location.getText().toString();
-//                    wirelessTestModel.tester = tester.getText().toString();
-//                    wirelessTestModel.testType = String.valueOf(test_type.getText());
-//                    wirelessTestModel.testDataID = strProjectNumber + "_" + strHoleNumber;
-//                    wirelessTestDao.addData(wirelessTestModel);
+//                    wirelessTestEntity.location = location.getText().toString();
+//                    wirelessTestEntity.tester = tester.getText().toString();
+//                    wirelessTestEntity.testType = String.valueOf(test_type.getText());
+//                    wirelessTestEntity.testDataID = strProjectNumber + "_" + strHoleNumber;
+//                    wirelessTestDao.addData(wirelessTestEntity);
 //
 //                    if (StringUtils.isEmpty(add)) {
 //                        goTo(LinkBluetoothActivity.class, new String[]{strProjectNumber, strHoleNumber, strTestType});
@@ -346,7 +346,7 @@ public class NewTestActivity extends BaseActivity {
                 }
             }
 
-//            testData.getData(new DataLoadCallBack<TestModel>() {
+//            testData.getData(new DataLoadCallBack<TestEntity>() {
 //                @Override
 //                public void onDataLoaded(List models) {
 //                    showToast("该试验已经存在，请更换工程编号或孔号");
@@ -354,7 +354,7 @@ public class NewTestActivity extends BaseActivity {
 //
 //                @Override
 //                public void onDataNotAvailable() {//入库操作
-//                    TestModel testModel = new TestModel();
+//                    TestEntity testModel = new TestEntity();
 //                    testModel.testID = strProjectNumber + "_" + strHoleNumber;
 //                    testModel.testDate = TimeUtils.getCurrentTime();
 //                    testModel.projectNumber = strProjectNumber;

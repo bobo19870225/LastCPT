@@ -32,7 +32,7 @@ public class HistoryDataActivity extends MVVMListActivity<HistoryDataViewModel, 
     @BindView(id = R.id.empty)
     private TextView empty;
 
-    private List<TestEntity> mTestModels;
+    private List<TestEntity> mTestEntitys;
     private TestEntity testModel;
 
     private ListHistoryAdapter listHistoryAdapter;
@@ -54,13 +54,13 @@ public class HistoryDataActivity extends MVVMListActivity<HistoryDataViewModel, 
     }
 
     private void setListView() {
-        mTestModels = new ArrayList<>();
-        listHistoryAdapter = new ListHistoryAdapter(HistoryDataActivity.this, R.layout.item_history_test, mTestModels);
+        mTestEntitys = new ArrayList<>();
+        listHistoryAdapter = new ListHistoryAdapter(HistoryDataActivity.this, R.layout.item_history_test, mTestEntitys);
         lv_history.setEmptyView(empty);
         lv_history.setAdapter(listHistoryAdapter);
         //查看详情
         lv_history.setOnItemClickListener((parent, view, position, id) -> {
-            TestEntity testModel = mTestModels.get(position);
+            TestEntity testModel = mTestEntitys.get(position);
             if (testModel.testType.equals(VANE_TEST)) {
                 goTo(CrossTestDataDetailsActivity.class, testModel.testDataID);
             } else {
@@ -69,7 +69,7 @@ public class HistoryDataActivity extends MVVMListActivity<HistoryDataViewModel, 
         });
         registerForContextMenu(lv_history);
         lv_history.setOnItemLongClickListener((parent, view, position, id) -> {
-            testModel = mTestModels.get(position);
+            testModel = mTestEntitys.get(position);
             return false;
         });
     }
@@ -121,10 +121,10 @@ public class HistoryDataActivity extends MVVMListActivity<HistoryDataViewModel, 
 
 
 //    @Override
-//    public void showHistoryData(List<TestModel> testModels) {
-//        mTestModels.clear();
+//    public void showHistoryData(List<TestEntity> testModels) {
+//        mTestEntitys.clear();
 //        if (testModels != null) {
-//            mTestModels.addAll(testModels);
+//            mTestEntitys.addAll(testModels);
 //        }
 //        listHistoryAdapter.notifyDataSetChanged();
 //    }

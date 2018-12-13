@@ -21,7 +21,7 @@ import www.jingkan.com.adapter.ListTestDataAdapter;
 import www.jingkan.com.annotation.BindView;
 import www.jingkan.com.base.baseMVP.BaseMvpActivity;
 import www.jingkan.com.base.baseMVP.BasePresenter;
-import www.jingkan.com.localData.test.TestModel;
+import www.jingkan.com.localData.test.TestEntity;
 import www.jingkan.com.localData.testData.TestDataModel;
 import www.jingkan.com.showDataChar.ShowDataCharActivity;
 
@@ -90,7 +90,7 @@ public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPres
     private String saveType = SAVE_TYPE_ZHD_TXT;
     private String[] saveItems = {SAVE_TYPE_ZHD_TXT, SAVE_TYPE_LY_TXT, SAVE_TYPE_LY_DAT, SAVE_TYPE_HN_111, SAVE_TYPE_LZ_TXT};
 
-    private void showSaveDataDialog(final TestModel testModel) {
+    private void showSaveDataDialog(final TestEntity testModel) {
         if (testModel.testType.contains("测斜")) {
             saveItems = new String[]{
                     SAVE_TYPE_ZHD_TXT,
@@ -114,7 +114,7 @@ public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPres
     private String emailType = EMAIL_TYPE_ZHD_TXT;
     private String[] emailItems = {EMAIL_TYPE_ZHD_TXT, EMAIL_TYPE_LY_TXT, EMAIL_TYPE_LY_DAT, EMAIL_TYPE_HN_111, EMAIL_TYPE_LZ_TXT};
 
-    private void showEmailDataDialog(final TestModel testModel) {
+    private void showEmailDataDialog(final TestEntity testModel) {
         Dialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择发送的数据类型")
                 .setSingleChoiceItems(emailItems, 0, (dialog, which) -> emailType = emailItems[which])
@@ -196,10 +196,10 @@ public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPres
 
     }
 
-    private TestModel testModel;
+    private TestEntity testModel;
 
     @Override
-    public void showTest(TestModel testModel) {
+    public void showTest(TestEntity testModel) {
         this.testModel = testModel;
         project_number.setText(testModel.projectNumber);
         hole_number.setText(testModel.holeNumber);

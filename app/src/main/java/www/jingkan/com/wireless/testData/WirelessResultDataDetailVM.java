@@ -6,23 +6,23 @@ package www.jingkan.com.wireless.testData;
 
 import android.app.Activity;
 import android.content.Intent;
-import androidx.databinding.ObservableField;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.R;
 import www.jingkan.com.adapter.BaseDataBindingAdapter;
 import www.jingkan.com.adapter.WirelessResultDataDetailItemVM;
 import www.jingkan.com.base.baseMVVM.MVVMListViewModel;
 import www.jingkan.com.databinding.ItemResultDataDetailsBinding;
 import www.jingkan.com.framework.utils.StringUtils;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessResultData.WirelessResultDaoDao;
-import www.jingkan.com.localData.wirelessResultData.WirelessResultDataModel;
-import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
-import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.wirelessResultData.WirelessResultDataDaoForRoom;
+import www.jingkan.com.localData.wirelessResultData.WirelessResultDataEntity;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDaoForRoom;
+import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
 import www.jingkan.com.mInterface.ISkip;
 import www.jingkan.com.saveUtils.DataUtils;
 
@@ -39,7 +39,7 @@ public class WirelessResultDataDetailVM extends MVVMListViewModel<WirelessResult
     public final ObservableField<String> strHoleNumber = new ObservableField<>();
     public final ObservableField<String> strTestDate = new ObservableField<>();
     private String strTestID;
-    private List<WirelessResultDataModel> wirelessResultDataModels;
+    private List<WirelessResultDataEntity> wirelessResultDataModels;
 
     @Override
     protected void initData(Object data) {
@@ -47,26 +47,37 @@ public class WirelessResultDataDetailVM extends MVVMListViewModel<WirelessResult
         getTestParameter((String) data);
     }
 
-    private WirelessTestModel wirelessTestModel;
+    private WirelessTestEntity wirelessTestEntity;
 
     private void getTestParameter(String data) {
         String[] split = data.split("_");
-        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
-        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
+        WirelessTestDaoForRoom wirelessTestDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).wirelessTestDaoForRoom();
+        LiveData<List<WirelessTestEntity>> liveData = wirelessTestDaoForRoom.getWirelessTestEntityByPrjNumberAndHoleNumber(split[0], split[1]);
+        List<WirelessTestEntity> wirelessTestEntities = liveData.getValue();
+        if (wirelessTestEntities != null && !wirelessTestEntities.isEmpty()) {
+            wirelessTestEntity = wirelessTestEntities.get(0);
+            strProjectNumber.set(wirelessTestEntity.projectNumber);
+            strHoleNumber.set(wirelessTestEntity.holeNumber);
+            strTestDate.set(wirelessTestEntity.testDate);
+        }
 
-            @Override
-            public void onDataLoaded(List<WirelessTestModel> models) {
-                wirelessTestModel = models.get(0);
-                strProjectNumber.set(wirelessTestModel.projectNumber);
-                strHoleNumber.set(wirelessTestModel.holeNumber);
-                strTestDate.set(wirelessTestModel.testDate);
-            }
 
-            @Override
-            public void onDataNotAvailable() {
-
-            }
-        }, split[0], split[1]);
+//        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+//        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestEntity>() {
+//
+//            @Override
+//            public void onDataLoaded(List<WirelessTestEntity> models) {
+//                wirelessTestEntity = models.get(0);
+//                strProjectNumber.set(wirelessTestEntity.projectNumber);
+//                strHoleNumber.set(wirelessTestEntity.holeNumber);
+//                strTestDate.set(wirelessTestEntity.testDate);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//
+//            }
+//        }, split[0], split[1]);
     }
 
     private List<WirelessResultDataDetailItemVM> wirelessResultDataDetailItemVMs;
@@ -80,32 +91,53 @@ public class WirelessResultDataDetailVM extends MVVMListViewModel<WirelessResult
 
     @Override
     public void loadListViewData() {
-        WirelessResultDaoDao wirelessResultDataDao = DataFactory.getBaseData(WirelessResultDaoDao.class);
-        wirelessResultDataDetailItemVMs.clear();
-        wirelessResultDataDao.getData(new DataLoadCallBack<WirelessResultDataModel>() {
-
-            @Override
-            public void onDataLoaded(List<WirelessResultDataModel> models) {
-                wirelessResultDataModels = (List<WirelessResultDataModel>) models;
-                for (WirelessResultDataModel wirelessResultDataModel :
-                        (List<WirelessResultDataModel>) models) {
-                    WirelessResultDataDetailItemVM wirelessResultDataDetailItemVM = new WirelessResultDataDetailItemVM();
-                    wirelessResultDataDetailItemVM.strDeep.set(StringUtils.format(wirelessResultDataModel.deep, 1));
-                    wirelessResultDataDetailItemVM.strQc.set(StringUtils.format(wirelessResultDataModel.qc, 3));
-                    wirelessResultDataDetailItemVM.strFs.set(StringUtils.format(wirelessResultDataModel.fs, 3));
-                    wirelessResultDataDetailItemVM.strFa.set(StringUtils.format(wirelessResultDataModel.fa, 1));
-                    wirelessResultDataDetailItemVMs.add(wirelessResultDataDetailItemVM);
-                }
-                adapter.notifyDataSetChanged();
-                getView().stopLoading();
-                getView().setListView(models);
+        WirelessResultDataDaoForRoom wirelessResultDataDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).wirelessResultDataDaoForRoom();
+        LiveData<List<WirelessResultDataEntity>> liveData = wirelessResultDataDaoForRoom.getWirelessResultDataEntityByTestDataId(strTestID);
+        List<WirelessResultDataEntity> wirelessResultDataEntities = liveData.getValue();
+        if (wirelessResultDataEntities != null && !wirelessResultDataEntities.isEmpty()) {
+            wirelessResultDataModels = wirelessResultDataEntities;
+            for (WirelessResultDataEntity wirelessResultDataModel : wirelessResultDataEntities) {
+                WirelessResultDataDetailItemVM wirelessResultDataDetailItemVM = new WirelessResultDataDetailItemVM();
+                wirelessResultDataDetailItemVM.strDeep.set(StringUtils.format(wirelessResultDataModel.deep, 1));
+                wirelessResultDataDetailItemVM.strQc.set(StringUtils.format(wirelessResultDataModel.qc, 3));
+                wirelessResultDataDetailItemVM.strFs.set(StringUtils.format(wirelessResultDataModel.fs, 3));
+                wirelessResultDataDetailItemVM.strFa.set(StringUtils.format(wirelessResultDataModel.fa, 1));
+                wirelessResultDataDetailItemVMs.add(wirelessResultDataDetailItemVM);
             }
+            adapter.notifyDataSetChanged();
+            getView().stopLoading();
+            getView().setListView(wirelessResultDataEntities);
+        } else {
+            getView().stopLoading();
+        }
 
-            @Override
-            public void onDataNotAvailable() {
-                getView().stopLoading();
-            }
-        }, strTestID);
+
+//        WirelessResultDaoDao wirelessResultDataDao = DataFactory.getBaseData(WirelessResultDaoDao.class);
+//        wirelessResultDataDetailItemVMs.clear();
+//        wirelessResultDataDao.getData(new DataLoadCallBack<WirelessResultDataModel>() {
+//
+//            @Override
+//            public void onDataLoaded(List<WirelessResultDataModel> models) {
+//                wirelessResultDataModels = (List<WirelessResultDataModel>) models;
+//                for (WirelessResultDataModel wirelessResultDataModel :
+//                        (List<WirelessResultDataModel>) models) {
+//                    WirelessResultDataDetailItemVM wirelessResultDataDetailItemVM = new WirelessResultDataDetailItemVM();
+//                    wirelessResultDataDetailItemVM.strDeep.set(StringUtils.format(wirelessResultDataModel.deep, 1));
+//                    wirelessResultDataDetailItemVM.strQc.set(StringUtils.format(wirelessResultDataModel.qc, 3));
+//                    wirelessResultDataDetailItemVM.strFs.set(StringUtils.format(wirelessResultDataModel.fs, 3));
+//                    wirelessResultDataDetailItemVM.strFa.set(StringUtils.format(wirelessResultDataModel.fa, 1));
+//                    wirelessResultDataDetailItemVMs.add(wirelessResultDataDetailItemVM);
+//                }
+//                adapter.notifyDataSetChanged();
+//                getView().stopLoading();
+//                getView().setListView(models);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                getView().stopLoading();
+//            }
+//        }, strTestID);
     }
 
     @Override
@@ -125,7 +157,7 @@ public class WirelessResultDataDetailVM extends MVVMListViewModel<WirelessResult
                 getView().getApplicationContext(),
                 wirelessResultDataModels,
                 saveType,
-                wirelessTestModel,
+                wirelessTestEntity,
                 this);
     }
 
@@ -137,7 +169,7 @@ public class WirelessResultDataDetailVM extends MVVMListViewModel<WirelessResult
                 getView().getApplicationContext(),
                 wirelessResultDataModels,
                 emailType,
-                wirelessTestModel,
+                wirelessTestEntity,
                 this);
     }
 

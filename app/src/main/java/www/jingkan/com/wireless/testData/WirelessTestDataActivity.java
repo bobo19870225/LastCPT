@@ -4,17 +4,15 @@
 
 package www.jingkan.com.wireless.testData;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import www.jingkan.com.R;
 import www.jingkan.com.base.baseMVVM.MVVMListActivity;
 import www.jingkan.com.databinding.ActivityWirelessTestDataBinding;
-import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
+import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
 
 /**
  * Created by lushengbo on 2018/1/25.
@@ -25,12 +23,9 @@ public class WirelessTestDataActivity extends MVVMListActivity<WirelessTestDataV
     @Override
     public void setListView(final List list) {
         ListView listView = mViewDataBinding.list;
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                WirelessTestModel wirelessTestModel = (WirelessTestModel) list.get(i);
-                goTo(WirelessResultDataDetailActivity.class, wirelessTestModel.testDataID);
-            }
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            WirelessTestEntity wirelessTestEntity = (WirelessTestEntity) list.get(i);
+            goTo(WirelessResultDataDetailActivity.class, wirelessTestEntity.testDataID);
         });
         listView.setEmptyView(mViewDataBinding.hint);
     }

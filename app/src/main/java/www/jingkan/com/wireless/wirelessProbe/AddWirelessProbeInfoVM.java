@@ -5,16 +5,16 @@
 package www.jingkan.com.wireless.wirelessProbe;
 
 import android.content.Intent;
-import androidx.databinding.ObservableField;
 
 import java.util.List;
 
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.framework.utils.StringUtils;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessProbe.WirelessProbeDao;
-import www.jingkan.com.localData.wirelessProbe.WirelessProbeModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.wirelessProbe.WirelessProbeDaoForRoom;
+import www.jingkan.com.localData.wirelessProbe.WirelessProbeEntity;
 
 /**
  * Created by lushengbo on 2018/1/24.
@@ -37,34 +37,57 @@ public class AddWirelessProbeInfoVM extends BaseViewModel<AddWirelessProbeInfoAc
     @Override
     protected void init(Object data) {
         if (data != null) {
-            WirelessProbeDao wirelessProbeDao = DataFactory.getBaseData(WirelessProbeDao.class);
-            wirelessProbeDao.getData(new DataLoadCallBack<WirelessProbeModel>() {
-
-                @Override
-                public void onDataLoaded(List<WirelessProbeModel> models) {
-                    WirelessProbeModel wirelessProbeModel = models.get(0);
-                    if (wirelessProbeModel.type.contains("双桥")) {
-                        doubleBridge.set(true);
-                        strFsArea.set(wirelessProbeModel.fs_area);
-                        strFsCoefficient.set(String.valueOf(wirelessProbeModel.fs_coefficient));
-                        strFsLimit.set(String.valueOf(wirelessProbeModel.fs_limit));
-                    } else {
-                        doubleBridge.set(false);
-                    }
-                    strChoseProbeType.set("探头类型：");
-                    strProbeType.set(wirelessProbeModel.type);
-                    strSn.set(wirelessProbeModel.sn);
-                    strNumber.set(wirelessProbeModel.number);
-                    strQcArea.set(wirelessProbeModel.qc_area);
-                    strQcCoefficient.set(String.valueOf(wirelessProbeModel.qc_coefficient));
-                    strQcLimit.set(String.valueOf(wirelessProbeModel.qc_limit));
+            WirelessProbeDaoForRoom wirelessProbeDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).wirelessProbeDaoForRoom();
+            LiveData<List<WirelessProbeEntity>> liveData = wirelessProbeDaoForRoom.getWirelessProbeEntityByProbeId((String) data);
+            List<WirelessProbeEntity> wirelessProbeEntities = liveData.getValue();
+            if (wirelessProbeEntities != null && !wirelessProbeEntities.isEmpty()) {
+                WirelessProbeEntity wirelessProbeModel = wirelessProbeEntities.get(0);
+                if (wirelessProbeModel.type.contains("双桥")) {
+                    doubleBridge.set(true);
+                    strFsArea.set(wirelessProbeModel.fs_area);
+                    strFsCoefficient.set(String.valueOf(wirelessProbeModel.fs_coefficient));
+                    strFsLimit.set(String.valueOf(wirelessProbeModel.fs_limit));
+                } else {
+                    doubleBridge.set(false);
                 }
+                strChoseProbeType.set("探头类型：");
+                strProbeType.set(wirelessProbeModel.type);
+                strSn.set(wirelessProbeModel.sn);
+                strNumber.set(wirelessProbeModel.number);
+                strQcArea.set(wirelessProbeModel.qc_area);
+                strQcCoefficient.set(String.valueOf(wirelessProbeModel.qc_coefficient));
+                strQcLimit.set(String.valueOf(wirelessProbeModel.qc_limit));
+            }
 
-                @Override
-                public void onDataNotAvailable() {
 
-                }
-            }, (String) data);
+//            WirelessProbeDao wirelessProbeDao = DataFactory.getBaseData(WirelessProbeDao.class);
+//            wirelessProbeDao.getData(new DataLoadCallBack<WirelessProbeModel>() {
+//
+//                @Override
+//                public void onDataLoaded(List<WirelessProbeModel> models) {
+//                    WirelessProbeModel wirelessProbeModel = models.get(0);
+//                    if (wirelessProbeModel.type.contains("双桥")) {
+//                        doubleBridge.set(true);
+//                        strFsArea.set(wirelessProbeModel.fs_area);
+//                        strFsCoefficient.set(String.valueOf(wirelessProbeModel.fs_coefficient));
+//                        strFsLimit.set(String.valueOf(wirelessProbeModel.fs_limit));
+//                    } else {
+//                        doubleBridge.set(false);
+//                    }
+//                    strChoseProbeType.set("探头类型：");
+//                    strProbeType.set(wirelessProbeModel.type);
+//                    strSn.set(wirelessProbeModel.sn);
+//                    strNumber.set(wirelessProbeModel.number);
+//                    strQcArea.set(wirelessProbeModel.qc_area);
+//                    strQcCoefficient.set(String.valueOf(wirelessProbeModel.qc_coefficient));
+//                    strQcLimit.set(String.valueOf(wirelessProbeModel.qc_limit));
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {
+//
+//                }
+//            }, (String) data);
         }
     }
 
@@ -79,7 +102,7 @@ public class AddWirelessProbeInfoVM extends BaseViewModel<AddWirelessProbeInfoAc
     }
 
     public boolean addProbe() {
-        WirelessProbeModel wirelessProbeModel = new WirelessProbeModel();
+        WirelessProbeEntity wirelessProbeModel = new WirelessProbeEntity();
         if (doubleBridge.get()) {
             if (StringUtils.isEmpty(strProbeType.get())) {
                 getView().showToast("请选择探头类型");
@@ -153,8 +176,12 @@ public class AddWirelessProbeInfoVM extends BaseViewModel<AddWirelessProbeInfoAc
         wirelessProbeModel.qc_area = strQcArea.get();
         wirelessProbeModel.qc_coefficient = Float.parseFloat(strQcCoefficient.get());
         wirelessProbeModel.qc_limit = Integer.parseInt(strQcLimit.get());
-        WirelessProbeDao wirelessProbeDao = DataFactory.getBaseData(WirelessProbeDao.class);
-        wirelessProbeDao.addData(wirelessProbeModel);
+        WirelessProbeDaoForRoom wirelessProbeDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).wirelessProbeDaoForRoom();
+        wirelessProbeDaoForRoom.insertWirelessProbeEntity(wirelessProbeModel);
+
+//        WirelessProbeDao wirelessProbeDao = DataFactory.getBaseData(WirelessProbeDao.class);
+//        wirelessProbeDao.addData(wirelessProbeModel);
+
         getView().goTo(WirelessProbeActivity.class, null, true);
         return true;
     }

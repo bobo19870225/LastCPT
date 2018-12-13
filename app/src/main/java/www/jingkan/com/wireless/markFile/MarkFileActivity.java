@@ -14,7 +14,7 @@ import java.util.List;
 import www.jingkan.com.R;
 import www.jingkan.com.base.baseMVVM.MVVMListActivity;
 import www.jingkan.com.databinding.ActivityMarkFileBinding;
-import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
+import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
 
 /**
  * Created by lushengbo on 2018/1/15.
@@ -53,7 +53,7 @@ public class MarkFileActivity extends MVVMListActivity<MarkFileViewModel, Activi
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goTo(MarkFileDetailActivity.class, ((WirelessTestModel) list.get(i)).testDataID);
+                goTo(MarkFileDetailActivity.class, ((WirelessTestEntity) list.get(i)).testDataID);
             }
         });
     }

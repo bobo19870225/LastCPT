@@ -11,7 +11,7 @@ import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 import www.jingkan.com.localData.test.TestDao;
-import www.jingkan.com.localData.test.TestModel;
+import www.jingkan.com.localData.test.TestEntity;
 import www.jingkan.com.localData.testData.CrossTestData.CrossTestDaoDao;
 import www.jingkan.com.localData.testData.CrossTestData.CrossTestDataModel;
 import www.jingkan.com.mInterface.ISkip;
@@ -31,14 +31,14 @@ public class CrossTestDataDetailsVM extends BaseViewModel<CrossTestDataDetailsAc
     public final ObservableField<String> obsProjectNumber = new ObservableField<>("");
     public final ObservableField<String> obsTestDate = new ObservableField<>("");
     private List<CrossTestDataModel> crossTestDataModels;
-    private TestModel testModel;
+    private TestEntity testModel;
 
     @Override
     protected void init(Object data) {
         TestDao testDao = DataFactory.getBaseData(TestDao.class);
-        testDao.getData(new DataLoadCallBack<TestModel>() {
+        testDao.getData(new DataLoadCallBack<TestEntity>() {
             @Override
-            public void onDataLoaded(List<TestModel> models) {
+            public void onDataLoaded(List<TestEntity> models) {
                 testModel = models.get(0);
                 obsProjectNumber.set(testModel.projectNumber);
                 obsHoleNumber.set(testModel.holeNumber);

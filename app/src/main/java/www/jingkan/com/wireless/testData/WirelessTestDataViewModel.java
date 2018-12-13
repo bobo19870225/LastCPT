@@ -9,15 +9,15 @@ import android.content.Intent;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.R;
 import www.jingkan.com.adapter.BaseDataBindingAdapter;
 import www.jingkan.com.adapter.WirelessTestDataItemVM;
 import www.jingkan.com.base.baseMVVM.MVVMListViewModel;
 import www.jingkan.com.databinding.ItemWirelessTestDataBinding;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
-import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDaoForRoom;
+import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
 
 /**
  * Created by lushengbo on 2018/1/25.
@@ -53,31 +53,51 @@ public class WirelessTestDataViewModel extends MVVMListViewModel<WirelessTestDat
 
     @Override
     public void loadListViewData() {
-        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+        WirelessTestDaoForRoom wirelessTestDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).wirelessTestDaoForRoom();
         wirelessTestDataItemVMS.clear();
-        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
+        LiveData<List<WirelessTestEntity>> liveData = wirelessTestDaoForRoom.getAllWirelessTestEntity();
+        List<WirelessTestEntity> wirelessTestEntities = liveData.getValue();
+        if (wirelessTestEntities != null && !wirelessTestEntities.isEmpty()) {
 
-            @Override
-            public void onDataLoaded(List<WirelessTestModel> models) {
-
-                for (WirelessTestModel wirelessTestModel : models
-                        ) {
-                    WirelessTestDataItemVM wirelessTestDataItemVM = new WirelessTestDataItemVM();
-                    wirelessTestDataItemVM.strProjectNumber.set(wirelessTestModel.projectNumber);
-                    wirelessTestDataItemVM.strHoleNumber.set(wirelessTestModel.holeNumber);
-                    wirelessTestDataItemVM.strTestDate.set(wirelessTestModel.testDate);
-                    wirelessTestDataItemVMS.add(wirelessTestDataItemVM);
-                }
-                adapter.notifyDataSetChanged();
-                getView().stopLoading();
-                getView().setListView(models);
+            for (WirelessTestEntity wirelessTestEntity : wirelessTestEntities
+                    ) {
+                WirelessTestDataItemVM wirelessTestDataItemVM = new WirelessTestDataItemVM();
+                wirelessTestDataItemVM.strProjectNumber.set(wirelessTestEntity.projectNumber);
+                wirelessTestDataItemVM.strHoleNumber.set(wirelessTestEntity.holeNumber);
+                wirelessTestDataItemVM.strTestDate.set(wirelessTestEntity.testDate);
+                wirelessTestDataItemVMS.add(wirelessTestDataItemVM);
             }
-
-            @Override
-            public void onDataNotAvailable() {
-                adapter.notifyDataSetChanged();
-                getView().stopLoading();
-            }
-        });
+            adapter.notifyDataSetChanged();
+            getView().stopLoading();
+            getView().setListView(wirelessTestEntities);
+        } else {
+            adapter.notifyDataSetChanged();
+            getView().stopLoading();
+        }
+//        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+//        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestEntity>() {
+//
+//            @Override
+//            public void onDataLoaded(List<WirelessTestEntity> models) {
+//
+//                for (WirelessTestEntity wirelessTestEntity : models
+//                        ) {
+//                    WirelessTestDataItemVM wirelessTestDataItemVM = new WirelessTestDataItemVM();
+//                    wirelessTestDataItemVM.strProjectNumber.set(wirelessTestEntity.projectNumber);
+//                    wirelessTestDataItemVM.strHoleNumber.set(wirelessTestEntity.holeNumber);
+//                    wirelessTestDataItemVM.strTestDate.set(wirelessTestEntity.testDate);
+//                    wirelessTestDataItemVMS.add(wirelessTestDataItemVM);
+//                }
+//                adapter.notifyDataSetChanged();
+//                getView().stopLoading();
+//                getView().setListView(models);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                adapter.notifyDataSetChanged();
+//                getView().stopLoading();
+//            }
+//        });
     }
 }

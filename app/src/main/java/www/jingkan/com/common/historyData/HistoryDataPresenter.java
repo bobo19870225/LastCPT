@@ -13,7 +13,7 @@
 //import www.jingkan.com.localData.dataFactory.DataFactory;
 //import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 //import www.jingkan.com.localData.test.TestDao;
-//import www.jingkan.com.localData.test.TestModel;
+//import www.jingkan.com.localData.test.TestEntity;
 //import www.jingkan.com.localData.testData.TestDataDao;
 //
 ///**
@@ -44,10 +44,10 @@
 //    @Override
 //    public void getHistoryData() {
 //
-//        testData.getData(new DataLoadCallBack<TestModel>() {
+//        testData.getData(new DataLoadCallBack<TestEntity>() {
 //
 //            @Override
-//            public void onDataLoaded(List<TestModel> models) {
+//            public void onDataLoaded(List<TestEntity> models) {
 //                myView.get().showHistoryData(models);
 //            }
 //
@@ -60,7 +60,7 @@
 //    }
 //
 //    @Override
-//    public void deleteOneHistoryData(TestModel testModel) {
+//    public void deleteOneHistoryData(TestEntity testModel) {
 //        testData.deleteData(testModel.projectNumber, testModel.holeNumber);
 //        //同时删除试验数据
 //        TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);

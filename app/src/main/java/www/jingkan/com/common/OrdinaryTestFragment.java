@@ -4,8 +4,6 @@
 
 package www.jingkan.com.common;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,9 @@ import android.widget.RelativeLayout;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.R;
 import www.jingkan.com.activity.NewTestActivity;
 import www.jingkan.com.annotation.BindView;
@@ -24,10 +25,9 @@ import www.jingkan.com.common.historyData.HistoryDataActivity;
 import www.jingkan.com.framework.utils.PreferencesUtils;
 import www.jingkan.com.framework.utils.StringUtils;
 import www.jingkan.com.linkBluetooth.LinkBluetoothActivity;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.test.TestDao;
-import www.jingkan.com.localData.test.TestModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.test.TestDaoForRoom;
+import www.jingkan.com.localData.test.TestEntity;
 import www.jingkan.com.parameter.SystemConstant;
 
 
@@ -60,44 +60,78 @@ public class OrdinaryTestFragment extends BaseFragment {
 
                 break;
             case R.id.test_again:
-                TestDao testData = DataFactory.getBaseData(TestDao.class);
-                testData.getData(new DataLoadCallBack<TestModel>() {
-
-                    @Override
-                    public void onDataLoaded(List<TestModel> models) {
-                        PreferencesUtils preferencesUtils = new PreferencesUtils(getContext());
-                        Map<String, String> linkerPreferences = preferencesUtils.getLinkerPreferences();
-                        String add = linkerPreferences.get("add");
-                        TestModel testModel = models.get(0);
-                        if (StringUtils.isEmpty(add)) {
-                            goTo(LinkBluetoothActivity.class, new String[]{testModel.projectNumber, testModel.holeNumber, testModel.testType});
-                        } else {//mac地址，工程编号，孔号，试验类型。
-                            switch (testModel.testType) {
-                                case SystemConstant.SINGLE_BRIDGE_TEST:
-                                    goTo(SingleBridgeTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
-                                    break;
-                                case SystemConstant.SINGLE_BRIDGE_MULTI_TEST:
-                                    goTo(SingleBridgeMultifunctionTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
-                                    break;
-                                case SystemConstant.DOUBLE_BRIDGE_TEST:
-                                    goTo(DoubleBridgeTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
-                                    break;
-                                case SystemConstant.DOUBLE_BRIDGE_MULTI_TEST:
-                                    goTo(DoubleBridgeMultifunctionTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
-                                    break;
-                                case SystemConstant.VANE_TEST:
-                                    goTo(CrossTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
-                                    break;
-                            }
-
+                TestDaoForRoom testDaoForRoom = AppDatabase.getInstance(getContext()).testDaoForRoom();
+                LiveData<List<TestEntity>> liveData = testDaoForRoom.getAllTestes();
+                List<TestEntity> testEntities = liveData.getValue();
+                if (testEntities != null && !testEntities.isEmpty()) {
+                    PreferencesUtils preferencesUtils = new PreferencesUtils(getContext());
+                    Map<String, String> linkerPreferences = preferencesUtils.getLinkerPreferences();
+                    String add = linkerPreferences.get("add");
+                    TestEntity testModel = testEntities.get(0);
+                    if (StringUtils.isEmpty(add)) {
+                        goTo(LinkBluetoothActivity.class, new String[]{testModel.projectNumber, testModel.holeNumber, testModel.testType});
+                    } else {//mac地址，工程编号，孔号，试验类型。
+                        switch (testModel.testType) {
+                            case SystemConstant.SINGLE_BRIDGE_TEST:
+                                goTo(SingleBridgeTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+                                break;
+                            case SystemConstant.SINGLE_BRIDGE_MULTI_TEST:
+                                goTo(SingleBridgeMultifunctionTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+                                break;
+                            case SystemConstant.DOUBLE_BRIDGE_TEST:
+                                goTo(DoubleBridgeTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+                                break;
+                            case SystemConstant.DOUBLE_BRIDGE_MULTI_TEST:
+                                goTo(DoubleBridgeMultifunctionTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+                                break;
+                            case SystemConstant.VANE_TEST:
+                                goTo(CrossTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+                                break;
                         }
-                    }
 
-                    @Override
-                    public void onDataNotAvailable() {
-                        showToast("暂无可进行二次测量的试验");
                     }
-                });
+                } else {
+                    showToast("暂无可进行二次测量的试验");
+                }
+
+//                TestDao testData = DataFactory.getBaseData(TestDao.class);
+//                testData.getData(new DataLoadCallBack<TestEntity>() {
+//
+//                    @Override
+//                    public void onDataLoaded(List<TestEntity> models) {
+//                        PreferencesUtils preferencesUtils = new PreferencesUtils(getContext());
+//                        Map<String, String> linkerPreferences = preferencesUtils.getLinkerPreferences();
+//                        String add = linkerPreferences.get("add");
+//                        TestEntity testModel = models.get(0);
+//                        if (StringUtils.isEmpty(add)) {
+//                            goTo(LinkBluetoothActivity.class, new String[]{testModel.projectNumber, testModel.holeNumber, testModel.testType});
+//                        } else {//mac地址，工程编号，孔号，试验类型。
+//                            switch (testModel.testType) {
+//                                case SystemConstant.SINGLE_BRIDGE_TEST:
+//                                    goTo(SingleBridgeTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+//                                    break;
+//                                case SystemConstant.SINGLE_BRIDGE_MULTI_TEST:
+//                                    goTo(SingleBridgeMultifunctionTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+//                                    break;
+//                                case SystemConstant.DOUBLE_BRIDGE_TEST:
+//                                    goTo(DoubleBridgeTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+//                                    break;
+//                                case SystemConstant.DOUBLE_BRIDGE_MULTI_TEST:
+//                                    goTo(DoubleBridgeMultifunctionTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+//                                    break;
+//                                case SystemConstant.VANE_TEST:
+//                                    goTo(CrossTestActivity.class, new String[]{add, testModel.projectNumber, testModel.holeNumber});
+//                                    break;
+//                            }
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onDataNotAvailable() {
+//                        showToast("暂无可进行二次测量的试验");
+//                    }
+//                });
                 break;
             case R.id.history_data:
                 goTo(HistoryDataActivity.class, null);

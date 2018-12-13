@@ -9,7 +9,7 @@
 //import com.activeandroid.annotation.Table;
 //
 //@Table(name = TestConstant.TABLE_NAME)
-//public class TestModel extends Model {
+//public class TestEntity extends Model {
 //    @Column(name = TestConstant.COLUMN_TEST_ID, unique = true)
 //    public String testID;
 //    @Column(name = TestConstant.COLUMN_TEST_DATE)

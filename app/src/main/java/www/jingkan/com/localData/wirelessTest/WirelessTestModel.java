@@ -8,10 +8,10 @@
 //import com.activeandroid.annotation.Column;
 //import com.activeandroid.annotation.Table;
 //
-//import www.jingkan.com.localData.test.TestModel;
+//import www.jingkan.com.localData.test.TestEntity;
 //
 //@Table(name = WirelessTestConstant.TABLE_NAME)
-//public class WirelessTestModel extends Model {
+//public class WirelessTestEntity extends Model {
 //    @Column(name = WirelessTestConstant.COLUMN_TEST_ID, unique = true)
 //    public String testID;//projectNumber_holeNumber
 //    @Column(name = WirelessTestConstant.COLUMN_TEST_DATE)
@@ -33,8 +33,8 @@
 //    @Column(name = WirelessTestConstant.COLUMN_TEST_DATA_ID)
 //    public String testDataID;//projectNumber_holeNumber
 //
-//    public TestModel castToTestModel() {
-//        TestModel testModel = new TestModel();
+//    public TestEntity castToTestEntity() {
+//        TestEntity testModel = new TestEntity();
 //        testModel.testID = testID;
 //        testModel.testDate = testDate;
 //        testModel.projectNumber = projectNumber;

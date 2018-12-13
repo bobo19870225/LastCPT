@@ -11,13 +11,13 @@ import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.localData.dataFactory.DataFactory;
 import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
 import www.jingkan.com.localData.test.TestDao;
-import www.jingkan.com.localData.test.TestModel;
+import www.jingkan.com.localData.test.TestEntity;
 import www.jingkan.com.localData.testData.TestDataDao;
 import www.jingkan.com.localData.testData.TestDataModel;
 import www.jingkan.com.localData.wirelessResultData.WirelessResultDaoDao;
 import www.jingkan.com.localData.wirelessResultData.WirelessResultDataModel;
 import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
-import www.jingkan.com.localData.wirelessTest.WirelessTestModel;
+import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
 
 /**
  * Created by Sampson on 2018/3/12.
@@ -34,7 +34,7 @@ public class ShowDataCharViewModel extends BaseViewModel<ShowDataCharActivity> {
     public final ObservableField<Integer> intFa = new ObservableField<>(0);
     public final ObservableField<Float> floatDeep = new ObservableField<>(0.1f);
 
-    private TestModel testModel;
+    private TestEntity testModel;
     private String testDataID;
     private boolean isWireless;
 
@@ -103,10 +103,10 @@ public class ShowDataCharViewModel extends BaseViewModel<ShowDataCharActivity> {
     private void getTest() {
         String[] split = testDataID.split("_");
         TestDao testData = DataFactory.getBaseData(TestDao.class);
-        testData.getData(new DataLoadCallBack<TestModel>() {
+        testData.getData(new DataLoadCallBack<TestEntity>() {
 
             @Override
-            public void onDataLoaded(List<TestModel> models) {
+            public void onDataLoaded(List<TestEntity> models) {
                 testModel = models.get(0);
                 projectNumber.set(testModel.projectNumber);
                 holeNumber.set(testModel.holeNumber);
@@ -141,12 +141,12 @@ public class ShowDataCharViewModel extends BaseViewModel<ShowDataCharActivity> {
     private void getWirelessTest() {
         String[] split = testDataID.split("_");
         WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
-        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestModel>() {
+        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestEntity>() {
 
             @Override
-            public void onDataLoaded(List<WirelessTestModel> models) {
-                WirelessTestModel wirelessTestModel = models.get(0);
-                testModel = wirelessTestModel.castToTestModel();//转成普通实验
+            public void onDataLoaded(List<WirelessTestEntity> models) {
+                WirelessTestEntity wirelessTestEntity = models.get(0);
+                testModel = wirelessTestEntity.castToTestEntity();//转成普通实验
                 projectNumber.set(testModel.projectNumber);
                 holeNumber.set(testModel.holeNumber);
                 testDate.set(testModel.testDate);

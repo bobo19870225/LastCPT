@@ -6,7 +6,7 @@ package www.jingkan.com.testDataDetails;
 
 import java.util.List;
 
-import www.jingkan.com.localData.test.TestModel;
+import www.jingkan.com.localData.test.TestEntity;
 import www.jingkan.com.localData.testData.TestDataModel;
 
 /**
@@ -15,7 +15,7 @@ import www.jingkan.com.localData.testData.TestDataModel;
 public interface TestDataDetailsContract {
 
     interface View {
-        void showTest(TestModel testModel);
+        void showTest(TestEntity testModel);
 
         void showTestData(List<TestDataModel> testDataModels);
 
