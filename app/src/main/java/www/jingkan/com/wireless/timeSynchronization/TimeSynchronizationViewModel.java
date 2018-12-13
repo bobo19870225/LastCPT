@@ -7,24 +7,23 @@ package www.jingkan.com.wireless.timeSynchronization;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.DialogInterface;
 import android.content.Intent;
-import androidx.databinding.ObservableField;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
 import java.util.List;
 
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
 import www.jingkan.com.bluetooth.BluetoothCommService;
 import www.jingkan.com.framework.utils.BluetoothUtils;
 import www.jingkan.com.framework.utils.TimeUtils;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.wirelessProbe.WirelessProbeDao;
-import www.jingkan.com.localData.wirelessProbe.WirelessProbeModel;
-import www.jingkan.com.localData.wirelessTest.WirelessTestDao;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.wirelessProbe.WirelessProbeDaoForRoom;
+import www.jingkan.com.localData.wirelessProbe.WirelessProbeEntity;
+import www.jingkan.com.localData.wirelessTest.WirelessTestDaoForRoom;
 import www.jingkan.com.localData.wirelessTest.WirelessTestEntity;
 
 /**
@@ -91,45 +90,72 @@ public class TimeSynchronizationViewModel extends BaseViewModel<TimeSynchronizat
     private boolean isIdentification;
 
     private void getTestParameters(String projectNumber, String holeNumber) {
-        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
-        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestEntity>() {
+        WirelessTestDaoForRoom wirelessTestDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).wirelessTestDaoForRoom();
+        LiveData<List<WirelessTestEntity>> liveData = wirelessTestDaoForRoom.getWirelessTestEntityByPrjNumberAndHoleNumber(projectNumber, holeNumber);
+        List<WirelessTestEntity> wirelessTestEntities = liveData.getValue();
+        if (wirelessTestEntities != null && !wirelessTestEntities.isEmpty()) {
+            WirelessTestEntity wirelessTestEntity = wirelessTestEntities.get(0);
+            strProjectNumber.set(wirelessTestEntity.projectNumber);
+            strHoleNumber.set(wirelessTestEntity.holeNumber);
+        } else {
+            myView.get().showToast("找不到该孔信息");
+        }
 
-            @Override
-            public void onDataLoaded(List<WirelessTestEntity> models) {
-                WirelessTestEntity wirelessTestEntity = models.get(0);
-                strProjectNumber.set(wirelessTestEntity.projectNumber);
-                strHoleNumber.set(wirelessTestEntity.holeNumber);
-            }
 
-            @Override
-            public void onDataNotAvailable() {
-                myView.get().showToast("找不到该孔信息");
-            }
-        }, projectNumber, holeNumber);
+//        WirelessTestDao wirelessTestDao = DataFactory.getBaseData(WirelessTestDao.class);
+//        wirelessTestDao.getData(new DataLoadCallBack<WirelessTestEntity>() {
+//
+//            @Override
+//            public void onDataLoaded(List<WirelessTestEntity> models) {
+//                WirelessTestEntity wirelessTestEntity = models.get(0);
+//                strProjectNumber.set(wirelessTestEntity.projectNumber);
+//                strHoleNumber.set(wirelessTestEntity.holeNumber);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                myView.get().showToast("找不到该孔信息");
+//            }
+//        }, projectNumber, holeNumber);
 
     }
 
     private void identificationProbe(String sn) {
         if (!isIdentification) {
             isIdentification = true;
-            WirelessProbeDao wirelessProbeDao = DataFactory.getBaseData(WirelessProbeDao.class);
-            wirelessProbeDao.getData(new DataLoadCallBack<WirelessProbeModel>() {
+            WirelessProbeDaoForRoom wirelessProbeDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).wirelessProbeDaoForRoom();
+            LiveData<List<WirelessProbeEntity>> liveData = wirelessProbeDaoForRoom.getWirelessProbeEntityByProbeId(sn);
+            List<WirelessProbeEntity> wirelessProbeEntities = liveData.getValue();
+            if (wirelessProbeEntities != null && !wirelessProbeEntities.isEmpty()) {
+                WirelessProbeEntity wirelessProbeModel = wirelessProbeEntities.get(0);
+                strQcCoefficient.set(String.valueOf(wirelessProbeModel.qc_coefficient));
+                strQcLimit.set(String.valueOf(wirelessProbeModel.qc_limit));
+                strFsCoefficient.set(String.valueOf(wirelessProbeModel.fs_coefficient));
+                strFsLimit.set(String.valueOf(wirelessProbeModel.fs_limit));
+                obsProbeNumber.set(wirelessProbeModel.number);
+            } else {
+                myView.get().showToast("该探头未添加到探头列表中，暂时不能使用，请在探头列表里添加该探头");
+            }
 
-                @Override
-                public void onDataLoaded(List<WirelessProbeModel> models) {
-                    WirelessProbeModel wirelessProbeModel = models.get(0);
-                    strQcCoefficient.set(String.valueOf(wirelessProbeModel.qc_coefficient));
-                    strQcLimit.set(String.valueOf(wirelessProbeModel.qc_limit));
-                    strFsCoefficient.set(String.valueOf(wirelessProbeModel.fs_coefficient));
-                    strFsLimit.set(String.valueOf(wirelessProbeModel.fs_limit));
-                    obsProbeNumber.set(wirelessProbeModel.number);
-                }
 
-                @Override
-                public void onDataNotAvailable() {
-                    myView.get().showToast("该探头未添加到探头列表中，暂时不能使用，请在探头列表里添加该探头");
-                }
-            }, sn);
+//            WirelessProbeDao wirelessProbeDao = DataFactory.getBaseData(WirelessProbeDao.class);
+//            wirelessProbeDao.getData(new DataLoadCallBack<WirelessProbeModel>() {
+//
+//                @Override
+//                public void onDataLoaded(List<WirelessProbeModel> models) {
+//                    WirelessProbeModel wirelessProbeModel = models.get(0);
+//                    strQcCoefficient.set(String.valueOf(wirelessProbeModel.qc_coefficient));
+//                    strQcLimit.set(String.valueOf(wirelessProbeModel.qc_limit));
+//                    strFsCoefficient.set(String.valueOf(wirelessProbeModel.fs_coefficient));
+//                    strFsLimit.set(String.valueOf(wirelessProbeModel.fs_limit));
+//                    obsProbeNumber.set(wirelessProbeModel.number);
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {
+//                    myView.get().showToast("该探头未添加到探头列表中，暂时不能使用，请在探头列表里添加该探头");
+//                }
+//            }, sn);
         }
 
     }
@@ -137,25 +163,22 @@ public class TimeSynchronizationViewModel extends BaseViewModel<TimeSynchronizat
     public void doSynchronization() {
         getView().showMyDialog("注意！",
                 "请确定探头处于工作状态，切换开关置于B！",
-                false, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        char a = 13;
-                        char b = 10;
-                        String str = "@";
-                        str = str + TimeUtils.getCurrentTimeYYYY_MM_DD() + a + b;
-                        // 没有连接设备，不能发送
-                        if (bluetoothCommService.getState() != BluetoothCommService.STATE_CONNECTED) {
-                            myView.get().showToast("未连接设备");
-                            return;
-                        }
-                        if (str.length() > 0) {// Check that there's actually something to send
-                            // Get the message bytes and tell the BluetoothChatService to write
-                            byte[] send = str.getBytes();
-                            bluetoothCommService.write(send);
-                            //Reset out string buffer to zero and clear the edit text field
-                            //mOutStringBuffer.setLength(0);
-                        }
+                false, (dialogInterface, i) -> {
+                    char a = 13;
+                    char b = 10;
+                    String str = "@";
+                    str = str + TimeUtils.getCurrentTimeYYYY_MM_DD() + a + b;
+                    // 没有连接设备，不能发送
+                    if (bluetoothCommService.getState() != BluetoothCommService.STATE_CONNECTED) {
+                        myView.get().showToast("未连接设备");
+                        return;
+                    }
+                    if (str.length() > 0) {// Check that there's actually something to send
+                        // Get the message bytes and tell the BluetoothChatService to write
+                        byte[] send = str.getBytes();
+                        bluetoothCommService.write(send);
+                        //Reset out string buffer to zero and clear the edit text field
+                        //mOutStringBuffer.setLength(0);
                     }
                 });
 

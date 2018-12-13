@@ -5,15 +5,11 @@
 package www.jingkan.com.me.myMsg;
 
 import android.content.Intent;
+
 import androidx.databinding.ObservableField;
-
-import java.util.List;
-
 import www.jingkan.com.base.baseMVVM.BaseViewModel;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.msgData.MsgDao;
-import www.jingkan.com.localData.msgData.MsgDataModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.msgData.MsgDaoForRoom;
 
 /**
  * Created by lushengbo on 2018/1/23.
@@ -26,21 +22,24 @@ public class MyMsgDetailViewModel extends BaseViewModel<MyMsgDetailActivity> {
 
     @Override
     protected void init(Object data) {
-        MsgDao msgDao = DataFactory.getBaseData(MsgDao.class);
-        msgDao.getData(new DataLoadCallBack<MsgDataModel>() {
+        MsgDaoForRoom msgDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).msgDaoForRoom();
+        msgDaoForRoom.deleteMsgDataEntityByMsgId((Integer) data);
 
-            @Override
-            public void onDataLoaded(List<MsgDataModel> models) {
-                MsgDataModel msgDataModel = models.get(0);
-                msg.set(msgDataModel.title);
-                time.set(msgDataModel.time);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-
-            }
-        }, String.valueOf(data));
+//        MsgDao msgDao = DataFactory.getBaseData(MsgDao.class);
+//        msgDao.getData(new DataLoadCallBack<MsgDataModel>() {
+//
+//            @Override
+//            public void onDataLoaded(List<MsgDataModel> models) {
+//                MsgDataModel msgDataModel = models.get(0);
+//                msg.set(msgDataModel.title);
+//                time.set(msgDataModel.time);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//
+//            }
+//        }, String.valueOf(data));
     }
 
     @Override

@@ -2,6 +2,7 @@ package www.jingkan.com.localData.wirelessTest;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import www.jingkan.com.localData.test.TestEntity;
 
 /**
  * Created by Sampson on 2018/12/11.
@@ -20,4 +21,19 @@ public class WirelessTestEntity {
     public String tester;
     public String testType;
     public String testDataID;//projectNumber_holeNumber
+
+    public TestEntity castToTestEntity() {
+        TestEntity testModel = new TestEntity();
+        testModel.testID = testID;
+        testModel.testDate = testDate;
+        testModel.projectNumber = projectNumber;
+        testModel.holeNumber = holeNumber;
+        testModel.holeHigh = holeHigh;
+        testModel.waterLevel = waterLevel;
+        testModel.location = location;
+        testModel.tester = tester;
+        testModel.testType = testType;
+        testModel.testDataID = testDataID;
+        return testModel;
+    }
 }

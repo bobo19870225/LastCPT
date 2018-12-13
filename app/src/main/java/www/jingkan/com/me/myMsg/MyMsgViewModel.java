@@ -12,15 +12,15 @@ import android.content.Intent;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.R;
 import www.jingkan.com.adapter.BaseDataBindingAdapter;
 import www.jingkan.com.adapter.myMsgAdapter.MyMSgItemViewModel;
 import www.jingkan.com.base.baseMVVM.MVVMListViewModel;
 import www.jingkan.com.databinding.ItemMyMsgBinding;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.msgData.MsgDao;
-import www.jingkan.com.localData.msgData.MsgDataModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.msgData.MsgDaoForRoom;
+import www.jingkan.com.localData.msgData.MsgDataEntity;
 
 /**
  * Created by lushengbo on 2018/1/23.
@@ -45,30 +45,48 @@ public class MyMsgViewModel extends MVVMListViewModel<MyMsgActivity> {
 
     @Override
     public void loadListViewData() {
-
-        MsgDao msgDao = DataFactory.getBaseData(MsgDao.class);
-        msgDao.getData(new DataLoadCallBack<MsgDataModel>() {
-
-            @Override
-            public void onDataLoaded(List<MsgDataModel> models) {
-                myMSgItemViewModels.clear();
-                for (MsgDataModel msgDataModel : models
-                        ) {
-                    MyMSgItemViewModel myMSgItemViewModel = new MyMSgItemViewModel();
-                    myMSgItemViewModel.msgTime.set(msgDataModel.time);
-                    myMSgItemViewModels.add(myMSgItemViewModel);
-                }
-                adapter.notifyDataSetChanged();
-                getView().setListView(models);
-                getView().stopLoading();
-
+        MsgDaoForRoom msgDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).msgDaoForRoom();
+        LiveData<List<MsgDataEntity>> liveData = msgDaoForRoom.getAllMsgDataEntity();
+        List<MsgDataEntity> msgDataEntities = liveData.getValue();
+        if (msgDataEntities != null && !msgDataEntities.isEmpty()) {
+            myMSgItemViewModels.clear();
+            for (MsgDataEntity msgDataModel : msgDataEntities
+                    ) {
+                MyMSgItemViewModel myMSgItemViewModel = new MyMSgItemViewModel();
+                myMSgItemViewModel.msgTime.set(msgDataModel.time);
+                myMSgItemViewModels.add(myMSgItemViewModel);
             }
+            adapter.notifyDataSetChanged();
+            getView().setListView(msgDataEntities);
+            getView().stopLoading();
 
-            @Override
-            public void onDataNotAvailable() {
-                getView().stopLoading();
-            }
-        });
+        } else {
+            getView().stopLoading();
+        }
+
+//        MsgDao msgDao = DataFactory.getBaseData(MsgDao.class);
+//        msgDao.getData(new DataLoadCallBack<MsgDataModel>() {
+//
+//            @Override
+//            public void onDataLoaded(List<MsgDataModel> models) {
+//                myMSgItemViewModels.clear();
+//                for (MsgDataModel msgDataModel : models
+//                        ) {
+//                    MyMSgItemViewModel myMSgItemViewModel = new MyMSgItemViewModel();
+//                    myMSgItemViewModel.msgTime.set(msgDataModel.time);
+//                    myMSgItemViewModels.add(myMSgItemViewModel);
+//                }
+//                adapter.notifyDataSetChanged();
+//                getView().setListView(models);
+//                getView().stopLoading();
+//
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                getView().stopLoading();
+//            }
+//        });
 
     }
 
