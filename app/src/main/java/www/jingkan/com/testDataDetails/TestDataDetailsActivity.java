@@ -5,7 +5,6 @@
 package www.jingkan.com.testDataDetails;
 
 import android.app.Dialog;
-import androidx.appcompat.app.AlertDialog;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
@@ -16,13 +15,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
 import www.jingkan.com.R;
 import www.jingkan.com.adapter.ListTestDataAdapter;
 import www.jingkan.com.annotation.BindView;
 import www.jingkan.com.base.baseMVP.BaseMvpActivity;
 import www.jingkan.com.base.baseMVP.BasePresenter;
 import www.jingkan.com.localData.test.TestEntity;
-import www.jingkan.com.localData.testData.TestDataModel;
+import www.jingkan.com.localData.testData.TestDataEntity;
 import www.jingkan.com.showDataChar.ShowDataCharActivity;
 
 import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_HN_111;
@@ -50,8 +50,7 @@ public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPres
     @BindView(id = R.id.test_date)
     private TextView test_date;
 
-    private List<TestDataModel> mTestDataModels;
-    private TestDataModel testDataModel;
+    private List<TestDataEntity> mTestDataModels;
 
     private ListTestDataAdapter listTestDataAdapter;
     private String testDataID;
@@ -141,10 +140,7 @@ public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPres
 
         });
         registerForContextMenu(lv_test_details);
-        lv_test_details.setOnItemLongClickListener((parent, view, position, id) -> {
-            testDataModel = mTestDataModels.get(position);
-            return false;
-        });
+        lv_test_details.setOnItemLongClickListener((parent, view, position, id) -> false);
     }
 
     @Override
@@ -170,9 +166,9 @@ public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPres
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 0:
-                if (testDataModel != null) {
+//                if (testDataModel != null) {
 //                    mPresenter.deleteOneHistoryData(testDataModel);
-                }
+//                }
                 break;
             case 1:
 
@@ -207,10 +203,12 @@ public class TestDataDetailsActivity extends BaseMvpActivity<TestDataDetailsPres
     }
 
     @Override
-    public void showTestData(List<TestDataModel> testDataModels) {
+    public void showTestData(List<TestDataEntity> testDataModels) {
         mTestDataModels.clear();
         mTestDataModels.addAll(testDataModels);
 //        mTestDataModels = testModels;
         listTestDataAdapter.notifyDataSetChanged();
     }
+
+
 }

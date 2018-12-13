@@ -4,17 +4,15 @@
 
 package www.jingkan.com.me.myMsg;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import www.jingkan.com.R;
 import www.jingkan.com.base.baseMVVM.MVVMListActivity;
 import www.jingkan.com.databinding.ActivityMyMsgBinding;
-import www.jingkan.com.localData.msgData.MsgDataModel;
+import www.jingkan.com.localData.msgData.MsgDataEntity;
 
 /**
  * Created by lushengbo on 2018/1/23.
@@ -27,7 +25,7 @@ public class MyMsgActivity extends MVVMListActivity<MyMsgViewModel, ActivityMyMs
         ListView listView = mViewDataBinding.list;
         listView.setEmptyView(mViewDataBinding.hint);
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
-            MsgDataModel msgDataModel = (MsgDataModel) list.get(i);
+            MsgDataEntity msgDataModel = (MsgDataEntity) list.get(i);
             goTo(MyMsgDetailActivity.class, msgDataModel.msgID);
         });
     }

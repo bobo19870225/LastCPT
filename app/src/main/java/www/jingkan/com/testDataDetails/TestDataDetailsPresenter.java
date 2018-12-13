@@ -10,13 +10,13 @@ import android.content.Intent;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import www.jingkan.com.base.baseMVP.BasePresenter;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.dataFactory.DataLoadCallBack;
-import www.jingkan.com.localData.test.TestDao;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.test.TestDaoForRoom;
 import www.jingkan.com.localData.test.TestEntity;
-import www.jingkan.com.localData.testData.TestDataDao;
-import www.jingkan.com.localData.testData.TestDataModel;
+import www.jingkan.com.localData.testData.TestDataDaoForRoom;
+import www.jingkan.com.localData.testData.TestDataEntity;
 import www.jingkan.com.mInterface.ISkip;
 import www.jingkan.com.saveUtils.DataUtils;
 
@@ -44,43 +44,65 @@ class TestDataDetailsPresenter extends BasePresenter<TestDataDetailsActivity>
     }
 
 
-    private List<TestDataModel> testDataModels;
+    private List<TestDataEntity> testDataModels;
     private TestEntity testModel;
 
     @Override
     public void getTest(String projectNumber, String holeNumber) {
-        TestDao testData = DataFactory.getBaseData(TestDao.class);
-        testData.getData(new DataLoadCallBack<TestEntity>() {
+        TestDaoForRoom testDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).testDaoForRoom();
+        LiveData<List<TestEntity>> liveData = testDaoForRoom.getTestEntityByPrjNumberAndHoleNumber(projectNumber, holeNumber);
+        List<TestEntity> testEntities = liveData.getValue();
+        if (testEntities != null && !testEntities.isEmpty()) {
+            testModel = testEntities.get(0);
+            getView().showTest(testModel);
+        } else {
+            getView().showToast("找不到该试验");
+        }
 
-            @Override
-            public void onDataLoaded(List<TestEntity> models) {
-                testModel = models.get(0);
-                getView().showTest(testModel);
-            }
 
-            @Override
-            public void onDataNotAvailable() {
-                getView().showToast("找不到该试验");
-            }
-        }, projectNumber, holeNumber);
+//        TestDao testData = DataFactory.getBaseData(TestDao.class);
+//        testData.getData(new DataLoadCallBack<TestEntity>() {
+//
+//            @Override
+//            public void onDataLoaded(List<TestEntity> models) {
+//                testModel = models.get(0);
+//                getView().showTest(testModel);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                getView().showToast("找不到该试验");
+//            }
+//        }, projectNumber, holeNumber);
     }
 
     @Override
     public void getTestData(String testDataID) {
-        TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);
-        testDataData.getData(new DataLoadCallBack<TestDataModel>() {
-
-            @Override
-            public void onDataLoaded(List<TestDataModel> models) {
-                testDataModels = models;
+        TestDataDaoForRoom testDataDaoForRoom = AppDatabase.getInstance(getView().getApplicationContext()).testDataDaoForRoom();
+        LiveData<List<TestDataEntity>> liveData = testDataDaoForRoom.getTestDataByTestId(testDataID);
+        List<TestDataEntity> testDataEntities = liveData.getValue();
+        if (testDataEntities != null && !testDataEntities.isEmpty()) {
+            {
+                testDataModels = testDataEntities;
                 myView.get().showTestData(testDataModels);
             }
+        }
 
-            @Override
-            public void onDataNotAvailable() {
 
-            }
-        }, testDataID);
+//        TestDataDao testDataData = DataFactory.getBaseData(TestDataDao.class);
+//        testDataData.getData(new DataLoadCallBack<TestDataModel>() {
+//
+//            @Override
+//            public void onDataLoaded(List<TestDataModel> models) {
+//                testDataModels = models;
+//                myView.get().showTestData(testDataModels);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//
+//            }
+//        }, testDataID);
 
     }
 
@@ -104,6 +126,12 @@ class TestDataDetailsPresenter extends BasePresenter<TestDataDetailsActivity>
         sendEmail();
     }
 
+    @Override
+    public void deleteOneTestData(TestDataEntity testDataModel) {
+//        TestDataLocalDataSource.getInstance().deleteTestData(testModel.testDataID);
+//        getTestData();//刷新
+    }
+
 
     private void sendEmail() {
         DataUtils.getInstance().emailData(
@@ -121,11 +149,6 @@ class TestDataDetailsPresenter extends BasePresenter<TestDataDetailsActivity>
         }
     }
 
-    @Override
-    public void deleteOneTestData(TestDataModel testDataModel) {
-//        TestDataLocalDataSource.getInstance().deleteTestData(testModel.testDataID);
-//        getTestData();//刷新
-    }
 
     @Override
     public void skipForResult(Intent intent, int requestCode) {

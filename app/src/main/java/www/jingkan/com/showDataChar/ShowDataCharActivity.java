@@ -15,8 +15,8 @@ import www.jingkan.com.chart.InterfaceDrawChartStrategy;
 import www.jingkan.com.chart.SingleBridgeMuStrategy;
 import www.jingkan.com.chart.SingleBridgeStrategy;
 import www.jingkan.com.databinding.ActivityShowDataCharBinding;
-import www.jingkan.com.localData.testData.TestDataModel;
-import www.jingkan.com.localData.wirelessResultData.WirelessResultDataModel;
+import www.jingkan.com.localData.testData.TestDataEntity;
+import www.jingkan.com.localData.wirelessResultData.WirelessResultDataEntity;
 
 import static www.jingkan.com.parameter.SystemConstant.DOUBLE_BRIDGE_MULTI_TEST;
 import static www.jingkan.com.parameter.SystemConstant.DOUBLE_BRIDGE_MULTI_WIRELESS_TEST;
@@ -77,15 +77,15 @@ public class ShowDataCharActivity extends BaseMVVMActivity<ShowDataCharViewModel
     @SuppressWarnings("unchecked")
     public void showDataInTheChar(List testDataModels) {
         List<float[]> listPoints = new ArrayList<>();
-        if (testDataModels.get(0) instanceof TestDataModel) {
-            for (TestDataModel testDataModel : (List<TestDataModel>) testDataModels) {
+        if (testDataModels.get(0) instanceof TestDataEntity) {
+            for (TestDataEntity testDataModel : (List<TestDataEntity>) testDataModels) {
                 listPoints.add(new float[]{testDataModel.qc,
                         testDataModel.fs,
                         testDataModel.fa,
                         testDataModel.deep});
             }
-        } else if (testDataModels.get(0) instanceof WirelessResultDataModel) {
-            for (WirelessResultDataModel wirelessResultDataModel : (List<WirelessResultDataModel>) testDataModels) {
+        } else if (testDataModels.get(0) instanceof WirelessResultDataEntity) {
+            for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) testDataModels) {
                 listPoints.add(new float[]{wirelessResultDataModel.qc,
                         wirelessResultDataModel.fs,
                         wirelessResultDataModel.fa,

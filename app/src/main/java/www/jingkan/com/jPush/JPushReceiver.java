@@ -17,9 +17,9 @@ import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
 import www.jingkan.com.framework.utils.TimeUtils;
-import www.jingkan.com.localData.dataFactory.DataFactory;
-import www.jingkan.com.localData.msgData.MsgDao;
-import www.jingkan.com.localData.msgData.MsgDataModel;
+import www.jingkan.com.localData.AppDatabase;
+import www.jingkan.com.localData.msgData.MsgDaoForRoom;
+import www.jingkan.com.localData.msgData.MsgDataEntity;
 
 /**
  * 自定义接收器
@@ -33,34 +33,54 @@ public class JPushReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        MsgDaoForRoom msgDaoForRoom = AppDatabase.getInstance(context).msgDaoForRoom();
         try {
             Bundle bundle = intent.getExtras();
-            Logger.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
+            if (bundle != null) {
+                Logger.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
+            }
 
+            MsgDataEntity msgDataModel;
             if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
-                String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
+                String regId = null;
+                if (bundle != null) {
+                    regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
+                }
                 Logger.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
                 //send the Registration Id to your server...
 
             } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-                MsgDao msgDao = DataFactory.getBaseData(MsgDao.class);
-                MsgDataModel msgDataModel = new MsgDataModel();
+
+                msgDataModel = new MsgDataEntity();
+                String bundleString = null;
                 if (bundle != null) {
                     msgDataModel.title = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-                    msgDataModel.msgID = Integer.parseInt(bundle.getString(JPushInterface.EXTRA_MSG_ID));
-                    msgDataModel.time = TimeUtils.getCurrentTime();
+                    bundleString = bundle.getString(JPushInterface.EXTRA_MSG_ID);
                 }
-                msgDao.addData(msgDataModel);
+
+                if (bundleString != null) {
+                    msgDataModel.msgID = Integer.parseInt(bundleString);
+                }
+                msgDataModel.time = TimeUtils.getCurrentTime();
+                msgDaoForRoom.insertMsgDataEntity(msgDataModel);
+
+//                MsgDao msgDao = DataFactory.getBaseData(MsgDao.class);
+//                MsgDataModel msgDataModel = new MsgDataModel();
+//                if (bundle != null) {
+//                    msgDataModel.title = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+//                    msgDataModel.msgID = Integer.parseInt(bundle.getString(JPushInterface.EXTRA_MSG_ID));
+//                    msgDataModel.time = TimeUtils.getCurrentTime();
+//                }
+//                msgDao.addData(msgDataModel);
 
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
-                MsgDataModel msgDataModel = new MsgDataModel();
+                msgDataModel = new MsgDataEntity();
                 if (bundle != null) {
                     msgDataModel.msgID = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
                     msgDataModel.title = bundle.getString(JPushInterface.EXTRA_ALERT);
-                    msgDataModel.time = TimeUtils.getCurrentTime();
                 }
-                MsgDao msgDao = DataFactory.getBaseData(MsgDao.class);
-                msgDao.addData(msgDataModel);
+                msgDataModel.time = TimeUtils.getCurrentTime();
+                msgDaoForRoom.insertMsgDataEntity(msgDataModel);
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
                 Logger.d(TAG, "[MyReceiver] 用户点击打开了通知");
 
@@ -72,7 +92,9 @@ public class JPushReceiver extends BroadcastReceiver {
 //                context.startActivity(i);
 
             } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
-                Logger.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
+                if (bundle != null) {
+                    Logger.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
+                }
                 //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..
 
             } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
@@ -91,31 +113,35 @@ public class JPushReceiver extends BroadcastReceiver {
     private static String printBundle(Bundle bundle) {
         StringBuilder sb = new StringBuilder();
         for (String key : bundle.keySet()) {
-            if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
-                sb.append("\nkey:" + key + ", value:" + bundle.getInt(key));
-            } else if (key.equals(JPushInterface.EXTRA_CONNECTION_CHANGE)) {
-                sb.append("\nkey:" + key + ", value:" + bundle.getBoolean(key));
-            } else if (key.equals(JPushInterface.EXTRA_EXTRA)) {
-                if (TextUtils.isEmpty(bundle.getString(JPushInterface.EXTRA_EXTRA))) {
-                    Logger.i(TAG, "This message has no Extra data");
-                    continue;
-                }
-
-                try {
-                    JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
-                    Iterator<String> it = json.keys();
-
-                    while (it.hasNext()) {
-                        String myKey = it.next();
-                        sb.append("\nkey:" + key + ", value: [" +
-                                myKey + " - " + json.optString(myKey) + "]");
+            switch (key) {
+                case JPushInterface.EXTRA_NOTIFICATION_ID:
+                    sb.append("\nkey:").append(key).append(", value:").append(bundle.getInt(key));
+                    break;
+                case JPushInterface.EXTRA_CONNECTION_CHANGE:
+                    sb.append("\nkey:").append(key).append(", value:").append(bundle.getBoolean(key));
+                    break;
+                case JPushInterface.EXTRA_EXTRA:
+                    if (TextUtils.isEmpty(bundle.getString(JPushInterface.EXTRA_EXTRA))) {
+                        Logger.i(TAG, "This message has no Extra data");
+                        continue;
                     }
-                } catch (JSONException e) {
-                    Logger.e(TAG, "Get message extra JSON error!");
-                }
 
-            } else {
-                sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
+                    try {
+                        JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
+                        Iterator<String> it = json.keys();
+
+                        while (it.hasNext()) {
+                            String myKey = it.next();
+                            sb.append("\nkey:").append(key).append(", value: [").append(myKey).append(" - ").append(json.optString(myKey)).append("]");
+                        }
+                    } catch (JSONException e) {
+                        Logger.e(TAG, "Get message extra JSON error!");
+                    }
+
+                    break;
+                default:
+                    sb.append("\nkey:").append(key).append(", value:").append(bundle.getString(key));
+                    break;
             }
         }
         return sb.toString();

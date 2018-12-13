@@ -7,7 +7,7 @@ package www.jingkan.com.testDataDetails;
 import java.util.List;
 
 import www.jingkan.com.localData.test.TestEntity;
-import www.jingkan.com.localData.testData.TestDataModel;
+import www.jingkan.com.localData.testData.TestDataEntity;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -17,7 +17,7 @@ public interface TestDataDetailsContract {
     interface View {
         void showTest(TestEntity testModel);
 
-        void showTestData(List<TestDataModel> testDataModels);
+        void showTestData(List<TestDataEntity> testDataModels);
 
     }
 
@@ -30,7 +30,7 @@ public interface TestDataDetailsContract {
 
         void emailTestData(final String projectNumber, final String holeNumber, final String fileType, final String testType);
 
-        void deleteOneTestData(TestDataModel testDataModel);
+        void deleteOneTestData(TestDataEntity testDataModel);
 
     }
 }

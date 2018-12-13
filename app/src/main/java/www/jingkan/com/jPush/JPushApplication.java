@@ -5,8 +5,7 @@
 package www.jingkan.com.jPush;
 
 
-
-import com.activeandroid.app.Application;
+import android.app.Application;
 
 import cn.jpush.android.api.JPushInterface;
 
