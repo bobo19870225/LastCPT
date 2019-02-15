@@ -36,7 +36,7 @@ public class PreviewCallback implements Camera.PreviewCallback {
             message.sendToTarget();
             previewHandler = null;
         } else {
-            Log.d(TAG, "Got preview callback, but no handler or resolution available");
+            Log.d(TAG, "Got preview action, but no handler or resolution available");
         }
     }
 

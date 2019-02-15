@@ -1,323 +1,339 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018. 代码著作权归卢声波所有。
   -->
+<layout>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/rl_gray"
-    android:orientation="vertical">
+    <data>
 
-    <include
-        android:id="@+id/tool_bar"
-        layout="@layout/toolbar" />
+        <variable
+            name="model"
+            type="www.jingkan.com.view_model.new_test.NewTestViewModel" />
+    </data>
 
-    <ScrollView
-        android:layout_width="wrap_content"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tool_bar">
+        android:background="@color/rl_gray"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <include
+            android:id="@+id/tool_bar"
+            layout="@layout/toolbar" />
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tool_bar">
 
             <RelativeLayout
-                android:id="@+id/rl_project_number"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:background="@color/white">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tt_project_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:text="@string/project_number"
-                    android:textColor="#666666"
-                    android:textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/project_number"
+                <RelativeLayout
+                    android:id="@+id/rl_project_number"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/tt_project_number"
-                    android:layout_toRightOf="@+id/tt_project_number"
-                    android:background="@null"
-                    android:ems="10"
-                    android:gravity="end|center_vertical"
-                    android:hint="输入工程编号"
-                    android:inputType="text"
-                    android:paddingEnd="16dp"
-                    android:paddingLeft="0dp"
-                    android:paddingRight="16dp"
-                    android:paddingStart="0dp"
-                    android:textSize="16sp" />
-            </RelativeLayout>
+                    android:layout_height="48dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/white">
 
-            <RelativeLayout
-                android:id="@+id/rl_hole_number"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_below="@+id/rl_project_number"
-                android:layout_marginTop="0.5dp"
-                android:background="@color/white">
+                    <TextView
+                        android:id="@+id/tt_project_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/project_number"
+                        android:textColor="#666666"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tt_hole_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:text="@string/hole_number"
-                    android:textSize="16sp" />
+                    <EditText
+                        android:text="@={model.obsProjectNumber}"
+                        android:id="@+id/project_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/tt_project_number"
+                        android:layout_toRightOf="@+id/tt_project_number"
+                        android:background="@null"
+                        android:ems="10"
+                        android:gravity="end|center_vertical"
+                        android:hint="输入工程编号"
+                        android:inputType="text"
+                        android:paddingStart="0dp"
+                        android:paddingLeft="0dp"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:textSize="16sp" />
+                </RelativeLayout>
 
-                <EditText
-                    android:id="@+id/hole_number"
+                <RelativeLayout
+                    android:id="@+id/rl_hole_number"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/tt_hole_number"
-                    android:layout_toRightOf="@+id/tt_hole_number"
-                    android:background="@null"
-                    android:ems="10"
-                    android:gravity="end|center_vertical"
-                    android:hint="输入孔号"
-                    android:inputType="text"
-                    android:paddingEnd="16dp"
-                    android:paddingLeft="0dp"
-                    android:paddingRight="16dp"
-                    android:paddingStart="0dp"
-                    android:textSize="16sp" />
-            </RelativeLayout>
+                    android:layout_height="48dp"
+                    android:layout_below="@+id/rl_project_number"
+                    android:layout_marginTop="0.5dp"
+                    android:background="@color/white">
 
-            <RelativeLayout
-                android:id="@+id/rl_hole_high"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_below="@+id/rl_hole_number"
-                android:layout_marginTop="0.5dp"
-                android:background="@color/white">
+                    <TextView
+                        android:id="@+id/tt_hole_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/hole_number"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tt_hole_high"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:text="@string/tv_dead_height"
-                    android:textSize="16sp" />
+                    <EditText
+                        android:text="@={model.obsHoleNumber}"
+                        android:id="@+id/hole_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/tt_hole_number"
+                        android:layout_toRightOf="@+id/tt_hole_number"
+                        android:background="@null"
+                        android:ems="10"
+                        android:gravity="end|center_vertical"
+                        android:hint="输入孔号"
+                        android:inputType="text"
+                        android:paddingStart="0dp"
+                        android:paddingLeft="0dp"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:textSize="16sp" />
+                </RelativeLayout>
 
-                <EditText
-                    android:id="@+id/hole_high"
+                <RelativeLayout
+                    android:id="@+id/rl_hole_high"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@+id/tt_hole_high"
-                    android:layout_toRightOf="@+id/tt_hole_high"
-                    android:background="@null"
-                    android:ems="10"
-                    android:gravity="end|center_vertical"
-                    android:hint="输入孔口高程"
-                    android:inputType="number"
-                    android:paddingEnd="16dp"
-                    android:paddingLeft="0dp"
-                    android:paddingRight="16dp"
-                    android:paddingStart="0dp"
-                    android:textSize="16sp" />
-            </RelativeLayout>
+                    android:layout_height="48dp"
+                    android:layout_below="@+id/rl_hole_number"
+                    android:layout_marginTop="0.5dp"
+                    android:background="@color/white">
 
-            <RelativeLayout
-                android:id="@+id/rl_water_level"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_below="@+id/rl_hole_high"
-                android:layout_marginTop="0.5dp"
-                android:background="@color/white">
+                    <TextView
+                        android:id="@+id/tt_hole_high"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/tv_dead_height"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tt_water_level"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:text="@string/tv_vacant"
-                    android:textSize="16sp" />
+                    <EditText
+                        android:text="@={model.obsHoleHigh}"
+                        android:id="@+id/hole_high"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@+id/tt_hole_high"
+                        android:layout_toRightOf="@+id/tt_hole_high"
+                        android:background="@null"
+                        android:ems="10"
+                        android:gravity="end|center_vertical"
+                        android:hint="输入孔口高程"
+                        android:inputType="number"
+                        android:paddingStart="0dp"
+                        android:paddingLeft="0dp"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:textSize="16sp" />
+                </RelativeLayout>
 
-                <EditText
-                    android:id="@+id/water_level"
+                <RelativeLayout
+                    android:id="@+id/rl_water_level"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@+id/tt_water_level"
-                    android:layout_toRightOf="@+id/tt_water_level"
-                    android:background="@null"
-                    android:ems="10"
-                    android:gravity="end|center_vertical"
-                    android:hint="输入地下水位"
-                    android:inputType="number"
-                    android:paddingEnd="16dp"
-                    android:paddingLeft="0dp"
-                    android:paddingRight="16dp"
-                    android:paddingStart="0dp"
-                    android:textSize="16sp" />
-            </RelativeLayout>
+                    android:layout_height="48dp"
+                    android:layout_below="@+id/rl_hole_high"
+                    android:layout_marginTop="0.5dp"
+                    android:background="@color/white">
 
-            <RelativeLayout
-                android:id="@+id/rl_location"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_below="@+id/rl_water_level"
-                android:layout_marginTop="0.5dp"
-                android:background="@color/white">
+                    <TextView
+                        android:id="@+id/tt_water_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/tv_vacant"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tt_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:text="@string/tv_weate"
-                    android:textSize="16sp" />
+                    <EditText
+                        android:text="@={model.obsWaterLevel}"
+                        android:id="@+id/water_level"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@+id/tt_water_level"
+                        android:layout_toRightOf="@+id/tt_water_level"
+                        android:background="@null"
+                        android:ems="10"
+                        android:gravity="end|center_vertical"
+                        android:hint="输入地下水位"
+                        android:inputType="number"
+                        android:paddingStart="0dp"
+                        android:paddingLeft="0dp"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:textSize="16sp" />
+                </RelativeLayout>
 
-                <EditText
-                    android:id="@+id/location"
+                <RelativeLayout
+                    android:id="@+id/rl_location"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignBaseline="@+id/tt_location"
-                    android:layout_alignBottom="@+id/tt_location"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@+id/tt_location"
-                    android:layout_toLeftOf="@+id/img_location"
-                    android:layout_toRightOf="@+id/tt_location"
-                    android:layout_toStartOf="@+id/img_location"
-                    android:background="@null"
-                    android:ems="10"
-                    android:gravity="end|center_vertical"
-                    android:hint="非必填"
-                    android:inputType="number"
-                    android:paddingEnd="16dp"
-                    android:paddingLeft="0dp"
-                    android:paddingRight="16dp"
-                    android:paddingStart="0dp"
-                    android:textSize="16sp" />
+                    android:layout_height="48dp"
+                    android:layout_below="@+id/rl_water_level"
+                    android:layout_marginTop="0.5dp"
+                    android:background="@color/white">
 
-                <ImageView
-                    android:id="@+id/img_location"
-                    android:layout_width="48dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:padding="8dp"
-                    app:srcCompat="@drawable/ic_edit_location_blue_24dp" />
+                    <TextView
+                        android:id="@+id/tt_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/tv_weate"
+                        android:textSize="16sp" />
 
-            </RelativeLayout>
+                    <EditText
+                        android:text="@={model.obsLocation}"
+                        android:id="@+id/location"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignBaseline="@+id/tt_location"
+                        android:layout_alignBottom="@+id/tt_location"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_toStartOf="@+id/img_location"
+                        android:layout_toLeftOf="@+id/img_location"
+                        android:layout_toEndOf="@+id/tt_location"
+                        android:layout_toRightOf="@+id/tt_location"
+                        android:background="@null"
+                        android:ems="10"
+                        android:gravity="end|center_vertical"
+                        android:hint="非必填"
+                        android:inputType="number"
+                        android:paddingStart="0dp"
+                        android:paddingLeft="0dp"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:textSize="16sp" />
 
-            <RelativeLayout
-                android:id="@+id/rl_tester"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_below="@+id/rl_location"
-                android:layout_marginTop="0.5dp"
-                android:background="@color/white">
+                    <ImageView
+                        android:id="@+id/img_location"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/ic_edit_location_blue_24dp" />
 
-                <TextView
-                    android:id="@+id/tt_tester"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:text="@string/tv_operators"
-                    android:textSize="16sp" />
+                </RelativeLayout>
 
-                <EditText
-                    android:id="@+id/tester"
+                <RelativeLayout
+                    android:id="@+id/rl_tester"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/tt_tester"
-                    android:layout_toRightOf="@+id/tt_tester"
-                    android:background="@null"
-                    android:ems="10"
-                    android:gravity="end|center_vertical"
-                    android:hint="输入您的名字或工号"
-                    android:inputType="text"
-                    android:paddingEnd="16dp"
-                    android:paddingLeft="0dp"
-                    android:paddingRight="16dp"
-                    android:paddingStart="0dp"
+                    android:layout_height="48dp"
+                    android:layout_below="@+id/rl_location"
+                    android:layout_marginTop="0.5dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:id="@+id/tt_tester"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/tv_operators"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:text="@={model.obsTester}"
+                        android:id="@+id/tester"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/tt_tester"
+                        android:layout_toRightOf="@+id/tt_tester"
+                        android:background="@null"
+                        android:ems="10"
+                        android:gravity="end|center_vertical"
+                        android:hint="输入您的名字或工号"
+                        android:inputType="text"
+                        android:paddingStart="0dp"
+                        android:paddingLeft="0dp"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/chose_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_below="@+id/rl_tester"
+                    android:layout_marginTop="0.5dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:id="@+id/tt_test_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/tv_swith"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:background="@null"
+                        android:id="@+id/test_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginLeft="14dp"
+                        android:layout_toEndOf="@+id/tt_test_type"
+                        android:layout_toRightOf="@+id/tt_test_type"
+                        android:text="@{model.obsTestType}" />
+
+                    <ImageView
+                        android:id="@+id/iv_next"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:contentDescription="@mipmap/next"
+                        android:src="@mipmap/next" />
+
+
+                </RelativeLayout>
+
+                <Button
+                    android:onClick="@{()->model.submit()}"
+                    android:id="@+id/new_test"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_below="@+id/rl_tester"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="80dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/them_color"
+                    android:text="@string/tv_addtext"
+                    android:textColor="@color/white"
                     android:textSize="16sp" />
             </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/chose_type"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_below="@+id/rl_tester"
-                android:layout_marginTop="0.5dp"
-                android:background="@color/white">
-
-                <TextView
-                    android:id="@+id/tt_test_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:text="@string/tv_swith"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/test_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginStart="14dp"
-                    android:layout_toEndOf="@+id/tt_test_type"
-                    android:layout_toRightOf="@+id/tt_test_type"
-                    android:background="@null"
-                    android:text="" />
-
-                <ImageView
-                    android:id="@+id/iv_next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    android:contentDescription="@mipmap/next"
-                    android:src="@mipmap/next" />
+        </ScrollView>
 
 
-            </RelativeLayout>
-
-            <Button
-                android:id="@+id/new_test"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_below="@+id/rl_tester"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="80dp"
-                android:background="@color/them_color"
-                android:text="@string/tv_addtext"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-        </RelativeLayout>
-    </ScrollView>
-
-
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

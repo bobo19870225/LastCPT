@@ -3,7 +3,9 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
+import www.jingkan.com.view.AnalogCalibrationActivity;
+import www.jingkan.com.view.DigitalCalibrationActivity;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import androidx.annotation.NonNull;
 
@@ -23,18 +25,16 @@ public class InstrumentCalibrationFragmentVM extends BaseViewModel {
     }
 
     public void analogCalibration() {
-        callbackMessage.setValue(0);
-        getView().callback(callbackMessage);
+        goTo(AnalogCalibrationActivity.class, null);
     }
 
     public void digitalCalibration() {
-        callbackMessage.setValue(1);
-        getView().callback(callbackMessage);
+        goTo(DigitalCalibrationActivity.class, null);
     }
 
     public void test() {
         callbackMessage.setValue(2);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
     }
 
     @Override

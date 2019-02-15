@@ -3,9 +3,9 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.db.dao.TestDao;
-import com.jinkan.www.cpttest.db.entity.TestEntity;
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
+import www.jingkan.com.db.dao.TestDao;
+import www.jingkan.com.db.entity.TestEntity;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import java.util.List;
 
@@ -32,29 +32,28 @@ public class OrdinaryTestViewModel extends BaseViewModel {
     private TestDao testDao;
     public final MediatorLiveData<List<TestEntity>> allTestes = new MediatorLiveData<>();
     public final MutableLiveData<Integer> test = new MutableLiveData<>();
-
     public void newTest() {
         callbackMessage.setValue(0);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
 //        action.setValue("NewTest");
     }
 
     public void reDoTest() {
         allTestes.addSource(testDao.getAllTestes(), allTestes::setValue);
         callbackMessage.setValue(3);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
     }
 
     public void showHistoryData() {
         test.setValue(0);
         callbackMessage.setValue(1);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
 //        action.setValue("HistoryDataActivity");
     }
 
     public void showOrdinaryProbe() {
         callbackMessage.setValue(2);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
 //        action.setValue("OrdinaryProbeActivity");
     }
 

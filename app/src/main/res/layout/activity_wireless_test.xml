@@ -10,7 +10,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.wireless.test.WirelessTestViewModel" />
+            type="www.jingkan.com.view_model.WirelessTestViewModel" />
     </data>
 
     <RelativeLayout
@@ -40,7 +40,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
                     android:text="@string/project_number"
                     android:textSize="16sp" />
@@ -51,7 +50,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/tv_dead"
-                    android:layout_toRightOf="@+id/tv_dead"
                     android:text="@{model.projectNumber}"
                     android:textSize="16sp" />
 
@@ -60,7 +58,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="196dp"
                     android:layout_marginStart="196dp"
                     android:text="@string/hole_number"
                     android:textSize="16sp" />
@@ -71,7 +68,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/tt_hole_number"
-                    android:layout_toRightOf="@+id/tt_hole_number"
                     android:text="@{model.holeNumber}" />
             </RelativeLayout>
 
@@ -85,7 +81,6 @@
                     android:id="@+id/tt_probe_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
                     android:text="@string/probe_number"
                     android:textSize="18sp" />
@@ -95,7 +90,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/tt_probe_number"
-                    android:layout_toRightOf="@+id/tt_probe_number"
                     android:text="@{model.obsProbeNumber}"
                     android:textSize="18sp" />
 
@@ -111,7 +105,6 @@
                     android:id="@+id/tt_qc_coefficient"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
                     android:text="@string/qc_coefficient"
                     android:textSize="16sp" />
@@ -121,7 +114,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/tt_qc_coefficient"
-                    android:layout_toRightOf="@+id/tt_qc_coefficient"
                     android:text="@{model.strQcCoefficient}"
                     android:textSize="16sp" />
 
@@ -129,7 +121,6 @@
                     android:id="@+id/tt_qc_limit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="196dp"
                     android:layout_marginStart="196dp"
                     android:text="@string/qc_limit"
                     android:textSize="16sp" />
@@ -139,7 +130,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/tt_qc_limit"
-                    android:layout_toRightOf="@+id/tt_qc_limit"
                     android:text="@{model.strQcLimit}" />
             </RelativeLayout>
 
@@ -154,7 +144,6 @@
                     android:id="@+id/tt_fs_coefficient"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
                     android:text="@string/tv_check"
                     android:textSize="16sp" />
@@ -164,7 +153,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/tt_fs_coefficient"
-                    android:layout_toRightOf="@+id/tt_fs_coefficient"
                     android:text="@{model.strFsCoefficient}"
                     android:textSize="16sp" />
 
@@ -172,7 +160,6 @@
                     android:id="@+id/tt_fs_limit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="196dp"
                     android:layout_marginStart="196dp"
                     android:text="@string/tv_check2"
                     android:textSize="16sp" />
@@ -182,7 +169,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/tt_fs_limit"
-                    android:layout_toRightOf="@+id/tt_fs_limit"
                     android:text="@{model.strFsLimit}" />
             </RelativeLayout>
 
@@ -196,7 +182,6 @@
                     android:id="@+id/tt_deep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
                     android:text="@string/current_depth"
                     android:textSize="18sp" />
@@ -206,7 +191,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/tt_deep"
-                    android:layout_toRightOf="@+id/tt_deep"
                     android:text="@{model.strDeep}"
                     android:textSize="18sp" />
 

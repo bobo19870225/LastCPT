@@ -14,21 +14,21 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityDataSynBinding;
-import com.jinkan.www.cpttest.db.dao.WirelessResultDataDao;
-import com.jinkan.www.cpttest.db.dao.WirelessTestDao;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.util.DataUtil;
-import com.jinkan.www.cpttest.util.acp.Acp;
-import com.jinkan.www.cpttest.util.acp.AcpListener;
-import com.jinkan.www.cpttest.util.acp.AcpOptions;
-import com.jinkan.www.cpttest.view.adapter.OneTextListAdapter;
-import com.jinkan.www.cpttest.view.base.DialogMVVMDaggerActivity;
-import com.jinkan.www.cpttest.view.chart.DoubleBridgeMultifunctionStrategy;
-import com.jinkan.www.cpttest.view.chart.DrawChartHelper;
-import com.jinkan.www.cpttest.view_model.DataSyncViewModel;
-import com.jinkan.www.cpttest.view_model.ISkip;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityDataSynBinding;
+import www.jingkan.com.db.dao.WirelessResultDataDao;
+import www.jingkan.com.db.dao.WirelessTestDao;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.util.DataUtil;
+import www.jingkan.com.util.acp.Acp;
+import www.jingkan.com.util.acp.AcpListener;
+import www.jingkan.com.util.acp.AcpOptions;
+import www.jingkan.com.view.adapter.OneTextListAdapter;
+import www.jingkan.com.view.base.DialogMVVMDaggerActivity;
+import www.jingkan.com.view.chart.DoubleBridgeMultifunctionStrategy;
+import www.jingkan.com.view.chart.DrawChartHelper;
+import www.jingkan.com.view_model.DataSyncViewModel;
+import www.jingkan.com.view_model.ISkip;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,18 +38,18 @@ import javax.inject.Inject;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_CORRECT_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_HN_111;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_LY_DAT;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_LY_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_LZ_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_ORIGINAL_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_CORRECT_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_HN_111;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_LY_DAT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_LY_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_LZ_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_ORIGINAL_TXT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_CORRECT_TXT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_HN_111;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LY_DAT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LY_TXT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LZ_TXT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_ORIGINAL_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_CORRECT_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_HN_111;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LY_DAT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LY_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LZ_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_ORIGINAL_TXT;
 
 /**
  * Created by lushengbo on 2018/1/17.
@@ -171,7 +171,7 @@ public class DataSyncActivity extends DialogMVVMDaggerActivity<DataSyncViewModel
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
         switch (callbackMessage.what) {
             case 0:
                 drawChar((float[][]) callbackMessage.obj);

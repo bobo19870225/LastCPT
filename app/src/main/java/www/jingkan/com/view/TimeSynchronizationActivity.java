@@ -4,31 +4,31 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.view.MenuItem;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityTimeSynchronizationBinding;
-import com.jinkan.www.cpttest.db.dao.WirelessProbeDao;
-import com.jinkan.www.cpttest.db.entity.WirelessProbeEntity;
-import com.jinkan.www.cpttest.db.entity.WirelessTestEntity;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.util.TimeUtil;
-import com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService;
-import com.jinkan.www.cpttest.util.bluetooth.BluetoothUtil;
-import com.jinkan.www.cpttest.view.base.DialogMVVMDaggerActivity;
-import com.jinkan.www.cpttest.view_model.TimeSynchronizationVM;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityTimeSynchronizationBinding;
+import www.jingkan.com.db.dao.WirelessProbeDao;
+import www.jingkan.com.db.entity.WirelessProbeEntity;
+import www.jingkan.com.db.entity.WirelessTestEntity;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.util.TimeUtil;
+import www.jingkan.com.util.bluetooth.BluetoothCommService;
+import www.jingkan.com.util.bluetooth.BluetoothUtil;
+import www.jingkan.com.view.base.DialogMVVMDaggerActivity;
+import www.jingkan.com.view_model.TimeSynchronizationVM;
 
 import javax.inject.Inject;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.MESSAGE_READ;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.MESSAGE_STATE_CHANGE;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.STATE_CONNECTED;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.STATE_CONNECTING;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.STATE_CONNECT_FAILED;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.STATE_CONNECT_LOST;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.STATE_LISTEN;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.STATE_NONE;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.MESSAGE_READ;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.MESSAGE_STATE_CHANGE;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_CONNECTED;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_CONNECTING;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_CONNECT_FAILED;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_CONNECT_LOST;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_LISTEN;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_NONE;
 
 /**
  * Created by Sampson on 2018/12/21.
@@ -152,7 +152,6 @@ public class TimeSynchronizationActivity extends DialogMVVMDaggerActivity<TimeSy
     protected void toRefresh() {
         mViewModel.linkDevice();
     }
-
     @Override
     public TimeSynchronizationVM createdViewModel() {
         return ViewModelProviders.of(this).get(TimeSynchronizationVM.class);
@@ -164,7 +163,7 @@ public class TimeSynchronizationActivity extends DialogMVVMDaggerActivity<TimeSy
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
         switch (callbackMessage.what) {
             case 0:
                 // 蓝牙没有打开，调用系统方法要求用户打开蓝牙

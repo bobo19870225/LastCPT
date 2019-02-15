@@ -13,7 +13,6 @@ import androidx.lifecycle.MutableLiveData;
 public abstract class BaseListViewModel<T> extends BaseViewModel {
 
     public final MutableLiveData<Boolean> isEmpty = new MutableLiveData<>();
-
     public BaseListViewModel(@NonNull Application application) {
         super(application);
     }

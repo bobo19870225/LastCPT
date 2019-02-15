@@ -2,8 +2,7 @@
   ~ Copyright (c) 2018. 代码著作权归卢声波所有。
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -11,7 +10,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.me.myMsg.MyMsgViewModel" />
+            type="www.jingkan.com.view_model.MyMsgViewModel" />
     </data>
 
     <RelativeLayout
@@ -29,11 +28,10 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/tool_bar">
 
-            <ListView
-                android:id="@+id/list"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:adapter="@{model.adapter}" />
+                android:layout_height="wrap_content" />
 
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -45,6 +43,7 @@
             android:layout_below="@+id/tool_bar"
             android:gravity="center"
             android:text="@string/no_data"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:visibility="@{model.isEmpty ? View.VISIBLE : View.GONE}" />
     </RelativeLayout>
 </layout>

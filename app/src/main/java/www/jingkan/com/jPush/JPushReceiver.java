@@ -16,10 +16,11 @@ import org.json.JSONObject;
 import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
-import www.jingkan.com.framework.utils.TimeUtils;
-import www.jingkan.com.localData.AppDatabase;
-import www.jingkan.com.localData.msgData.MsgDaoForRoom;
-import www.jingkan.com.localData.msgData.MsgDataEntity;
+import www.jingkan.com.db.AppDatabase;
+import www.jingkan.com.db.dao.MsgDao;
+import www.jingkan.com.db.entity.MsgDataEntity;
+import www.jingkan.com.util.TimeUtil;
+
 
 /**
  * 自定义接收器
@@ -33,7 +34,7 @@ public class JPushReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        MsgDaoForRoom msgDaoForRoom = AppDatabase.getInstance(context).msgDaoForRoom();
+        MsgDao msgDaoForRoom = AppDatabase.getInstance(context).msgDao();
         try {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
@@ -61,7 +62,7 @@ public class JPushReceiver extends BroadcastReceiver {
                 if (bundleString != null) {
                     msgDataModel.msgID = Integer.parseInt(bundleString);
                 }
-                msgDataModel.time = TimeUtils.getCurrentTime();
+                msgDataModel.time = TimeUtil.getCurrentTime();
                 msgDaoForRoom.insertMsgDataEntity(msgDataModel);
 
 //                MsgDao msgDao = DataFactory.getBaseData(MsgDao.class);
@@ -79,7 +80,7 @@ public class JPushReceiver extends BroadcastReceiver {
                     msgDataModel.msgID = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
                     msgDataModel.title = bundle.getString(JPushInterface.EXTRA_ALERT);
                 }
-                msgDataModel.time = TimeUtils.getCurrentTime();
+                msgDataModel.time = TimeUtil.getCurrentTime();
                 msgDaoForRoom.insertMsgDataEntity(msgDataModel);
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
                 Logger.d(TAG, "[MyReceiver] 用户点击打开了通知");

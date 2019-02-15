@@ -1,10 +1,10 @@
 package www.jingkan.com.view_model.main;
 
-import com.jinkan.www.cpttest.di.FragmentScoped;
-import com.jinkan.www.cpttest.view.InstrumentCalibrationFragment;
-import com.jinkan.www.cpttest.view.MeFragment;
-import com.jinkan.www.cpttest.view.OrdinaryTestFragment;
-import com.jinkan.www.cpttest.view.WirelessTestFragment;
+import www.jingkan.com.di.FragmentScoped;
+import www.jingkan.com.view.InstrumentCalibrationFragment;
+import www.jingkan.com.view.MeFragment;
+import www.jingkan.com.view.OrdinaryTestFragment;
+import www.jingkan.com.view.WirelessTestFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

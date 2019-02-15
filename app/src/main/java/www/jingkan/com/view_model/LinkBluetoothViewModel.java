@@ -4,11 +4,11 @@ import android.Manifest;
 import android.app.Application;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.util.acp.Acp;
-import com.jinkan.www.cpttest.util.acp.AcpListener;
-import com.jinkan.www.cpttest.util.acp.AcpOptions;
-import com.jinkan.www.cpttest.util.bluetooth.BluetoothUtil;
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
+import www.jingkan.com.util.acp.Acp;
+import www.jingkan.com.util.acp.AcpListener;
+import www.jingkan.com.util.acp.AcpOptions;
+import www.jingkan.com.util.bluetooth.BluetoothUtil;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import java.util.List;
 

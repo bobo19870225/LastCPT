@@ -16,23 +16,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityBaseTestBinding;
-import com.jinkan.www.cpttest.db.dao.ProbeDao;
-import com.jinkan.www.cpttest.db.dao.TestDao;
-import com.jinkan.www.cpttest.db.dao.TestDataDao;
-import com.jinkan.www.cpttest.db.entity.ProbeEntity;
-import com.jinkan.www.cpttest.db.entity.TestDataEntity;
-import com.jinkan.www.cpttest.db.entity.TestEntity;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.util.DataUtil;
-import com.jinkan.www.cpttest.util.StringUtil;
-import com.jinkan.www.cpttest.util.VibratorUtil;
-import com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService;
-import com.jinkan.www.cpttest.util.bluetooth.BluetoothUtil;
-import com.jinkan.www.cpttest.view.chart.DrawChartHelper;
-import com.jinkan.www.cpttest.view_model.BaseTestViewModel;
-import com.jinkan.www.cpttest.view_model.ISkip;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityBaseTestBinding;
+import www.jingkan.com.db.dao.ProbeDao;
+import www.jingkan.com.db.dao.TestDao;
+import www.jingkan.com.db.dao.TestDataDao;
+import www.jingkan.com.db.entity.ProbeEntity;
+import www.jingkan.com.db.entity.TestDataEntity;
+import www.jingkan.com.db.entity.TestEntity;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.util.DataUtil;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.util.VibratorUtil;
+import www.jingkan.com.util.bluetooth.BluetoothCommService;
+import www.jingkan.com.util.bluetooth.BluetoothUtil;
+import www.jingkan.com.view.chart.DrawChartHelper;
+import www.jingkan.com.view_model.BaseTestViewModel;
+import www.jingkan.com.view_model.ISkip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,23 +41,23 @@ import javax.inject.Inject;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_HN_111;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_LY_DAT;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_LY_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_LZ_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_HN_111;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_LY_DAT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_LY_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_LZ_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_ZHD_TXT;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.MESSAGE_READ;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.MESSAGE_STATE_CHANGE;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.STATE_CONNECTED;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.STATE_CONNECTING;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.STATE_CONNECT_FAILED;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.STATE_CONNECT_LOST;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.STATE_LISTEN;
-import static com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService.STATE_NONE;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_HN_111;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LY_DAT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LY_TXT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LZ_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_HN_111;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LY_DAT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LY_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LZ_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_ZHD_TXT;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.MESSAGE_READ;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.MESSAGE_STATE_CHANGE;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_CONNECTED;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_CONNECTING;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_CONNECT_FAILED;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_CONNECT_LOST;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_LISTEN;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_NONE;
 
 
 /**
@@ -272,6 +272,7 @@ public class BaseTestActivity extends DialogMVVMDaggerActivity<BaseTestViewModel
     }
 
 
+
     @Override
     protected void toRefresh() {
         String[] strings = (String[]) mData;//1.mac,2.工程编号,3.孔号,4.试验类型
@@ -351,7 +352,7 @@ public class BaseTestActivity extends DialogMVVMDaggerActivity<BaseTestViewModel
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
         switch (callbackMessage.what) {
             case 0:

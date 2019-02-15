@@ -27,9 +27,9 @@ android {
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId "www.jingkan.com"
-        minSdkVersion 15
-        //必须6.0以下版本，不然数据库框架会出现问题
+        minSdkVersion 23
         targetSdkVersion 28
+        //必须6.0以下版本，不然数据库框架会出现问题
         versionCode 8
         versionName '2.0.5'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

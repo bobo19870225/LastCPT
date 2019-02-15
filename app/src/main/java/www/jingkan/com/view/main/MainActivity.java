@@ -15,16 +15,17 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityMainBinding;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.InstrumentCalibrationFragment;
-import com.jinkan.www.cpttest.view.MeFragment;
-import com.jinkan.www.cpttest.view.OrdinaryTestFragment;
-import com.jinkan.www.cpttest.view.WirelessTestFragment;
-import com.jinkan.www.cpttest.view.adapter.MyPagerAdapter;
-import com.jinkan.www.cpttest.view.base.BaseMVVMDaggerActivity;
-import com.jinkan.www.cpttest.view_model.main.MainViewModel;
+
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityMainBinding;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.InstrumentCalibrationFragment;
+import www.jingkan.com.view.MeFragment;
+import www.jingkan.com.view.OrdinaryTestFragment;
+import www.jingkan.com.view.WirelessTestFragment;
+import www.jingkan.com.view.adapter.MyPagerAdapter;
+import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
+import www.jingkan.com.view_model.main.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -163,7 +164,7 @@ public class MainActivity extends BaseMVVMDaggerActivity<MainViewModel, Activity
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
     }
 }

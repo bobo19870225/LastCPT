@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.me.myMsg.MyMsgDetailViewModel" />
+            type="www.jingkan.com.view_model.MyMsgDetailViewModel" />
     </data>
 
     <LinearLayout

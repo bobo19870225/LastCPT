@@ -1,10 +1,10 @@
 package www.jingkan.com.view;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivitySetCalibrationDataBinding;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.base.BaseMVVMDaggerActivity;
-import com.jinkan.www.cpttest.view_model.SetCalibrationDataVM;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivitySetCalibrationDataBinding;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
+import www.jingkan.com.view_model.SetCalibrationDataVM;
 
 /**
  * Created by Sampson on 2018/12/21.
@@ -32,7 +32,7 @@ public class SetCalibrationDataActivity extends BaseMVVMDaggerActivity<SetCalibr
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
     }
 }

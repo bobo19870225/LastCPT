@@ -1,6 +1,6 @@
 package www.jingkan.com.db.entity;
 
-import com.jinkan.www.cpttest.view.adapter.ItemHistoryData;
+import www.jingkan.com.view.adapter.ItemHistoryData;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

@@ -2,9 +2,9 @@ package www.jingkan.com.view.base;
 
 import android.annotation.SuppressLint;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.view.adapter.MyBaseAdapter;
-import com.jinkan.www.cpttest.view_model.base.BaseListViewModel;
+import www.jingkan.com.R;
+import www.jingkan.com.view.adapter.MyBaseAdapter;
+import www.jingkan.com.view_model.base.BaseListViewModel;
 
 import java.util.List;
 

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018. 代码著作权归卢声波所有。
   -->
 
@@ -9,22 +8,22 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.adapter.markFileAdapter.MarkFileItemViewMode" />
+            type="www.jingkan.com.view.adapter.ItemMarkupFile" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingStart="16dp">
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp">
 
         <TextView
             android:id="@+id/test_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{model.testID}" />
+            android:text="@{model.testId}" />
 
         <TextView
             android:layout_width="match_parent"
@@ -36,7 +35,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@mipmap/next" />
     </RelativeLayout>

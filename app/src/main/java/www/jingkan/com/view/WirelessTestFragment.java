@@ -4,15 +4,15 @@
 
 package www.jingkan.com.view;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.FragmentWirelessTestBinding;
-import com.jinkan.www.cpttest.db.dao.WirelessTestDao;
-import com.jinkan.www.cpttest.db.entity.WirelessTestEntity;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.util.PreferencesUtil;
-import com.jinkan.www.cpttest.util.StringUtil;
-import com.jinkan.www.cpttest.view.base.BaseMVVMDaggerFragment;
-import com.jinkan.www.cpttest.view_model.WirelessTestFragmentViewModel;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.FragmentWirelessTestBinding;
+import www.jingkan.com.db.dao.WirelessTestDao;
+import www.jingkan.com.db.entity.WirelessTestEntity;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.util.PreferencesUtil;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.view.base.BaseMVVMDaggerFragment;
+import www.jingkan.com.view_model.WirelessTestFragmentViewModel;
 
 import java.util.List;
 import java.util.Map;
@@ -85,7 +85,7 @@ public class WirelessTestFragment extends BaseMVVMDaggerFragment<WirelessTestFra
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
         switch (callbackMessage.what) {
             case 0:

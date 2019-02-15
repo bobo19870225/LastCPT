@@ -1,273 +1,281 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018. 代码著作权归卢声波所有。
   -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:keepScreenOn="true">
+    <data>
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <variable
+            name="model"
+            type="www.jingkan.com.view_model.CalibrationVerificationVM" />
+    </data>
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:titleEnabled="false">
-
-
-            <LinearLayout
-                android:id="@+id/rl_device"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="48dp"
-                android:background="@color/rl_gray"
-                android:orientation="vertical"
-                app:layout_collapseMode="parallax">
-
-
-                <RelativeLayout
-                    android:id="@+id/rl_head"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp">
-
-
-                    <TextView
-                        android:id="@+id/tt_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginStart="15dp"
-                        android:text="探头编号："
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/tt_id"
-                        android:layout_toRightOf="@+id/tt_id"
-                        android:text="--"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tt_sn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/sn"
-                        android:layout_toStartOf="@+id/sn"
-                        android:text="序列号："
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/sn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:text="--" />
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/v_gray" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp">
-
-                    <TextView
-                        android:id="@+id/tt_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginStart="16dp"
-                        android:text="锥头面积："
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_toEndOf="@+id/tt_area"
-                        android:layout_toRightOf="@+id/tt_area"
-                        android:text="--" />
-
-                    <TextView
-                        android:id="@+id/tt_differential"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/differential"
-                        android:layout_toStartOf="@+id/differential"
-                        android:text="荷载级差："
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/differential"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:text="--kPa" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/v_gray" />
-                </RelativeLayout>
-            </LinearLayout>
-
-            <include
-                android:id="@+id/tool_bar"
-                layout="@layout/toolbar" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-
-    <androidx.core.widget.NestedScrollView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:keepScreenOn="true">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
+
+
+                <LinearLayout
+                    android:id="@+id/rl_device"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="48dp"
+                    android:background="@color/rl_gray"
+                    android:orientation="vertical"
+                    app:layout_collapseMode="parallax">
+
+
+                    <RelativeLayout
+                        android:id="@+id/rl_head"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+
+                        <TextView
+                            android:id="@+id/tt_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
+                            android:text="探头编号："
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/tt_id"
+                            android:layout_toRightOf="@+id/tt_id"
+                            android:text="--"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tt_sn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@+id/sn"
+                            android:layout_toLeftOf="@+id/sn"
+                            android:text="序列号："
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/sn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:text="--" />
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@color/v_gray" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <TextView
+                            android:id="@+id/tt_area"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:text="锥头面积："
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/area"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_toEndOf="@+id/tt_area"
+                            android:layout_toRightOf="@+id/tt_area"
+                            android:text="--" />
+
+                        <TextView
+                            android:id="@+id/tt_differential"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@+id/differential"
+                            android:layout_toLeftOf="@+id/differential"
+                            android:text="荷载级差："
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/differential"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:text="--kPa" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@color/v_gray" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/tool_bar"
+                    layout="@layout/toolbar" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <TextView
+                        android:id="@+id/tt_initial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="初值："
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/initial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/tt_initial"
+                        android:layout_toRightOf="@+id/tt_initial"
+                        android:text="-.--kPa"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tt_valid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/valid"
+                        android:layout_toLeftOf="@+id/valid"
+                        android:text="有效值："
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/valid"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:lines="1"
+                        android:text="-.--kPa"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/v_gray" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/chart1"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp" />
+
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            app:layout_behavior="@string/bottom_sheet_behavior">
 
-            <RelativeLayout
+            <Button
+                android:id="@+id/initial_value"
                 android:layout_width="match_parent"
-                android:layout_height="48dp">
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/them_color"
+                android:text="@string/initial_value"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/tt_initial"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:text="初值："
-                    android:textSize="16sp" />
+            <View
+                style="@color/v_gray"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent" />
 
-                <TextView
-                    android:id="@+id/initial"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/tt_initial"
-                    android:layout_toRightOf="@+id/tt_initial"
-                    android:text="-.--kPa"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/tt_valid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/valid"
-                    android:layout_toStartOf="@+id/valid"
-                    android:text="有效值："
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/valid"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    android:lines="1"
-                    android:text="-.--kPa"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/v_gray" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/chart1"
+            <Button
+                android:id="@+id/bt_record"
                 android:layout_width="match_parent"
-                android:layout_height="400dp" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/them_color"
+                android:text="记录"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
+            <View
+                style="@color/v_gray"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent" />
+
+            <CheckBox
+                android:id="@+id/shock"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/them_color"
+                android:gravity="center"
+                android:text="震动提示"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
         </LinearLayout>
-
-
-    </androidx.core.widget.NestedScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        app:layout_behavior="@string/bottom_sheet_behavior">
-
-        <Button
-            android:id="@+id/initial_value"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/them_color"
-            android:text="@string/initial_value"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-        <View
-            style="@color/v_gray"
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent" />
-
-        <Button
-            android:id="@+id/bt_record"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/them_color"
-            android:text="记录"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-        <View
-            style="@color/v_gray"
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent" />
-
-        <CheckBox
-            android:id="@+id/shock"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/them_color"
-            android:gravity="center"
-            android:text="震动提示"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-    </LinearLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

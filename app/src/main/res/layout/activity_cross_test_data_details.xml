@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.testDataDetails.crossTestDataDetails.CrossTestDataDetailsVM" />
+            type="www.jingkan.com.view_model.CrossTestDataDetailsMV" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -42,19 +42,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
                             android:layout_marginStart="15dp"
                             android:text="@string/project_number"
                             android:textSize="18sp" />
 
                         <TextView
-                            android:text="@{model.obsProjectNumber}"
                             android:id="@+id/project_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/tv_dead"
-                            android:layout_toRightOf="@+id/tv_dead"
+                            android:text="@{model.obsProjectNumber}"
                             android:textSize="18sp" />
 
                         <TextView
@@ -62,20 +60,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="196dp"
                             android:layout_marginStart="196dp"
                             android:text="@string/hole_number"
                             android:textSize="18sp" />
 
                         <TextView
-                            android:text="@{model.obsHoleNumber}"
-                            android:textSize="18sp"
                             android:id="@+id/hole_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/tt_hole_number"
-                            android:layout_toRightOf="@+id/tt_hole_number" />
+                            android:text="@{model.obsHoleNumber}"
+                            android:textSize="18sp" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -88,21 +84,17 @@
                             android:id="@+id/tt_test_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
                             android:layout_marginStart="15dp"
                             android:text="@string/test_date"
                             android:textSize="18sp" />
 
                         <TextView
-                            android:text="@{model.obsTestDate}"
                             android:id="@+id/test_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@+id/tt_test_date"
-                            android:layout_toRightOf="@+id/tt_test_date"
+                            android:text="@{model.obsTestDate}"
                             android:textSize="18sp" />
-
-
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -123,7 +115,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <www.jingkan.com.framework.view.NestedExpandableListView
+                <www.jingkan.com.view.NestedExpandableListView
                     android:id="@+id/ex"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -136,11 +128,7 @@
                     android:text="@string/no_data"
                     android:textSize="24sp"
                     android:visibility="gone" />
-
-
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

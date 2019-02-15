@@ -32,7 +32,7 @@
 
 
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!--<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />-->
     <uses-permission android:name="android.permission.CAMERA" />
 
 
@@ -52,7 +52,7 @@
     <!-- Required -->
     <uses-permission android:name="www.jingkan.com.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!--<uses-permission android:name="android.permission.WRITE_SETTINGS" />-->
 
     <!-- Optional. Required for location feature -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
@@ -60,8 +60,7 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
-        android:name="www.jingkan.com.jPush.JPushApplication"
-        android:allowBackup="true"
+        android:name="www.jingkan.com.CPTApplication"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -236,9 +235,10 @@
             <!--</intent-filter>-->
         <!--</receiver>-->
         <activity
-            android:name="www.jingkan.com.activity.MainActivity"
+            android:name=".view.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -246,135 +246,135 @@
         </activity>
         <!-- 必须用AppCompat -->
         <activity
-            android:name="www.jingkan.com.framework.acp.AcpActivity"
+            android:name=".util.acp.AcpActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.Transparent" />
         <activity
-            android:name="www.jingkan.com.calibration.analog.AnalogActivity"
+            android:name=".view.AnalogCalibrationActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".calibration.digital.setCalibrationData.SetCalibrationDataActivity"
+            android:name=".view.SetCalibrationDataActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.activity.NewTestActivity"
+            android:name=".view.NewTestActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.calibration.digital.DigitalCalibrationActivity"
+            android:name=".view.DigitalCalibrationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.calibration.digital.CalibrationParameterActivity"
+            android:name=".view.CalibrationParameterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".calibration.probeTest.TestingActivity"
+            android:name=".view.TestingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.linkBluetooth.LinkBluetoothActivity"
+            android:name=".view.LinkBluetoothActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.calibration.calibrationVerification.CalibrationVerificationActivity"
+            android:name=".view.CalibrationVerificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".common.commonProbe.CommonProbeActivity"
+            android:name=".view.OrdinaryProbeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.common.commonProbe.AddProbeActivity"
+            android:name=".view.AddProbeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.common.commonProbe.AddProbeInfoActivity"
+            android:name=".view.AddProbeInfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.qrcode.qrSimple.CaptureActivity"
+            android:name=".util.qrcode.qrSimple.CaptureActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".common.historyData.HistoryDataActivity"
+            android:name=".view.HistoryDataActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.testDataDetails.TestDataDetailsActivity"
+            android:name=".view.TestDataDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.me.SetEmailActivity"
+            android:name=".view.SetEmailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.me.MyLinkerActivity"
+            android:name=".view.MyLinkerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.calibration.digital.ProbeTypeActivity"
+            android:name=".view.ChooseProbeTypeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.wireless.timeSynchronization.TimeSynchronizationActivity"
+            android:name=".view.TimeSynchronizationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.wireless.test.WirelessTestActivity"
+            android:name=".view.WirelessTestActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="www.jingkan.com.calibration.digital.ChooseCalibrationTypeActivity"
+            android:name=".view.ChooseCalibrationTypeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".me.versionInfo.VersionInfoActivity"
+            android:name=".view.VersionInfoActivity"
+            android:screenOrientation="portrait" />
+        <!--<activity-->
+        <!--android:name=".view.BasicMapActivity"-->
+        <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".view.SingleBridgeTestActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.BasicMapActivity"
+            android:name=".view.SingleBridgeMultifunctionTestActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".common.SingleBridgeTestActivity"
+            android:name=".view.DoubleBridgeTestActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".common.SingleBridgeMultifunctionTestActivity"
+            android:name=".view.CrossTestActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".common.DoubleBridgeTestActivity"
+            android:name=".view.MarkFileActivity"
+            android:screenOrientation="portrait" />
+        <!--<activity-->
+        <!--android:name=".view.MarkFileDetailActivity"-->
+        <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".view.DataSyncActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".common.crossTest.CrossTestActivity"
+            android:name=".view.OpenFileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".wireless.markFile.MarkFileActivity"
+            android:name=".view.MyMsgActivity"
+            android:screenOrientation="portrait" />
+        <!--<activity-->
+        <!--android:name=".view.MyMsgDetailActivity"-->
+        <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".view.WirelessProbeActivity"
+            android:screenOrientation="portrait" />
+        <!--<activity-->
+        <!--android:name=".view.AddWirelessProbeActivity"-->
+        <!--android:screenOrientation="portrait" />-->
+        <!--<activity-->
+        <!--android:name=".view.AddWirelessProbeInfoActivity"-->
+        <!--android:screenOrientation="portrait" />-->
+        <!--<activity-->
+        <!--android:name=".view.WirelessTestDataActivity"-->
+        <!--android:screenOrientation="portrait" />-->
+        <!--<activity-->
+        <!--android:name=".view.WirelessResultDataDetailActivity"-->
+        <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".view.DoubleBridgeMultifunctionTestActivity"
+            android:screenOrientation="portrait" />
+        <!--<activity-->
+        <!--android:name=".view.ShowDataCharActivity"-->
+        <!--android:screenOrientation="portrait" />-->
+        <!--<activity-->
+        <!--android:name=".view.GuideActivity"-->
+        <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".view.base.BaseTestActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".wireless.markFile.MarkFileDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".wireless.dataSynchronization.DataSyncActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".wireless.openFile.OpenWFileActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".me.myMsg.MyMsgActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".me.myMsg.MyMsgDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".wireless.wirelessProbe.WirelessProbeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".wireless.wirelessProbe.AddWirelessProbeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".wireless.wirelessProbe.AddWirelessProbeInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".wireless.testData.WirelessTestDataActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".wireless.testData.WirelessResultDataDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".common.DoubleBridgeMultifunctionTestActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".showDataChar.ShowDataCharActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.GuideActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".common.baseTest.BaseTestActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".testDataDetails.crossTestDataDetails.CrossTestDataDetailsActivity"
+            android:name=".view.CrossTestDataDetailsActivity"
             android:screenOrientation="portrait" />
 
     </application>

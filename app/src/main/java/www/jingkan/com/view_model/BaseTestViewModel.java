@@ -5,18 +5,18 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.db.dao.ProbeDao;
-import com.jinkan.www.cpttest.db.dao.TestDao;
-import com.jinkan.www.cpttest.db.dao.TestDataDao;
-import com.jinkan.www.cpttest.db.entity.ProbeEntity;
-import com.jinkan.www.cpttest.db.entity.TestDataEntity;
-import com.jinkan.www.cpttest.db.entity.TestEntity;
-import com.jinkan.www.cpttest.util.DataUtil;
-import com.jinkan.www.cpttest.util.StringUtil;
-import com.jinkan.www.cpttest.util.VibratorUtil;
-import com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService;
-import com.jinkan.www.cpttest.util.bluetooth.BluetoothUtil;
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
+import www.jingkan.com.db.dao.ProbeDao;
+import www.jingkan.com.db.dao.TestDao;
+import www.jingkan.com.db.dao.TestDataDao;
+import www.jingkan.com.db.entity.ProbeEntity;
+import www.jingkan.com.db.entity.TestDataEntity;
+import www.jingkan.com.db.entity.TestEntity;
+import www.jingkan.com.util.DataUtil;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.util.VibratorUtil;
+import www.jingkan.com.util.bluetooth.BluetoothCommService;
+import www.jingkan.com.util.bluetooth.BluetoothUtil;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -203,14 +203,14 @@ public class BaseTestViewModel extends BaseViewModel {
 
     public void modifyDistance() {
         callbackMessage.setValue(0);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
 //        action.setValue("showModifyDialog");
 //        getView().showModifyDialog(obsStringDeepDistance.get());
     }
 
     public void linkDevice(String mac) {
         callbackMessage.setValue(1);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
 //        action.setValue("showWaitDialog");
 //        getView().showWaitDialog("正在连接蓝牙", false, false);
         BluetoothAdapter bluetoothAdapter = bluetoothUtil.getBluetoothAdapter();
@@ -220,7 +220,7 @@ public class BaseTestViewModel extends BaseViewModel {
         } else {
             // 蓝牙没有打开，调用系统方法要求用户打开蓝牙
             callbackMessage.setValue(2);
-            getView().callback(callbackMessage);
+            getView().action(callbackMessage);
 //            action.setValue("startActivityForResult");
 //            myView.get().startActivityForResult(intent, 0);
         }

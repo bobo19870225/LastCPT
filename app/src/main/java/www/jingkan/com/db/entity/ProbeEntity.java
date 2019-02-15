@@ -1,6 +1,6 @@
 package www.jingkan.com.db.entity;
 
-import com.jinkan.www.cpttest.view.adapter.ItemOrdinaryProbe;
+import www.jingkan.com.view.adapter.ItemOrdinaryProbe;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

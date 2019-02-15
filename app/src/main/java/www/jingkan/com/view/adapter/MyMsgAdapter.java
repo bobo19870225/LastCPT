@@ -1,6 +1,6 @@
 package www.jingkan.com.view.adapter;
 
-import com.jinkan.www.cpttest.databinding.ItemMyMsgBinding;
+import www.jingkan.com.databinding.ItemMyMsgBinding;
 
 import java.util.List;
 

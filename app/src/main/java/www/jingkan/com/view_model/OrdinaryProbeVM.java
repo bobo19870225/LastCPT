@@ -3,9 +3,9 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.db.dao.ProbeDao;
-import com.jinkan.www.cpttest.db.entity.ProbeEntity;
-import com.jinkan.www.cpttest.view_model.base.BaseListViewModel;
+import www.jingkan.com.db.dao.ProbeDao;
+import www.jingkan.com.db.entity.ProbeEntity;
+import www.jingkan.com.view_model.base.BaseListViewModel;
 
 import java.util.List;
 
@@ -43,10 +43,9 @@ public class OrdinaryProbeVM extends BaseListViewModel<List<ProbeEntity>> {
 
     public void addProbe() {
         callbackMessage.setValue(0);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
 
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 

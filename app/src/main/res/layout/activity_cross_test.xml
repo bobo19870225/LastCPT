@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.common.crossTest.CrossTestViewModel" />
+            type="www.jingkan.com.view_model.CrossTestViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -46,7 +46,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
                             android:layout_marginStart="15dp"
                             android:text="@string/project_number"
                             android:textSize="16sp" />
@@ -57,7 +56,6 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/tv_dead"
-                            android:layout_toRightOf="@+id/tv_dead"
                             android:text="@{model.strProjectNumber}"
                             android:textSize="16sp" />
 
@@ -66,7 +64,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="196dp"
                             android:layout_marginStart="196dp"
                             android:text="@string/hole_number"
                             android:textSize="16sp" />
@@ -77,7 +74,6 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/tt_hole_number"
-                            android:layout_toRightOf="@+id/tt_hole_number"
                             android:text="@{model.strHoleNumber}" />
                     </RelativeLayout>
 
@@ -91,7 +87,6 @@
                             android:id="@+id/tt_cu_coefficient"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
                             android:layout_marginStart="15dp"
                             android:text="@string/cu_coefficient"
                             android:textSize="16sp" />
@@ -101,7 +96,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@+id/tt_cu_coefficient"
-                            android:layout_toRightOf="@+id/tt_cu_coefficient"
                             android:text="@{model.strCuCoefficient}"
                             android:textSize="16sp" />
 
@@ -109,7 +103,6 @@
                             android:id="@+id/tt_cu_limit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="196dp"
                             android:layout_marginStart="196dp"
                             android:text="@string/cu_limit"
                             android:textSize="16sp" />
@@ -119,7 +112,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@+id/tt_cu_limit"
-                            android:layout_toRightOf="@+id/tt_cu_limit"
                             android:text="@{model.strCuLimit}" />
                     </RelativeLayout>
 
@@ -148,7 +140,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
                     android:text="@string/cu_initial"
                     android:textSize="16sp" />
@@ -159,7 +150,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/tt_cu_initial"
-                    android:layout_toRightOf="@+id/tt_cu_initial"
                     android:text="@{model.strCuInitial}"
                     android:textSize="16sp" />
 
@@ -168,7 +158,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/cu_effective_value"
                     android:layout_toStartOf="@+id/cu_effective_value"
                     android:text="@string/cu_valid"
                     android:textSize="16sp" />
@@ -177,10 +166,8 @@
                     android:id="@+id/cu_effective_value"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/cu_effective_unit"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
                     android:lines="1"
                     android:text="@{model.strCuEffective}"
                     android:layout_toStartOf="@+id/cu_effective_unit"
@@ -191,7 +178,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:text="kPa" />
                 <View
@@ -211,7 +197,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
                     android:text="@string/torsional_angle"
                     android:textSize="16sp" />
@@ -222,7 +207,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/tt_cu_deg"
-                    android:layout_toRightOf="@+id/tt_cu_deg"
                     android:text="@{model.deg}"
                     android:textSize="16sp" />
 
@@ -231,7 +215,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/test_number"
                     android:layout_toStartOf="@+id/test_number"
                     android:text="@string/test_number"
                     android:textSize="16sp" />
@@ -241,10 +224,8 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
                     android:lines="1"
                     android:text="@{String.valueOf(model.intTestNumber)}"
                     android:textSize="16sp" />
@@ -266,7 +247,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
                     android:text="@string/test_deep"
                     android:textSize="16sp" />
@@ -277,7 +257,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/tt_test_deep"
-                    android:layout_toRightOf="@+id/tt_test_deep"
                     android:text="@={model.strDeep}"
                     android:textSize="16sp" />
                 <!--android:text='@{model.deep ?? "0"}'-->
@@ -286,7 +265,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/test_type"
                     android:layout_toStartOf="@+id/test_type"
                     android:text="@string/soil_type"
                     android:textSize="16sp" />
@@ -297,8 +275,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_toLeftOf="@+id/modify"
                     android:layout_toStartOf="@+id/modify"
                     android:lines="1"
                     android:text="@{model.strSoilType}"
@@ -309,10 +285,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
                     android:onClick="@{()->model.modify()}"
                     android:text="@string/modify" />
 
@@ -329,8 +303,6 @@
                 android:layout_height="400dp"
                 android:background="@color/white"
                 android:paddingEnd="0dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="0dp"
                 android:paddingStart="8dp" />
         </LinearLayout>
 

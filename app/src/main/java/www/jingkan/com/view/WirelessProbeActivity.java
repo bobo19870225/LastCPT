@@ -1,12 +1,12 @@
 package www.jingkan.com.view;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityWirelessProbeBinding;
-import com.jinkan.www.cpttest.db.dao.WirelessProbeDao;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.adapter.WirelessProbeAdapter;
-import com.jinkan.www.cpttest.view.base.ListMVVMActivity;
-import com.jinkan.www.cpttest.view_model.WirelessProbeVM;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityWirelessProbeBinding;
+import www.jingkan.com.db.dao.WirelessProbeDao;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.adapter.WirelessProbeAdapter;
+import www.jingkan.com.view.base.ListMVVMActivity;
+import www.jingkan.com.view_model.WirelessProbeVM;
 
 import javax.inject.Inject;
 
@@ -21,7 +21,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 public class WirelessProbeActivity extends ListMVVMActivity<WirelessProbeVM, ActivityWirelessProbeBinding, WirelessProbeAdapter> {
     @Inject
     WirelessProbeDao wirelessProbeDao;
-
     @SuppressWarnings("unchecked")
     @Override
     protected SwipeRefreshLayout setSwipeRefreshLayout() {
@@ -60,7 +59,7 @@ public class WirelessProbeActivity extends ListMVVMActivity<WirelessProbeVM, Act
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
         switch (callbackMessage.what) {
             case 0:
                 goTo(AddProbeActivity.class, "无缆探头");

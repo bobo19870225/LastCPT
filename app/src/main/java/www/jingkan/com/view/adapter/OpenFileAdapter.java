@@ -1,6 +1,6 @@
 package www.jingkan.com.view.adapter;
 
-import com.jinkan.www.cpttest.databinding.ItemFileBinding;
+import www.jingkan.com.databinding.ItemFileBinding;
 
 import java.util.List;
 

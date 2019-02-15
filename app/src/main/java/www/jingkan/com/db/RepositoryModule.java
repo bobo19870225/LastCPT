@@ -2,11 +2,6 @@ package www.jingkan.com.db;
 
 import android.app.Application;
 
-
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
 import www.jingkan.com.db.dao.CalibrationProbeDao;
 import www.jingkan.com.db.dao.CalibrationVerificationDao;
 import www.jingkan.com.db.dao.CrossTestDataDao;
@@ -19,6 +14,11 @@ import www.jingkan.com.db.dao.WirelessProbeDao;
 import www.jingkan.com.db.dao.WirelessResultDataDao;
 import www.jingkan.com.db.dao.WirelessTestDao;
 import www.jingkan.com.db.dao.WirelessTestDataDao;
+
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
 
 /**
  * This is used by Dagger to inject the required arguments into the {@link }.

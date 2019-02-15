@@ -8,13 +8,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivitySetEmailBinding;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.util.PreferencesUtil;
-import com.jinkan.www.cpttest.util.StringUtil;
-import com.jinkan.www.cpttest.view.base.BaseMVVMDaggerActivity;
-import com.jinkan.www.cpttest.view_model.SetEmailViewModel;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivitySetEmailBinding;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.util.PreferencesUtil;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
+import www.jingkan.com.view_model.SetEmailViewModel;
 
 import java.util.Map;
 
@@ -153,7 +153,7 @@ public class SetEmailActivity extends BaseMVVMDaggerActivity<SetEmailViewModel, 
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
     }
 }

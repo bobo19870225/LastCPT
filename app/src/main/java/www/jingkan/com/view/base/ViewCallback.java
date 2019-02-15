@@ -1,15 +1,17 @@
 package www.jingkan.com.view.base;
 
-import com.jinkan.www.cpttest.util.CallbackMessage;
+import www.jingkan.com.util.CallbackMessage;
 
 /**
  * Created by Sampson on 2018/12/28.
  * CPTTest
  */
 public interface ViewCallback {
-    void callback(CallbackMessage callbackMessage);
+    void action(CallbackMessage callbackMessage);
 
-    void skipTo(Class c, Object object, Boolean isTop);
+    void goTo(Class mClass, Object data);
 
-    void toast(CallbackMessage callbackMessage);
+    void goTo(Class mClass, Object data, boolean isTop);
+
+    void toast(String msg);
 }

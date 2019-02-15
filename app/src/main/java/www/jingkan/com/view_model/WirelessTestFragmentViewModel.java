@@ -3,9 +3,9 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.db.dao.WirelessTestDao;
-import com.jinkan.www.cpttest.db.entity.WirelessTestEntity;
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
+import www.jingkan.com.db.dao.WirelessTestDao;
+import www.jingkan.com.db.entity.WirelessTestEntity;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class WirelessTestFragmentViewModel extends BaseViewModel {
 
     public void newTest() {
         callbackMessage.setValue(0);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
     }
 
     public void reTest() {
@@ -42,23 +42,23 @@ public class WirelessTestFragmentViewModel extends BaseViewModel {
 
     public void markupFile() {
         callbackMessage.setValue(1);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
     }
 
     public void wirelessProbe() {
         callbackMessage.setValue(2);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
 
     }
 
     public void dataSync() {
         callbackMessage.setValue(3);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
     }
 
     public void testData() {
         callbackMessage.setValue(4);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
     }
 
 

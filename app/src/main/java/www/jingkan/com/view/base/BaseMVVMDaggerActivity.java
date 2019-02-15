@@ -6,16 +6,14 @@ package www.jingkan.com.view.base;
 
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.BR;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
+import www.jingkan.com.BR;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import javax.inject.Inject;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-
-import static com.jinkan.www.cpttest.view_model.base.BaseViewModel.Toast;
 
 /**
  * Created by lushengbo on 2018/1/12.
@@ -29,7 +27,6 @@ public abstract class BaseMVVMDaggerActivity<VM extends BaseViewModel, VDB exten
 
     @Inject
     CallbackMessage callbackMessage;
-
     @Override
     protected final void setView() {
         if (createdViewModel() == null) {
@@ -85,14 +82,7 @@ public abstract class BaseMVVMDaggerActivity<VM extends BaseViewModel, VDB exten
     }
 
     @Override
-    public final void toast(CallbackMessage callbackMessage) {
-        if (callbackMessage.what == Toast && callbackMessage.obj != null) {
-            showToast((String) callbackMessage.obj);
-        }
-    }
-
-    @Override
-    public final void skipTo(Class c, Object object, Boolean isTop) {
-        goTo(c, object, isTop);
+    public final void toast(String msg) {
+        showToast(msg);
     }
 }

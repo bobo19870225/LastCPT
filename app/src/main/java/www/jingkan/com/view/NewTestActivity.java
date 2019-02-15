@@ -8,28 +8,28 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityNewTestBinding;
-import com.jinkan.www.cpttest.db.dao.TestDaoHelper;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.util.PreferencesUtil;
-import com.jinkan.www.cpttest.util.SystemConstant;
-import com.jinkan.www.cpttest.view.adapter.OneTextListAdapter;
-import com.jinkan.www.cpttest.view.base.BaseMVVMDaggerActivity;
-import com.jinkan.www.cpttest.view_model.new_test.NewTestViewModel;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityNewTestBinding;
+import www.jingkan.com.db.dao.TestDaoHelper;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.util.PreferencesUtil;
+import www.jingkan.com.util.SystemConstant;
+import www.jingkan.com.view.adapter.OneTextListAdapter;
+import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
+import www.jingkan.com.view_model.new_test.NewTestViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.jinkan.www.cpttest.util.SystemConstant.DOUBLE_BRIDGE_MULTI_TEST;
-import static com.jinkan.www.cpttest.util.SystemConstant.DOUBLE_BRIDGE_TEST;
-import static com.jinkan.www.cpttest.util.SystemConstant.SINGLE_BRIDGE_MULTI_TEST;
-import static com.jinkan.www.cpttest.util.SystemConstant.SINGLE_BRIDGE_TEST;
-import static com.jinkan.www.cpttest.util.SystemConstant.VANE_TEST;
-import static com.jinkan.www.cpttest.view_model.new_test.NewTestViewModel.ACTION_LINK_BLUETOOTH;
-import static com.jinkan.www.cpttest.view_model.new_test.NewTestViewModel.ACTION_SINGLE_BRIDGE;
+import static www.jingkan.com.util.SystemConstant.DOUBLE_BRIDGE_MULTI_TEST;
+import static www.jingkan.com.util.SystemConstant.DOUBLE_BRIDGE_TEST;
+import static www.jingkan.com.util.SystemConstant.SINGLE_BRIDGE_MULTI_TEST;
+import static www.jingkan.com.util.SystemConstant.SINGLE_BRIDGE_TEST;
+import static www.jingkan.com.util.SystemConstant.VANE_TEST;
+import static www.jingkan.com.view_model.new_test.NewTestViewModel.ACTION_LINK_BLUETOOTH;
+import static www.jingkan.com.view_model.new_test.NewTestViewModel.ACTION_SINGLE_BRIDGE;
 
 public class NewTestActivity extends BaseMVVMDaggerActivity<NewTestViewModel, ActivityNewTestBinding> {
 
@@ -123,7 +123,7 @@ public class NewTestActivity extends BaseMVVMDaggerActivity<NewTestViewModel, Ac
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
         switch (callbackMessage.what) {
             case ACTION_LINK_BLUETOOTH:

@@ -1,6 +1,6 @@
 package www.jingkan.com.db.dao;
 
-import com.jinkan.www.cpttest.db.entity.WirelessProbeEntity;
+import www.jingkan.com.db.entity.WirelessProbeEntity;
 
 import java.util.List;
 

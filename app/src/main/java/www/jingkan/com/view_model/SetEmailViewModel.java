@@ -3,7 +3,7 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import androidx.annotation.NonNull;
 

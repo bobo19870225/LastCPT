@@ -1,12 +1,12 @@
 package www.jingkan.com.view;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityTestDataDetailsBinding;
-import com.jinkan.www.cpttest.db.dao.TestDataDao;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.adapter.TestDataDetailsAdapter;
-import com.jinkan.www.cpttest.view.base.ListMVVMActivity;
-import com.jinkan.www.cpttest.view_model.TestDataDetailsVM;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityTestDataDetailsBinding;
+import www.jingkan.com.db.dao.TestDataDao;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.adapter.TestDataDetailsAdapter;
+import www.jingkan.com.view.base.ListMVVMActivity;
+import www.jingkan.com.view_model.TestDataDetailsVM;
 
 import javax.inject.Inject;
 
@@ -62,7 +62,7 @@ public class TestDataDetailsActivity extends ListMVVMActivity<TestDataDetailsVM,
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
     }
 }

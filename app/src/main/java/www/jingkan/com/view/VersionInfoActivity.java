@@ -1,10 +1,10 @@
 package www.jingkan.com.view;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityVersionInfoBinding;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.base.BaseMVVMDaggerActivity;
-import com.jinkan.www.cpttest.view_model.VersionInfoVM;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityVersionInfoBinding;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
+import www.jingkan.com.view_model.VersionInfoVM;
 
 import androidx.lifecycle.ViewModelProviders;
 
@@ -35,7 +35,7 @@ public class VersionInfoActivity extends BaseMVVMDaggerActivity<VersionInfoVM, A
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
     }
 }

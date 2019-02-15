@@ -1,280 +1,269 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018. 代码著作权归卢声波所有。
   -->
+<layout>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    <data>
 
+        <variable
+            name="model"
+            type="www.jingkan.com.view_model.MeViewModel" />
+    </data>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:text="我"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
-
-
-    <RelativeLayout
-        android:id="@+id/my_linker"
-        android:layout_width="match_parent"
-        android:layout_height="49dp">
-
-        <ImageView
-            android:id="@+id/ic_link"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:src="@mipmap/ic_link" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@+id/ic_link"
-            android:layout_toRightOf="@+id/ic_link"
-            android:text="@string/my_link"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="19dp"
-            android:layout_marginRight="19dp"
-            android:src="@mipmap/next" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/rl_gray" />
-
-    <RelativeLayout
-        android:id="@+id/my_email"
-        android:layout_width="match_parent"
-        android:layout_height="49dp">
-
-        <ImageView
-            android:id="@+id/ic_email"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:src="@mipmap/ic_email" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@+id/ic_email"
-            android:layout_toRightOf="@+id/ic_email"
-            android:text="@string/my_email"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="19dp"
-            android:layout_marginRight="19dp"
-            android:src="@mipmap/next" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/rl_gray" />
-
-    <RelativeLayout
-        android:id="@+id/my_video"
-        android:layout_width="match_parent"
-        android:layout_height="49dp">
-
-        <ImageView
-            android:id="@+id/ic_video"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:src="@mipmap/ic_video" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@+id/ic_video"
-            android:layout_toRightOf="@+id/ic_video"
-            android:text="@string/video"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="19dp"
-            android:layout_marginRight="19dp"
-            android:src="@mipmap/next" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/rl_gray" />
-
-    <RelativeLayout
-        android:id="@+id/check_version"
-        android:layout_width="match_parent"
-        android:layout_height="49dp">
-
-        <ImageView
-            android:id="@+id/ic_version"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:src="@mipmap/ic_version" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@+id/ic_version"
-            android:layout_toRightOf="@+id/ic_version"
-            android:text="@string/msg_version"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="19dp"
-            android:layout_marginRight="19dp"
-            android:src="@mipmap/next" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/rl_gray" />
-
-    <RelativeLayout
-        android:id="@+id/my_msg"
-        android:layout_width="match_parent"
-        android:layout_height="49dp">
-
-        <ImageView
-            android:id="@+id/ic_msg"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:src="@mipmap/ic_msg" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@+id/ic_msg"
-            android:layout_toRightOf="@+id/ic_msg"
-            android:text="@string/my_msg"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="19dp"
-            android:layout_marginRight="19dp"
-            android:src="@mipmap/next" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/rl_gray" />
-
-    <SlidingDrawer
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:content="@id/content"
-        android:handle="@id/handle"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
 
-        <ImageButton
-            android:id="@+id/handle"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:background="@drawable/bg_button_corner"
-            android:contentDescription="@string/cancel"
-            app:srcCompat="@drawable/ic_live_help_them_24dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="我"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
-        <LinearLayout
-            android:id="@+id/content"
+
+        <RelativeLayout
+            android:id="@+id/my_linker"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:onClick="@{()->model.setLinker()}">
+
+            <ImageView
+                android:id="@+id/ic_link"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:src="@mipmap/ic_link" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@+id/ic_link"
+                android:text="@string/my_link"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="19dp"
+                android:src="@mipmap/next" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/rl_gray" />
+
+        <RelativeLayout
+            android:id="@+id/my_email"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:onClick="@{()->model.setEmail()}">
+
+            <ImageView
+                android:id="@+id/ic_email"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:src="@mipmap/ic_email" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@+id/ic_email"
+                android:text="@string/my_email"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="19dp"
+                android:src="@mipmap/next" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/rl_gray" />
+
+        <RelativeLayout
+            android:id="@+id/my_video"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:onClick="@{()->model.setVideo()}">
+
+            <ImageView
+                android:id="@+id/ic_video"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:src="@mipmap/ic_video" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@+id/ic_video"
+                android:text="@string/video"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="19dp"
+                android:src="@mipmap/next" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/rl_gray" />
+
+        <RelativeLayout
+            android:id="@+id/check_version"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:onClick="@{()->model.checkVersion()}">
+
+            <ImageView
+                android:id="@+id/ic_version"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:src="@mipmap/ic_version" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@+id/ic_version"
+                android:text="@string/msg_version"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="19dp"
+                android:src="@mipmap/next" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/rl_gray" />
+
+        <RelativeLayout
+            android:id="@+id/my_msg"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:onClick="@{()->model.myMsg()}">
+
+            <ImageView
+                android:id="@+id/ic_msg"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:src="@mipmap/ic_msg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@+id/ic_msg"
+                android:text="@string/my_msg"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="19dp"
+                android:src="@mipmap/next" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/rl_gray" />
+
+        <SlidingDrawer
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="4dp"
-            android:background="@drawable/bg_red_rad8"
-            android:orientation="vertical">
+            android:layout_margin="8dp"
+            android:content="@id/content"
+            android:handle="@id/handle"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv"
+
+            <ImageButton
+                android:id="@+id/handle"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/bg_button_corner"
+                android:contentDescription="@string/cancel"
+                app:srcCompat="@drawable/ic_live_help_them_24dp" />
+
+            <LinearLayout
+                android:id="@+id/content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="一，点击「我的连接器」设置默认的蓝牙连接器。"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:background="@drawable/bg_red_rad8"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="二，点击「我的邮箱」设置数据的发送邮箱和接收邮箱"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="一，点击「我的连接器」设置默认的蓝牙连接器。"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="二，点击「我的邮箱」设置数据的发送邮箱和接收邮箱"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="三，点击「我的消息」可查看我公司给您推送的消息。"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </SlidingDrawer>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="三，点击「我的消息」可查看我公司给您推送的消息。"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </SlidingDrawer>
 
-</LinearLayout>
+    </LinearLayout>
+</layout>

@@ -1,35 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018. 代码著作权归卢声波所有。
   -->
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="model"
-            type="www.jingkan.com.common.historyData.HistoryDataViewModel" />
+            type="www.jingkan.com.view_model.HistoryDataViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar" />
-
-        <ListView
-            android:id="@+id/lv_history"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <include
+            android:id="@+id/tool_bar"
+            layout="@layout/toolbar" />
 
         <TextView
-            android:id="@+id/empty"
+            android:id="@+id/loading_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="暂无数据"
-            android:textSize="24sp"
-            android:visibility="gone" />
-</LinearLayout>
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/no_data"
+            android:textAlignment="center"
+            android:visibility="@{model.isEmpty ? View.VISIBLE : View.GONE}" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/srl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                app:layoutManager="LinearLayoutManager"
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    </LinearLayout>
 </layout>

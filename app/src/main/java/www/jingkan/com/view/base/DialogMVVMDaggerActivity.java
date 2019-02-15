@@ -16,9 +16,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.view_model.IShowDialog;
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
+import www.jingkan.com.R;
+import www.jingkan.com.view_model.IShowDialog;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import androidx.databinding.ViewDataBinding;
 

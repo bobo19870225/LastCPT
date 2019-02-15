@@ -5,12 +5,12 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.jinkan.www.cpttest.db.dao.ProbeDaoHelper;
-import com.jinkan.www.cpttest.db.dao.WirelessProbeDaoHelper;
-import com.jinkan.www.cpttest.db.entity.ProbeEntity;
-import com.jinkan.www.cpttest.db.entity.WirelessProbeEntity;
-import com.jinkan.www.cpttest.util.StringUtil;
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
+import www.jingkan.com.db.dao.ProbeDaoHelper;
+import www.jingkan.com.db.dao.WirelessProbeDaoHelper;
+import www.jingkan.com.db.entity.ProbeEntity;
+import www.jingkan.com.db.entity.WirelessProbeEntity;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import androidx.annotation.NonNull;
 
@@ -20,7 +20,6 @@ import androidx.annotation.NonNull;
  */
 public class AddProbeVM extends BaseViewModel {
     private Boolean isWireless;
-
     public AddProbeVM(@NonNull Application application) {
         super(application);
     }
@@ -28,7 +27,6 @@ public class AddProbeVM extends BaseViewModel {
     //    private ProbeDao probeDao;
     private ProbeDaoHelper probeDaoHelper;
     private WirelessProbeDaoHelper wirelessProbeDaoHelper;
-
     @Override
     public void inject(Object... objects) {
         isWireless = objects[0].equals("无缆探头");
@@ -38,12 +36,12 @@ public class AddProbeVM extends BaseViewModel {
 
     public void scanCode() {
         callbackMessage.setValue(0);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
     }
 
     public void inPut() {
         callbackMessage.setValue(1);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
     }
 
     @Override
@@ -167,7 +165,7 @@ public class AddProbeVM extends BaseViewModel {
 
         wirelessProbeDaoHelper.addData(wirelessProbeModel, () -> {
             callbackMessage.setValue(3);
-            getView().callback(callbackMessage);
+            getView().action(callbackMessage);
 
         });
 
@@ -277,7 +275,7 @@ public class AddProbeVM extends BaseViewModel {
     private void addData(ProbeEntity probeModel) {
         probeDaoHelper.addData(probeModel, () -> {
             callbackMessage.setValue(2);
-            getView().callback(callbackMessage);
+            getView().action(callbackMessage);
         });
     }
 

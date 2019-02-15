@@ -1,6 +1,6 @@
 package www.jingkan.com.db.dao;
 
-import com.jinkan.www.cpttest.db.entity.ProbeEntity;
+import www.jingkan.com.db.entity.ProbeEntity;
 
 import java.util.List;
 

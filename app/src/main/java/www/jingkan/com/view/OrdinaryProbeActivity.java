@@ -1,13 +1,13 @@
 package www.jingkan.com.view;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityOrdinaryProbeBinding;
-import com.jinkan.www.cpttest.db.dao.ProbeDao;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.adapter.ItemOrdinaryProbeCallback;
-import com.jinkan.www.cpttest.view.adapter.OrdinaryProbeAdapter;
-import com.jinkan.www.cpttest.view.base.ListMVVMActivity;
-import com.jinkan.www.cpttest.view_model.OrdinaryProbeVM;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityOrdinaryProbeBinding;
+import www.jingkan.com.db.dao.ProbeDao;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.adapter.ItemOrdinaryProbeCallback;
+import www.jingkan.com.view.adapter.OrdinaryProbeAdapter;
+import www.jingkan.com.view.base.ListMVVMActivity;
+import www.jingkan.com.view_model.OrdinaryProbeVM;
 
 import javax.inject.Inject;
 
@@ -67,7 +67,7 @@ public class OrdinaryProbeActivity extends ListMVVMActivity<OrdinaryProbeVM, Act
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
         switch (callbackMessage.what) {
             case 0:
                 goTo(AddProbeActivity.class, "普通探头");

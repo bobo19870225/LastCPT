@@ -7,9 +7,11 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="model"
-            type="www.jingkan.com.wireless.wirelessProbe.WirelessProbeViewModel" />
+            type="www.jingkan.com.view_model.WirelessProbeVM" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -30,11 +32,10 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/tool_bar">
 
-                <ListView
-                    android:id="@+id/list"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:adapter="@{model.adapter}" />
+                    android:layout_height="match_parent" />
 
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -46,7 +47,8 @@
                 android:layout_below="@+id/tool_bar"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/no_probe" />
+                android:text="@string/no_probe"
+                android:visibility="@{model.isEmpty ? View.VISIBLE : View.GONE}" />
         </RelativeLayout>
 
 
@@ -55,9 +57,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
             android:onClick="@{()->model.addProbe()}"
             app:srcCompat="@drawable/ic_add_white_24dp" />
 

@@ -11,15 +11,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 
-import com.jinkan.www.cpttest.db.dao.WirelessResultDataDao;
-import com.jinkan.www.cpttest.db.dao.WirelessTestDao;
-import com.jinkan.www.cpttest.db.entity.WirelessResultDataEntity;
-import com.jinkan.www.cpttest.db.entity.WirelessTestEntity;
-import com.jinkan.www.cpttest.util.DataUtil;
-import com.jinkan.www.cpttest.util.MyFileUtil;
-import com.jinkan.www.cpttest.util.StringUtil;
-import com.jinkan.www.cpttest.view.OpenFileActivity;
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
+import www.jingkan.com.db.dao.WirelessResultDataDao;
+import www.jingkan.com.db.dao.WirelessTestDao;
+import www.jingkan.com.db.entity.WirelessResultDataEntity;
+import www.jingkan.com.db.entity.WirelessTestEntity;
+import www.jingkan.com.util.DataUtil;
+import www.jingkan.com.util.MyFileUtil;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.view.OpenFileActivity;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import org.apache.commons.io.FileUtils;
 
@@ -33,9 +33,9 @@ import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 
-import static com.jinkan.www.cpttest.util.DataUtil.SET_EMAIL;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_ORIGINAL_TXT;
-import static com.jinkan.www.cpttest.view.DataSyncActivity.REQUEST_OPEN_MARK_FILE;
+import static www.jingkan.com.util.DataUtil.SET_EMAIL;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_ORIGINAL_TXT;
+import static www.jingkan.com.view.DataSyncActivity.REQUEST_OPEN_MARK_FILE;
 
 /**
  * Created by lushengbo on 2018/1/17.
@@ -403,7 +403,7 @@ public class DataSyncViewModel extends BaseViewModel {
                     + "%");
             callbackMessage.setValue(0, cpt);
 
-            getView().callback(callbackMessage);
+            getView().action(callbackMessage);
             strDeep.set(StringUtil.format(0.1 * cpt.length, 1));
         }
     }

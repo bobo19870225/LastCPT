@@ -11,7 +11,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.wireless.markFile.MarkFileDetailViewModel" />
+            type="www.jingkan.com.view_model.MarkFileDetailViewModel" />
     </data>
 
     <RelativeLayout

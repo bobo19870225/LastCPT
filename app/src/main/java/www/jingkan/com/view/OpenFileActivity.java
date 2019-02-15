@@ -8,15 +8,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.KeyEvent;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityOpenFileBinding;
-import com.jinkan.www.cpttest.db.dao.ProbeDao;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.adapter.BaseItemCallback;
-import com.jinkan.www.cpttest.view.adapter.ItemFile;
-import com.jinkan.www.cpttest.view.adapter.OpenFileAdapter;
-import com.jinkan.www.cpttest.view.base.ListMVVMActivity;
-import com.jinkan.www.cpttest.view_model.OpenFileViewModel;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityOpenFileBinding;
+import www.jingkan.com.db.dao.ProbeDao;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.adapter.BaseItemCallback;
+import www.jingkan.com.view.adapter.ItemFile;
+import www.jingkan.com.view.adapter.OpenFileAdapter;
+import www.jingkan.com.view.base.ListMVVMActivity;
+import www.jingkan.com.view_model.OpenFileViewModel;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -38,7 +38,6 @@ public class OpenFileActivity extends ListMVVMActivity<OpenFileViewModel, Activi
     public static String EXTRA_FILE_DATES = "file_dates";
     @Inject
     ProbeDao probeDao;
-
     @Override
     public OpenFileViewModel createdViewModel() {
         return ViewModelProviders.of(this).get(OpenFileViewModel.class);
@@ -144,7 +143,7 @@ public class OpenFileActivity extends ListMVVMActivity<OpenFileViewModel, Activi
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
     }
 }

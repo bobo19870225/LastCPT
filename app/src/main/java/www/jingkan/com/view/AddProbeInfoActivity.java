@@ -12,18 +12,18 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityAddProbeInfoBinding;
-import com.jinkan.www.cpttest.db.dao.ProbeDao;
-import com.jinkan.www.cpttest.db.dao.ProbeDaoHelper;
-import com.jinkan.www.cpttest.db.dao.WirelessProbeDao;
-import com.jinkan.www.cpttest.db.dao.WirelessProbeDaoHelper;
-import com.jinkan.www.cpttest.db.entity.ProbeEntity;
-import com.jinkan.www.cpttest.db.entity.WirelessProbeEntity;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.adapter.OneTextListAdapter;
-import com.jinkan.www.cpttest.view.base.BaseMVVMDaggerActivity;
-import com.jinkan.www.cpttest.view_model.AddProbeInfoVM;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityAddProbeInfoBinding;
+import www.jingkan.com.db.dao.ProbeDao;
+import www.jingkan.com.db.dao.ProbeDaoHelper;
+import www.jingkan.com.db.dao.WirelessProbeDao;
+import www.jingkan.com.db.dao.WirelessProbeDaoHelper;
+import www.jingkan.com.db.entity.ProbeEntity;
+import www.jingkan.com.db.entity.WirelessProbeEntity;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.adapter.OneTextListAdapter;
+import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
+import www.jingkan.com.view_model.AddProbeInfoVM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,6 @@ public class AddProbeInfoActivity extends BaseMVVMDaggerActivity<AddProbeInfoVM,
     WirelessProbeDaoHelper wirelessProbeDaoHelper;
 
     private String[] strings;
-
     @Override
     protected Object[] injectToViewModel() {
         strings = (String[]) mData;
@@ -159,7 +158,7 @@ public class AddProbeInfoActivity extends BaseMVVMDaggerActivity<AddProbeInfoVM,
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
         switch (callbackMessage.what) {
             case 0:
                 showChoseTypeWindow();

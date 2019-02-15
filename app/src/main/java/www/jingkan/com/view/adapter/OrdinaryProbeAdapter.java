@@ -1,6 +1,6 @@
 package www.jingkan.com.view.adapter;
 
-import com.jinkan.www.cpttest.databinding.ItemOrdinaryProbeBinding;
+import www.jingkan.com.databinding.ItemOrdinaryProbeBinding;
 
 import java.util.List;
 

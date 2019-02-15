@@ -2,14 +2,15 @@ package www.jingkan.com.di;
 
 import android.app.Application;
 
+import www.jingkan.com.CPTApplication;
+import www.jingkan.com.db.RepositoryModule;
+
 import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
-import www.jingkan.com.CPTApplication;
-import www.jingkan.com.db.RepositoryModule;
 
 /**
  * This is a Dagger component. Refer to {@link CPTApplication} for the list of Dagger components

@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.wireless.dataSynchronization.DataSynViewModel" />
+            type="www.jingkan.com.view_model.DataSyncViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

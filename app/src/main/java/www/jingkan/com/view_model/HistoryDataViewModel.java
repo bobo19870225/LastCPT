@@ -3,11 +3,11 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.db.dao.TestDao;
-import com.jinkan.www.cpttest.db.dao.TestDaoHelper;
-import com.jinkan.www.cpttest.db.entity.TestEntity;
-import com.jinkan.www.cpttest.view.adapter.ItemHistoryData;
-import com.jinkan.www.cpttest.view_model.base.BaseListViewModel;
+import www.jingkan.com.db.dao.TestDao;
+import www.jingkan.com.db.dao.TestDaoHelper;
+import www.jingkan.com.db.entity.TestEntity;
+import www.jingkan.com.view.adapter.ItemHistoryData;
+import www.jingkan.com.view_model.base.BaseListViewModel;
 
 import java.util.List;
 
@@ -22,7 +22,6 @@ public class HistoryDataViewModel extends BaseListViewModel<List<TestEntity>> {
     //    public final MutableLiveData<Boolean> isEmpty = new MutableLiveData<>();
     private TestDao testDao;
     private TestDaoHelper testDaoHelper;
-
     public HistoryDataViewModel(@NonNull Application application) {
         super(application);
     }

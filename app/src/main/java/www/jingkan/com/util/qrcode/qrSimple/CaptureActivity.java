@@ -22,12 +22,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.google.zxing.Result;
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.util.qrcode.camera.CameraManager;
-import com.jinkan.www.cpttest.util.qrcode.decode.DecodeThread;
-import com.jinkan.www.cpttest.util.qrcode.utils.BeepManager;
-import com.jinkan.www.cpttest.util.qrcode.utils.CaptureActivityHandler;
-import com.jinkan.www.cpttest.util.qrcode.utils.InactivityTimer;
+
+import www.jingkan.com.R;
+import www.jingkan.com.util.qrcode.camera.CameraManager;
+import www.jingkan.com.util.qrcode.decode.DecodeThread;
+import www.jingkan.com.util.qrcode.utils.BeepManager;
+import www.jingkan.com.util.qrcode.utils.CaptureActivityHandler;
+import www.jingkan.com.util.qrcode.utils.InactivityTimer;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -126,7 +127,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
             // surfaceCreated() won't be called, so init the camera here.
             initCamera(scanPreview.getHolder());
         } else {
-            // Install the callback and wait for surfaceCreated() to init the
+            // Install the action and wait for surfaceCreated() to init the
             // camera.
             scanPreview.getHolder().addCallback(this);
         }
@@ -197,7 +198,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
             throw new IllegalStateException("No SurfaceHolder provided");
         }
         if (cameraManager.isOpen()) {
-            Log.w(TAG, "initCamera() while already open -- late SurfaceView callback?");
+            Log.w(TAG, "initCamera() while already open -- late SurfaceView action?");
             return;
         }
         try {

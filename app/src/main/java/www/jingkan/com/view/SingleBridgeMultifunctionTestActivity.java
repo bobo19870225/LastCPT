@@ -7,17 +7,17 @@ import www.jingkan.com.R;
 import www.jingkan.com.view.base.BaseTestActivity;
 import www.jingkan.com.view.chart.SingleBridgeMuStrategy;
 
-import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_CORRECT_TXT;
-import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_HN_111;
-import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_LY_DAT;
-import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_LY_TXT;
-import static www.jingkan.com.parameter.SystemConstant.EMAIL_TYPE_LZ_TXT;
-import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_CORRECT_TXT;
-import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_HN_111;
-import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_LY_DAT;
-import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_LY_TXT;
-import static www.jingkan.com.parameter.SystemConstant.SAVE_TYPE_LZ_TXT;
-import static www.jingkan.com.parameter.SystemConstant.SINGLE_BRIDGE_MULTI_TEST;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_CORRECT_TXT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_HN_111;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LY_DAT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LY_TXT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LZ_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_CORRECT_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_HN_111;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LY_DAT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LY_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LZ_TXT;
+import static www.jingkan.com.util.SystemConstant.SINGLE_BRIDGE_MULTI_TEST;
 
 /**
  * Created by Sampson on 2018/12/21.

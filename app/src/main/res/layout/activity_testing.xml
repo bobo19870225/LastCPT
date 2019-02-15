@@ -7,13 +7,13 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.calibration.probeTest.TestingViewModel" />
+            type="www.jingkan.com.view_model.TestingViewModel" />
     </data>
 
     <LinearLayout
-        android:keepScreenOn="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:keepScreenOn="true"
         android:orientation="vertical">
 
         <include layout="@layout/toolbar" />

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018. 代码著作权归卢声波所有。
   -->
 
@@ -9,7 +8,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.wireless.wirelessProbe.AddWirelessProbeViewModel" />
+            type="www.jingkan.com.view_model.AddProbeVM" />
     </data>
 
     <LinearLayout
@@ -33,7 +32,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
                 android:text="@string/code_scan"
                 android:textSize="16sp" />
@@ -43,10 +41,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:contentDescription="@mipmap/next"
                 android:src="@mipmap/next" />
 
@@ -69,7 +65,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
                 android:text="@string/tv_auto"
                 android:textSize="16sp" />
@@ -79,10 +74,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:contentDescription="@mipmap/next"
                 android:src="@mipmap/next" />
         </RelativeLayout>

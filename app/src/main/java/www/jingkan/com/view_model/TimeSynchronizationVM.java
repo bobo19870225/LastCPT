@@ -5,13 +5,13 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.db.dao.WirelessProbeDao;
-import com.jinkan.www.cpttest.db.dao.WirelessTestDao;
-import com.jinkan.www.cpttest.db.entity.WirelessProbeEntity;
-import com.jinkan.www.cpttest.db.entity.WirelessTestEntity;
-import com.jinkan.www.cpttest.util.bluetooth.BluetoothCommService;
-import com.jinkan.www.cpttest.util.bluetooth.BluetoothUtil;
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
+import www.jingkan.com.db.dao.WirelessProbeDao;
+import www.jingkan.com.db.dao.WirelessTestDao;
+import www.jingkan.com.db.entity.WirelessProbeEntity;
+import www.jingkan.com.db.entity.WirelessTestEntity;
+import www.jingkan.com.util.bluetooth.BluetoothCommService;
+import www.jingkan.com.util.bluetooth.BluetoothUtil;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import java.util.List;
 
@@ -44,7 +44,6 @@ public class TimeSynchronizationVM extends BaseViewModel {
     private boolean isIdentification;
     private WirelessProbeDao wirelessProbeDao;
     private WirelessTestDao wirelessTestDao;
-
     public TimeSynchronizationVM(@NonNull Application application) {
         super(application);
     }
@@ -71,7 +70,6 @@ public class TimeSynchronizationVM extends BaseViewModel {
                 .addSource(wirelessTestDao.getWirelessTestEntityByPrjNumberAndHoleNumber(projectNumber, holeNumber),
                         liveDataWirelessTestEntity::setValue);
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -91,7 +89,7 @@ public class TimeSynchronizationVM extends BaseViewModel {
 
     public void doSynchronization() {
         callbackMessage.setValue(1);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
 
     }
 
@@ -102,7 +100,7 @@ public class TimeSynchronizationVM extends BaseViewModel {
             bluetoothCommService.connect(bluetoothDevice);
         } else {
             callbackMessage.setValue(0);
-            getView().callback(callbackMessage);
+            getView().action(callbackMessage);
 
         }
     }

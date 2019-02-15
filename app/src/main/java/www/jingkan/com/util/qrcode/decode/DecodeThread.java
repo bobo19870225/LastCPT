@@ -10,14 +10,14 @@ import android.os.Looper;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 
+import www.jingkan.com.util.qrcode.qrSimple.CaptureActivity;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
-
-import www.jingkan.com.util.qrcode.qrSimple.CaptureActivity;
 
 /**
  * This thread does all the heavy lifting of decoding the images.

@@ -4,15 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 
-import com.jinkan.www.cpttest.db.entity.CrossTestDataEntity;
-import com.jinkan.www.cpttest.db.entity.TestDataEntity;
-import com.jinkan.www.cpttest.db.entity.TestEntity;
-import com.jinkan.www.cpttest.db.entity.WirelessResultDataEntity;
-import com.jinkan.www.cpttest.db.entity.WirelessTestEntity;
-import com.jinkan.www.cpttest.util.email.MailSenderRunnable;
-import com.jinkan.www.cpttest.view.SetEmailActivity;
-import com.jinkan.www.cpttest.view_model.ISkip;
-import com.jinkan.www.cpttest.view_model.OriginalTestData;
+import www.jingkan.com.db.entity.CrossTestDataEntity;
+import www.jingkan.com.db.entity.TestDataEntity;
+import www.jingkan.com.db.entity.TestEntity;
+import www.jingkan.com.db.entity.WirelessResultDataEntity;
+import www.jingkan.com.db.entity.WirelessTestEntity;
+import www.jingkan.com.util.email.MailSenderRunnable;
+import www.jingkan.com.view.SetEmailActivity;
+import www.jingkan.com.view_model.ISkip;
+import www.jingkan.com.view_model.OriginalTestData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,20 +20,20 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_CORRECT_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_HN_111;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_LY_DAT;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_LY_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_LZ_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_ORIGINAL_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.EMAIL_TYPE_ZHD_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_CORRECT_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_HN_111;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_LY_DAT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_LY_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_LZ_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_ORIGINAL_TXT;
-import static com.jinkan.www.cpttest.util.SystemConstant.SAVE_TYPE_ZHD_TXT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_CORRECT_TXT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_HN_111;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LY_DAT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LY_TXT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LZ_TXT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_ORIGINAL_TXT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_ZHD_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_CORRECT_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_HN_111;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LY_DAT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LY_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LZ_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_ORIGINAL_TXT;
+import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_ZHD_TXT;
 
 /**
  * Created by Sampson on 2018/3/9.

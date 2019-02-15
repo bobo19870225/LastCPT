@@ -1,6 +1,6 @@
 package www.jingkan.com.db.entity;
 
-import com.jinkan.www.cpttest.view.adapter.ItemMarkupFile;
+import www.jingkan.com.view.adapter.ItemMarkupFile;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

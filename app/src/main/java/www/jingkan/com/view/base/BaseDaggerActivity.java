@@ -13,7 +13,8 @@ import android.view.Menu;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.jinkan.www.cpttest.R;
+
+import www.jingkan.com.R;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -135,24 +136,25 @@ public abstract class BaseDaggerActivity extends DaggerAppCompatActivity {
      * @param mClass 类名
      */
     public void goTo(Class mClass, Object data) {
-        Intent intent = new Intent();
-        intent.setClass(this, mClass);
-        if (data != null) {
-            Bundle bundle = new Bundle();
-            if (data instanceof String) {
-                bundle.putString("DATA", String.valueOf(data));
-            } else if (data instanceof Integer) {
-                bundle.putInt("DATA", (Integer) data);
-            } else if (data instanceof String[]) {
-                bundle.putStringArray("DATA", (String[]) data);
-            } else if (data instanceof Parcelable) {
-                bundle.putParcelable("DATA", (Parcelable) data);
-            } else if (data instanceof Map) {
-                bundle.putSerializable("DATA", (Serializable) data);
-            }
-            intent.putExtra("BUNDLE", bundle);
-        }
-        startActivity(intent);
+        goTo(mClass, data, false);
+//        Intent intent = new Intent();
+//        intent.setClass(this, mClass);
+//        if (data != null) {
+//            Bundle bundle = new Bundle();
+//            if (data instanceof String) {
+//                bundle.putString("DATA", String.valueOf(data));
+//            } else if (data instanceof Integer) {
+//                bundle.putInt("DATA", (Integer) data);
+//            } else if (data instanceof String[]) {
+//                bundle.putStringArray("DATA", (String[]) data);
+//            } else if (data instanceof Parcelable) {
+//                bundle.putParcelable("DATA", (Parcelable) data);
+//            } else if (data instanceof Map) {
+//                bundle.putSerializable("DATA", (Serializable) data);
+//            }
+//            intent.putExtra("BUNDLE", bundle);
+//        }
+//        startActivity(intent);
     }
 
     /**

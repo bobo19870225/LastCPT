@@ -6,11 +6,15 @@ package www.jingkan.com.view.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.snackbar.Snackbar;
+
+import java.io.Serializable;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
 import dagger.android.support.DaggerFragment;
@@ -48,8 +52,37 @@ public abstract class BaseDaggerFragment extends DaggerFragment {
      * @param mClass 类名
      */
     public void goTo(Class mClass, Object data) {
+        goTo(mClass, data, false);
+//        Intent intent = new Intent();
+//        intent.setClass(getContext(), mClass);
+//        if (data != null) {
+//            Bundle bundle = new Bundle();
+//            if (data instanceof String) {
+//                bundle.putString("DATA", String.valueOf(data));
+//            } else if (data instanceof Integer) {
+//                bundle.putInt("DATA", (Integer) data);
+//            } else if (data instanceof String[]) {
+//                bundle.putStringArray("DATA", (String[]) data);
+//            }
+//            intent.putExtra("BUNDLE", bundle);
+//        }
+//        startActivity(intent);
+    }
+
+    /**
+     * 跳转
+     *
+     * @param data   参数
+     * @param mClass 类名
+     * @param isTop  是否关闭其它页面
+     */
+    public void goTo(Class mClass, Object data, boolean isTop) {
         Intent intent = new Intent();
         intent.setClass(getContext(), mClass);
+        if (isTop) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
         if (data != null) {
             Bundle bundle = new Bundle();
             if (data instanceof String) {
@@ -58,12 +91,15 @@ public abstract class BaseDaggerFragment extends DaggerFragment {
                 bundle.putInt("DATA", (Integer) data);
             } else if (data instanceof String[]) {
                 bundle.putStringArray("DATA", (String[]) data);
+            } else if (data instanceof Parcelable) {
+                bundle.putParcelable("DATA", (Parcelable) data);
+            } else if (data instanceof Map) {
+                bundle.putSerializable("DATA", (Serializable) data);
             }
             intent.putExtra("BUNDLE", bundle);
         }
         startActivity(intent);
     }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

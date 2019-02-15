@@ -9,7 +9,8 @@ import android.view.Menu;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.jinkan.www.cpttest.R;
+
+import www.jingkan.com.R;
 
 import java.io.Serializable;
 import java.util.Map;

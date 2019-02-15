@@ -8,7 +8,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.common.baseTest.BaseTestViewModel" />
+            type="www.jingkan.com.view_model.BaseTestViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -402,15 +402,14 @@
                     android:textSize="16sp" />
 
                 <Button
+                    android:onClick="@{()->model.modifyDistance()}"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
                     android:background="@color/them_color"
-                    android:onClick="@{()->model.modifyDistance()}"
+
                     android:text="@string/modify"
                     android:textColor="@color/white" />
 
@@ -420,6 +419,7 @@
                     android:layout_alignParentBottom="true"
                     android:background="@color/v_gray" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/line_chart"
                 android:layout_width="match_parent"

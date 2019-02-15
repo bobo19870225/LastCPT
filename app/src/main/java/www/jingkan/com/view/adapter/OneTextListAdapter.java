@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.jinkan.www.cpttest.R;
+import www.jingkan.com.R;
 
 import java.util.List;
 

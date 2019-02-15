@@ -3,22 +3,22 @@ package www.jingkan.com.view_model.new_test;
 import android.app.Application;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.db.dao.TestDaoHelper;
-import com.jinkan.www.cpttest.db.entity.TestEntity;
-import com.jinkan.www.cpttest.util.PreferencesUtil;
-import com.jinkan.www.cpttest.util.StringUtil;
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
+import www.jingkan.com.db.dao.TestDaoHelper;
+import www.jingkan.com.db.entity.TestEntity;
+import www.jingkan.com.util.PreferencesUtil;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import static com.jinkan.www.cpttest.util.SystemConstant.DOUBLE_BRIDGE_MULTI_TEST;
-import static com.jinkan.www.cpttest.util.SystemConstant.DOUBLE_BRIDGE_TEST;
-import static com.jinkan.www.cpttest.util.SystemConstant.SINGLE_BRIDGE_MULTI_TEST;
-import static com.jinkan.www.cpttest.util.SystemConstant.SINGLE_BRIDGE_TEST;
-import static com.jinkan.www.cpttest.util.SystemConstant.VANE_TEST;
+import static www.jingkan.com.util.SystemConstant.DOUBLE_BRIDGE_MULTI_TEST;
+import static www.jingkan.com.util.SystemConstant.DOUBLE_BRIDGE_TEST;
+import static www.jingkan.com.util.SystemConstant.SINGLE_BRIDGE_MULTI_TEST;
+import static www.jingkan.com.util.SystemConstant.SINGLE_BRIDGE_TEST;
+import static www.jingkan.com.util.SystemConstant.VANE_TEST;
 
 /**
  * Created by Sampson on 2018/12/13.
@@ -93,7 +93,7 @@ public class NewTestViewModel extends BaseViewModel {
         }
         testEntity.testType = obsTestType.getValue();
         testDaoHelper.addData(testEntity, () -> {
-                    toast("添加成功！");
+            toast("添加成功！");
                 }
         );
 
@@ -110,7 +110,7 @@ public class NewTestViewModel extends BaseViewModel {
                                     isAnalog ? "模拟探头" : "数字探头"
                             }
                     );
-            getView().callback(callbackMessage);
+            getView().action(callbackMessage);
 //            goTo(LinkBluetoothActivity.class, new String[]{strProjectNumber, strHoleNumber, strTestType, isAnalog ? "模拟探头" : "数字探头"});
         } else {
             String[] dataToSend = {add, testEntity.projectNumber, testEntity.holeNumber, isAnalog ? "模拟探头" : "数字探头"};
@@ -118,7 +118,7 @@ public class NewTestViewModel extends BaseViewModel {
                 case SINGLE_BRIDGE_TEST:
                     //mac地址，工程编号，孔号。
                     callbackMessage.setValue(ACTION_SINGLE_BRIDGE, dataToSend);
-                    getView().callback(callbackMessage);
+                    getView().action(callbackMessage);
                     break;
                 case SINGLE_BRIDGE_MULTI_TEST:
 //                    goTo(SingleBridgeMultifunctionTestActivity.class, dataToSend);

@@ -4,13 +4,13 @@
 
 package www.jingkan.com.view;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityMyMsgBinding;
-import com.jinkan.www.cpttest.db.dao.MsgDao;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.adapter.MyMsgAdapter;
-import com.jinkan.www.cpttest.view.base.ListMVVMActivity;
-import com.jinkan.www.cpttest.view_model.MyMsgViewModel;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityMyMsgBinding;
+import www.jingkan.com.db.dao.MsgDao;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.adapter.MyMsgAdapter;
+import www.jingkan.com.view.base.ListMVVMActivity;
+import www.jingkan.com.view_model.MyMsgViewModel;
 
 import javax.inject.Inject;
 
@@ -75,7 +75,7 @@ public class MyMsgActivity extends ListMVVMActivity<MyMsgViewModel, ActivityMyMs
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
     }
 }

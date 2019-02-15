@@ -3,9 +3,9 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.db.dao.WirelessProbeDao;
-import com.jinkan.www.cpttest.db.entity.WirelessProbeEntity;
-import com.jinkan.www.cpttest.view_model.base.BaseListViewModel;
+import www.jingkan.com.db.dao.WirelessProbeDao;
+import www.jingkan.com.db.entity.WirelessProbeEntity;
+import www.jingkan.com.view_model.base.BaseListViewModel;
 
 import java.util.List;
 
@@ -19,7 +19,6 @@ import androidx.lifecycle.LiveData;
 public class WirelessProbeVM extends BaseListViewModel<List<WirelessProbeEntity>> {
 
     private WirelessProbeDao wirelessProbeDao;
-
     public WirelessProbeVM(@NonNull Application application) {
         super(application);
     }
@@ -41,7 +40,7 @@ public class WirelessProbeVM extends BaseListViewModel<List<WirelessProbeEntity>
 
     public void addProbe() {
         callbackMessage.setValue(0);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
     }
 
     @Override

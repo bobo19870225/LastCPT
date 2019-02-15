@@ -1,10 +1,11 @@
 package www.jingkan.com.di;
 
-import dagger.Module;
-import dagger.android.ContributesAndroidInjector;
 import www.jingkan.com.view.CrossFragment;
 import www.jingkan.com.view.DoubleBridgeFragment;
 import www.jingkan.com.view.SingleBridgeFragment;
+
+import dagger.Module;
+import dagger.android.ContributesAndroidInjector;
 
 /**
  * Created by Sampson on 2018/12/29.

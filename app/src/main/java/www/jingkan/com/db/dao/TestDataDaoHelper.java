@@ -1,8 +1,8 @@
 package www.jingkan.com.db.dao;
 
-import com.jinkan.www.cpttest.db.dao.dao_factory.BaseDao;
-import com.jinkan.www.cpttest.db.dao.dao_factory.DataBaseCallBack;
-import com.jinkan.www.cpttest.db.entity.TestDataEntity;
+import www.jingkan.com.db.dao.dao_factory.BaseDao;
+import www.jingkan.com.db.dao.dao_factory.DataBaseCallBack;
+import www.jingkan.com.db.entity.TestDataEntity;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

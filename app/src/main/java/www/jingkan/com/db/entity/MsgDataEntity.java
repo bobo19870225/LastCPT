@@ -1,6 +1,6 @@
 package www.jingkan.com.db.entity;
 
-import com.jinkan.www.cpttest.view.adapter.ItemMyMsg;
+import www.jingkan.com.view.adapter.ItemMyMsg;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

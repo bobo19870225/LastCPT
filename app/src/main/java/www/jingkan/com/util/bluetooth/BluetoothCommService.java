@@ -10,7 +10,7 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
-import com.jinkan.www.cpttest.util.CallbackMessage;
+import www.jingkan.com.util.CallbackMessage;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +21,7 @@ import javax.inject.Singleton;
 
 import androidx.lifecycle.MutableLiveData;
 
-import static com.jinkan.www.cpttest.util.SystemConstant.SPP_UUID;
+import static www.jingkan.com.util.SystemConstant.SPP_UUID;
 
 @Singleton
 public class BluetoothCommService {

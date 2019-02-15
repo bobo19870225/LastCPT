@@ -6,17 +6,17 @@ package www.jingkan.com.view;
 
 import android.view.MenuItem;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityWirelessTestBinding;
-import com.jinkan.www.cpttest.db.dao.WirelessTestDao;
-import com.jinkan.www.cpttest.db.dao.WirelessTestDataDao;
-import com.jinkan.www.cpttest.db.entity.WirelessTestDataEntity;
-import com.jinkan.www.cpttest.db.entity.WirelessTestEntity;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.util.MyFileUtil;
-import com.jinkan.www.cpttest.util.StringUtil;
-import com.jinkan.www.cpttest.view.base.BaseMVVMDaggerActivity;
-import com.jinkan.www.cpttest.view_model.WirelessTestViewModel;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityWirelessTestBinding;
+import www.jingkan.com.db.dao.WirelessTestDao;
+import www.jingkan.com.db.dao.WirelessTestDataDao;
+import www.jingkan.com.db.entity.WirelessTestDataEntity;
+import www.jingkan.com.db.entity.WirelessTestEntity;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.util.MyFileUtil;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
+import www.jingkan.com.view_model.WirelessTestViewModel;
 
 import javax.inject.Inject;
 
@@ -124,7 +124,7 @@ public class WirelessTestActivity extends BaseMVVMDaggerActivity<WirelessTestVie
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
     }
 }

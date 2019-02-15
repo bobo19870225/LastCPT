@@ -3,17 +3,17 @@ package www.jingkan.com.view;
 import android.Manifest;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityAddProbeBinding;
-import com.jinkan.www.cpttest.db.dao.ProbeDaoHelper;
-import com.jinkan.www.cpttest.db.dao.WirelessProbeDaoHelper;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.util.acp.Acp;
-import com.jinkan.www.cpttest.util.acp.AcpListener;
-import com.jinkan.www.cpttest.util.acp.AcpOptions;
-import com.jinkan.www.cpttest.util.qrcode.qrSimple.CaptureActivity;
-import com.jinkan.www.cpttest.view.base.BaseMVVMDaggerActivity;
-import com.jinkan.www.cpttest.view_model.AddProbeVM;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityAddProbeBinding;
+import www.jingkan.com.db.dao.ProbeDaoHelper;
+import www.jingkan.com.db.dao.WirelessProbeDaoHelper;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.util.acp.Acp;
+import www.jingkan.com.util.acp.AcpListener;
+import www.jingkan.com.util.acp.AcpOptions;
+import www.jingkan.com.util.qrcode.qrSimple.CaptureActivity;
+import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
+import www.jingkan.com.view_model.AddProbeVM;
 
 import java.util.List;
 
@@ -33,7 +33,6 @@ public class AddProbeActivity extends BaseMVVMDaggerActivity<AddProbeVM, Activit
     ProbeDaoHelper probeDaoHelper;
     @Inject
     WirelessProbeDaoHelper wirelessProbeDaoHelper;
-
     @Override
     protected Object[] injectToViewModel() {
         return new Object[]{mData, probeDaoHelper, wirelessProbeDaoHelper};
@@ -62,7 +61,7 @@ public class AddProbeActivity extends BaseMVVMDaggerActivity<AddProbeVM, Activit
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
         switch (callbackMessage.what) {
             case 0:
                 Acp.getInstance(AddProbeActivity.this).request(new AcpOptions.Builder()

@@ -1,10 +1,10 @@
 package www.jingkan.com.view;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityTestingBinding;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.base.DialogMVVMDaggerActivity;
-import com.jinkan.www.cpttest.view_model.TestingViewModel;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityTestingBinding;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.base.DialogMVVMDaggerActivity;
+import www.jingkan.com.view_model.TestingViewModel;
 
 import androidx.lifecycle.ViewModelProviders;
 
@@ -34,7 +34,7 @@ public class TestingActivity extends DialogMVVMDaggerActivity<TestingViewModel, 
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
     }
 }

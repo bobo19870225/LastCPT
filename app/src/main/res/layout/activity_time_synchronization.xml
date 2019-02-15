@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.wireless.timeSynchronization.TimeSynchronizationViewModel" />
+            type="www.jingkan.com.view_model.TimeSynchronizationVM" />
 
         <import type="android.view.View" />
     </data>
@@ -34,7 +34,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:text="@string/project_number"
                 android:textSize="16sp" />
@@ -45,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/tt_project_number"
-                android:layout_toRightOf="@+id/tt_project_number"
                 android:text="@{model.strProjectNumber}"
                 android:textSize="16sp" />
 
@@ -54,7 +52,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="196dp"
                 android:layout_marginStart="196dp"
                 android:text="@string/hole_number"
                 android:textSize="16sp" />
@@ -65,7 +62,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/tt_hole_number"
-                android:layout_toRightOf="@+id/tt_hole_number"
                 android:text="@{model.strHoleNumber}" />
         </RelativeLayout>
 
@@ -80,7 +76,6 @@
                 android:id="@+id/tt_qc_coefficient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:text="@string/qc_coefficient"
                 android:textSize="16sp" />
@@ -90,7 +85,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/tt_qc_coefficient"
-                android:layout_toRightOf="@+id/tt_qc_coefficient"
                 android:text="@{model.strQcCoefficient}"
                 android:textSize="16sp" />
 
@@ -98,7 +92,6 @@
                 android:id="@+id/tt_qc_limit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="196dp"
                 android:layout_marginStart="196dp"
                 android:text="@string/qc_limit"
                 android:textSize="16sp" />
@@ -108,7 +101,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/tt_qc_limit"
-                android:layout_toRightOf="@+id/tt_qc_limit"
                 android:text="@{model.strQcLimit}" />
         </RelativeLayout>
 
@@ -124,7 +116,6 @@
                 android:id="@+id/tt_fs_coefficient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:text="@string/tv_check"
                 android:textSize="16sp" />
@@ -134,7 +125,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/tt_fs_coefficient"
-                android:layout_toRightOf="@+id/tt_fs_coefficient"
                 android:text="@{model.strFsCoefficient}"
                 android:textSize="16sp" />
 
@@ -142,7 +132,6 @@
                 android:id="@+id/tt_fs_limit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="196dp"
                 android:layout_marginStart="196dp"
                 android:text="@string/tv_check2"
                 android:textSize="16sp" />
@@ -167,7 +156,6 @@
                 android:id="@+id/tt_marking_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:text="定位时基点："
                 android:textSize="16sp" />
@@ -176,7 +164,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/tt_marking_time"
-                android:layout_toRightOf="@+id/tt_marking_time"
                 android:text="@{model.markingTime}"
                 android:textSize="16sp" />
         </RelativeLayout>
@@ -193,7 +180,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:text="@string/probe_number"
                 android:textSize="16sp" />
@@ -203,7 +189,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toEndOf="@+id/tt_probe_number"
-                android:layout_toRightOf="@+id/tt_probe_number"
                 android:background="@null"
                 android:digits="0123456789-JKDSW"
                 android:gravity="center_vertical"

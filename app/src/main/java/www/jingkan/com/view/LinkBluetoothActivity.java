@@ -8,16 +8,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.TextView;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityLinkBluetoothBinding;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.util.PreferencesUtil;
-import com.jinkan.www.cpttest.util.SystemConstant;
-import com.jinkan.www.cpttest.util.bluetooth.BluetoothUtil;
-import com.jinkan.www.cpttest.view.adapter.DeviceAdapter;
-import com.jinkan.www.cpttest.view.base.BaseMVVMDaggerActivity;
-import com.jinkan.www.cpttest.view_model.LinkBluetoothViewModel;
-import com.jinkan.www.cpttest.view_model.MyBluetoothDevice;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityLinkBluetoothBinding;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.util.PreferencesUtil;
+import www.jingkan.com.util.SystemConstant;
+import www.jingkan.com.util.bluetooth.BluetoothUtil;
+import www.jingkan.com.view.adapter.DeviceAdapter;
+import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
+import www.jingkan.com.view_model.LinkBluetoothViewModel;
+import www.jingkan.com.view_model.MyBluetoothDevice;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -215,7 +215,6 @@ public class LinkBluetoothActivity extends BaseMVVMDaggerActivity<LinkBluetoothV
         }
         finish();
     }
-
     @Override
     public LinkBluetoothViewModel createdViewModel() {
         return ViewModelProviders.of(this).get(LinkBluetoothViewModel.class);
@@ -227,7 +226,7 @@ public class LinkBluetoothActivity extends BaseMVVMDaggerActivity<LinkBluetoothV
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
     }
 }

@@ -1,10 +1,10 @@
 package www.jingkan.com.view;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.FragmentDoubleBridgeBinding;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.base.BaseMVVMDaggerFragment;
-import com.jinkan.www.cpttest.view_model.AddProbeInfoVM;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.FragmentDoubleBridgeBinding;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.base.BaseMVVMDaggerFragment;
+import www.jingkan.com.view_model.AddProbeInfoVM;
 
 import java.util.Objects;
 
@@ -49,7 +49,7 @@ public class DoubleBridgeFragment extends BaseMVVMDaggerFragment<AddProbeInfoVM,
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
-        ((AddProbeInfoActivity) Objects.requireNonNull(getActivity())).callback(callbackMessage);
+    public void action(CallbackMessage callbackMessage) {
+        ((AddProbeInfoActivity) Objects.requireNonNull(getActivity())).action(callbackMessage);
     }
 }

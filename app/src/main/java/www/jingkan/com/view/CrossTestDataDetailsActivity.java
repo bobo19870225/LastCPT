@@ -1,10 +1,10 @@
 package www.jingkan.com.view;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityCrossTestDataDetailsBinding;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.base.BaseMVVMDaggerActivity;
-import com.jinkan.www.cpttest.view_model.CrossTestDataDetailsMV;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityCrossTestDataDetailsBinding;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
+import www.jingkan.com.view_model.CrossTestDataDetailsMV;
 
 import androidx.lifecycle.ViewModelProviders;
 
@@ -35,7 +35,7 @@ public class CrossTestDataDetailsActivity extends BaseMVVMDaggerActivity<CrossTe
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
     }
 }

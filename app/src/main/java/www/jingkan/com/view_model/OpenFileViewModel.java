@@ -8,10 +8,10 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Environment;
 
-import com.jinkan.www.cpttest.util.FileUtil;
-import com.jinkan.www.cpttest.util.MyFileFilter;
-import com.jinkan.www.cpttest.view.adapter.ItemFile;
-import com.jinkan.www.cpttest.view_model.base.BaseListViewModel;
+import www.jingkan.com.util.FileUtil;
+import www.jingkan.com.util.MyFileFilter;
+import www.jingkan.com.view.adapter.ItemFile;
+import www.jingkan.com.view_model.base.BaseListViewModel;
 
 import java.io.File;
 import java.util.ArrayList;

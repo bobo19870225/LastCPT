@@ -1,12 +1,12 @@
 package www.jingkan.com.view;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.ActivityMarkFileBinding;
-import com.jinkan.www.cpttest.db.dao.WirelessTestDao;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.adapter.MarkFileAdapter;
-import com.jinkan.www.cpttest.view.base.ListMVVMActivity;
-import com.jinkan.www.cpttest.view_model.MarkFileViewModel;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityMarkFileBinding;
+import www.jingkan.com.db.dao.WirelessTestDao;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.adapter.MarkFileAdapter;
+import www.jingkan.com.view.base.ListMVVMActivity;
+import www.jingkan.com.view_model.MarkFileViewModel;
 
 import javax.inject.Inject;
 
@@ -60,7 +60,7 @@ public class MarkFileActivity extends ListMVVMActivity<MarkFileViewModel, Activi
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
 
     }
 }

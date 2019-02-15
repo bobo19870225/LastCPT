@@ -1,7 +1,7 @@
 package www.jingkan.com.db.entity;
 
-import com.jinkan.www.cpttest.util.StringUtil;
-import com.jinkan.www.cpttest.view.adapter.ItemTestDataDetails;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.view.adapter.ItemTestDataDetails;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

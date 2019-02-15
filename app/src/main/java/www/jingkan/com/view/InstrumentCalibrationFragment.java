@@ -4,13 +4,13 @@
 
 package www.jingkan.com.view;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.databinding.FragmentCalibrationBinding;
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.util.PreferencesUtil;
-import com.jinkan.www.cpttest.util.StringUtil;
-import com.jinkan.www.cpttest.view.base.BaseMVVMDaggerFragment;
-import com.jinkan.www.cpttest.view_model.InstrumentCalibrationFragmentVM;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.FragmentCalibrationBinding;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.util.PreferencesUtil;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.view.base.BaseMVVMDaggerFragment;
+import www.jingkan.com.view_model.InstrumentCalibrationFragmentVM;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,14 +51,9 @@ public class InstrumentCalibrationFragment extends BaseMVVMDaggerFragment<Instru
     }
 
     @Override
-    public void callback(CallbackMessage callbackMessage) {
+    public void action(CallbackMessage callbackMessage) {
         switch (callbackMessage.what) {
-            case 0:
-                goTo(AnalogActivity.class, null);
-                break;
-            case 1:
-//                goTo(DigitalCalibrationActivity.class, null);
-                break;
+
             case 2:
 
                 Map<String, String> linkerPreferences = preferencesUtil.getLinkerPreferences();

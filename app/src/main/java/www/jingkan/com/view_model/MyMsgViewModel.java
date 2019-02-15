@@ -3,9 +3,9 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.db.dao.MsgDao;
-import com.jinkan.www.cpttest.db.entity.MsgDataEntity;
-import com.jinkan.www.cpttest.view_model.base.BaseListViewModel;
+import www.jingkan.com.db.dao.MsgDao;
+import www.jingkan.com.db.entity.MsgDataEntity;
+import www.jingkan.com.view_model.base.BaseListViewModel;
 
 import java.util.List;
 

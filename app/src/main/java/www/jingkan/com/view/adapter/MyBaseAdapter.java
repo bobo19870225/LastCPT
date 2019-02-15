@@ -3,7 +3,7 @@ package www.jingkan.com.view.adapter;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.jinkan.www.cpttest.BR;
+import www.jingkan.com.BR;
 
 import java.util.List;
 

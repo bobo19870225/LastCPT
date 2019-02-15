@@ -10,7 +10,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.wireless.wirelessProbe.AddWirelessProbeInfoVM" />
+            type="www.jingkan.com.view_model.AddProbeInfoVM" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,7 +39,7 @@
                     android:layout_height="48dp"
                     android:layout_marginTop="16dp"
                     android:background="@color/white"
-                    android:onClick="@{()->model.choseProbeType()}">
+                    android:onClick="@{()->model.choseType()}">
 
                     <TextView
                         android:id="@+id/tt_probe_type"
@@ -48,7 +48,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:layout_marginStart="15dp"
-                        android:text="@{model.strChoseProbeType}"
+                        android:text="@string/tv_leixing"
                         android:textSize="16sp" />
 
                     <TextView
@@ -58,7 +58,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/tt_probe_type"
                         android:layout_toRightOf="@+id/tt_probe_type"
-                        android:text="@{model.strProbeType}"
+                        android:text="@{model.probeType}"
                         android:textSize="16sp" />
 
 
@@ -101,7 +101,7 @@
                         android:layout_toRightOf="@+id/tv_oas"
                         android:background="@null"
                         android:inputType="text"
-                        android:text="@={model.strSn}"
+                        android:text="@={model.sn}"
                         android:textSize="16sp" />
 
                 </RelativeLayout>
@@ -131,7 +131,7 @@
                         android:layout_toRightOf="@+id/tv_qsk"
                         android:background="@null"
                         android:inputType="text"
-                        android:text="@={model.strNumber}"
+                        android:text="@={model.number}"
                         android:textSize="16sp" />
 
                     <View
@@ -171,7 +171,7 @@
                             android:layout_toRightOf="@+id/tv_aa"
                             android:background="@null"
                             android:inputType="number"
-                            android:text="@={model.strQcArea}"
+                            android:text="@={model.qcArea}"
                             android:textSize="16sp" />
 
                         <View
@@ -206,7 +206,7 @@
                             android:layout_toRightOf="@+id/tv_bb"
                             android:background="@null"
                             android:inputType="numberDecimal"
-                            android:text="@={model.strQcCoefficient}"
+                            android:text="@={model.qcCoefficient}"
                             android:textSize="16sp" />
 
                         <View
@@ -242,7 +242,7 @@
                             android:layout_toRightOf="@+id/tv_cc"
                             android:background="@null"
                             android:inputType="number"
-                            android:text="@={model.strQcLimit}"
+                            android:text="@={model.qcLimit}"
                             android:textSize="16sp" />
 
                         <View
@@ -279,7 +279,7 @@
                             android:layout_toRightOf="@+id/tv_dd"
                             android:background="@null"
                             android:inputType="number"
-                            android:text="@={model.strFsArea}"
+                            android:text="@={model.fsArea}"
                             android:textSize="16sp" />
 
                         <View
@@ -316,7 +316,7 @@
                             android:layout_toRightOf="@+id/tv_ee"
                             android:background="@null"
                             android:inputType="number"
-                            android:text="@={model.strFsCoefficient}"
+                            android:text="@={model.fsCoefficient}"
                             android:textSize="16sp" />
 
                         <View
@@ -353,7 +353,7 @@
                             android:layout_toRightOf="@+id/tv_qq"
                             android:background="@null"
                             android:inputType="number"
-                            android:text="@={model.strFsLimit}"
+                            android:text="@={model.fsLimit}"
                             android:textSize="16sp" />
 
                         <View

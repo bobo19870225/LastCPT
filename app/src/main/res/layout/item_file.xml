@@ -8,13 +8,19 @@
     <data>
 
         <variable
+            name="clickCallback"
+            type="www.jingkan.com.view.adapter.BaseItemCallback" />
+
+        <variable
             name="model"
-            type="www.jingkan.com.wireless.openFile.OpenFileItemViewModel" />
+            type="www.jingkan.com.view.adapter.ItemFile" />
     </data>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{()->clickCallback.onClick(model)}">
 
         <ImageView
             android:id="@+id/file_icon"
@@ -23,18 +29,17 @@
             android:src="@mipmap/folder_more" />
 
         <TextView
-            android:text="@{model.strFileName}"
             android:id="@+id/file_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
             android:layout_toEndOf="@+id/file_icon"
-            android:layout_toRightOf="@+id/file_icon"
-            android:gravity="center" />
+            android:gravity="center"
+            android:text="@{model.fileName}" />
 
 
     </RelativeLayout>
+
 
 </layout>

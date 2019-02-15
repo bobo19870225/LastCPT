@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.wireless.testData.WirelessResultDataDetailVM" />
+            type="www.jingkan.com.view_model.WirelessResultDataDetailVM" />
     </data>
 
     <LinearLayout

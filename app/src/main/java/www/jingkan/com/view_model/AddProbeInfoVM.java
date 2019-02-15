@@ -3,19 +3,18 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.db.dao.ProbeDao;
-import com.jinkan.www.cpttest.db.dao.ProbeDaoHelper;
-import com.jinkan.www.cpttest.db.dao.WirelessProbeDaoHelper;
-import com.jinkan.www.cpttest.db.entity.ProbeEntity;
-import com.jinkan.www.cpttest.db.entity.WirelessProbeEntity;
-import com.jinkan.www.cpttest.util.StringUtil;
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
-
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import www.jingkan.com.db.dao.ProbeDao;
+import www.jingkan.com.db.dao.ProbeDaoHelper;
+import www.jingkan.com.db.dao.WirelessProbeDaoHelper;
+import www.jingkan.com.db.entity.ProbeEntity;
+import www.jingkan.com.db.entity.WirelessProbeEntity;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 /**
  * Created by Sampson on 2018/12/29.
@@ -32,13 +31,14 @@ public class AddProbeInfoVM extends BaseViewModel {
     public final MutableLiveData<String> fsCoefficient = new MutableLiveData<>();
     public final MutableLiveData<String> qcLimit = new MutableLiveData<>();
     public final MutableLiveData<String> fsLimit = new MutableLiveData<>();
+    public final MutableLiveData<Boolean> doubleBridge = new MutableLiveData<>();
+
 
     //    private Boolean isWireless;
 
     private ProbeDaoHelper probeDaoHelper;
     private WirelessProbeDaoHelper wirelessProbeDaoHelper;
     private ProbeDao probeDao;
-
     public AddProbeInfoVM(@NonNull Application application) {
         super(application);
     }
@@ -53,12 +53,12 @@ public class AddProbeInfoVM extends BaseViewModel {
 
     public void choseType() {
         callbackMessage.setValue(0);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
     }
 
     public void addProbe() {
         callbackMessage.setValue(1);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
     }
 
     public void saveDataToLocal(boolean isUpdate, boolean isWireless) {

@@ -7,8 +7,8 @@ package www.jingkan.com.view_model.base;
 import android.app.Application;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.util.CallbackMessage;
-import com.jinkan.www.cpttest.view.base.ViewCallback;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.base.ViewCallback;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -23,8 +23,6 @@ import androidx.lifecycle.AndroidViewModel;
  */
 
 public abstract class BaseViewModel extends AndroidViewModel {
-    public static final int Toast = -1;
-
     public BaseViewModel(@NonNull Application application) {
         super(application);
     }
@@ -43,23 +41,21 @@ public abstract class BaseViewModel extends AndroidViewModel {
     }
 
     protected void toast(String msg) {
-        callbackMessage.setValue(Toast, msg);
-        getView().toast(callbackMessage);
+        getView().toast(msg);
     }
 
     protected void action(int what, Object object) {
         callbackMessage.setValue(what, object);
-        getView().callback(callbackMessage);
+        getView().action(callbackMessage);
     }
 
-    protected void goTo(Class c, Object object) {
-        getView().skipTo(c, object, false);
+    protected void goTo(Class mClass, Object data, boolean isTop) {
+        getView().goTo(mClass, data, isTop);
     }
 
-    protected void goTo(Class c, Object object, Boolean isTop) {
-        getView().skipTo(c, object, isTop);
+    protected void goTo(Class mClass, Object data) {
+        getView().goTo(mClass, data);
     }
-
     @Override
     protected void onCleared() {
         mViewCallback = null;

@@ -1,6 +1,6 @@
 package www.jingkan.com.db.dao;
 
-import com.jinkan.www.cpttest.db.entity.CalibrationProbeEntity;
+import www.jingkan.com.db.entity.CalibrationProbeEntity;
 
 import java.util.List;
 

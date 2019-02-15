@@ -3,9 +3,9 @@ package www.jingkan.com.view;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.view.base.BaseTestActivity;
-import com.jinkan.www.cpttest.view.chart.DoubleBridgeStrategy;
+import www.jingkan.com.R;
+import www.jingkan.com.view.base.BaseTestActivity;
+import www.jingkan.com.view.chart.DoubleBridgeStrategy;
 
 /**
  * Created by Sampson on 2018/12/21.

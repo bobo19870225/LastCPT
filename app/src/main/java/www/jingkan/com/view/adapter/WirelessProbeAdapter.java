@@ -1,6 +1,6 @@
 package www.jingkan.com.view.adapter;
 
-import com.jinkan.www.cpttest.databinding.ItemWirelessProbeBinding;
+import www.jingkan.com.databinding.ItemWirelessProbeBinding;
 
 import java.util.List;
 

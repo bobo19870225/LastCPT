@@ -14,7 +14,7 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.jinkan.www.cpttest.R;
+import www.jingkan.com.R;
 
 import java.io.Closeable;
 import java.io.IOException;

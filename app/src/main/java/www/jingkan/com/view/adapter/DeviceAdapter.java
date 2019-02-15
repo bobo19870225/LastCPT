@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.view_model.MyBluetoothDevice;
+import www.jingkan.com.R;
+import www.jingkan.com.view_model.MyBluetoothDevice;
 
 import java.util.List;
 

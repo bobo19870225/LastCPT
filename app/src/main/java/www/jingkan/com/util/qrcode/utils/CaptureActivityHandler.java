@@ -11,10 +11,11 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.google.zxing.Result;
-import com.jinkan.www.cpttest.R;
-import com.jinkan.www.cpttest.util.qrcode.camera.CameraManager;
-import com.jinkan.www.cpttest.util.qrcode.decode.DecodeThread;
-import com.jinkan.www.cpttest.util.qrcode.qrSimple.CaptureActivity;
+
+import www.jingkan.com.R;
+import www.jingkan.com.util.qrcode.camera.CameraManager;
+import www.jingkan.com.util.qrcode.decode.DecodeThread;
+import www.jingkan.com.util.qrcode.qrSimple.CaptureActivity;
 
 /**
  * This class handles all the messaging which comprises the state machine for

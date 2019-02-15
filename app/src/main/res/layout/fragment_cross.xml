@@ -1,116 +1,121 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018. 代码著作权归卢声波所有。
   -->
+<layout>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/rl_gray"
-    android:orientation="vertical">
+    <data>
 
-    <RelativeLayout
-        android:id="@+id/rl_af"
+        <variable
+            name="model"
+            type="www.jingkan.com.view_model.AddProbeInfoVM" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@android:color/white">
+        android:layout_height="match_parent"
+        android:background="@color/rl_gray"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_aa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:text="@string/tv_bantou"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/cross_area"
+        <RelativeLayout
+            android:id="@+id/rl_af"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/tv_aa"
-            android:layout_toRightOf="@+id/tv_aa"
-            android:background="@null"
-            android:inputType="number"
-            android:textSize="16sp" />
+            android:layout_height="50dp"
+            android:background="@android:color/white">
 
-        <View
+            <TextView
+                android:id="@+id/tv_aa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:text="@string/tv_bantou"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/cross_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/tv_aa"
+                android:background="@null"
+                android:inputType="number"
+                android:text="@={model.qcArea}"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/rl_gray" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_ck"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/rl_gray" />
+            android:layout_height="50dp"
+            android:layout_below="@+id/rl_af"
+            android:background="@android:color/white">
+
+            <TextView
+                android:id="@+id/tv_bb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:text="@string/tv_btxishu"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/cross_coefficient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/tv_bb"
+                android:background="@null"
+                android:inputType="numberDecimal"
+                android:text="@={model.qcCoefficient}"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/rl_gray" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_lk"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/rl_ck"
+            android:background="@android:color/white">
+
+            <TextView
+                android:id="@+id/tv_cc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:text="@string/tv_btxianzhi"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/cross_limit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/tv_cc"
+                android:background="@null"
+                android:inputType="number"
+                android:text="@={model.qcLimit}"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/rl_gray" />
+        </RelativeLayout>
+
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_ck"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/rl_af"
-        android:background="@android:color/white">
-
-        <TextView
-            android:id="@+id/tv_bb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:text="@string/tv_btxishu"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/cross_coefficient"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/tv_bb"
-            android:layout_toRightOf="@+id/tv_bb"
-            android:background="@null"
-            android:inputType="numberDecimal"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/rl_gray" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_lk"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/rl_ck"
-        android:background="@android:color/white">
-
-        <TextView
-            android:id="@+id/tv_cc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:text="@string/tv_btxianzhi"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/cross_limit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/tv_cc"
-            android:layout_toRightOf="@+id/tv_cc"
-            android:background="@null"
-            android:inputType="number"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/rl_gray" />
-    </RelativeLayout>
-
-</RelativeLayout>
+</layout>

@@ -7,14 +7,14 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
-import com.jinkan.www.cpttest.db.dao.WirelessTestDao;
-import com.jinkan.www.cpttest.db.dao.WirelessTestDataDao;
-import com.jinkan.www.cpttest.db.entity.WirelessTestDataEntity;
-import com.jinkan.www.cpttest.db.entity.WirelessTestEntity;
-import com.jinkan.www.cpttest.util.StringUtil;
-import com.jinkan.www.cpttest.util.TimeUtil;
-import com.jinkan.www.cpttest.util.VibratorUtil;
-import com.jinkan.www.cpttest.view_model.base.BaseViewModel;
+import www.jingkan.com.db.dao.WirelessTestDao;
+import www.jingkan.com.db.dao.WirelessTestDataDao;
+import www.jingkan.com.db.entity.WirelessTestDataEntity;
+import www.jingkan.com.db.entity.WirelessTestEntity;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.util.TimeUtil;
+import www.jingkan.com.util.VibratorUtil;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import java.util.List;
 

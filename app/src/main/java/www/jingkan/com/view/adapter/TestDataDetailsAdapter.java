@@ -1,6 +1,6 @@
 package www.jingkan.com.view.adapter;
 
-import com.jinkan.www.cpttest.databinding.ItemTestDataDetailsBinding;
+import www.jingkan.com.databinding.ItemTestDataDetailsBinding;
 
 import java.util.List;
 

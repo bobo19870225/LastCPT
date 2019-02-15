@@ -1,7 +1,7 @@
 package www.jingkan.com.view_model.new_test;
 
-import com.jinkan.www.cpttest.di.ActivityScoped;
-import com.jinkan.www.cpttest.view.NewTestActivity;
+import www.jingkan.com.di.ActivityScoped;
+import www.jingkan.com.view.NewTestActivity;
 
 import androidx.lifecycle.ViewModelProviders;
 import dagger.Module;

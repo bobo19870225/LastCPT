@@ -2,15 +2,6 @@ package www.jingkan.com.db;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.room.Database;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 import www.jingkan.com.db.dao.CalibrationProbeDao;
 import www.jingkan.com.db.dao.CalibrationVerificationDao;
 import www.jingkan.com.db.dao.CrossTestDataDao;
@@ -35,6 +26,16 @@ import www.jingkan.com.db.entity.WirelessProbeEntity;
 import www.jingkan.com.db.entity.WirelessResultDataEntity;
 import www.jingkan.com.db.entity.WirelessTestDataEntity;
 import www.jingkan.com.db.entity.WirelessTestEntity;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 /**
  * Created by Sampson on 2018/12/10.
