@@ -15,30 +15,26 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import www.jingkan.com.framework.acp.Acp;
 import www.jingkan.com.framework.acp.AcpListener;
 import www.jingkan.com.framework.acp.AcpOptions;
 
+@Singleton
 public class MyFileUtils {
 
-    private static volatile MyFileUtils INSTANCE;
 
-    public static MyFileUtils getInstance() {
-        if (INSTANCE == null) {
-            synchronized (MyFileUtils.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new MyFileUtils();
-                }
-            }
-        }
-        return INSTANCE;
+    private Context context;
+
+    @Inject
+    private MyFileUtils(Context context) {
+        this.context = context;
+
     }
 
-    private MyFileUtils() {
-        //super();
-    }
-
-    public void saveToSD(Context context, final String fileNameAndFileType, final String content, final SaveFileCallBack saveFileCallBack) {
+    public void saveToSD(final String fileNameAndFileType, final String content, final SaveFileCallBack saveFileCallBack) {
         Acp.getInstance(context).request(new AcpOptions.Builder()
                         .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .build(),
@@ -75,9 +71,9 @@ public class MyFileUtils {
 
     }
 
-    public void saveToSD(Context context, final String fileName, final String content, final String fileType, final SaveFileCallBack saveFileCallBack) {
+    public void saveToSD(final String fileName, final String content, final String fileType, final SaveFileCallBack saveFileCallBack) {
         String fileNameAndFileType = fileName + "." + fileType;
-        saveToSD(context, fileNameAndFileType, content, saveFileCallBack);
+        saveToSD(fileNameAndFileType, content, saveFileCallBack);
     }
 
     /**

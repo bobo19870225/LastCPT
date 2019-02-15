@@ -88,6 +88,12 @@ dependencies {
     androidTestImplementation deps.atsl.rules
     androidTestImplementation deps.room.testing
     androidTestImplementation deps.arch_core.testing
+    //dagger2
+    implementation deps.dagger.runtime
+    implementation deps.dagger.android
+    implementation deps.dagger.android_support
+    annotationProcessor deps.dagger.android_support_compiler
+    annotationProcessor deps.dagger.compiler
     // Espresso UI Testing
     androidTestImplementation deps.espresso.core
     androidTestImplementation deps.espresso.contrib

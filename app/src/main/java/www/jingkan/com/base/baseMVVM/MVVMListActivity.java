@@ -18,12 +18,7 @@ import www.jingkan.com.R;
 
 public abstract class MVVMListActivity<VM extends MVVMListViewModel, VDB extends ViewDataBinding> extends BaseMVVMActivity<VM, VDB> {
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
-        @Override
-        public void onRefresh() {
-            mViewModel.loadListViewData();
-        }
-    };
+    private SwipeRefreshLayout.OnRefreshListener onRefreshListener = () -> mViewModel.loadListViewData();
 
     @Override
     protected void setView() {

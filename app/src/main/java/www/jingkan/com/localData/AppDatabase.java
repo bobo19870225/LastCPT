@@ -85,6 +85,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract WirelessTestDaoForRoom wirelessTestDaoForRoom();
 
     public abstract WirelessTestDataDaoForRoom wirelessTestDataDaoForRoom();
+
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
     public static AppDatabase getInstance(final Context context) {
@@ -106,7 +107,8 @@ public abstract class AppDatabase extends RoomDatabase {
      */
     private static AppDatabase buildDatabase(final Context appContext) {
         return Room.databaseBuilder(appContext, AppDatabase.class, DATABASE_NAME)
-                .addMigrations(MIGRATION_1_2)
+//                .addMigrations(MIGRATION_1_2)
+                .fallbackToDestructiveMigration()
                 .build();
     }
 
@@ -132,10 +134,6 @@ public abstract class AppDatabase extends RoomDatabase {
 
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("CREATE VIRTUAL TABLE IF NOT EXISTS `productsFts` USING FTS4("
-                    + "`name` TEXT, `description` TEXT, content=`products`)");
-            database.execSQL("INSERT INTO productsFts (`rowid`, `name`, `description`) "
-                    + "SELECT `id`, `name`, `description` FROM products");
 
         }
     };

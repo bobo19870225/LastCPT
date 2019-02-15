@@ -5,20 +5,6 @@
 <resources>
     <string name="app_name">静力触探</string>
 
-    <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
-
-    <string name="hello_world">Hello world!</string>
-
-    <string name="action_settings">Settings</string>
-
-    <string name="tv_logo">让勘测更简单！</string>
-
-    <string name="bt_explain">查看说明书</string>
-
-    <string name="bt_experiment">开始试验</string>
-
-    <string name="bt_no_promet">不再提示</string>
-
     <string name="tv_commot">普通试验</string>
 
     <string name="bt_addper">新增试验</string>
@@ -30,8 +16,6 @@
     <string name="bt_ordinary">普通探头列表</string>
 
     <string name="wireless_probe_list">无缆探头列表</string>
-
-    <string name="bt_instrument">仪器标定</string>
 
     <string name="tv_addtext">新增试验</string>
 
@@ -46,28 +30,10 @@
 
     <string name="tv_swith">选择试验类型</string>
 
-    <string name="bt_click">点击获取</string>
-
-    <string name="tv_connect">连接设备</string>
-
 
     <string name="tv_yes">新搜索的设备</string>
 
-    <string name="tv_device_pair">设备配对</string>
-
-    <string name="tv_OK">完成</string>
-
-    <string name="tv_out_device">输入配对号：</string>
-
     <string name="cancel">取消</string>
-
-    <string name="bt_on">确认</string>
-
-    <string name="tv_project">没有工程</string>
-
-    <string name="bt_connect">连接设备</string>
-
-    <string name="tv_connect_device">已连接设备：</string>
 
 
     <string name="qc_coefficient">锥头系数：</string>
@@ -77,10 +43,6 @@
     <string name="tv_check">侧壁系数：</string>
 
     <string name="tv_check2">侧壁限值：</string>
-
-    <string name="tv_common_parit">普通探头</string>
-
-    <string name="bt_addcommon">新增探头</string>
 
     <string name="tv_edit">编辑</string>
 
@@ -116,35 +78,15 @@
 
     <string name="tv_btxianzhi">板头限值：</string>
 
-    <string name="tv_edit_tantou">编辑探头信息</string>
-
-    <string name="tv_tantou_lx">探头类型：</string>
-
     <string name="tv_yck">已配对的设备</string>
 
-    <string name="tv_time">日期：</string>
-
-    <string name="tv_leixin">试验类型：</string>
-
-    <string name="tv_height">深度</string>
-
-    <string name="tv_zhuiji">锥尖</string>
-
-    <string name="tv_cb">侧壁</string>
-
-    <string name="tv_xiedu">斜度</string>
     <string name="obliquity_value">斜度读数：</string>
     <string name="obliquity_effective_value">斜度有效值：</string>
     <string name="obliquity_initial_value">斜度初值：</string>
-    <string name="tv_lx">探头类型：</string>
 
     <string name="save">保存</string>
 
-    <string name="bt_back">返回</string>
-
     <string name="initial_value">初值</string>
-
-    <string name="app_about">本App方便手机Android与本公司的蓝牙连接器进行通讯，配合数字探头可以进行静力触探和十字板剪切试验。本软件由上海金勘岩土勘察设备有限公司编写，网址：http://www.jinkan.com </string>
 
     <string name="general_test">普通试验</string>
 
@@ -158,7 +100,6 @@
 
     <string name="fa_effective_value">倾角读数：</string>
     <string name="update">检测更新</string>
-    <string name="current_version">当前版本：</string>
     <string name="my_msg">我的消息</string>
     <string name="ok">确定</string>
     <string name="current_depth">当前深度：</string>
@@ -171,7 +112,6 @@
     <string name="cu_limit">板头限值：</string>
     <string name="cu_initial">板头初值：</string>
     <string name="cu_valid">板头有效值：</string>
-    <string name="recode">记录</string>
     <string name="torsional_angle">扭转角度：</string>
     <string name="test_deep">试验深度：</string>
     <string name="test_number">试验编号：</string>
@@ -189,7 +129,6 @@
     <string name="test_date">测试日期：</string>
     <string name="SRC">时间基点：</string>
     <string name="probe_number">探头编号：</string>
-    <string name="skip">跳过</string>
     <string name="open">打开</string>
     <string name="send_email">发送邮件</string>
     <string name="send_date">推送日期：</string>

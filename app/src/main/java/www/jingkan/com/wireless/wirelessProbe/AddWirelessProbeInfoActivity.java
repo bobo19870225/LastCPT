@@ -61,20 +61,16 @@ public class AddWirelessProbeInfoActivity extends BaseMVVMActivity<AddWirelessPr
         list.add("双桥无缆测斜");
         OneTextListAdapter adapter = new OneTextListAdapter(this, R.layout.listitem, list);
         lv_list.setAdapter(adapter);
-        lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textView = view.findViewById(R.id.TextView);
-                mViewModel.strProbeType.set(textView.getText().toString());
-                mViewModel.strChoseProbeType.set("探头类型：");
-                if (position == 0) {
-                    mViewModel.doubleBridge.set(false);
-                } else if (position == 1) {
-                    mViewModel.doubleBridge.set(true);
-                }
-                popupWindow.dismiss();
+        lv_list.setOnItemClickListener((parent, view, position, id) -> {
+            TextView textView = view.findViewById(R.id.TextView);
+            mViewModel.strProbeType.set(textView.getText().toString());
+            mViewModel.strChoseProbeType.set("探头类型：");
+            if (position == 0) {
+                mViewModel.doubleBridge.set(false);
+            } else if (position == 1) {
+                mViewModel.doubleBridge.set(true);
             }
+            popupWindow.dismiss();
         });
         popupWindow.showAtLocation(mRootView, Gravity.CENTER, 0, 0);
 

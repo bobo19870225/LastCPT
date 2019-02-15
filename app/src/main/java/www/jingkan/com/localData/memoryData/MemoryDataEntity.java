@@ -1,6 +1,8 @@
 package www.jingkan.com.localData.memoryData;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 /**
  * Created by Sampson on 2018/12/11.
@@ -8,7 +10,9 @@ import androidx.room.Entity;
  */
 @Entity(tableName = MemoryDataConstant.TABLE_NAME)
 public class MemoryDataEntity {
-    public String probeID;
+    @PrimaryKey
+    @NonNull
+    public String probeID = "";
     public String probeNo;
     public String type;
     public String forceType;

@@ -16,7 +16,7 @@ import www.jingkan.com.framework.acp.Acp;
 import www.jingkan.com.framework.acp.AcpListener;
 import www.jingkan.com.framework.acp.AcpOptions;
 import www.jingkan.com.framework.utils.StringUtils;
-import www.jingkan.com.localData.wirelessProbe.WirelessProbeModel;
+import www.jingkan.com.localData.wirelessProbe.WirelessProbeEntity;
 import www.jingkan.com.qrcode.qrSimple.CaptureActivity;
 
 /**
@@ -47,7 +47,7 @@ public class AddWirelessProbeViewModel extends BaseViewModel<AddWirelessProbeAct
                             strings = result.split("\n");
                         }
                         if (strings.length == 3) {//单桥
-                            WirelessProbeModel wirelessProbeModel = new WirelessProbeModel();
+                            WirelessProbeEntity wirelessProbeModel = new WirelessProbeEntity();
                             String[] strProbeNumber = strings[1].split("-");
                             if (strProbeNumber[0].contains("D")) {//单桥探头
                                 String mj;
@@ -83,7 +83,7 @@ public class AddWirelessProbeViewModel extends BaseViewModel<AddWirelessProbeAct
                                 getView().goTo(WirelessProbeActivity.class, null, true);
                             }
                         } else if (strings.length == 4) {//双桥探头
-                            WirelessProbeModel wirelessProbeModel = new WirelessProbeModel();
+                            WirelessProbeEntity wirelessProbeModel = new WirelessProbeEntity();
                             String[] strProbeNumber = strings[1].split("-");
                             String mj;
                             if (strProbeNumber[0].contains("S")) {//双桥探头

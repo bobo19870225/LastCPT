@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = MsgDataConstant.TABLE_NAME)
 public class MsgDataEntity {
     @PrimaryKey
-    public int msgID;
+    public int msgID = 0;
     public String title;
     public String time;
 }
