@@ -45,7 +45,7 @@ public class WirelessTestResultDataActivity extends ListMVVMActivity<WirelessTes
 
     @Override
     protected WirelessTestDataAdapter setAdapter() {
-        return new WirelessTestDataAdapter(R.layout.item_wireless_test_data, null);
+        return new WirelessTestDataAdapter(R.layout.item_wireless_test_result_data, null);
     }
 
     @Override

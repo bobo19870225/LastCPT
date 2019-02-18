@@ -2,10 +2,6 @@ package www.jingkan.com.view.base;
 
 import android.annotation.SuppressLint;
 
-import www.jingkan.com.R;
-import www.jingkan.com.view.adapter.MyBaseAdapter;
-import www.jingkan.com.view_model.base.BaseListViewModel;
-
 import java.util.List;
 
 import androidx.databinding.ViewDataBinding;
@@ -14,6 +10,9 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import www.jingkan.com.R;
+import www.jingkan.com.view.adapter.MyBaseAdapter;
+import www.jingkan.com.view_model.base.BaseListViewModel;
 
 /**
  * Created by Sampson on 2018/12/24.
@@ -24,6 +23,11 @@ public abstract class ListMVVMActivity<VM extends BaseListViewModel, VDB extends
     private A mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener = this::loadListData;
+    private List list;
+
+    public List getList() {
+        return list;
+    }
 
     /**
      * 设置刷新控件
@@ -91,8 +95,9 @@ public abstract class ListMVVMActivity<VM extends BaseListViewModel, VDB extends
                 if (o == null) {
                     mViewModel.isEmpty.setValue(true);
                 } else if (o instanceof List && ((List) o).size() != 0) {
+                    list = (List) o;
                     mViewModel.isEmpty.setValue(false);
-                    mAdapter.setList((List) o);
+                    mAdapter.setList(list);
                 } else {
                     mViewModel.isEmpty.setValue(true);
                 }

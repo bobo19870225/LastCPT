@@ -35,7 +35,7 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         <!--这个东西一定要放到SwipeRefreshLayout外面-->
         <TextView
-            android:visibility="@{model.isEmpty ? View.GONE : View.VISIBLE}"
+            android:visibility="@{model.isEmpty ? View.VISIBLE : View.GONE}"
             android:id="@+id/hint"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

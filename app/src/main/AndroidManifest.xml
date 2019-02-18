@@ -358,9 +358,9 @@
         <activity
             android:name=".view.WirelessTestResultDataActivity"
             android:screenOrientation="portrait" />
-        <!--<activity-->
-        <!--android:name=".view.WirelessResultDataDetailActivity"-->
-        <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".view.WirelessResultDataDetailActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.DoubleBridgeMultifunctionTestActivity"
             android:screenOrientation="portrait" />

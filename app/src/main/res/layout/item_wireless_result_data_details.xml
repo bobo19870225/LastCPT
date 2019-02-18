@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.adapter.WirelessResultDataDetailItemVM" />
+            type="www.jingkan.com.view.adapter.ItemWirelessResultDataDetails" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
