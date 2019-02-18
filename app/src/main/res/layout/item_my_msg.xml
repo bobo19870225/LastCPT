@@ -7,11 +7,15 @@
     <data>
 
         <variable
+            name="clickCallback"
+            type="www.jingkan.com.view.adapter.BaseItemCallback" />
+        <variable
             name="model"
             type="www.jingkan.com.view.adapter.ItemMyMsg" />
     </data>
 
     <RelativeLayout
+        android:onClick="@{()->clickCallback.onClick(model)}"
         android:layout_width="match_parent"
         android:layout_height="48dp">
 

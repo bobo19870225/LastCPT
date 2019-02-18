@@ -343,9 +343,9 @@
         <activity
             android:name=".view.MyMsgActivity"
             android:screenOrientation="portrait" />
-        <!--<activity-->
-        <!--android:name=".view.MyMsgDetailActivity"-->
-        <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".view.MyMsgDetailActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.WirelessProbeActivity"
             android:screenOrientation="portrait" />

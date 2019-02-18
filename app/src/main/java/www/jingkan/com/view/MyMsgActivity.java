@@ -4,19 +4,20 @@
 
 package www.jingkan.com.view;
 
-import www.jingkan.com.R;
-import www.jingkan.com.databinding.ActivityMyMsgBinding;
-import www.jingkan.com.db.dao.MsgDao;
-import www.jingkan.com.util.CallbackMessage;
-import www.jingkan.com.view.adapter.MyMsgAdapter;
-import www.jingkan.com.view.base.ListMVVMActivity;
-import www.jingkan.com.view_model.MyMsgViewModel;
-
 import javax.inject.Inject;
 
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import www.jingkan.com.R;
+import www.jingkan.com.databinding.ActivityMyMsgBinding;
+import www.jingkan.com.db.dao.MsgDao;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.adapter.BaseItemCallback;
+import www.jingkan.com.view.adapter.ItemMyMsg;
+import www.jingkan.com.view.adapter.MyMsgAdapter;
+import www.jingkan.com.view.base.ListMVVMActivity;
+import www.jingkan.com.view_model.MyMsgViewModel;
 
 /**
  * Created by lushengbo on 2018/1/23.
@@ -44,7 +45,9 @@ public class MyMsgActivity extends ListMVVMActivity<MyMsgViewModel, ActivityMyMs
 
     @Override
     protected MyMsgAdapter setAdapter() {
-        return new MyMsgAdapter(R.layout.item_my_msg, null);
+        return new MyMsgAdapter(R.layout.item_my_msg, (BaseItemCallback<ItemMyMsg>) itemData -> {
+            goTo(MyMsgDetailActivity.class, itemData.getId());
+        });
     }
 
     @Override
