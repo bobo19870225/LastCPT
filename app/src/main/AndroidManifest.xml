@@ -355,9 +355,9 @@
         <!--<activity-->
         <!--android:name=".view.AddWirelessProbeInfoActivity"-->
         <!--android:screenOrientation="portrait" />-->
-        <!--<activity-->
-        <!--android:name=".view.WirelessTestDataActivity"-->
-        <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".view.WirelessTestResultDataActivity"
+            android:screenOrientation="portrait" />
         <!--<activity-->
         <!--android:name=".view.WirelessResultDataDetailActivity"-->
         <!--android:screenOrientation="portrait" />-->
@@ -376,6 +376,7 @@
         <activity
             android:name=".view.CrossTestDataDetailsActivity"
             android:screenOrientation="portrait" />
+
 
     </application>
 

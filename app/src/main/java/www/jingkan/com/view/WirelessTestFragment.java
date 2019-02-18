@@ -4,6 +4,13 @@
 
 package www.jingkan.com.view;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.FragmentWirelessTestBinding;
 import www.jingkan.com.db.dao.WirelessTestDao;
@@ -13,14 +20,6 @@ import www.jingkan.com.util.PreferencesUtil;
 import www.jingkan.com.util.StringUtil;
 import www.jingkan.com.view.base.BaseMVVMDaggerFragment;
 import www.jingkan.com.view_model.WirelessTestFragmentViewModel;
-
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 
 public class WirelessTestFragment extends BaseMVVMDaggerFragment<WirelessTestFragmentViewModel, FragmentWirelessTestBinding> {
@@ -101,7 +100,7 @@ public class WirelessTestFragment extends BaseMVVMDaggerFragment<WirelessTestFra
                 goTo(DataSyncActivity.class, null);
                 break;
             case 4:
-//                    goTo(WirelessTestDataActivity.class, null);
+                goTo(WirelessTestResultDataActivity.class, null);
                 break;
         }
 

@@ -1,7 +1,5 @@
 package www.jingkan.com.db.dao;
 
-import www.jingkan.com.db.entity.WirelessResultDataEntity;
-
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -10,6 +8,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+import www.jingkan.com.db.entity.WirelessResultDataEntity;
 
 /**
  * Created by Sampson on 2018/12/11.
@@ -25,6 +24,9 @@ public interface WirelessResultDataDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void upDateWirelessResultDataEntity(WirelessResultDataEntity wirelessResultDataEntity);
+
+    @Query("SELECT * FROM wirelessResultData")
+    LiveData<List<WirelessResultDataEntity>> getAllWirelessResultDataEntities();
 
     @Query("SELECT * FROM wirelessResultData WHERE testDataID = :testDataId")
     LiveData<List<WirelessResultDataEntity>> getWirelessResultDataEntityByTestDataId(String testDataId);

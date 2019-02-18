@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.adapter.WirelessTestDataItemVM" />
+            type="www.jingkan.com.view.adapter.ItemWirelessTestResultData" />
     </data>
 
     <RelativeLayout
@@ -33,16 +33,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/tt_project_number"
-            android:layout_toRightOf="@+id/tt_project_number"
             android:gravity="center_vertical"
-            android:text="@{model.strProjectNumber}"
+            android:text="@{model.projectNumber}"
             android:textColor="@color/text_content" />
 
         <TextView
             android:id="@+id/tt_hole_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/hole_number"
             android:layout_toStartOf="@+id/hole_number"
             android:gravity="center_vertical"
             android:text="@string/hole_number" />
@@ -52,11 +50,9 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_toLeftOf="@+id/more"
             android:layout_toStartOf="@+id/more"
             android:gravity="center_vertical"
-            android:text="@{model.strHoleNumber}"
+            android:text="@{model.holeNumber}"
             android:textColor="@color/text_content" />
 
 
@@ -75,8 +71,7 @@
             android:layout_below="@+id/tt_project_number"
             android:layout_marginTop="4dp"
             android:layout_toEndOf="@+id/tt_date"
-            android:layout_toRightOf="@+id/tt_date"
-            android:text="@{model.strTestDate}"
+            android:text="@{model.testDate}"
             android:textColor="@color/text_content" />
 
         <ImageView
@@ -84,7 +79,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:src="@mipmap/next" />
     </RelativeLayout>
