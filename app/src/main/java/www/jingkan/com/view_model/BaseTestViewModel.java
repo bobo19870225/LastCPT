@@ -133,7 +133,7 @@ public class BaseTestViewModel extends BaseViewModel {
 
 
     public LiveData<List<TestDataEntity>> loadTestData(String testDataID) {
-        return testDataDao.getTestDataByTestId(testDataID);
+        return testDataDao.getTestDataByTestDataId(testDataID);
     }
 
     public void identificationProbe(String sn) {
@@ -229,7 +229,7 @@ public class BaseTestViewModel extends BaseViewModel {
     private List mModels = new ArrayList();
 
     public LiveData<List<TestDataEntity>> saveTestDataToSD() {
-        return testDataDao.getTestDataByTestId(testModel.projectNumber + "_" + testModel.holeNumber);
+        return testDataDao.getTestDataByTestDataId(testModel.projectNumber + "_" + testModel.holeNumber);
 
     }
 

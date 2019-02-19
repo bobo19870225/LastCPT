@@ -53,6 +53,7 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:text="@{model.ldProjectNumber}"
                             android:id="@+id/project_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -70,6 +71,7 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:text="@{model.ldHoleNumber}"
                             android:id="@+id/hole_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -92,6 +94,7 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:text="@{model.ldTestDate}"
                             android:id="@+id/test_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

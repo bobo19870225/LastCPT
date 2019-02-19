@@ -23,6 +23,6 @@ public interface TestDataDao {
     void deleteTestDataEntityByTestId(String testDataId);
 
     @Query("SELECT * FROM testData WHERE testDataID = :testDataId")
-    LiveData<List<TestDataEntity>> getTestDataByTestId(String testDataId);
+    LiveData<List<TestDataEntity>> getTestDataByTestDataId(String testDataId);
 
 }

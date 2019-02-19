@@ -364,9 +364,9 @@
         <activity
             android:name=".view.DoubleBridgeMultifunctionTestActivity"
             android:screenOrientation="portrait" />
-        <!--<activity-->
-        <!--android:name=".view.ShowDataCharActivity"-->
-        <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".view.ShowDataCharActivity"
+            android:screenOrientation="portrait" />
         <!--<activity-->
         <!--android:name=".view.GuideActivity"-->
         <!--android:screenOrientation="portrait" />-->
