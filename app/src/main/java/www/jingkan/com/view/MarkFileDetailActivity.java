@@ -45,7 +45,7 @@ public class MarkFileDetailActivity extends ListMVVMActivity<MarkFileDetailViewM
 
     @Override
     protected MarkFileDetailAdapter setAdapter() {
-        return null;
+        return new MarkFileDetailAdapter(R.layout.item_mark_file_detail, null);
     }
 
     @Override

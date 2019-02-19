@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="www.jingkan.com.adapter.markFileDetailAdapter.MarkFileDetailItemViewModel" />
+            type="www.jingkan.com.view.adapter.ItemMarkFileDetails" />
     </data>
 
     <RelativeLayout
@@ -29,9 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/tt_deep"
-            android:layout_toRightOf="@+id/tt_deep"
             android:gravity="center_vertical"
-            android:text="@{model.strDeep}"
+            android:text="@{model.deep}"
             android:textSize="16sp" />
 
         <TextView
@@ -50,9 +49,8 @@
             android:layout_below="@+id/tt_deep"
             android:layout_marginTop="4dp"
             android:layout_toEndOf="@+id/tt_SRC"
-            android:layout_toRightOf="@+id/tt_SRC"
             android:gravity="center_vertical"
-            android:text="@{model.strSRC}"
+            android:text="@{model.SRC}"
             android:textSize="16sp" />
 
 
