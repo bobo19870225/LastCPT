@@ -331,9 +331,9 @@
         <activity
             android:name=".view.MarkFileActivity"
             android:screenOrientation="portrait" />
-        <!--<activity-->
-        <!--android:name=".view.MarkFileDetailActivity"-->
-        <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".view.MarkFileDetailActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.DataSyncActivity"
             android:screenOrientation="portrait" />
