@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@{model.strDeep}" />
+            android:text="@{model.deep}" />
 
         <TextView
             android:id="@+id/qc"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@{model.strQc}" />
+            android:text="@{model.qc}" />
 
         <TextView
             android:id="@+id/fs"
@@ -42,14 +42,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@{model.strFs}" />
+            android:text="@{model.fs}" />
         <TextView
             android:id="@+id/fa"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@{model.strFa}" />
+            android:text="@{model.fa}" />
     </LinearLayout>
 
 </layout>

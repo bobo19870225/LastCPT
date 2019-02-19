@@ -6,12 +6,12 @@ package www.jingkan.com.view.adapter;
  */
 public interface ItemWirelessResultDataDetails extends Item {
 
-    String getProjectNumber();
+    String getDeep();
 
-    String getTestType();
+    String getQc();
 
-    String getHoleNumber();
+    String getFs();
 
-    String getTestDate();
+    String getFa();
 
 }
