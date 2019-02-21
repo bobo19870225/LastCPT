@@ -19,6 +19,7 @@ import www.jingkan.com.view.SetEmailActivity;
 import www.jingkan.com.view.ShowDataCharActivity;
 import www.jingkan.com.view.SingleBridgeTestActivity;
 import www.jingkan.com.view.TestDataDetailsActivity;
+import www.jingkan.com.view.TestingActivity;
 import www.jingkan.com.view.TimeSynchronizationActivity;
 import www.jingkan.com.view.VersionInfoActivity;
 import www.jingkan.com.view.VideoActivity;
@@ -112,6 +113,9 @@ public abstract class ActivityBindingModule {
     @ContributesAndroidInjector
     abstract ShowDataCharActivity showDataCharActivity();
 
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract TestingActivity testingActivity();
 
     @ActivityScoped
     @ContributesAndroidInjector

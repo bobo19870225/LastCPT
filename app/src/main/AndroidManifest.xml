@@ -376,6 +376,9 @@
         <activity
             android:name=".view.CrossTestDataDetailsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.VideoActivity"
+            android:screenOrientation="portrait" />
 
 
     </application>

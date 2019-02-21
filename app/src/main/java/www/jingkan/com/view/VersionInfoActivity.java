@@ -1,27 +1,30 @@
 package www.jingkan.com.view;
 
+import androidx.lifecycle.ViewModelProviders;
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityVersionInfoBinding;
 import www.jingkan.com.util.CallbackMessage;
 import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
 import www.jingkan.com.view_model.VersionInfoVM;
 
-import androidx.lifecycle.ViewModelProviders;
-
 /**
  * Created by Sampson on 2018/12/27.
  * CPTTest
  */
 public class VersionInfoActivity extends BaseMVVMDaggerActivity<VersionInfoVM, ActivityVersionInfoBinding> {
+
+
     @Override
     protected Object[] injectToViewModel() {
-        return new Object[0];
+        return new Object[]{mData};
     }
 
     @Override
     protected void setMVVMView() {
+        setToolBar("版本信息");
 
     }
+
 
     @Override
     public int initView() {

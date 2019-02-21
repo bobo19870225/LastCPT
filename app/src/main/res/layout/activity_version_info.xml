@@ -42,12 +42,12 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:text="@{model.ldVersion}"
                         android:id="@+id/version"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_toEndOf="@+id/current_version"
-                        android:layout_toRightOf="@+id/current_version"
                         android:textColor="@color/tv_black"
                         android:textSize="18sp" />
 
@@ -61,6 +61,7 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:text="@{model.ldVersionDescription}"
                         android:id="@+id/version_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -87,7 +88,6 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_toEndOf="@+id/tt_version_number2"
-                        android:layout_toRightOf="@+id/tt_version_number2"
                         android:text="2.0.4"
                         android:textColor="@color/tv_black"
                         android:textSize="18sp" />
@@ -129,7 +129,6 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_toEndOf="@+id/tt_version_number1"
-                        android:layout_toRightOf="@+id/tt_version_number1"
                         android:text="2.0.3"
                         android:textColor="@color/tv_black"
                         android:textSize="18sp" />
@@ -171,7 +170,6 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_toEndOf="@+id/tt_version_number"
-                        android:layout_toRightOf="@+id/tt_version_number"
                         android:text="2.0.2"
                         android:textColor="@color/tv_black"
                         android:textSize="18sp" />
@@ -200,6 +198,7 @@
 
 
         <Button
+            android:onClick="@{()->model.CheckVersion()}"
             android:id="@+id/check_version"
             android:layout_width="match_parent"
             android:layout_height="48dp"
