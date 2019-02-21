@@ -16,6 +16,16 @@ import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
+import cn.jpush.android.api.JPushInterface;
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityMainBinding;
 import www.jingkan.com.util.CallbackMessage;
@@ -26,16 +36,6 @@ import www.jingkan.com.view.WirelessTestFragment;
 import www.jingkan.com.view.adapter.MyPagerAdapter;
 import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
 import www.jingkan.com.view_model.main.MainViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.viewpager.widget.ViewPager;
 
 public class MainActivity extends BaseMVVMDaggerActivity<MainViewModel, ActivityMainBinding> {
 
@@ -87,7 +87,7 @@ public class MainActivity extends BaseMVVMDaggerActivity<MainViewModel, Activity
     protected void setMVVMView() {
         view_page = mViewDataBinding.viewPage;
         navigation = mViewDataBinding.navigation;
-//        JPushInterface.init(getApplicationContext());//初始化JPush
+        JPushInterface.init(getApplicationContext());//初始化JPush
         initViewPage();
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }

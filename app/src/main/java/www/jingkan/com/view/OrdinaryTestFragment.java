@@ -1,5 +1,14 @@
 package www.jingkan.com.view;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import javax.inject.Inject;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.FragmentOrdinaryTestBinding;
 import www.jingkan.com.db.dao.TestDao;
@@ -11,16 +20,6 @@ import www.jingkan.com.util.StringUtil;
 import www.jingkan.com.util.SystemConstant;
 import www.jingkan.com.view.base.BaseMVVMDaggerFragment;
 import www.jingkan.com.view_model.OrdinaryTestViewModel;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import javax.inject.Inject;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 /**
  * Created by Sampson on 2018/12/16.
@@ -101,8 +100,8 @@ public class OrdinaryTestFragment extends BaseMVVMDaggerFragment<OrdinaryTestVie
                 {
                     //只观察一次数据
                     mViewModel.allTestes.removeObserver(this);
-                    TestEntity testEntity = testEntities.get(0);
-                    if (testEntity != null) {
+                    if (testEntities != null && !testEntities.isEmpty()) {
+                        TestEntity testEntity = testEntities.get(0);
                         Map<String, String> linkerPreferences = preferencesUtil.getLinkerPreferences();
                         String add = linkerPreferences.get("add");
                         if (StringUtil.isEmpty(add)) {
@@ -128,9 +127,11 @@ public class OrdinaryTestFragment extends BaseMVVMDaggerFragment<OrdinaryTestVie
                             }
 
                         }
+
                     } else {
                         showToast("暂无可进行二次测量的试验");
                     }
+
 
                 }
             }
