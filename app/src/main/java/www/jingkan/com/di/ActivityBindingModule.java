@@ -1,5 +1,7 @@
 package www.jingkan.com.di;
 
+import dagger.Module;
+import dagger.android.ContributesAndroidInjector;
 import www.jingkan.com.view.AddProbeActivity;
 import www.jingkan.com.view.AddProbeInfoActivity;
 import www.jingkan.com.view.CalibrationParameterActivity;
@@ -7,26 +9,27 @@ import www.jingkan.com.view.DataSyncActivity;
 import www.jingkan.com.view.HistoryDataActivity;
 import www.jingkan.com.view.LinkBluetoothActivity;
 import www.jingkan.com.view.MarkFileActivity;
+import www.jingkan.com.view.MarkFileDetailActivity;
 import www.jingkan.com.view.MyLinkerActivity;
 import www.jingkan.com.view.MyMsgActivity;
 import www.jingkan.com.view.NewTestActivity;
 import www.jingkan.com.view.OpenFileActivity;
 import www.jingkan.com.view.OrdinaryProbeActivity;
 import www.jingkan.com.view.SetEmailActivity;
+import www.jingkan.com.view.ShowDataCharActivity;
 import www.jingkan.com.view.SingleBridgeTestActivity;
 import www.jingkan.com.view.TestDataDetailsActivity;
 import www.jingkan.com.view.TimeSynchronizationActivity;
 import www.jingkan.com.view.VersionInfoActivity;
 import www.jingkan.com.view.VideoActivity;
 import www.jingkan.com.view.WirelessProbeActivity;
+import www.jingkan.com.view.WirelessResultDataDetailActivity;
 import www.jingkan.com.view.WirelessTestActivity;
+import www.jingkan.com.view.WirelessTestResultDataActivity;
 import www.jingkan.com.view.base.BaseTestActivity;
 import www.jingkan.com.view.main.MainActivity;
 import www.jingkan.com.view_model.main.MainModule;
 import www.jingkan.com.view_model.new_test.NewTestModule;
-
-import dagger.Module;
-import dagger.android.ContributesAndroidInjector;
 
 /**
  * We want Dagger.Android to create a Subcomponent which has a parent Component of whichever module ActivityBindingModule is on,
@@ -91,6 +94,10 @@ public abstract class ActivityBindingModule {
 
     @ActivityScoped
     @ContributesAndroidInjector
+    abstract MarkFileDetailActivity markFileDetailActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector
     abstract AddProbeActivity addProbeActivity();
 
     @ActivityScoped
@@ -100,6 +107,11 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = AddProbeInfoModule.class)
     abstract WirelessProbeActivity wirelessProbeActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract ShowDataCharActivity showDataCharActivity();
+
 
     @ActivityScoped
     @ContributesAndroidInjector
@@ -124,6 +136,16 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector
     abstract SetEmailActivity setEmailActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract WirelessTestResultDataActivity wirelessTestResultDataActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract WirelessResultDataDetailActivity wirelessResultDataDetailActivity();
+
+
 
 
 }
