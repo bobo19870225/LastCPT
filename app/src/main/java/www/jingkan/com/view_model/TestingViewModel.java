@@ -16,7 +16,7 @@ import www.jingkan.com.view_model.base.BaseViewModel;
  * CPTTest
  */
 public class TestingViewModel extends BaseViewModel {
-    public final MutableLiveData strData = new MutableLiveData();
+    public final MutableLiveData<String> strData = new MutableLiveData<>();
     public final SingleLiveEvent<Void> singleLiveEvent = new SingleLiveEvent<>();
     private BluetoothUtil bluetoothUtil;
     private BluetoothCommService bluetoothCommService;
@@ -40,7 +40,8 @@ public class TestingViewModel extends BaseViewModel {
 
     @Override
     public void clear() {
-
+        bluetoothCommService.stop();
+        bluetoothCommService = null;
     }
 
     public void link() {
