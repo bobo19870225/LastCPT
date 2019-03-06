@@ -3,16 +3,21 @@ package www.jingkan.com.view_model.new_test;
 import android.app.Application;
 import android.content.Intent;
 
-import www.jingkan.com.db.dao.TestDaoHelper;
-import www.jingkan.com.db.entity.TestEntity;
-import www.jingkan.com.util.PreferencesUtil;
-import www.jingkan.com.util.StringUtil;
-import www.jingkan.com.view_model.base.BaseViewModel;
-
 import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+import www.jingkan.com.db.dao.TestDaoHelper;
+import www.jingkan.com.db.entity.TestEntity;
+import www.jingkan.com.util.PreferencesUtil;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.view.CrossTestActivity;
+import www.jingkan.com.view.DoubleBridgeMultifunctionTestActivity;
+import www.jingkan.com.view.DoubleBridgeTestActivity;
+import www.jingkan.com.view.LinkBluetoothActivity;
+import www.jingkan.com.view.SingleBridgeMultifunctionTestActivity;
+import www.jingkan.com.view.SingleBridgeTestActivity;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import static www.jingkan.com.util.SystemConstant.DOUBLE_BRIDGE_MULTI_TEST;
 import static www.jingkan.com.util.SystemConstant.DOUBLE_BRIDGE_TEST;
@@ -38,8 +43,7 @@ public class NewTestViewModel extends BaseViewModel {
     private TestDaoHelper testDaoHelper;
     private PreferencesUtil preferencesUtil;
     private boolean isAnalog;
-    public static final int ACTION_LINK_BLUETOOTH = 0;
-    public static final int ACTION_SINGLE_BRIDGE = 1;
+
 
     public NewTestViewModel(@NonNull Application application) {
         super(application);
@@ -92,45 +96,37 @@ public class NewTestViewModel extends BaseViewModel {
             return;
         }
         testEntity.testType = obsTestType.getValue();
-        testDaoHelper.addData(testEntity, () -> {
-            toast("添加成功！");
-                }
+        testDaoHelper.addData(testEntity, () -> toast("添加成功！")
         );
 
         Map<String, String> linkerPreferences = preferencesUtil.getLinkerPreferences();
         String add = linkerPreferences.get("add");
         if (StringUtil.isEmpty(add)) {
-            callbackMessage.setValue
-                    (
-                            ACTION_LINK_BLUETOOTH,
-                            new String[]{
-                                    obsProjectNumber.getValue(),
-                                    obsHoleNumber.getValue(),
-                                    obsTestType.getValue(),
-                                    isAnalog ? "模拟探头" : "数字探头"
-                            }
-                    );
             getView().action(callbackMessage);
-//            goTo(LinkBluetoothActivity.class, new String[]{strProjectNumber, strHoleNumber, strTestType, isAnalog ? "模拟探头" : "数字探头"});
+            goTo(LinkBluetoothActivity.class, new String[]{
+                    obsProjectNumber.getValue(),
+                    obsHoleNumber.getValue(),
+                    obsTestType.getValue(),
+                    isAnalog ? "模拟探头" : "数字探头"
+            });
         } else {
             String[] dataToSend = {add, testEntity.projectNumber, testEntity.holeNumber, isAnalog ? "模拟探头" : "数字探头"};
             switch (testEntity.testType) {
                 case SINGLE_BRIDGE_TEST:
                     //mac地址，工程编号，孔号。
-                    callbackMessage.setValue(ACTION_SINGLE_BRIDGE, dataToSend);
-                    getView().action(callbackMessage);
+                    goTo(SingleBridgeTestActivity.class, dataToSend);
                     break;
                 case SINGLE_BRIDGE_MULTI_TEST:
-//                    goTo(SingleBridgeMultifunctionTestActivity.class, dataToSend);
+                    goTo(SingleBridgeMultifunctionTestActivity.class, dataToSend);
                     break;
                 case DOUBLE_BRIDGE_TEST:
-//                    goTo(DoubleBridgeTestActivity.class, dataToSend);
+                    goTo(DoubleBridgeTestActivity.class, dataToSend);
                     break;
                 case DOUBLE_BRIDGE_MULTI_TEST:
-//                    goTo(DoubleBridgeMultifunctionTestActivity.class, dataToSend);
+                    goTo(DoubleBridgeMultifunctionTestActivity.class, dataToSend);
                     break;
                 case VANE_TEST:
-//                    goTo(CrossTestActivity.class, dataToSend);
+                    goTo(CrossTestActivity.class, dataToSend);
                     break;
 
             }

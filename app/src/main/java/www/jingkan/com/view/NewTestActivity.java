@@ -8,6 +8,11 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityNewTestBinding;
 import www.jingkan.com.db.dao.TestDaoHelper;
@@ -18,18 +23,11 @@ import www.jingkan.com.view.adapter.OneTextListAdapter;
 import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
 import www.jingkan.com.view_model.new_test.NewTestViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
 import static www.jingkan.com.util.SystemConstant.DOUBLE_BRIDGE_MULTI_TEST;
 import static www.jingkan.com.util.SystemConstant.DOUBLE_BRIDGE_TEST;
 import static www.jingkan.com.util.SystemConstant.SINGLE_BRIDGE_MULTI_TEST;
 import static www.jingkan.com.util.SystemConstant.SINGLE_BRIDGE_TEST;
 import static www.jingkan.com.util.SystemConstant.VANE_TEST;
-import static www.jingkan.com.view_model.new_test.NewTestViewModel.ACTION_LINK_BLUETOOTH;
-import static www.jingkan.com.view_model.new_test.NewTestViewModel.ACTION_SINGLE_BRIDGE;
 
 public class NewTestActivity extends BaseMVVMDaggerActivity<NewTestViewModel, ActivityNewTestBinding> {
 
@@ -124,15 +122,6 @@ public class NewTestActivity extends BaseMVVMDaggerActivity<NewTestViewModel, Ac
 
     @Override
     public void action(CallbackMessage callbackMessage) {
-
-        switch (callbackMessage.what) {
-            case ACTION_LINK_BLUETOOTH:
-                goTo(LinkBluetoothActivity.class, callbackMessage.obj);
-                break;
-            case ACTION_SINGLE_BRIDGE:
-                goTo(SingleBridgeTestActivity.class, callbackMessage.obj);
-                break;
-        }
 
     }
 }
