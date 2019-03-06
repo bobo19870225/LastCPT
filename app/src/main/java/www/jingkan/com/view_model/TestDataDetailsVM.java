@@ -32,7 +32,7 @@ public class TestDataDetailsVM extends BaseListViewModel<List<TestDataEntity>> {
     private String testId;
     private TestDataDao testDataDao;
     private DataUtil dataUtil;
-    private TestDao testData;
+    private TestDao testDao;
 
     public TestDataDetailsVM(@NonNull Application application) {
         super(application);
@@ -53,14 +53,14 @@ public class TestDataDetailsVM extends BaseListViewModel<List<TestDataEntity>> {
     public void inject(Object... objects) {
         testId = (String) objects[0];
         String[] split = testId.split("_");
-        getTest(split[0], split[1]);
         testDataDao = (TestDataDao) objects[1];
         dataUtil = (DataUtil) objects[2];
-        testData = (TestDao) objects[3];
+        testDao = (TestDao) objects[3];
+        getTest(split[0], split[1]);
     }
 
     private void getTest(String projectNumber, String holeNumber) {
-        ldTestEntities.addSource(testData.getTestEntityByPrjNumberAndHoleNumber(projectNumber, holeNumber), ldTestEntities::setValue);
+        ldTestEntities.addSource(testDao.getTestEntityByPrjNumberAndHoleNumber(projectNumber, holeNumber), ldTestEntities::setValue);
     }
 
 
