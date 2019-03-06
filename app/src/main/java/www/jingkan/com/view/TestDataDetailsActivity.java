@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityTestDataDetailsBinding;
+import www.jingkan.com.db.dao.TestDao;
 import www.jingkan.com.db.dao.TestDataDao;
 import www.jingkan.com.db.entity.TestEntity;
 import www.jingkan.com.util.CallbackMessage;
@@ -45,6 +46,8 @@ public class TestDataDetailsActivity extends ListMVVMActivity<TestDataDetailsVM,
     TestDataDao testDataDao;
     @Inject
     DataUtil dataUtil;
+    @Inject
+    TestDao testDao;
 
     private String saveType = SAVE_TYPE_ZHD_TXT;
     private String[] saveItems = {SAVE_TYPE_ZHD_TXT, SAVE_TYPE_LY_TXT, SAVE_TYPE_LY_DAT, SAVE_TYPE_HN_111, SAVE_TYPE_LZ_TXT};
@@ -116,7 +119,7 @@ public class TestDataDetailsActivity extends ListMVVMActivity<TestDataDetailsVM,
     }
     @Override
     protected Object[] injectToViewModel() {
-        return new Object[]{mData, testDataDao, dataUtil};
+        return new Object[]{mData, testDataDao, dataUtil, testDao};
     }
 
     @Override
