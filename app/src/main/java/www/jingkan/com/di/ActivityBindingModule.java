@@ -5,7 +5,10 @@ import dagger.android.ContributesAndroidInjector;
 import www.jingkan.com.view.AddProbeActivity;
 import www.jingkan.com.view.AddProbeInfoActivity;
 import www.jingkan.com.view.CalibrationParameterActivity;
+import www.jingkan.com.view.CrossTestActivity;
 import www.jingkan.com.view.DataSyncActivity;
+import www.jingkan.com.view.DoubleBridgeMultifunctionTestActivity;
+import www.jingkan.com.view.DoubleBridgeTestActivity;
 import www.jingkan.com.view.HistoryDataActivity;
 import www.jingkan.com.view.LinkBluetoothActivity;
 import www.jingkan.com.view.MarkFileActivity;
@@ -17,6 +20,7 @@ import www.jingkan.com.view.OpenFileActivity;
 import www.jingkan.com.view.OrdinaryProbeActivity;
 import www.jingkan.com.view.SetEmailActivity;
 import www.jingkan.com.view.ShowDataCharActivity;
+import www.jingkan.com.view.SingleBridgeMultifunctionTestActivity;
 import www.jingkan.com.view.SingleBridgeTestActivity;
 import www.jingkan.com.view.TestDataDetailsActivity;
 import www.jingkan.com.view.TestingActivity;
@@ -45,9 +49,6 @@ public abstract class ActivityBindingModule {
     @ContributesAndroidInjector(modules = NewTestModule.class)
     abstract NewTestActivity newTestDaggerActivity();
 
-    @ActivityScoped
-    @ContributesAndroidInjector
-    abstract SingleBridgeTestActivity singleBridgeTestActivity();
 
     @ActivityScoped
     @ContributesAndroidInjector
@@ -149,7 +150,24 @@ public abstract class ActivityBindingModule {
     @ContributesAndroidInjector
     abstract WirelessResultDataDetailActivity wirelessResultDataDetailActivity();
 
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract DoubleBridgeMultifunctionTestActivity doubleBridgeMultifunctionTestActivity();
 
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract DoubleBridgeTestActivity doubleBridgeTestActivity();
 
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract SingleBridgeTestActivity singleBridgeTestActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract SingleBridgeMultifunctionTestActivity singleBridgeMultifunctionTestActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract CrossTestActivity crossTestActivity();
 
 }
