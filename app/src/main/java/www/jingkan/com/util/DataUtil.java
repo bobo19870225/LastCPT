@@ -4,6 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
 import www.jingkan.com.db.entity.CrossTestDataEntity;
 import www.jingkan.com.db.entity.TestDataEntity;
 import www.jingkan.com.db.entity.TestEntity;
@@ -13,12 +19,6 @@ import www.jingkan.com.util.email.MailSenderRunnable;
 import www.jingkan.com.view.SetEmailActivity;
 import www.jingkan.com.view_model.ISkip;
 import www.jingkan.com.view_model.OriginalTestData;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
 
 import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_CORRECT_TXT;
 import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_HN_111;
@@ -42,9 +42,9 @@ import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_ZHD_TXT;
 
 public class DataUtil {
     private Context context;
-    private static final float PI = 3.1415F;
+    //    private static final float PI = 3.1415F;
     public static final int SET_EMAIL = 1;
-    //    private static volatile DataUtil INSTANCE;
+//    private static volatile DataUtil INSTANCE;
 
     private TestEntity mTestEntity;
 
@@ -73,6 +73,7 @@ public class DataUtil {
         StringBuilder content = new StringBuilder();
         String strReturn = "\r\n";
         String strTable = "\t";
+        String strComma = ",";
         String projectNumber = null;
         String holeNumber = null;
         String testDate = null;
@@ -387,52 +388,107 @@ public class DataUtil {
                                 }
                             });
                     break;
-                case SAVE_TYPE_CORRECT_TXT://修正深度*X.txt
+                case SAVE_TYPE_CORRECT_TXT://测斜数据*X.txt
+                    content.append("试验日期").append(strComma).append(testDate).append(strReturn);
+                    content.append("工程编号").append(strComma).append(projectNumber).append(strReturn);
+                    content.append("孔号").append(strComma).append(holeNumber).append(strReturn);
+                    content.append("孔口高程").append(strComma).append(holeHigh).append(strReturn);
+                    content.append("地下水位").append(strComma).append(waterLevel).append(strReturn);
+                    content.append("探头编号").append(strComma).append(projectNumber).append(strReturn);
+                    content.append("测试员工：").append(strComma).append(tester).append(strReturn);
                     switch (testType) {
                         case "单桥测斜试验":
-                            float mDeep = 0;
+                            content.append("贯入深度").append(strComma).append("比贯入阻力").append(strComma).append("偏斜度").append(strReturn);
+                            content.append("m").append(strComma).append("MPa").append(strComma).append("。").append(strReturn);
                             if (models.get(0) instanceof TestDataEntity) {
-                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
-                                    mDeep += 0.1 * Math.cos(2 * PI / 360 * mTestDataEntitys.fa);
-                                    content.append(StringUtil.format(mDeep, 3))
-                                            .append(",")
-                                            .append(StringUtil.format(mTestDataEntitys.qc, 3))
+                                for (TestDataEntity mTestDataEntities : (List<TestDataEntity>) models) {
+                                    content.append(StringUtil.format(mTestDataEntities.deep, 1))
+                                            .append(strComma)
+                                            .append(StringUtil.format(mTestDataEntities.qc, 3))
+                                            .append(strComma)
+                                            .append(StringUtil.format(mTestDataEntities.fa, 1))
                                             .append(strReturn);
                                 }
                             } else if (models.get(0) instanceof WirelessResultDataEntity) {
                                 for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
-                                    mDeep += 0.1 * Math.cos(2 * PI / 360 * wirelessResultDataModel.fa);
-                                    content.append(StringUtil.format(mDeep, 3))
-                                            .append(",")
+                                    content.append(StringUtil.format(wirelessResultDataModel.deep, 1))
+                                            .append(strComma)
                                             .append(StringUtil.format(wirelessResultDataModel.qc, 3))
+                                            .append(strComma)
+                                            .append(StringUtil.format(wirelessResultDataModel.fa, 1))
                                             .append(strReturn);
                                 }
                             }
 
+
+//                            float mDeep = 0;
+//                            if (models.get(0) instanceof TestDataEntity) {
+//                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+//                                    mDeep += 0.1 * Math.cos(2 * PI / 360 * mTestDataEntitys.fa);
+//                                    content.append(StringUtil.format(mDeep, 3))
+//                                            .append(",")
+//                                            .append(StringUtil.format(mTestDataEntitys.qc, 3))
+//                                            .append(strReturn);
+//                                }
+//                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+//                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
+//                                    mDeep += 0.1 * Math.cos(2 * PI / 360 * wirelessResultDataModel.fa);
+//                                    content.append(StringUtil.format(mDeep, 3))
+//                                            .append(",")
+//                                            .append(StringUtil.format(wirelessResultDataModel.qc, 3))
+//                                            .append(strReturn);
+//                                }
+//                            }
+
                             break;
                         case "双桥测斜试验":
-                            mDeep = 0;
                             if (models.get(0) instanceof TestDataEntity) {
-                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
-                                    mDeep += 0.1 * Math.cos(2 * PI / 360 * mTestDataEntitys.fa);
-                                    content.append(StringUtil.format(mDeep, 3))
-                                            .append(",")
-                                            .append(StringUtil.format(mTestDataEntitys.qc, 3))
-                                            .append(",")
-                                            .append(StringUtil.format(mTestDataEntitys.fs, 3))
+                                for (TestDataEntity mTestDataEntities : (List<TestDataEntity>) models) {
+                                    content.append(StringUtil.format(mTestDataEntities.deep, 1))
+                                            .append(strComma)
+                                            .append(StringUtil.format(mTestDataEntities.qc, 2))
+                                            .append(strComma)
+                                            .append(StringUtil.format(mTestDataEntities.fs, 2))
+                                            .append(strComma)
+                                            .append(StringUtil.format(mTestDataEntities.fa, 1))
                                             .append(strReturn);
                                 }
                             } else if (models.get(0) instanceof WirelessResultDataEntity) {
                                 for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
-                                    mDeep += 0.1 * Math.cos(2 * PI / 360 * wirelessResultDataModel.fa);
-                                    content.append(StringUtil.format(mDeep, 3))
-                                            .append(",")
-                                            .append(StringUtil.format(wirelessResultDataModel.qc, 3))
-                                            .append(",")
-                                            .append(StringUtil.format(wirelessResultDataModel.fs, 3))
+                                    content.append(StringUtil.format(wirelessResultDataModel.deep, 1))
+                                            .append(strComma)
+                                            .append(StringUtil.format(wirelessResultDataModel.qc, 2))
+                                            .append(strComma)
+                                            .append(StringUtil.format(wirelessResultDataModel.fs, 2))
+                                            .append(strComma)
+                                            .append(StringUtil.format(wirelessResultDataModel.fa, 1))
                                             .append(strReturn);
                                 }
                             }
+
+
+//                            mDeep = 0;
+//                            if (models.get(0) instanceof TestDataEntity) {
+//                                for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
+//                                    mDeep += 0.1 * Math.cos(2 * PI / 360 * mTestDataEntitys.fa);
+//                                    content.append(StringUtil.format(mDeep, 3))
+//                                            .append(",")
+//                                            .append(StringUtil.format(mTestDataEntitys.qc, 3))
+//                                            .append(",")
+//                                            .append(StringUtil.format(mTestDataEntitys.fs, 3))
+//                                            .append(strReturn);
+//                                }
+//                            } else if (models.get(0) instanceof WirelessResultDataEntity) {
+//                                for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
+//                                    mDeep += 0.1 * Math.cos(2 * PI / 360 * wirelessResultDataModel.fa);
+//                                    content.append(StringUtil.format(mDeep, 3))
+//                                            .append(",")
+//                                            .append(StringUtil.format(wirelessResultDataModel.qc, 3))
+//                                            .append(",")
+//                                            .append(StringUtil.format(wirelessResultDataModel.fs, 3))
+//                                            .append(strReturn);
+//                                }
+//                            }
                             break;
                     }
                     MyFileUtil.getInstance().saveToSD(context,

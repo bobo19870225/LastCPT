@@ -43,7 +43,7 @@ public class SystemConstant {
     public static final String SAVE_TYPE_HN_111 = "南京华宁(.111)";
     public static final String SAVE_TYPE_LZ_TXT = "北京理正(.txt)";
     public static final String SAVE_TYPE_ORIGINAL_TXT = "原始数据*ORI.txt";
-    public static final String SAVE_TYPE_CORRECT_TXT = "修正深度*X.txt";
+    public static final String SAVE_TYPE_CORRECT_TXT = "测斜数据*X.txt";
 
     public static final String EMAIL_TYPE_ZHD_TXT = "发送浙海大(.txt)";
     public static final String EMAIL_TYPE_LY_TXT = "发送溧阳科尔(.txt)";
@@ -51,6 +51,6 @@ public class SystemConstant {
     public static final String EMAIL_TYPE_HN_111 = "发送南京华宁(.111)";
     public static final String EMAIL_TYPE_LZ_TXT = "发送北京理正(.txt)";
     public static final String EMAIL_TYPE_ORIGINAL_TXT = "发送原始数据*ORI.txt";
-    public static final String EMAIL_TYPE_CORRECT_TXT = "发送修正深度*X.txt";
+    public static final String EMAIL_TYPE_CORRECT_TXT = "发送测斜数据*X.txt";
 
 }
