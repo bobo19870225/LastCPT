@@ -5,9 +5,18 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 import www.jingkan.com.db.dao.ProbeDao;
 import www.jingkan.com.db.dao.TestDao;
 import www.jingkan.com.db.dao.TestDataDao;
+import www.jingkan.com.db.dao.TestDataDaoHelper;
 import www.jingkan.com.db.entity.ProbeEntity;
 import www.jingkan.com.db.entity.TestDataEntity;
 import www.jingkan.com.db.entity.TestEntity;
@@ -17,15 +26,6 @@ import www.jingkan.com.util.VibratorUtil;
 import www.jingkan.com.util.bluetooth.BluetoothCommService;
 import www.jingkan.com.util.bluetooth.BluetoothUtil;
 import www.jingkan.com.view_model.base.BaseViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.ObservableField;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 
 /**
  * Created by Sampson on 2018/4/12.
@@ -55,6 +55,7 @@ public class BaseTestViewModel extends BaseViewModel {
     private String probeID;
     private TestEntity testModel;
     private TestDataDao testDataDao;
+    private TestDataDaoHelper testDataDaoHelper;
     private ProbeDao probeDao;
     private VibratorUtil vibratorUtil;
     private BluetoothUtil bluetoothUtil;
@@ -68,12 +69,12 @@ public class BaseTestViewModel extends BaseViewModel {
     @Override
     public void inject(Object... objects) {
         testDataDao = (TestDataDao) objects[0];
-        probeDao = (ProbeDao) objects[1];
-        vibratorUtil = (VibratorUtil) objects[2];
-        bluetoothUtil = (BluetoothUtil) objects[3];
-        bluetoothCommService = (BluetoothCommService) objects[4];
-        iSkip = (ISkip) objects[5];
-
+        testDataDaoHelper = (TestDataDaoHelper) objects[1];
+        probeDao = (ProbeDao) objects[2];
+        vibratorUtil = (VibratorUtil) objects[3];
+        bluetoothUtil = (BluetoothUtil) objects[4];
+        bluetoothCommService = (BluetoothCommService) objects[5];
+        iSkip = (ISkip) objects[6];
     }
 
 
@@ -120,7 +121,9 @@ public class BaseTestViewModel extends BaseViewModel {
         Float faEffectiveValue = obsFaEffectiveValue.get();
         if (faEffectiveValue != null)
             testDataModel.fa = faEffectiveValue;
-        testDataDao.insertTestDataEntity(testDataModel);
+        testDataDaoHelper.addData(testDataModel, () -> {
+
+        });
         Boolean aBoolean = obsIsShock.get();
         if (aBoolean != null)
             if (aBoolean) {

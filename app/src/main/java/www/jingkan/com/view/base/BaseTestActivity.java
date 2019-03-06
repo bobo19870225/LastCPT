@@ -16,11 +16,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import androidx.lifecycle.ViewModelProviders;
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityBaseTestBinding;
 import www.jingkan.com.db.dao.ProbeDao;
 import www.jingkan.com.db.dao.TestDao;
 import www.jingkan.com.db.dao.TestDataDao;
+import www.jingkan.com.db.dao.TestDataDaoHelper;
 import www.jingkan.com.db.entity.ProbeEntity;
 import www.jingkan.com.db.entity.TestDataEntity;
 import www.jingkan.com.db.entity.TestEntity;
@@ -33,13 +40,6 @@ import www.jingkan.com.util.bluetooth.BluetoothUtil;
 import www.jingkan.com.view.chart.DrawChartHelper;
 import www.jingkan.com.view_model.BaseTestViewModel;
 import www.jingkan.com.view_model.ISkip;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import androidx.lifecycle.ViewModelProviders;
 
 import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_HN_111;
 import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LY_DAT;
@@ -75,6 +75,8 @@ public class BaseTestActivity extends DialogMVVMDaggerActivity<BaseTestViewModel
     @Inject
     TestDataDao testDataDao;
     @Inject
+    TestDataDaoHelper testDataDaoHelper;
+    @Inject
     ProbeDao probeDao;
     @Inject
     DataUtil dataUtil;
@@ -108,6 +110,7 @@ public class BaseTestActivity extends DialogMVVMDaggerActivity<BaseTestViewModel
     protected Object[] injectToViewModel() {
         return new Object[]{
                 testDataDao,
+                testDataDaoHelper,
                 probeDao,
                 vibratorUtil,
                 bluetoothUtil,
@@ -120,8 +123,8 @@ public class BaseTestActivity extends DialogMVVMDaggerActivity<BaseTestViewModel
     protected void setMVVMView() {
         String[] strings = (String[]) mData;//1.mac,2.工程编号,3.孔号,4.试验类型
         mac = strings[0];
-        strProjectNumber = strings[0];
-        strHoleNumber = strings[1];
+        strProjectNumber = strings[1];
+        strHoleNumber = strings[2];
         mViewModel.getTestParameters(testDao, strProjectNumber, strHoleNumber)
                 .observe(this, testEntities -> {
                     if (testEntities != null && !testEntities.isEmpty()) {
