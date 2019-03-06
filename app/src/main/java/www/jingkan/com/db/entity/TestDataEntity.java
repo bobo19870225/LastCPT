@@ -1,11 +1,9 @@
 package www.jingkan.com.db.entity;
 
-import www.jingkan.com.util.StringUtil;
-import www.jingkan.com.view.adapter.ItemTestDataDetails;
-
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.view.adapter.ItemTestDataDetails;
 
 /**
  * Created by Sampson on 2018/12/18.
@@ -13,10 +11,9 @@ import androidx.room.PrimaryKey;
  */
 @Entity(tableName = "testData")
 public class TestDataEntity implements ItemTestDataDetails {
-    @PrimaryKey
-    @NonNull
     public String testDataID = "";
     public String probeID;
+    @PrimaryKey
     public float deep;
     public float qc;
     public float fs;

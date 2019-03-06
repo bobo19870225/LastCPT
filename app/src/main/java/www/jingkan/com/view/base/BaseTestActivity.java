@@ -109,6 +109,7 @@ public class BaseTestActivity extends DialogMVVMDaggerActivity<BaseTestViewModel
     @Override
     protected Object[] injectToViewModel() {
         return new Object[]{
+                mData,
                 testDataDao,
                 testDataDaoHelper,
                 probeDao,
@@ -135,14 +136,14 @@ public class BaseTestActivity extends DialogMVVMDaggerActivity<BaseTestViewModel
                     }
 
                 });
+        mViewModel.ldTestDataEntity.observe(this, testDataEntities -> {
+            mViewModel.ldTestDataEntity.removeObservers(this);
+            if (testDataEntities != null && !testDataEntities.isEmpty()) {
+                showTestData(testDataEntities);
+                mViewModel.obsTestDeep.set(testDataEntities.get(testDataEntities.size() - 1).deep);
+            }
+        });
 
-        mViewModel.loadTestData(strProjectNumber + "_" + strHoleNumber)
-                .observe(this, testDataEntities -> {
-                    if (testDataEntities != null && !testDataEntities.isEmpty()) {
-                        showTestData(testDataEntities);
-                        mViewModel.obsTestDeep.set(testDataEntities.get(testDataEntities.size() - 1).deep);
-                    }
-                });
         mViewModel.loadProbe.observe(this, probeEntities -> {
             if (probeEntities != null && !probeEntities.isEmpty()) {
                 ProbeEntity probeModel = probeEntities.get(0);
@@ -212,7 +213,6 @@ public class BaseTestActivity extends DialogMVVMDaggerActivity<BaseTestViewModel
 
     @Override
     public int initView() {
-//        drawChartHelper = new DrawChartHelper();
         return R.layout.activity_base_test;
     }
 

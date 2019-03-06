@@ -51,6 +51,7 @@ public class BaseTestViewModel extends BaseViewModel {
     public final ObservableField<Boolean> obsIsShock = new ObservableField<>(false);
     public final MediatorLiveData<List<ProbeEntity>> loadProbe = new MediatorLiveData<>();
     public final MutableLiveData<float[]> recordValue = new MutableLiveData<>();
+    public final MediatorLiveData<List<TestDataEntity>> ldTestDataEntity = new MediatorLiveData<>();
     private boolean isIdentification;
     private String probeID;
     private TestEntity testModel;
@@ -68,13 +69,15 @@ public class BaseTestViewModel extends BaseViewModel {
 
     @Override
     public void inject(Object... objects) {
-        testDataDao = (TestDataDao) objects[0];
-        testDataDaoHelper = (TestDataDaoHelper) objects[1];
-        probeDao = (ProbeDao) objects[2];
-        vibratorUtil = (VibratorUtil) objects[3];
-        bluetoothUtil = (BluetoothUtil) objects[4];
-        bluetoothCommService = (BluetoothCommService) objects[5];
-        iSkip = (ISkip) objects[6];
+        String[] strings = (String[]) objects[0];//1.mac,2.工程编号,3.孔号,4.试验类型
+        testDataDao = (TestDataDao) objects[1];
+        testDataDaoHelper = (TestDataDaoHelper) objects[2];
+        probeDao = (ProbeDao) objects[3];
+        vibratorUtil = (VibratorUtil) objects[4];
+        bluetoothUtil = (BluetoothUtil) objects[5];
+        bluetoothCommService = (BluetoothCommService) objects[6];
+        iSkip = (ISkip) objects[7];
+        loadTestData(strings[1] + "_" + strings[2]);
     }
 
 
@@ -107,7 +110,7 @@ public class BaseTestViewModel extends BaseViewModel {
         }
 
         TestDataEntity testDataModel = new TestDataEntity();
-        testDataModel.testDataID = testModel.projectNumber + "-" + testModel.holeNumber;
+        testDataModel.testDataID = testModel.projectNumber + "_" + testModel.holeNumber;
         testDataModel.probeID = probeID;
         Float aFloat = obsTestDeep.get();
         if (aFloat != null)
@@ -135,8 +138,8 @@ public class BaseTestViewModel extends BaseViewModel {
     }
 
 
-    public LiveData<List<TestDataEntity>> loadTestData(String testDataID) {
-        return testDataDao.getTestDataByTestDataId(testDataID);
+    private void loadTestData(String testDataID) {
+        ldTestDataEntity.addSource(testDataDao.getTestDataByTestDataId(testDataID), ldTestDataEntity::setValue);
     }
 
     public void identificationProbe(String sn) {
