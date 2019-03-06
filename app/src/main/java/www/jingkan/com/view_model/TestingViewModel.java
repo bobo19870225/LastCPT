@@ -31,6 +31,7 @@ public class TestingViewModel extends BaseViewModel {
         mac = (String) objects[0];
         bluetoothUtil = (BluetoothUtil) objects[1];
         bluetoothCommService = (BluetoothCommService) objects[2];
+        link();
     }
 
     @Override

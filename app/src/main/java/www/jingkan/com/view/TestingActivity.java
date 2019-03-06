@@ -41,7 +41,7 @@ public class TestingActivity extends DialogMVVMDaggerActivity<TestingViewModel, 
     @Override
     protected void setMVVMView() {
         setToolBar("探头检测", R.menu.link);
-        mViewModel.singleLiveEvent.observe(this, aVoid -> showWaitDialog("正在连接蓝牙设备...", false, false));
+        mViewModel.singleLiveEvent.observe(this, aVoid -> showWaitDialog("正在连接蓝牙设备...", false, true));
 
         bluetoothCommService.getBluetoothMessageMutableLiveData().observe(this, bluetoothMessage -> {
             switch (bluetoothMessage.what) {
