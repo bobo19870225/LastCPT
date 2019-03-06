@@ -1,11 +1,11 @@
 package www.jingkan.com.db.dao;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import www.jingkan.com.db.dao.dao_factory.BaseDao;
 import www.jingkan.com.db.dao.dao_factory.DataBaseCallBack;
 import www.jingkan.com.db.entity.TestDataEntity;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * Created by Sampson on 2018/12/14.
@@ -15,8 +15,7 @@ import javax.inject.Singleton;
 public class TestDataDaoHelper extends BaseDao<TestDataEntity> {
     @Inject
     TestDataDao testDataDao;
-    @Inject
-    TestDataEntity testDataEntity;
+
 
     @Inject
     public TestDataDaoHelper() {
@@ -58,9 +57,9 @@ public class TestDataDaoHelper extends BaseDao<TestDataEntity> {
 
     @Override
     public void deleteData(String[] strings, DataBaseCallBack dataBaseCallBack) {
+        TestDataEntity testDataEntity = new TestDataEntity();
         testDataEntity.testDataID = strings[0];
         new MyDataBaseAsyncTask(1, testDataDao, dataBaseCallBack).execute(testDataEntity);
-
     }
 
     @Override
