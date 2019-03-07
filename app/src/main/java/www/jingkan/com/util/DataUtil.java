@@ -442,6 +442,14 @@ public class DataUtil {
 
                             break;
                         case "双桥测斜试验":
+                            content.append("贯入深度").append(strComma)
+                                    .append("锥尖阻力").append(strComma)
+                                    .append("侧壁摩阻力").append(strComma)
+                                    .append("偏斜度").append(strReturn);
+                            content.append("m").append(strComma)
+                                    .append("MPa").append(strComma)
+                                    .append("kPa").append(strComma)
+                                    .append("。").append(strReturn);
                             if (models.get(0) instanceof TestDataEntity) {
                                 for (TestDataEntity mTestDataEntities : (List<TestDataEntity>) models) {
                                     content.append(StringUtil.format(mTestDataEntities.deep, 1))
