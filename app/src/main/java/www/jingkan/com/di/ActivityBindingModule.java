@@ -18,6 +18,7 @@ import www.jingkan.com.view.MyMsgActivity;
 import www.jingkan.com.view.NewTestActivity;
 import www.jingkan.com.view.OpenFileActivity;
 import www.jingkan.com.view.OrdinaryProbeActivity;
+import www.jingkan.com.view.SetCalibrationDataActivity;
 import www.jingkan.com.view.SetEmailActivity;
 import www.jingkan.com.view.ShowDataCharActivity;
 import www.jingkan.com.view.SingleBridgeMultifunctionTestActivity;
@@ -169,5 +170,9 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector
     abstract CrossTestActivity crossTestActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract SetCalibrationDataActivity setCalibrationDataActivity();
 
 }

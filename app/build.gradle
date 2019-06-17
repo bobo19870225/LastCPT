@@ -123,4 +123,5 @@ dependencies {
 //    下载文件
     implementation 'com.arialyy.aria:aria-core:3.3.16'
     annotationProcessor 'com.arialyy.aria:aria-compiler:3.3.16'
+    implementation 'org.apache.commons:commons-math3:3.6.1'
 }

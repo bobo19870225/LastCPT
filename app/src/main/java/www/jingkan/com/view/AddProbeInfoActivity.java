@@ -12,6 +12,14 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityAddProbeInfoBinding;
 import www.jingkan.com.db.dao.ProbeDao;
@@ -25,23 +33,8 @@ import www.jingkan.com.view.adapter.OneTextListAdapter;
 import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
 import www.jingkan.com.view_model.AddProbeInfoVM;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 public class AddProbeInfoActivity extends BaseMVVMDaggerActivity<AddProbeInfoVM, ActivityAddProbeInfoBinding> {
     private Boolean isWireless;
-    @Inject
-    SingleBridgeFragment singleBridgeFragment;
-    @Inject
-    DoubleBridgeFragment doubleBridgeFragment;
-    @Inject
-    CrossFragment crossFragment;
     @Inject
     ProbeDao probeDao;
     @Inject
