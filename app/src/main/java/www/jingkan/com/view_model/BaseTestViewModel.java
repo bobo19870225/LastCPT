@@ -30,6 +30,7 @@ import www.jingkan.com.view_model.base.BaseViewModel;
 /**
  * Created by Sampson on 2018/4/12.
  * LastCPT
+ * {@link www.jingkan.com.view.base.BaseTestActivity}
  */
 public class BaseTestViewModel extends BaseViewModel {
     public final ObservableField<String> obsProjectNumber = new ObservableField<>("");

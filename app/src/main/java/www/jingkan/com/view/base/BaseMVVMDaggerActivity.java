@@ -6,14 +6,14 @@ package www.jingkan.com.view.base;
 
 import android.content.Intent;
 
-import www.jingkan.com.BR;
-import www.jingkan.com.util.CallbackMessage;
-import www.jingkan.com.view_model.base.BaseViewModel;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 
 import javax.inject.Inject;
 
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
+import www.jingkan.com.BR;
+import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 /**
  * Created by lushengbo on 2018/1/12.
@@ -33,6 +33,7 @@ public abstract class BaseMVVMDaggerActivity<VM extends BaseViewModel, VDB exten
             throw new RuntimeException("ViewModel can't be null!");
         } else {
             mViewModel = createdViewModel();
+            mViewModel.setLifecycleOwner(this);
             mViewModel.attachView(this, callbackMessage);
             mViewDataBinding.setVariable(BR.model, mViewModel);
         }
@@ -40,6 +41,7 @@ public abstract class BaseMVVMDaggerActivity<VM extends BaseViewModel, VDB exten
         setMVVMView();
     }
 
+    @Deprecated
     protected abstract Object[] injectToViewModel();
 
     protected abstract void setMVVMView();

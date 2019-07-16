@@ -110,10 +110,10 @@ dependencies {
     implementation files('libs/additionnal.jar')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //2D地图so及jar
-
     implementation 'com.amap.api:map2d:latest.integration'
     //定位功能
     implementation 'com.amap.api:location:latest.integration'
+
     implementation 'cn.jiguang.sdk:jpush:latest.integration'
     // 此处以JPush 3.1.1 版本为例。
     implementation 'cn.jiguang.sdk:jcore:latest.integration'

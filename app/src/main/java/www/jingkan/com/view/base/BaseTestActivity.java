@@ -16,12 +16,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.lifecycle.ViewModelProviders;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.lifecycle.ViewModelProviders;
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityBaseTestBinding;
 import www.jingkan.com.db.dao.ProbeDao;
@@ -126,6 +127,7 @@ public class BaseTestActivity extends DialogMVVMDaggerActivity<BaseTestViewModel
         mac = strings[0];
         strProjectNumber = strings[1];
         strHoleNumber = strings[2];
+        mViewModel.linkDevice(mac);
         mViewModel.getTestParameters(testDao, strProjectNumber, strHoleNumber)
                 .observe(this, testEntities -> {
                     if (testEntities != null && !testEntities.isEmpty()) {
@@ -278,11 +280,7 @@ public class BaseTestActivity extends DialogMVVMDaggerActivity<BaseTestViewModel
 
     @Override
     protected void toRefresh() {
-        String[] strings = (String[]) mData;//1.mac,2.工程编号,3.孔号,4.试验类型
-        mac = strings[0];
-        strProjectNumber = strings[0];
-        strHoleNumber = strings[1];
-        mViewModel.linkDevice(mac);
+
     }
 
 

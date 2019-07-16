@@ -1,10 +1,13 @@
 package www.jingkan.com.view;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.view.MenuItem;
+
+import androidx.lifecycle.ViewModelProviders;
 
 import javax.inject.Inject;
 
-import androidx.lifecycle.ViewModelProviders;
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityTestingBinding;
 import www.jingkan.com.util.CallbackMessage;
@@ -41,7 +44,17 @@ public class TestingActivity extends DialogMVVMDaggerActivity<TestingViewModel, 
     @Override
     protected void setMVVMView() {
         setToolBar("探头检测", R.menu.link);
-        mViewModel.singleLiveEvent.observe(this, aVoid -> showWaitDialog("正在连接蓝牙设备...", false, true));
+        mViewModel.singleLiveEvent.observe(this, s -> {
+            switch (s) {
+                case "Link":
+                    showWaitDialog("正在连接蓝牙设备...", false, true);
+                    break;
+                case "OpenBT":
+                    Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(intent, 0);
+                    break;
+            }
+        });
 
         bluetoothCommService.getBluetoothMessageMutableLiveData().observe(this, bluetoothMessage -> {
             switch (bluetoothMessage.what) {
