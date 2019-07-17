@@ -10,7 +10,7 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
-import www.jingkan.com.util.CallbackMessage;
+import androidx.lifecycle.MutableLiveData;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +19,7 @@ import java.io.OutputStream;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import androidx.lifecycle.MutableLiveData;
+import www.jingkan.com.util.CallbackMessage;
 
 import static www.jingkan.com.util.SystemConstant.SPP_UUID;
 
@@ -52,8 +52,6 @@ public class BluetoothCommService {
     public final static int MESSAGE_TOAST = 2;
     public final static int MESSAGE_DEVICE_NAME = 3;
     public final static int MESSAGE_STATE_CHANGE = 4;
-    public static String DEVICE_NAME = "device_name";
-    public static String TOAST = "toast";
 
     @Inject
     public BluetoothCommService() {

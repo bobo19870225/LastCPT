@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import www.jingkan.com.db.dao.CrossTestDataDao;
+import www.jingkan.com.db.dao.MemoryDataDao;
 import www.jingkan.com.db.dao.TestDao;
 import www.jingkan.com.util.bluetooth.BluetoothCommService;
 import www.jingkan.com.util.bluetooth.BluetoothUtil;
@@ -54,15 +55,17 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     TestDao testDao;
     @Inject
     CrossTestDataDao crossTestDataDao;
-
+    @Inject
+    MemoryDataDao memoryDataDao;
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
 
         if (modelClass.isAssignableFrom(CrossTestViewModel.class)) {
-
             return (T) new CrossTestViewModel(application, bluetoothUtil, bluetoothCommService, testDao, crossTestDataDao);
+        } else if (modelClass.isAssignableFrom(SetCalibrationDataVM.class)) {
+            return (T) new SetCalibrationDataVM(application, bluetoothUtil, bluetoothCommService, memoryDataDao);
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
