@@ -19,6 +19,7 @@ import www.jingkan.com.db.dao.CalibrationProbeDao;
 import www.jingkan.com.db.dao.MemoryDataDao;
 import www.jingkan.com.db.entity.CalibrationProbeEntity;
 import www.jingkan.com.db.entity.MemoryDataEntity;
+import www.jingkan.com.util.ByteArrayConveter;
 import www.jingkan.com.util.SingleLiveEvent;
 import www.jingkan.com.util.StringUtil;
 import www.jingkan.com.util.SystemConstant;
@@ -324,6 +325,11 @@ public class SetCalibrationDataVM extends BaseViewModel {
         command[279] = 0x1;
         command[280] = 0x67;
         ds = 0;
+        float test = 0.000006f;
+        byte[] byteArray = ByteArrayConveter.getByteArray(test);
+        for (int i = 0; i < byteArray.length; i++) {
+            command[5 + i] = byteArray[i];
+        }
         final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
