@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import www.jingkan.com.db.dao.CalibrationProbeDao;
 import www.jingkan.com.db.dao.CrossTestDataDao;
 import www.jingkan.com.db.dao.MemoryDataDao;
 import www.jingkan.com.db.dao.TestDao;
@@ -57,6 +58,8 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     CrossTestDataDao crossTestDataDao;
     @Inject
     MemoryDataDao memoryDataDao;
+    @Inject
+    CalibrationProbeDao calibrationProbeDao;
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
@@ -65,7 +68,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         if (modelClass.isAssignableFrom(CrossTestViewModel.class)) {
             return (T) new CrossTestViewModel(application, bluetoothUtil, bluetoothCommService, testDao, crossTestDataDao);
         } else if (modelClass.isAssignableFrom(SetCalibrationDataVM.class)) {
-            return (T) new SetCalibrationDataVM(application, bluetoothUtil, bluetoothCommService, memoryDataDao);
+            return (T) new SetCalibrationDataVM(application, bluetoothUtil, bluetoothCommService, memoryDataDao, calibrationProbeDao);
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());

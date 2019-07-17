@@ -98,11 +98,12 @@ public class SetCalibrationDataVM extends BaseViewModel {
     private int obliquityZ = 0;
     private String strModel;
 
-    public SetCalibrationDataVM(@NonNull Application application, BluetoothUtil bluetoothUtil, BluetoothCommService bluetoothCommService, MemoryDataDao memoryDataDao) {
+    public SetCalibrationDataVM(@NonNull Application application, BluetoothUtil bluetoothUtil, BluetoothCommService bluetoothCommService, MemoryDataDao memoryDataDao, CalibrationProbeDao calibrationProbeDao) {
         super(application);
         this.bluetoothUtil = bluetoothUtil;
         this.bluetoothCommService = bluetoothCommService;
         this.memoryDataDao = memoryDataDao;
+        this.calibrationProbeDao = calibrationProbeDao;
     }
 
 
