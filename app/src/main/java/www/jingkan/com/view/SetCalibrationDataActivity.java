@@ -33,7 +33,7 @@ public class SetCalibrationDataActivity extends BaseMVVMDaggerActivity<SetCalibr
 
     @Override
     protected Object[] injectToViewModel() {
-        return new Object[0];
+        return new Object[]{mData};
     }
 
     @Override

@@ -7,12 +7,15 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import www.jingkan.com.db.dao.CalibrationProbeDao;
 import www.jingkan.com.db.dao.MemoryDataDao;
+import www.jingkan.com.db.entity.CalibrationProbeEntity;
 import www.jingkan.com.db.entity.MemoryDataEntity;
 import www.jingkan.com.util.SingleLiveEvent;
 import www.jingkan.com.util.StringUtil;
@@ -30,6 +33,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
     private BluetoothUtil bluetoothUtil;
     private BluetoothCommService bluetoothCommService;
     private MemoryDataDao memoryDataDao;
+    private CalibrationProbeDao calibrationProbeDao;
     public final SingleLiveEvent<List<MemoryDataEntity>> resetQcView = new SingleLiveEvent<>();
     public final SingleLiveEvent<List<MemoryDataEntity>> resetFsView = new SingleLiveEvent<>();
 
@@ -123,7 +127,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
 //                            Acc[1][2][i] = Acc[1][1][i];
 //                        }
 //
-//                        sendData();
+                    sendData();
                 });
 
         }
@@ -131,10 +135,136 @@ public class SetCalibrationDataVM extends BaseViewModel {
     }
     @Override
     public void inject(Object... objects) {
-//        action.setValue("outPut");
+//        effectiveValues = new String[5];
+//        YBL = new int[6][7];
+        String[] strings = (String[]) objects[0];
+        ldSN.setValue(strings[1]);
+        boolean isDoubleBridge = strings[2].contains("双桥");
+        boolean isMultifunctional = strings[2].contains("多功能");
+        initProbeParameters(strings[1], isDoubleBridge, isMultifunctional);//参数为探头序列号
+    }
+
+    private void initProbeParameters(final String sn, boolean isFs, final boolean isFa) {
+        calibrationProbeDao.getCalbrationProbeEntityByProbeId(sn).observe(lifecycleOwner, calibrationProbeEntities -> {
+            if (calibrationProbeEntities != null && calibrationProbeEntities.size() > 0) {
+                CalibrationProbeEntity calibrationProbeEntity = calibrationProbeEntities.get(0);
+                ldNumber.setValue(calibrationProbeEntity.number);
+                ldArea.setValue(calibrationProbeEntity.work_area);
+                ldDifferential.setValue(calibrationProbeEntity.differential);
+                String[] split = calibrationProbeEntity.number.split("-");
+                String type = null;
+                String strModel1 = null;
+                if (split.length == 3) {
+                    type = split[0].substring(2, 3);
+                    strModel1 = split[1];
+                }
+                if (type != null) {
+                    switch (type) {
+                        case "D":
+                            switch (strModel1) {
+                                case "3":
+                                    mType = 3;
+                                    initDifferential();
+                                    strModel = SystemConstant.SINGLE_BRIDGE_3;
+                                    initAcc(3);
+                                    break;
+                                case "4":
+                                    mType = 4;
+                                    initDifferential();
+                                    strModel = SystemConstant.SINGLE_BRIDGE_4;
+                                    initAcc(4);
+                                    break;
+                                case "6":
+                                    mType = 6;
+                                    initDifferential();
+                                    strModel = SystemConstant.SINGLE_BRIDGE_6;
+                                    initAcc(6);
+                                    break;
+                            }
+                            break;
+                        case "S":
+                            switch (strModel1) {
+                                case "3":
+                                    mType = 3;
+                                    initDifferential();
+                                    strModel = SystemConstant.DOUBLE_BRIDGE_3;
+                                    initAcc(3);
+                                    break;
+                                case "4":
+                                    mType = 4;
+                                    initDifferential();
+                                    strModel = SystemConstant.DOUBLE_BRIDGE_4;
+                                    initAcc(4);
+                                    break;
+                                case "6":
+                                    mType = 6;
+                                    initDifferential();
+                                    strModel = SystemConstant.DOUBLE_BRIDGE_6;
+                                    initAcc(6);
+                                    break;
+                            }
+                            break;
+                        case "V":
+                            strModel = SystemConstant.VANE;
+                            for (int i = 0; i < 7; i++) {
+                                Acc[0][0][i] = i * 20000;
+                                Acc[1][0][i] = i * 20000;
+                            }
+                            Acc[0][0][7] = 140000;
+                            Acc[1][0][7] = 140000;
+                            break;
+                    }
+                }
+            } else {
+                toast("序列号错误");
+            }
+        });
+        if (isFs) {//双桥
+            memoryDataDao.getMemoryDataByProbeIdAndType(sn, "qc").observe(lifecycleOwner, memoryDataEntities -> {
+                //有锥头数据判断有无侧壁数据
+                if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
+                    memoryDataDao.getMemoryDataByProbeIdAndType(sn, "fs").observe(lifecycleOwner, memoryDataEntities1 -> {
+                        if (memoryDataEntities1 != null && memoryDataEntities1.size() > 0) {
+                            if (isFa) {
+                                switchingChannel(2);//切换到测斜通道
+                            }
+                        } else {//没有侧壁数据时准备采集侧壁数据
+                            switchingChannel(1);//切换到侧壁
+                        }
+                    });
+                } else {
+                    toast("没有历史数据");
+                }
+            });
+        } else {//单桥或十字板
+            memoryDataDao.getMemoryDataByProbeIdAndType(sn, "qc").observe(lifecycleOwner, new Observer<List<MemoryDataEntity>>() {
+                @Override
+                public void onChanged(List<MemoryDataEntity> memoryDataEntities) {
+                    if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
+                        if (isFa) {
+                            switchingChannel(2);//切换到测斜通道
+                        } else {
+                            switchingChannel(0);//切换到锥头通道
+                        }
+                    } else {
+                        toast("没有历史数据");
+                    }
+                }
+            });
+
+        }
+
 
     }
 
+    private void initAcc(int ratio) {
+        for (int i = 0; i < 7; i++) {
+            Acc[0][0][i] = i * ratio * 2000;
+            Acc[1][0][i] = i * ratio * 20000;
+        }
+        Acc[0][0][7] = 144000;
+        Acc[1][0][7] = 1440000;
+    }
     public void linkDevice(String mac) {
         BluetoothAdapter bluetoothDevice = bluetoothUtil.
                 getBluetoothAdapter();
