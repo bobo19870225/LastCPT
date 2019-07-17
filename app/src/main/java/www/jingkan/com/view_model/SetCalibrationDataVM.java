@@ -12,6 +12,8 @@ import androidx.lifecycle.Observer;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import www.jingkan.com.db.dao.CalibrationProbeDao;
 import www.jingkan.com.db.dao.MemoryDataDao;
@@ -285,15 +287,27 @@ public class SetCalibrationDataVM extends BaseViewModel {
         String sn = ldSN.getValue();
         switch (which) {
             case 0://全部数据
-                memoryDataDao.deleteMemoryDataEntityByProbeId(sn);
+                ExecutorService DB_IO = Executors.newFixedThreadPool(2);
+                DB_IO.execute(() -> {
+                    memoryDataDao.deleteMemoryDataEntityByProbeId(sn);
+                    DB_IO.shutdown();//关闭线程
+                });
                 switchingChannel(0);//切换到锥头通道
                 break;
             case 1://锥头
-                memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(sn, "qc");
+                DB_IO = Executors.newFixedThreadPool(2);
+                DB_IO.execute(() -> {
+                    memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(sn, "qc");
+                    DB_IO.shutdown();//关闭线程
+                });
                 switchingChannel(0);//切换到锥头通道
                 break;
             case 2://侧壁
-                memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(sn, "fs");
+                DB_IO = Executors.newFixedThreadPool(2);
+                DB_IO.execute(() -> {
+                    memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(sn, "fs");
+                    DB_IO.shutdown();//关闭线程
+                });
                 switchingChannel(1);//切换到侧壁通道
                 break;
             case 3:
