@@ -9,9 +9,6 @@ import android.view.View;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProviders;
 
-import org.apache.commons.math3.fitting.PolynomialCurveFitter;
-import org.apache.commons.math3.fitting.WeightedObservedPoints;
-
 import javax.inject.Inject;
 
 import www.jingkan.com.R;
@@ -45,8 +42,7 @@ public class SetCalibrationDataActivity extends BaseMVVMDaggerActivity<SetCalibr
                     startActivityForResult(intent, 0);
                     break;
                 case "outPut":
-                    double[] doubles = testLeastSquareMethodFromApache();
-                    toast("ok");
+
                     break;
                 case "showFaChannel":
                     showFaChannel();
@@ -123,22 +119,6 @@ public class SetCalibrationDataActivity extends BaseMVVMDaggerActivity<SetCalibr
     @Override
     public void action(CallbackMessage callbackMessage) {
 
-    }
-
-    private double[] testLeastSquareMethodFromApache() {
-        WeightedObservedPoints obs = new WeightedObservedPoints();
-        obs.add(-3, -1);
-        obs.add(-2, 0);
-        obs.add(-1, 1);
-        obs.add(0, 2.3);
-        obs.add(1, 3);
-        obs.add(2, 4);
-        obs.add(3, 5.5);
-
-        // Instantiate a third-degree polynomial fitter.
-        PolynomialCurveFitter fitter = PolynomialCurveFitter.create(3);
-        // Retrieve fitted parameters (coefficients of the polynomial function).
-        return fitter.fit(obs.toList());
     }
 
 

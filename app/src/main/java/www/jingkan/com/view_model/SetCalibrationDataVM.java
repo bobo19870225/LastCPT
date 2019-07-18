@@ -19,7 +19,6 @@ import www.jingkan.com.db.dao.CalibrationProbeDao;
 import www.jingkan.com.db.dao.MemoryDataDao;
 import www.jingkan.com.db.entity.CalibrationProbeEntity;
 import www.jingkan.com.db.entity.MemoryDataEntity;
-import www.jingkan.com.util.ByteArrayConveter;
 import www.jingkan.com.util.SingleLiveEvent;
 import www.jingkan.com.util.StringUtil;
 import www.jingkan.com.util.SystemConstant;
@@ -114,26 +113,12 @@ public class SetCalibrationDataVM extends BaseViewModel {
         String snValue = ldSN.getValue();
         if (isFs) {//侧壁标定
             if (snValue != null)
-                memoryDataDao.getMemoryDataByProbeIdAndType(snValue, "fs").observe(lifecycleOwner, memoryDataEntities -> {
-
-                });
+                memoryDataDao.getMemoryDataByProbeIdAndType(snValue, "fs").observe(lifecycleOwner, this::sendData);
 
 
         } else {//锥头标定
             if (snValue != null)
-                memoryDataDao.getMemoryDataByProbeIdAndType(snValue, "qc").observe(lifecycleOwner, memoryDataEntities -> {
-//                        getQcData(models);
-//                        //侧壁数据
-//                        for (
-//                                int i = 0;
-//                                i < 7; i++) {
-//                            Acc[1][1][i] = i * 1200;
-//                            Acc[1][2][i] = Acc[1][1][i];
-//                        }
-//
-                    sendData();
-                });
-
+                memoryDataDao.getMemoryDataByProbeIdAndType(snValue, "qc").observe(lifecycleOwner, this::sendData);
         }
 
     }
@@ -325,11 +310,11 @@ public class SetCalibrationDataVM extends BaseViewModel {
         command[279] = 0x1;
         command[280] = 0x67;
         ds = 0;
-        float test = 0.000006f;
-        byte[] byteArray = ByteArrayConveter.getByteArray(test);
-        for (int i = 0; i < byteArray.length; i++) {
-            command[5 + i] = byteArray[i];
-        }
+//        float test = 0.000006f;
+//        byte[] byteArray = ByteArrayConveter.getByteArray(test);
+//        for (int i = 0; i < byteArray.length; i++) {
+//            command[5 + i] = byteArray[i];
+//        }
         final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -345,183 +330,188 @@ public class SetCalibrationDataVM extends BaseViewModel {
         }, 0, 1000);// 0秒后执行，每1秒执行一次
     }
 
-    private void sendData() {
-        String sn = ldSN.getValue();
-        String area = ldArea.getValue();
-        Acc[0][1][7] = Acc[0][0][7] / Acc[0][0][6] * Acc[0][1][6];
-        Acc[0][2][7] = Acc[0][0][7] / Acc[0][0][6] * Acc[0][2][6];
-        Acc[1][1][7] = Acc[1][0][7] / Acc[1][0][6] * Acc[1][1][6];
-        Acc[1][2][7] = Acc[1][0][7] / Acc[1][0][6] * Acc[1][2][6];
-        command[0] = 83;
-        command[1] = 69;
-        command[2] = 84;
-        command[3] = 85;
-        command[4] = 80;
-        if (sn != null)
-            if (sn.length() != 0) {
-                sn = sn + "        ";
-                sn = sn.substring(0, 8);
-                if (area != null)
-                    switch (strModel) {
-                        case SystemConstant.SINGLE_BRIDGE_3:
-                            if (area.equals("10")) {
-                                snToW = sn + "C";
-                            } else {
-                                snToW = sn + "I";
-                            }
-                            break;
-                        case SystemConstant.SINGLE_BRIDGE_4:
-                            if (area.equals("10")) {
-                                snToW = sn + "D";
-                            } else {
-                                snToW = sn + "J";
-                            }
-                            break;
-                        case SystemConstant.SINGLE_BRIDGE_6:
-                            if (area.equals("10")) {
-                                snToW = sn + "F";
-                            } else {
-                                snToW = sn + "L";
-                            }
-                            break;
-                        case SystemConstant.DOUBLE_BRIDGE_3:
-                            if (area.equals("10")) {
-                                snToW = sn + "O";
-                            } else {
-                                snToW = sn + "U";
-                            }
-                            break;
-                        case SystemConstant.DOUBLE_BRIDGE_4:
-                            if (area.equals("10")) {
-                                snToW = sn + "P";
-                            } else {
-                                snToW = sn + "V";
-                            }
-                            break;
-                        case SystemConstant.DOUBLE_BRIDGE_6:
-                            if (area.equals("10")) {
-                                snToW = sn + "R";
-                            } else {
-                                snToW = sn + "X";
-                            }
-                            break;
-                        case SystemConstant.VANE:
-                            if (area.equals("10")) {
-                                snToW = sn + "Y";
-                            } else {
-                                snToW = sn + "Z";
-                            }
-                            break;
+    private void sendData(List<MemoryDataEntity> memoryDataEntities) {
+        if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
+            String sn = ldSN.getValue();
+            String area = ldArea.getValue();
+            Acc[0][1][7] = Acc[0][0][7] / Acc[0][0][6] * Acc[0][1][6];
+            Acc[0][2][7] = Acc[0][0][7] / Acc[0][0][6] * Acc[0][2][6];
+            Acc[1][1][7] = Acc[1][0][7] / Acc[1][0][6] * Acc[1][1][6];
+            Acc[1][2][7] = Acc[1][0][7] / Acc[1][0][6] * Acc[1][2][6];
+            command[0] = 83;
+            command[1] = 69;
+            command[2] = 84;
+            command[3] = 85;
+            command[4] = 80;
+            if (sn != null)
+                if (sn.length() != 0) {
+                    sn = sn + "        ";
+                    sn = sn.substring(0, 8);
+                    if (area != null)
+                        switch (strModel) {
+                            case SystemConstant.SINGLE_BRIDGE_3:
+                                if (area.equals("10")) {
+                                    snToW = sn + "C";
+                                } else {
+                                    snToW = sn + "I";
+                                }
+                                break;
+                            case SystemConstant.SINGLE_BRIDGE_4:
+                                if (area.equals("10")) {
+                                    snToW = sn + "D";
+                                } else {
+                                    snToW = sn + "J";
+                                }
+                                break;
+                            case SystemConstant.SINGLE_BRIDGE_6:
+                                if (area.equals("10")) {
+                                    snToW = sn + "F";
+                                } else {
+                                    snToW = sn + "L";
+                                }
+                                break;
+                            case SystemConstant.DOUBLE_BRIDGE_3:
+                                if (area.equals("10")) {
+                                    snToW = sn + "O";
+                                } else {
+                                    snToW = sn + "U";
+                                }
+                                break;
+                            case SystemConstant.DOUBLE_BRIDGE_4:
+                                if (area.equals("10")) {
+                                    snToW = sn + "P";
+                                } else {
+                                    snToW = sn + "V";
+                                }
+                                break;
+                            case SystemConstant.DOUBLE_BRIDGE_6:
+                                if (area.equals("10")) {
+                                    snToW = sn + "R";
+                                } else {
+                                    snToW = sn + "X";
+                                }
+                                break;
+                            case SystemConstant.VANE:
+                                if (area.equals("10")) {
+                                    snToW = sn + "Y";
+                                } else {
+                                    snToW = sn + "Z";
+                                }
+                                break;
 
-                        default:
-                            break;
-                    }
-                String number = ldNumber.getValue();
-                if (number != null) {
-                    String[] split = number.split("-");
-                    if (split[2] != null) {
-                        snToW = snToW + split[2];
-                    }
-                }
-                char[] bm = snToW.toCharArray();
-                for (int i = 1; i < 13; i++) {
-                    command[i + 4] = (byte) bm[i - 1];
-                }
-                snToW = null;
-
-                if (obliquityX < 0) {
-                    obliquityX = 65536 + obliquityX;
-                }
-                if (obliquityY < 0) {
-                    obliquityY = 65536 + obliquityY;
-                }
-                if (obliquityZ < 0) {
-                    obliquityZ = 65536 + obliquityZ;
-                }
-                if (Acc[0][1][6] >= 0) {
-                    Acc[0][1][0] = 1;
-                } else {
-                    Acc[0][1][0] = -1;
-                }
-                if (Acc[1][1][6] >= 0) {
-                    Acc[1][1][0] = 1;
-                } else {
-                    Acc[1][1][0] = -1;
-                }
-
-                command[17] = (byte) (obliquityX / 256);
-                command[18] = (byte) (obliquityX % 256);
-                command[21] = (byte) (obliquityY / 256);
-                command[22] = (byte) (obliquityY % 256);
-                command[19] = (byte) (obliquityZ / 256);
-                command[20] = (byte) (obliquityZ % 256);
-                for (int i = 0; i < 8; i++) {
-                    command[i * 4 + 151] = (byte) (Acc[0][0][i] / 16777216);
-                    command[i * 4 + 152] = (byte) ((Acc[0][0][i] % 16777216) / 65536);
-                    command[i * 4 + 153] = (byte) ((Acc[0][0][i] % 65536) / 256);
-                    command[i * 4 + 154] = (byte) (Acc[0][0][i] % 256);
-
-                    command[i * 4 + 183] = (byte) (Acc[0][0][i] / 16777216);
-                    command[i * 4 + 184] = (byte) ((Acc[0][0][i] % 16777216) / 65536);
-                    command[i * 4 + 185] = (byte) ((Acc[0][0][i] % 65536) / 256);
-                    command[i * 4 + 186] = (byte) (Acc[0][0][i] % 256);
-
-                    command[i * 4 + 215] = (byte) (Acc[1][0][i] / 16777216);
-                    command[i * 4 + 216] = (byte) ((Acc[1][0][i] % 16777216) / 65536);
-                    command[i * 4 + 217] = (byte) ((Acc[1][0][i] % 65536) / 256);
-                    command[i * 4 + 218] = (byte) (Acc[1][0][i] % 256);
-
-                    command[i * 4 + 247] = (byte) (Acc[1][0][i] / 16777216);
-                    command[i * 4 + 248] = (byte) ((Acc[1][0][i] % 16777216) / 65536);
-                    command[i * 4 + 249] = (byte) ((Acc[1][0][i] % 65536) / 256);
-                    command[i * 4 + 250] = (byte) (Acc[1][0][i] % 256);
-
-                    command[i * 4 + 23] = (byte) ((Math.abs(Acc[0][1][i]) / 0.0023283) / 16777216);
-                    command[i * 4 + 24] = (byte) (((Math.abs(Acc[0][1][i]) / 0.0023283) % 16777216) / 65536);
-                    command[i * 4 + 25] = (byte) (((Math.abs(Acc[0][1][i]) / 0.0023283) % 65536) / 256);
-                    command[i * 4 + 26] = (byte) ((Math.abs(Acc[0][1][i]) / 0.0023283) % 256);
-
-                    command[i * 4 + 55] = (byte) ((Math.abs(Acc[0][2][i]) / 0.0023283) / 16777216);
-                    command[i * 4 + 56] = (byte) (((Math.abs(Acc[0][2][i]) / 0.0023283) % 16777216) / 65536);
-                    command[i * 4 + 57] = (byte) (((Math.abs(Acc[0][2][i]) / 0.0023283) % 65536) / 256);
-                    command[i * 4 + 58] = (byte) ((Math.abs(Acc[0][2][i]) / 0.0023283) % 256);
-
-                    command[i * 4 + 87] = (byte) ((Math.abs(Acc[1][1][i]) / 0.0023283) / 16777216);
-                    command[i * 4 + 88] = (byte) (((Math.abs(Acc[1][1][i]) / 0.0023283) % 16777216) / 65536);
-                    command[i * 4 + 89] = (byte) (((Math.abs(Acc[1][1][i]) / 0.0023283) % 65536) / 256);
-                    command[i * 4 + 90] = (byte) ((Math.abs(Acc[1][1][i]) / 0.0023283) % 256);
-
-                    command[i * 4 + 119] = (byte) ((Math.abs(Acc[1][2][i]) / 0.0023283) / 16777216);
-                    command[i * 4 + 120] = (byte) (((Math.abs(Acc[1][2][i]) / 0.0023283) % 16777216) / 65536);
-                    command[i * 4 + 121] = (byte) (((Math.abs(Acc[1][2][i]) / 0.0023283) % 65536) / 256);
-                    command[i * 4 + 122] = (byte) ((Math.abs(Acc[1][2][i]) / 0.0023283) % 256);
-                }
-                if (Acc[0][1][6] >= 0) {
-                    command[279] = 0x1;
-                } else {
-                    command[279] = 0x10;
-                }
-                if (Acc[1][1][6] >= 0) {
-                    command[280] = 0x67;
-                } else {
-                    command[280] = 0x76;
-                }
-                ds = 0;
-                final Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        // 你要做的事。。。
-                        sendMessage(command);
-                        ds++;
-                        if (ds == 9) {
-                            timer.cancel();// 取消操作
-                            toast("设置成功");
+                            default:
+                                break;
+                        }
+                    String number = ldNumber.getValue();
+                    if (number != null) {
+                        String[] split = number.split("-");
+                        if (split[2] != null) {
+                            snToW = snToW + split[2];
                         }
                     }
-                }, 0, 1000);// 0秒后执行，每1秒执行一次
+                    char[] bm = snToW.toCharArray();
+                    for (int i = 1; i < 13; i++) {
+                        command[i + 4] = (byte) bm[i - 1];
+                    }
+                    snToW = null;
 
-            }
+                    if (obliquityX < 0) {
+                        obliquityX = 65536 + obliquityX;
+                    }
+                    if (obliquityY < 0) {
+                        obliquityY = 65536 + obliquityY;
+                    }
+                    if (obliquityZ < 0) {
+                        obliquityZ = 65536 + obliquityZ;
+                    }
+                    if (Acc[0][1][6] >= 0) {
+                        Acc[0][1][0] = 1;
+                    } else {
+                        Acc[0][1][0] = -1;
+                    }
+                    if (Acc[1][1][6] >= 0) {
+                        Acc[1][1][0] = 1;
+                    } else {
+                        Acc[1][1][0] = -1;
+                    }
+
+                    command[17] = (byte) (obliquityX / 256);
+                    command[18] = (byte) (obliquityX % 256);
+                    command[21] = (byte) (obliquityY / 256);
+                    command[22] = (byte) (obliquityY % 256);
+                    command[19] = (byte) (obliquityZ / 256);
+                    command[20] = (byte) (obliquityZ % 256);
+                    for (int i = 0; i < 8; i++) {
+                        command[i * 4 + 151] = (byte) (Acc[0][0][i] / 16777216);
+                        command[i * 4 + 152] = (byte) ((Acc[0][0][i] % 16777216) / 65536);
+                        command[i * 4 + 153] = (byte) ((Acc[0][0][i] % 65536) / 256);
+                        command[i * 4 + 154] = (byte) (Acc[0][0][i] % 256);
+
+                        command[i * 4 + 183] = (byte) (Acc[0][0][i] / 16777216);
+                        command[i * 4 + 184] = (byte) ((Acc[0][0][i] % 16777216) / 65536);
+                        command[i * 4 + 185] = (byte) ((Acc[0][0][i] % 65536) / 256);
+                        command[i * 4 + 186] = (byte) (Acc[0][0][i] % 256);
+
+                        command[i * 4 + 215] = (byte) (Acc[1][0][i] / 16777216);
+                        command[i * 4 + 216] = (byte) ((Acc[1][0][i] % 16777216) / 65536);
+                        command[i * 4 + 217] = (byte) ((Acc[1][0][i] % 65536) / 256);
+                        command[i * 4 + 218] = (byte) (Acc[1][0][i] % 256);
+
+                        command[i * 4 + 247] = (byte) (Acc[1][0][i] / 16777216);
+                        command[i * 4 + 248] = (byte) ((Acc[1][0][i] % 16777216) / 65536);
+                        command[i * 4 + 249] = (byte) ((Acc[1][0][i] % 65536) / 256);
+                        command[i * 4 + 250] = (byte) (Acc[1][0][i] % 256);
+
+                        command[i * 4 + 23] = (byte) ((Math.abs(Acc[0][1][i]) / 0.0023283) / 16777216);
+                        command[i * 4 + 24] = (byte) (((Math.abs(Acc[0][1][i]) / 0.0023283) % 16777216) / 65536);
+                        command[i * 4 + 25] = (byte) (((Math.abs(Acc[0][1][i]) / 0.0023283) % 65536) / 256);
+                        command[i * 4 + 26] = (byte) ((Math.abs(Acc[0][1][i]) / 0.0023283) % 256);
+
+                        command[i * 4 + 55] = (byte) ((Math.abs(Acc[0][2][i]) / 0.0023283) / 16777216);
+                        command[i * 4 + 56] = (byte) (((Math.abs(Acc[0][2][i]) / 0.0023283) % 16777216) / 65536);
+                        command[i * 4 + 57] = (byte) (((Math.abs(Acc[0][2][i]) / 0.0023283) % 65536) / 256);
+                        command[i * 4 + 58] = (byte) ((Math.abs(Acc[0][2][i]) / 0.0023283) % 256);
+
+                        command[i * 4 + 87] = (byte) ((Math.abs(Acc[1][1][i]) / 0.0023283) / 16777216);
+                        command[i * 4 + 88] = (byte) (((Math.abs(Acc[1][1][i]) / 0.0023283) % 16777216) / 65536);
+                        command[i * 4 + 89] = (byte) (((Math.abs(Acc[1][1][i]) / 0.0023283) % 65536) / 256);
+                        command[i * 4 + 90] = (byte) ((Math.abs(Acc[1][1][i]) / 0.0023283) % 256);
+
+                        command[i * 4 + 119] = (byte) ((Math.abs(Acc[1][2][i]) / 0.0023283) / 16777216);
+                        command[i * 4 + 120] = (byte) (((Math.abs(Acc[1][2][i]) / 0.0023283) % 16777216) / 65536);
+                        command[i * 4 + 121] = (byte) (((Math.abs(Acc[1][2][i]) / 0.0023283) % 65536) / 256);
+                        command[i * 4 + 122] = (byte) ((Math.abs(Acc[1][2][i]) / 0.0023283) % 256);
+                    }
+                    if (Acc[0][1][6] >= 0) {
+                        command[279] = 0x1;
+                    } else {
+                        command[279] = 0x10;
+                    }
+                    if (Acc[1][1][6] >= 0) {
+                        command[280] = 0x67;
+                    } else {
+                        command[280] = 0x76;
+                    }
+                    ds = 0;
+                    final Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            // 你要做的事。。。
+                            sendMessage(command);
+                            ds++;
+                            if (ds == 9) {
+                                timer.cancel();// 取消操作
+                                toast("设置成功");
+                            }
+                        }
+                    }, 0, 1000);// 0秒后执行，每1秒执行一次
+
+                }
+        } else {
+            toast("没有标定数据");
+        }
+
     }
 
     public void switchingChannel(int which) {
