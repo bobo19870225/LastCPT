@@ -29,6 +29,7 @@ import www.jingkan.com.db.dao.CalibrationProbeDao;
 import www.jingkan.com.db.dao.CrossTestDataDao;
 import www.jingkan.com.db.dao.MemoryDataDao;
 import www.jingkan.com.db.dao.TestDao;
+import www.jingkan.com.util.VibratorUtil;
 import www.jingkan.com.util.bluetooth.BluetoothCommService;
 import www.jingkan.com.util.bluetooth.BluetoothUtil;
 
@@ -60,6 +61,8 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     MemoryDataDao memoryDataDao;
     @Inject
     CalibrationProbeDao calibrationProbeDao;
+    @Inject
+    VibratorUtil vibratorUtil;
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
@@ -68,7 +71,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         if (modelClass.isAssignableFrom(CrossTestViewModel.class)) {
             return (T) new CrossTestViewModel(application, bluetoothUtil, bluetoothCommService, testDao, crossTestDataDao);
         } else if (modelClass.isAssignableFrom(SetCalibrationDataVM.class)) {
-            return (T) new SetCalibrationDataVM(application, bluetoothUtil, bluetoothCommService, memoryDataDao, calibrationProbeDao);
+            return (T) new SetCalibrationDataVM(application, bluetoothUtil,
+                    bluetoothCommService, memoryDataDao,
+                    calibrationProbeDao, vibratorUtil);
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());

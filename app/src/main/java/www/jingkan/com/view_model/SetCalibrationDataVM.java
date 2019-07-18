@@ -22,9 +22,19 @@ import www.jingkan.com.db.entity.MemoryDataEntity;
 import www.jingkan.com.util.SingleLiveEvent;
 import www.jingkan.com.util.StringUtil;
 import www.jingkan.com.util.SystemConstant;
+import www.jingkan.com.util.VibratorUtil;
 import www.jingkan.com.util.bluetooth.BluetoothCommService;
 import www.jingkan.com.util.bluetooth.BluetoothUtil;
 import www.jingkan.com.view_model.base.BaseViewModel;
+
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.MESSAGE_READ;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.MESSAGE_STATE_CHANGE;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_CONNECTED;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_CONNECTING;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_CONNECT_FAILED;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_CONNECT_LOST;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_LISTEN;
+import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_NONE;
 
 /**
  * Created by Sampson on 2018/12/21.
@@ -36,6 +46,12 @@ public class SetCalibrationDataVM extends BaseViewModel {
     private BluetoothCommService bluetoothCommService;
     private MemoryDataDao memoryDataDao;
     private CalibrationProbeDao calibrationProbeDao;
+    private VibratorUtil vibratorUtil;
+    private String[] effectiveValues;
+    private int[][] YBL;
+
+    public final MutableLiveData<Boolean> ldIsShock = new MutableLiveData<>();
+
     public final SingleLiveEvent<List<MemoryDataEntity>> resetQcView = new SingleLiveEvent<>();
     public final SingleLiveEvent<List<MemoryDataEntity>> resetFsView = new SingleLiveEvent<>();
 
@@ -46,6 +62,14 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public final MutableLiveData<String> ldInitial = new MutableLiveData<>();
     public final MutableLiveData<String> ldValid = new MutableLiveData<>();
     public final MutableLiveData<String> ldChannel = new MutableLiveData<>();
+    public final MutableLiveData<String> ldFaX = new MutableLiveData<>();
+    public final MutableLiveData<String> ldFaY = new MutableLiveData<>();
+    public final MutableLiveData<String> ldFaZ = new MutableLiveData<>();
+
+    public final MutableLiveData<String> ldFaEffectiveX = new MutableLiveData<>();
+    public final MutableLiveData<String> ldFaEffectiveY = new MutableLiveData<>();
+    public final MutableLiveData<String> ldFaEffectiveZ = new MutableLiveData<>();
+
     public final MutableLiveData<String> ldBZHZ1 = new MutableLiveData<>();
     public final MutableLiveData<String> ldBZHZ2 = new MutableLiveData<>();
     public final MutableLiveData<String> ldBZHZ3 = new MutableLiveData<>();
@@ -100,12 +124,18 @@ public class SetCalibrationDataVM extends BaseViewModel {
     private int obliquityZ = 0;
     private String strModel;
 
-    public SetCalibrationDataVM(@NonNull Application application, BluetoothUtil bluetoothUtil, BluetoothCommService bluetoothCommService, MemoryDataDao memoryDataDao, CalibrationProbeDao calibrationProbeDao) {
+    public SetCalibrationDataVM(@NonNull Application application,
+                                BluetoothUtil bluetoothUtil,
+                                BluetoothCommService bluetoothCommService,
+                                MemoryDataDao memoryDataDao,
+                                CalibrationProbeDao calibrationProbeDao,
+                                VibratorUtil vibratorUtil) {
         super(application);
         this.bluetoothUtil = bluetoothUtil;
         this.bluetoothCommService = bluetoothCommService;
         this.memoryDataDao = memoryDataDao;
         this.calibrationProbeDao = calibrationProbeDao;
+        this.vibratorUtil = vibratorUtil;
     }
 
 
@@ -131,6 +161,90 @@ public class SetCalibrationDataVM extends BaseViewModel {
         boolean isDoubleBridge = strings[2].contains("双桥");
         boolean isMultifunctional = strings[2].contains("多功能");
         initProbeParameters(strings[1], isDoubleBridge, isMultifunctional);//参数为探头序列号
+        bluetoothCommService.getBluetoothMessageMutableLiveData().observe(lifecycleOwner, bluetoothMessage -> {
+            switch (bluetoothMessage.what) {
+                case MESSAGE_STATE_CHANGE:
+                    switch (bluetoothMessage.arg1) {
+                        case STATE_NONE:
+                            break;
+                        case STATE_LISTEN:// 监听连接
+                            break;
+                        case STATE_CONNECTING: // now initiating an outgoing connection
+                            toast("正在连接");
+                            break;
+                        case STATE_CONNECTED:   // 已连接上远程设备
+                            action.setValue("closeWaitDialog");
+//                            closeWaitDialog();
+                            toast("连接成功");
+                            break;
+                        case STATE_CONNECT_FAILED: // 连接失败
+                            action.setValue("closeWaitDialog");
+//                            closeWaitDialog();
+                            toast("连接失败");
+                            break;
+                        case STATE_CONNECT_LOST: // 失去连接
+                            toast("失去连接");
+                            break;
+                    }
+                    break;
+                case MESSAGE_READ:
+                    byte[] b = (byte[]) bluetoothMessage.obj;
+                    String mDate = new String(b);
+                    if (mDate.length() > 40) {
+                        if (mDate.contains("\r")) {
+                            mDate = mDate.substring(0, mDate.indexOf("\r"));
+                        }
+                        if (mDate.contains("Sn")) {
+                            ldValid.setValue("已标定");
+//                            myView.get().showEffectiveValue("已标定");
+                            break;
+                        }
+
+                        String[] split = mDate.split(" ");
+                        for (int i = 0, j = 0; i < split.length; i++) {
+                            String aSplit = split[i];
+                            if (StringUtil.isInteger(aSplit)) {
+                                effectiveValues[j] = aSplit;
+                                if (j == 4) {
+                                    break;
+                                }
+                                j++;
+                            }
+                        }
+                        if (isFa) {
+                            if (StringUtil.isInteger(effectiveValues[2])
+                                    && StringUtil.isInteger(effectiveValues[3])
+                                    && StringUtil.isInteger(effectiveValues[4])) {
+                                ldFaX.setValue(effectiveValues[2]);
+                                ldFaY.setValue(effectiveValues[4]);
+                                ldFaZ.setValue(effectiveValues[3]);
+                                action.setValue("showFaChannelValue");
+//                                myView.get().showFaChannelValue(
+//                                        Integer.parseInt(effectiveValues[2]),
+//                                        Integer.parseInt(effectiveValues[4]),
+//                                        Integer.parseInt(effectiveValues[3]));
+                            }
+                        } else {
+                            String initialValue = ldInitial.getValue();
+                            if (isFs) {//侧壁读数
+                                if (StringUtil.isInteger(effectiveValues[1])) {
+                                    if (initialValue != null) {
+                                        ldValid.setValue(String.valueOf(Integer.parseInt(effectiveValues[1]) - Integer.parseInt(initialValue)));
+                                    }
+                                }
+                            } else {//锥尖读数
+                                if (StringUtil.isInteger(effectiveValues[0])) {
+                                    if (initialValue != null) {
+                                        ldValid.setValue(String.valueOf(Integer.parseInt(effectiveValues[0]) - Integer.parseInt(initialValue)));
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                    break;
+            }
+        });
     }
 
     private void initProbeParameters(final String sn, boolean isFs, final boolean isFa) {
@@ -226,18 +340,15 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 }
             });
         } else {//单桥或十字板
-            memoryDataDao.getMemoryDataByProbeIdAndType(sn, "qc").observe(lifecycleOwner, new Observer<List<MemoryDataEntity>>() {
-                @Override
-                public void onChanged(List<MemoryDataEntity> memoryDataEntities) {
-                    if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
-                        if (isFa) {
-                            switchingChannel(2);//切换到测斜通道
-                        } else {
-                            switchingChannel(0);//切换到锥头通道
-                        }
+            memoryDataDao.getMemoryDataByProbeIdAndType(sn, "qc").observe(lifecycleOwner, memoryDataEntities -> {
+                if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
+                    if (isFa) {
+                        switchingChannel(2);//切换到测斜通道
                     } else {
-                        toast("没有历史数据");
+                        switchingChannel(0);//切换到锥头通道
                     }
+                } else {
+                    toast("没有历史数据");
                 }
             });
 
@@ -246,6 +357,11 @@ public class SetCalibrationDataVM extends BaseViewModel {
 
     }
 
+    /**
+     * 初始化标准荷载
+     *
+     * @param ratio 倍率
+     */
     private void initAcc(int ratio) {
         for (int i = 0; i < 7; i++) {
             Acc[0][0][i] = i * ratio * 2000;
@@ -551,6 +667,142 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 break;
         }
 
+    }
+
+    public void doRecord() {
+        Boolean shockValue = ldIsShock.getValue();
+        if (shockValue != null && shockValue) {
+            vibratorUtil.Vibrate(200);
+        }
+        String validValue = ldValid.getValue();
+        if (validValue != null) {
+            if (index < 7) {//加荷1
+                if (index == 0) {//读初值
+                    if (effectiveValues.length > 0) {
+                        if (isFs) {//侧壁读数
+                            ldInitial.setValue(effectiveValues[1]);
+//                        initialValue = Integer.parseInt(effectiveValues[1]);
+                        } else {//锥尖读数
+                            ldInitial.setValue(effectiveValues[0]);
+//                        initialValue = Integer.parseInt(effectiveValues[0]);
+                        }
+//                    myView.get().showInitialValue(String.valueOf(initialValue));
+                    }
+                    String initialValue = ldInitial.getValue();
+                    if (initialValue != null) {
+                        YBL[0][0] = Integer.parseInt(initialValue);
+                    }
+                } else {
+                    YBL[0][index] = Integer.parseInt(validValue);
+                }
+            } else if (index < 14) {//卸荷1
+                YBL[1][13 - index] = Integer.parseInt(validValue);
+            } else if (index < 21) {//加荷2
+                YBL[2][index - 14] = Integer.parseInt(validValue);
+            } else if (index < 28) {//卸荷2
+                YBL[3][27 - index] = Integer.parseInt(validValue);
+                if (index == 27) {
+                    getAverageValue();
+                    if (isFs) {
+                        storeData("fs");
+                    } else {
+                        storeData("qc");
+                    }
+
+                }
+            }
+        }
+//        myView.get().showRecordValue(String.valueOf(effectiveValue));
+        index++;
+    }
+
+    private void storeData(String type) {
+        MemoryDataEntity memoryDataEntity;
+        if (type.equals("qc")) {
+            for (int i = 0; i < 7; i++) {
+                Acc[0][1][i] = YBL[4][i];// 锥头加荷平均
+                memoryDataEntity = new MemoryDataEntity();
+                String snValue = ldSN.getValue();
+                if (snValue != null) {
+                    memoryDataEntity.probeID = snValue;
+                }
+                memoryDataEntity.type = type;
+                memoryDataEntity.forceType = "加荷";
+                memoryDataEntity.ADValue = YBL[4][i];
+                ExecutorService DB_IO = Executors.newFixedThreadPool(2);
+                MemoryDataEntity finalMemoryDataEntity = memoryDataEntity;
+                DB_IO.execute(() -> {
+                    memoryDataDao.insertMemoryDataEntity(finalMemoryDataEntity);
+                    DB_IO.shutdown();//关闭线程
+                });
+
+            }
+            for (int i = 0; i < 7; i++) {
+                Acc[0][2][i] = YBL[5][i];// 锥头卸荷平均
+                memoryDataEntity = new MemoryDataEntity();
+                String snValue = ldSN.getValue();
+                if (snValue != null) {
+                    memoryDataEntity.probeID = snValue;
+                }
+                memoryDataEntity.type = type;
+                memoryDataEntity.forceType = "卸荷";
+                memoryDataEntity.ADValue = YBL[5][i];
+                ExecutorService DB_IO = Executors.newFixedThreadPool(2);
+                MemoryDataEntity finalMemoryDataEntity = memoryDataEntity;
+                DB_IO.execute(() -> {
+                    memoryDataDao.insertMemoryDataEntity(finalMemoryDataEntity);
+                    DB_IO.shutdown();//关闭线程
+                });
+            }
+        } else {
+            for (int i = 0; i < 7; i++) {
+                Acc[1][1][i] = YBL[4][i];// 侧壁加荷平均
+                memoryDataEntity = new MemoryDataEntity();
+                String snValue = ldSN.getValue();
+                if (snValue != null) {
+                    memoryDataEntity.probeID = snValue;
+                }
+                memoryDataEntity.type = type;
+                memoryDataEntity.forceType = "加荷";
+                memoryDataEntity.ADValue = YBL[4][i];
+                ExecutorService DB_IO = Executors.newFixedThreadPool(2);
+                MemoryDataEntity finalMemoryDataEntity = memoryDataEntity;
+                DB_IO.execute(() -> {
+                    memoryDataDao.insertMemoryDataEntity(finalMemoryDataEntity);
+                    DB_IO.shutdown();//关闭线程
+                });
+            }
+            for (int i = 0; i < 7; i++) {
+                Acc[1][2][i] = YBL[5][i];// 侧壁卸荷平均
+                memoryDataEntity = new MemoryDataEntity();
+                String snValue = ldSN.getValue();
+                if (snValue != null) {
+                    memoryDataEntity.probeID = snValue;
+                }
+                memoryDataEntity.type = type;
+                memoryDataEntity.forceType = "卸荷";
+                memoryDataEntity.ADValue = YBL[5][i];
+                ExecutorService DB_IO = Executors.newFixedThreadPool(2);
+                MemoryDataEntity finalMemoryDataEntity = memoryDataEntity;
+                DB_IO.execute(() -> {
+                    memoryDataDao.insertMemoryDataEntity(finalMemoryDataEntity);
+                    DB_IO.shutdown();//关闭线程
+                });
+            }
+        }
+
+    }
+
+    private void getAverageValue() {
+        for (int i = 0; i < YBL[0].length; i++) {
+            YBL[4][i] = (YBL[0][i] + YBL[2][i]) / 2;
+            YBL[5][i] = (YBL[1][i] + YBL[3][i]) / 2;
+        }
+        //去皮
+        for (int i = 0; i < YBL[0].length; i++) {
+            YBL[4][i] = YBL[4][i] - YBL[5][0] * i / 13;
+            YBL[5][i] = YBL[5][i] - YBL[4][0] * (13 - i) / 13;
+        }
     }
 
     private void sendMessage(byte[] message) {

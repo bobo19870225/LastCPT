@@ -633,8 +633,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:layout_toEndOf="@+id/tt_obliquity_value"
-                        android:layout_toRightOf="@+id/tt_obliquity_value"
-                        android:text="x"
+                        android:text="@{model.ldFaX}"
                         android:textSize="16sp" />
 
                     <TextView
@@ -643,8 +642,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:layout_toEndOf="@+id/x"
-                        android:layout_toRightOf="@+id/x"
-                        android:text="y"
+                        android:text="@{model.ldFaY}"
                         android:textSize="16sp" />
 
                     <TextView
@@ -653,8 +651,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:layout_toEndOf="@+id/y"
-                        android:layout_toRightOf="@+id/y"
-                        android:text="z"
+                        android:text="@{model.ldFaZ}"
                         android:textSize="16sp" />
                     <!--斜度有效-->
                     <TextView
@@ -673,8 +670,7 @@
                         android:layout_below="@+id/tt_obliquity_value"
                         android:layout_margin="8dp"
                         android:layout_toEndOf="@+id/tt_obliquity_value"
-                        android:layout_toRightOf="@+id/tt_obliquity_value"
-                        android:text="x"
+                        android:text="@{model.ldFaEffectiveX}"
                         android:textSize="16sp" />
 
                     <TextView
@@ -684,8 +680,7 @@
                         android:layout_below="@+id/tt_obliquity_value"
                         android:layout_margin="8dp"
                         android:layout_toEndOf="@+id/x"
-                        android:layout_toRightOf="@+id/x"
-                        android:text="y"
+                        android:text="@{model.ldFaEffectiveY}"
                         android:textSize="16sp" />
 
                     <TextView
@@ -695,8 +690,7 @@
                         android:layout_below="@+id/tt_obliquity_value"
                         android:layout_margin="8dp"
                         android:layout_toEndOf="@+id/y"
-                        android:layout_toRightOf="@+id/y"
-                        android:text="z"
+                        android:text="@{model.ldFaEffectiveZ}"
                         android:textSize="16sp" />
                     <!--斜度初值-->
                     <TextView
@@ -715,8 +709,7 @@
                         android:layout_below="@+id/tt_effective_value"
                         android:layout_margin="8dp"
                         android:layout_toEndOf="@+id/tt_obliquity_value"
-                        android:layout_toRightOf="@+id/tt_obliquity_value"
-                        android:text="0"
+                        android:text="@{model.ldFaInitialX}"
                         android:textSize="16sp" />
 
                     <TextView
@@ -726,8 +719,7 @@
                         android:layout_below="@+id/tt_effective_value"
                         android:layout_margin="8dp"
                         android:layout_toEndOf="@+id/x"
-                        android:layout_toRightOf="@+id/x"
-                        android:text="0"
+                        android:text="@{model.ldFaInitialY}"
                         android:textSize="16sp" />
 
                     <TextView
@@ -737,8 +729,7 @@
                         android:layout_below="@+id/tt_effective_value"
                         android:layout_margin="8dp"
                         android:layout_toEndOf="@+id/y"
-                        android:layout_toRightOf="@+id/y"
-                        android:text="0"
+                        android:text="@{model.ldFaInitialZ}"
                         android:textSize="16sp" />
 
                     <Button
@@ -765,6 +756,7 @@
             app:layout_behavior="@string/bottom_sheet_behavior">
 
             <Button
+                android:onClick="@{()->model.doRecord()}"
                 android:id="@+id/bt_record"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -780,6 +772,7 @@
                 android:layout_height="match_parent" />
 
             <CheckBox
+                android:checked="@={model.ldIsShock}"
                 android:id="@+id/shock"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

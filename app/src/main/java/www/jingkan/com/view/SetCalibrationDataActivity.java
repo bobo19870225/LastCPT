@@ -47,6 +47,9 @@ public class SetCalibrationDataActivity extends BaseMVVMDaggerActivity<SetCalibr
                 case "showFaChannel":
                     showFaChannel();
                     break;
+                case "showFaChannelValue":
+                    showFaChannelValue();
+                    break;
             }
 
         });
@@ -59,13 +62,11 @@ public class SetCalibrationDataActivity extends BaseMVVMDaggerActivity<SetCalibr
         mViewDataBinding.rlFa.setVisibility(View.VISIBLE);
         mViewModel.ldChannel.setValue("斜度");
     }
-//    private void showFaChannelValue(int x, int y, int z) {
-//        tv_x.setText(String.valueOf(x));
-//        tv_y.setText(String.valueOf(y));
-//        tv_z.setText(String.valueOf(z));
-//        bt_record.setEnabled(false);
-//        bt_record.setBackgroundColor(getResources().getColor(R.color.rl_gray));
-//    }
+
+    private void showFaChannelValue() {
+        mViewDataBinding.btRecord.setEnabled(false);
+        mViewDataBinding.btRecord.setBackgroundColor(getResources().getColor(R.color.rl_gray, null));
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

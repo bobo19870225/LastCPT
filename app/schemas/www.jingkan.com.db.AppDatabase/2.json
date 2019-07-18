@@ -1,0 +1,668 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "165aec884a44b237d9175ce9e07e23b0",
+    "entities": [
+      {
+        "tableName": "calibrationProbe",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`probeID` TEXT NOT NULL, `number` TEXT, `work_area` TEXT, `differential` TEXT, PRIMARY KEY(`probeID`))",
+        "fields": [
+          {
+            "fieldPath": "probeID",
+            "columnName": "probeID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "number",
+            "columnName": "number",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "work_area",
+            "columnName": "work_area",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "differential",
+            "columnName": "differential",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "probeID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "calibrationVerification",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`probeNo` TEXT NOT NULL, `type` TEXT, `standardValue` TEXT, `forceType` TEXT, `loadValue` REAL NOT NULL, PRIMARY KEY(`probeNo`))",
+        "fields": [
+          {
+            "fieldPath": "probeNo",
+            "columnName": "probeNo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "standardValue",
+            "columnName": "standardValue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "forceType",
+            "columnName": "forceType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "loadValue",
+            "columnName": "loadValue",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "probeNo"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "probe",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`probeID` TEXT NOT NULL, `sn` TEXT, `number` TEXT, `type` TEXT, `qc_area` TEXT, `fs_area` TEXT, `qc_coefficient` REAL NOT NULL, `fs_coefficient` REAL NOT NULL, `qc_limit` INTEGER NOT NULL, `fs_limit` INTEGER NOT NULL, PRIMARY KEY(`probeID`))",
+        "fields": [
+          {
+            "fieldPath": "probeID",
+            "columnName": "probeID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn",
+            "columnName": "sn",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "number",
+            "columnName": "number",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "qc_area",
+            "columnName": "qc_area",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fs_area",
+            "columnName": "fs_area",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "qc_coefficient",
+            "columnName": "qc_coefficient",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fs_coefficient",
+            "columnName": "fs_coefficient",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qc_limit",
+            "columnName": "qc_limit",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fs_limit",
+            "columnName": "fs_limit",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "probeID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "memoryData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`probeID` TEXT NOT NULL, `probeNo` TEXT, `type` TEXT, `forceType` TEXT, `ADValue` INTEGER NOT NULL, PRIMARY KEY(`probeID`))",
+        "fields": [
+          {
+            "fieldPath": "probeID",
+            "columnName": "probeID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "probeNo",
+            "columnName": "probeNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "forceType",
+            "columnName": "forceType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ADValue",
+            "columnName": "ADValue",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "probeID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "msgData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`msgID` INTEGER NOT NULL, `title` TEXT, `time` TEXT, PRIMARY KEY(`msgID`))",
+        "fields": [
+          {
+            "fieldPath": "msgID",
+            "columnName": "msgID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "msgID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "test",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`testID` TEXT NOT NULL, `testDate` TEXT, `projectNumber` TEXT, `holeNumber` TEXT, `holeHigh` REAL NOT NULL, `waterLevel` REAL NOT NULL, `location` TEXT, `tester` TEXT, `testType` TEXT, `testProbeType` TEXT, `testDataID` TEXT, PRIMARY KEY(`testID`))",
+        "fields": [
+          {
+            "fieldPath": "testID",
+            "columnName": "testID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "testDate",
+            "columnName": "testDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "projectNumber",
+            "columnName": "projectNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "holeNumber",
+            "columnName": "holeNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "holeHigh",
+            "columnName": "holeHigh",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "waterLevel",
+            "columnName": "waterLevel",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tester",
+            "columnName": "tester",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "testType",
+            "columnName": "testType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "testProbeType",
+            "columnName": "testProbeType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "testDataID",
+            "columnName": "testDataID",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "testID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "testData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`testDataID` TEXT, `probeID` TEXT, `deep` REAL NOT NULL, `qc` REAL NOT NULL, `fs` REAL NOT NULL, `fa` REAL NOT NULL, PRIMARY KEY(`deep`))",
+        "fields": [
+          {
+            "fieldPath": "testDataID",
+            "columnName": "testDataID",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "probeID",
+            "columnName": "probeID",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "deep",
+            "columnName": "deep",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qc",
+            "columnName": "qc",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fs",
+            "columnName": "fs",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fa",
+            "columnName": "fa",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "deep"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "crossTestData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`testDataID` TEXT NOT NULL, `probeID` TEXT, `deep` REAL NOT NULL, `type` TEXT, `number` INTEGER NOT NULL, `cu` REAL NOT NULL, `deg` INTEGER NOT NULL, PRIMARY KEY(`testDataID`))",
+        "fields": [
+          {
+            "fieldPath": "testDataID",
+            "columnName": "testDataID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "probeID",
+            "columnName": "probeID",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "deep",
+            "columnName": "deep",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "number",
+            "columnName": "number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cu",
+            "columnName": "cu",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deg",
+            "columnName": "deg",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "testDataID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "wirelessProbe",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`probeID` TEXT NOT NULL, `sn` TEXT, `number` TEXT, `type` TEXT, `qc_area` TEXT, `fs_area` TEXT, `qc_coefficient` REAL NOT NULL, `fs_coefficient` REAL NOT NULL, `qc_limit` INTEGER NOT NULL, `fs_limit` INTEGER NOT NULL, PRIMARY KEY(`probeID`))",
+        "fields": [
+          {
+            "fieldPath": "probeID",
+            "columnName": "probeID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn",
+            "columnName": "sn",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "number",
+            "columnName": "number",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "qc_area",
+            "columnName": "qc_area",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fs_area",
+            "columnName": "fs_area",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "qc_coefficient",
+            "columnName": "qc_coefficient",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fs_coefficient",
+            "columnName": "fs_coefficient",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qc_limit",
+            "columnName": "qc_limit",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fs_limit",
+            "columnName": "fs_limit",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "probeID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "wirelessResultData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`testDataID` TEXT NOT NULL, `probeNumber` TEXT, `deep` REAL NOT NULL, `qc` REAL NOT NULL, `fs` REAL NOT NULL, `fa` REAL NOT NULL, PRIMARY KEY(`testDataID`))",
+        "fields": [
+          {
+            "fieldPath": "testDataID",
+            "columnName": "testDataID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "probeNumber",
+            "columnName": "probeNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "deep",
+            "columnName": "deep",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qc",
+            "columnName": "qc",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fs",
+            "columnName": "fs",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fa",
+            "columnName": "fa",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "testDataID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "wirelessTest",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`testID` TEXT NOT NULL, `testDate` TEXT, `projectNumber` TEXT, `holeNumber` TEXT, `holeHigh` REAL NOT NULL, `waterLevel` REAL NOT NULL, `location` TEXT, `tester` TEXT, `testType` TEXT, `testDataID` TEXT, PRIMARY KEY(`testID`))",
+        "fields": [
+          {
+            "fieldPath": "testID",
+            "columnName": "testID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "testDate",
+            "columnName": "testDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "projectNumber",
+            "columnName": "projectNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "holeNumber",
+            "columnName": "holeNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "holeHigh",
+            "columnName": "holeHigh",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "waterLevel",
+            "columnName": "waterLevel",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tester",
+            "columnName": "tester",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "testType",
+            "columnName": "testType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "testDataID",
+            "columnName": "testDataID",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "testID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "wirelessTestData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`testDataID` TEXT NOT NULL, `probeNumber` TEXT, `deep` REAL NOT NULL, `rtc` INTEGER NOT NULL, PRIMARY KEY(`testDataID`))",
+        "fields": [
+          {
+            "fieldPath": "testDataID",
+            "columnName": "testDataID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "probeNumber",
+            "columnName": "probeNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "deep",
+            "columnName": "deep",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rtc",
+            "columnName": "rtc",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "testDataID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"165aec884a44b237d9175ce9e07e23b0\")"
+    ]
+  }
+}
