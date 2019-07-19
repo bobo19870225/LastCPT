@@ -157,22 +157,39 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp">
 
+                    <!--<TextView-->
+                    <!--android:id="@+id/tt_initial"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginStart="15dp"-->
+                    <!--android:text="初值："-->
+                    <!--android:textSize="16sp" />-->
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/initial"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_toEndOf="@+id/tt_initial"-->
+                    <!--android:text="@{model.ldInitial}"-->
+                    <!--android:textSize="16sp" />-->
                     <TextView
-                        android:id="@+id/tt_initial"
+                        android:id="@+id/tt_channel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="15dp"
-                        android:text="初值："
+                        android:text="当前通道："
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/initial"
+                        android:id="@+id/channel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/tt_initial"
-                        android:text="@{model.ldInitial}"
+                        android:layout_toEndOf="@+id/tt_channel"
+                        android:text="@{model.ldChannel}"
                         android:textSize="16sp" />
 
                     <TextView
@@ -201,34 +218,17 @@
                         android:background="@color/v_gray" />
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp">
+                <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="48dp">-->
 
-                    <TextView
-                        android:id="@+id/tt_channel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="15dp"
-                        android:text="当前通道："
-                        android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/channel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/tt_channel"
-                        android:text="@{model.ldChannel}"
-                        android:textSize="16sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/v_gray" />
-                </RelativeLayout>
+                <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0.5dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:background="@color/v_gray" />-->
+                <!--</RelativeLayout>-->
 
                 <TableLayout
                     android:id="@+id/tb_ybl"
@@ -756,12 +756,12 @@
             app:layout_behavior="@string/bottom_sheet_behavior">
 
             <Button
-                android:onClick="@{()->model.doRecord()}"
                 android:id="@+id/bt_record"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/them_color"
+                android:onClick="@{()->model.doRecord()}"
                 android:text="记录"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -772,12 +772,12 @@
                 android:layout_height="match_parent" />
 
             <CheckBox
-                android:checked="@={model.ldIsShock}"
                 android:id="@+id/shock"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/them_color"
+                android:checked="@={model.ldIsShock}"
                 android:gravity="center"
                 android:text="震动提示"
                 android:textColor="@color/white"

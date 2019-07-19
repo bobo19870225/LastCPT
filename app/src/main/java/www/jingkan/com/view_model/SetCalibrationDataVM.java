@@ -7,8 +7,8 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -47,9 +47,10 @@ public class SetCalibrationDataVM extends BaseViewModel {
     private MemoryDataDao memoryDataDao;
     private CalibrationProbeDao calibrationProbeDao;
     private VibratorUtil vibratorUtil;
-    private String[] effectiveValues;
-    private int[][] YBL;
+    private String[] effectiveValues = new String[5];
+    private int[][] YBL = new int[6][7];
 
+    private List<MutableLiveData<String>> points = new ArrayList<>();
     public final MutableLiveData<Boolean> ldIsShock = new MutableLiveData<>();
 
     public final SingleLiveEvent<List<MemoryDataEntity>> resetQcView = new SingleLiveEvent<>();
@@ -59,7 +60,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public final MutableLiveData<String> ldNumber = new MutableLiveData<>();
     public final MutableLiveData<String> ldArea = new MutableLiveData<>();
     public final MutableLiveData<String> ldDifferential = new MutableLiveData<>();
-    public final MutableLiveData<String> ldInitial = new MutableLiveData<>();
+    //    public final MutableLiveData<String> ldInitial = new MutableLiveData<>();
     public final MutableLiveData<String> ldValid = new MutableLiveData<>();
     public final MutableLiveData<String> ldChannel = new MutableLiveData<>();
     public final MutableLiveData<String> ldFaX = new MutableLiveData<>();
@@ -69,6 +70,10 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public final MutableLiveData<String> ldFaEffectiveX = new MutableLiveData<>();
     public final MutableLiveData<String> ldFaEffectiveY = new MutableLiveData<>();
     public final MutableLiveData<String> ldFaEffectiveZ = new MutableLiveData<>();
+
+    public final MutableLiveData<String> ldFaInitialX = new MutableLiveData<>();
+    public final MutableLiveData<String> ldFaInitialY = new MutableLiveData<>();
+    public final MutableLiveData<String> ldFaInitialZ = new MutableLiveData<>();
 
     public final MutableLiveData<String> ldBZHZ1 = new MutableLiveData<>();
     public final MutableLiveData<String> ldBZHZ2 = new MutableLiveData<>();
@@ -152,6 +157,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         }
 
     }
+
     @Override
     public void inject(Object... objects) {
 //        effectiveValues = new String[5];
@@ -161,6 +167,8 @@ public class SetCalibrationDataVM extends BaseViewModel {
         boolean isDoubleBridge = strings[2].contains("双桥");
         boolean isMultifunctional = strings[2].contains("多功能");
         initProbeParameters(strings[1], isDoubleBridge, isMultifunctional);//参数为探头序列号
+        initPoints();
+//        ldInitial.setValue("0");
         bluetoothCommService.getBluetoothMessageMutableLiveData().observe(lifecycleOwner, bluetoothMessage -> {
             switch (bluetoothMessage.what) {
                 case MESSAGE_STATE_CHANGE:
@@ -225,18 +233,20 @@ public class SetCalibrationDataVM extends BaseViewModel {
 //                                        Integer.parseInt(effectiveValues[3]));
                             }
                         } else {
-                            String initialValue = ldInitial.getValue();
+//                            String initialValue = ldInitial.getValue();
                             if (isFs) {//侧壁读数
                                 if (StringUtil.isInteger(effectiveValues[1])) {
-                                    if (initialValue != null) {
-                                        ldValid.setValue(String.valueOf(Integer.parseInt(effectiveValues[1]) - Integer.parseInt(initialValue)));
-                                    }
+                                    ldValid.setValue(effectiveValues[1]);
+//                                    if (initialValue != null) {
+//                                        ldValid.setValue(String.valueOf(Integer.parseInt(effectiveValues[1]) - Integer.parseInt(initialValue)));
+//                                    }
                                 }
                             } else {//锥尖读数
                                 if (StringUtil.isInteger(effectiveValues[0])) {
-                                    if (initialValue != null) {
-                                        ldValid.setValue(String.valueOf(Integer.parseInt(effectiveValues[0]) - Integer.parseInt(initialValue)));
-                                    }
+                                    ldValid.setValue(effectiveValues[0]);
+//                                    if (initialValue != null) {
+//                                        ldValid.setValue(String.valueOf(Integer.parseInt(effectiveValues[0]) - Integer.parseInt(initialValue)));
+//                                    }
                                 }
                             }
                         }
@@ -245,6 +255,51 @@ public class SetCalibrationDataVM extends BaseViewModel {
                     break;
             }
         });
+    }
+
+    private void initPoints() {
+//        points.add(ldBZHZ1);
+//        points.add(ldBZHZ2);
+//        points.add(ldBZHZ3);
+//        points.add(ldBZHZ4);
+//        points.add(ldBZHZ5);
+//        points.add(ldBZHZ6);
+//        points.add(ldBZHZ7);
+
+        points.add(ldJH1);
+        points.add(ldJH2);
+        points.add(ldJH3);
+        points.add(ldJH4);
+        points.add(ldJH5);
+        points.add(ldJH6);
+        points.add(ldJH7);
+
+        points.add(ldXH1);
+        points.add(ldXH2);
+        points.add(ldXH3);
+        points.add(ldXH4);
+        points.add(ldXH5);
+        points.add(ldXH6);
+        points.add(ldXH7);
+
+        points.add(ldJh1);
+        points.add(ldJh2);
+        points.add(ldJh3);
+        points.add(ldJh4);
+        points.add(ldJh5);
+        points.add(ldJh6);
+        points.add(ldJh7);
+
+        points.add(ldXh1);
+        points.add(ldXh2);
+        points.add(ldXh3);
+        points.add(ldXh4);
+        points.add(ldXh5);
+        points.add(ldXh6);
+        points.add(ldXh7);
+        for (MutableLiveData<String> ld : points) {
+            ld.setValue("null");
+        }
     }
 
     private void initProbeParameters(final String sn, boolean isFs, final boolean isFa) {
@@ -370,6 +425,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         Acc[0][0][7] = 144000;
         Acc[1][0][7] = 1440000;
     }
+
     public void linkDevice(String mac) {
         BluetoothAdapter bluetoothDevice = bluetoothUtil.
                 getBluetoothAdapter();
@@ -643,7 +699,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                     }
                 });
 
-                ldInitial.setValue("0");
+//                ldInitial.setValue("0");
                 initDifferential();
                 index = 0;
                 break;
@@ -657,7 +713,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                     }
                 });
 
-                ldInitial.setValue("0");
+//                ldInitial.setValue("0");
                 initDifferential();
                 index = 0;
                 break;
@@ -677,24 +733,24 @@ public class SetCalibrationDataVM extends BaseViewModel {
         String validValue = ldValid.getValue();
         if (validValue != null) {
             if (index < 7) {//加荷1
-                if (index == 0) {//读初值
-                    if (effectiveValues.length > 0) {
-                        if (isFs) {//侧壁读数
-                            ldInitial.setValue(effectiveValues[1]);
-//                        initialValue = Integer.parseInt(effectiveValues[1]);
-                        } else {//锥尖读数
-                            ldInitial.setValue(effectiveValues[0]);
-//                        initialValue = Integer.parseInt(effectiveValues[0]);
-                        }
-//                    myView.get().showInitialValue(String.valueOf(initialValue));
-                    }
-                    String initialValue = ldInitial.getValue();
-                    if (initialValue != null) {
-                        YBL[0][0] = Integer.parseInt(initialValue);
-                    }
-                } else {
-                    YBL[0][index] = Integer.parseInt(validValue);
-                }
+//                if (index == 0) {//读初值
+//                    if (effectiveValues.length > 0) {
+//                        if (isFs) {//侧壁读数
+//                            ldInitial.setValue(effectiveValues[1]);
+////                        initialValue = Integer.parseInt(effectiveValues[1]);
+//                        } else {//锥尖读数
+//                            ldInitial.setValue(effectiveValues[0]);
+////                        initialValue = Integer.parseInt(effectiveValues[0]);
+//                        }
+////                    myView.get().showInitialValue(String.valueOf(initialValue));
+//                    }
+//                    String initialValue = ldInitial.getValue();
+//                    if (initialValue != null) {
+//                        YBL[0][0] = Integer.parseInt(initialValue);
+//                        points.get(index).setValue(validValue);
+//                    }
+//                }
+                YBL[0][index] = Integer.parseInt(validValue);
             } else if (index < 14) {//卸荷1
                 YBL[1][13 - index] = Integer.parseInt(validValue);
             } else if (index < 21) {//加荷2
@@ -712,6 +768,8 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 }
             }
         }
+        if (index < points.size())
+            points.get(index).setValue(validValue);
 //        myView.get().showRecordValue(String.valueOf(effectiveValue));
         index++;
     }
@@ -832,6 +890,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         }
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
