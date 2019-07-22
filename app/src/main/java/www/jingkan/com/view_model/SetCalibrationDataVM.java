@@ -163,6 +163,11 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public void inject(Object... objects) {
         String[] strings = (String[]) objects[0];
         ldSN.setValue(strings[1]);
+//        WeightedObservedPoints obs = new WeightedObservedPoints();
+//        for (int i = 0; i < 6; i++) {
+//            obs.add(i, i - 6);
+//        }
+//        float[] QCJH = getCoefficient(obs);
         boolean isDoubleBridge = strings[2].contains("双桥");
         boolean isMultifunctional = strings[2].contains("多功能");
         initProbeParameters(strings[1], isDoubleBridge, isMultifunctional);//参数为探头序列号
