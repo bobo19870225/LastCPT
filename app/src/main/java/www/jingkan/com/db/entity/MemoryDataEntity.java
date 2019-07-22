@@ -12,6 +12,7 @@ import androidx.room.PrimaryKey;
 public class MemoryDataEntity {
     @NonNull
     @PrimaryKey
+    public Integer id = 0;
     public String probeID;
     public String probeNo;
     public String type;

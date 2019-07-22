@@ -41,15 +41,13 @@ public class SetCalibrationDataActivity extends BaseMVVMDaggerActivity<SetCalibr
                     Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                     startActivityForResult(intent, 0);
                     break;
-                case "outPut":
-
+                case "disShowFaChannel":
+                    disShowFaChannel();
                     break;
                 case "showFaChannel":
                     showFaChannel();
                     break;
-                case "showFaChannelValue":
-                    showFaChannelValue();
-                    break;
+
             }
 
         });
@@ -59,13 +57,19 @@ public class SetCalibrationDataActivity extends BaseMVVMDaggerActivity<SetCalibr
 
     private void showFaChannel() {
         mViewDataBinding.tbYbl.setVisibility(View.GONE);
+        mViewDataBinding.ttValid.setVisibility(View.GONE);
+        mViewDataBinding.valid.setVisibility(View.GONE);
+        mViewDataBinding.llRecord.setVisibility(View.GONE);
         mViewDataBinding.rlFa.setVisibility(View.VISIBLE);
         mViewModel.ldChannel.setValue("斜度");
     }
 
-    private void showFaChannelValue() {
-        mViewDataBinding.btRecord.setEnabled(false);
-        mViewDataBinding.btRecord.setBackgroundColor(getResources().getColor(R.color.rl_gray, null));
+    private void disShowFaChannel() {
+        mViewDataBinding.tbYbl.setVisibility(View.VISIBLE);
+        mViewDataBinding.ttValid.setVisibility(View.VISIBLE);
+        mViewDataBinding.valid.setVisibility(View.VISIBLE);
+        mViewDataBinding.llRecord.setVisibility(View.VISIBLE);
+        mViewDataBinding.rlFa.setVisibility(View.GONE);
     }
 
     @Override

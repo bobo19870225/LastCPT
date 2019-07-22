@@ -750,6 +750,7 @@
         </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
+            android:id="@+id/ll_record"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal"

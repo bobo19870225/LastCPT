@@ -219,6 +219,21 @@ public class SetCalibrationDataVM extends BaseViewModel {
                                 j++;
                             }
                         }
+                        if (isFs) {//侧壁读数
+                            if (StringUtil.isInteger(effectiveValues[1])) {
+                                ldValid.setValue(effectiveValues[1]);
+//                                    if (initialValue != null) {
+//                                        ldValid.setValue(String.valueOf(Integer.parseInt(effectiveValues[1]) - Integer.parseInt(initialValue)));
+//                                    }
+                            }
+                        } else {//锥尖读数
+                            if (StringUtil.isInteger(effectiveValues[0])) {
+                                ldValid.setValue(effectiveValues[0]);
+//                                    if (initialValue != null) {
+//                                        ldValid.setValue(String.valueOf(Integer.parseInt(effectiveValues[0]) - Integer.parseInt(initialValue)));
+//                                    }
+                            }
+                        }
                         if (isFa) {
                             if (StringUtil.isInteger(effectiveValues[2])
                                     && StringUtil.isInteger(effectiveValues[3])
@@ -226,28 +241,11 @@ public class SetCalibrationDataVM extends BaseViewModel {
                                 ldFaX.setValue(effectiveValues[2]);
                                 ldFaY.setValue(effectiveValues[4]);
                                 ldFaZ.setValue(effectiveValues[3]);
-                                action.setValue("showFaChannelValue");
+//                                action.setValue("showFaChannelValue");
 //                                myView.get().showFaChannelValue(
 //                                        Integer.parseInt(effectiveValues[2]),
 //                                        Integer.parseInt(effectiveValues[4]),
 //                                        Integer.parseInt(effectiveValues[3]));
-                            }
-                        } else {
-//                            String initialValue = ldInitial.getValue();
-                            if (isFs) {//侧壁读数
-                                if (StringUtil.isInteger(effectiveValues[1])) {
-                                    ldValid.setValue(effectiveValues[1]);
-//                                    if (initialValue != null) {
-//                                        ldValid.setValue(String.valueOf(Integer.parseInt(effectiveValues[1]) - Integer.parseInt(initialValue)));
-//                                    }
-                                }
-                            } else {//锥尖读数
-                                if (StringUtil.isInteger(effectiveValues[0])) {
-                                    ldValid.setValue(effectiveValues[0]);
-//                                    if (initialValue != null) {
-//                                        ldValid.setValue(String.valueOf(Integer.parseInt(effectiveValues[0]) - Integer.parseInt(initialValue)));
-//                                    }
-                                }
                             }
                         }
 
@@ -386,11 +384,13 @@ public class SetCalibrationDataVM extends BaseViewModel {
                             if (isFa) {
                                 switchingChannel(2);//切换到测斜通道
                             }
-                        } else {//没有侧壁数据时准备采集侧壁数据
-                            switchingChannel(1);//切换到侧壁
                         }
+//                        else {//没有侧壁数据时准备采集侧壁数据
+//                            switchingChannel(1);//切换到侧壁
+//                        }
                     });
                 } else {
+//                    switchingChannel(0);//切换到测斜通道
                     toast("没有历史数据");
                 }
             });
@@ -686,39 +686,43 @@ public class SetCalibrationDataVM extends BaseViewModel {
 
     }
 
-    public void switchingChannel(int which) {
+    private void switchingChannel(int which) {
         String sn = ldSN.getValue();
+        for (MutableLiveData<String> text :
+                points) {
+            text.setValue("null");
+        }
         switch (which) {
             case 0://锥头
+                action.setValue("disShowFaChannel");
                 isFs = false;
-                memoryDataDao.getMemoryDataByProbeIdAndType(sn, "qc").observe(lifecycleOwner, memoryDataEntities -> {
-                    if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
-                        resetQcView.setValue(memoryDataEntities);
-                    } else {
-                        resetQcView.setValue(null);
-                    }
-                });
-
-//                ldInitial.setValue("0");
+//                memoryDataDao.getMemoryDataByProbeIdAndType(sn, "qc").observe(lifecycleOwner, memoryDataEntities -> {
+//                    if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
+//                        resetQcView.setValue(memoryDataEntities);
+//                    } else {
+//                        resetQcView.setValue(null);
+//                    }
+//                });
+                ldChannel.setValue("锥头");
                 initDifferential();
                 index = 0;
                 break;
             case 1://侧壁通道
                 isFs = true;
-                memoryDataDao.getMemoryDataByProbeIdAndType(sn, "fs").observe(lifecycleOwner, memoryDataEntities -> {
-                    if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
-                        resetFsView.setValue(memoryDataEntities);
-                    } else {
-                        resetFsView.setValue(null);
-                    }
-                });
-
-//                ldInitial.setValue("0");
+//                memoryDataDao.getMemoryDataByProbeIdAndType(sn, "fs").observe(lifecycleOwner, memoryDataEntities -> {
+//                    if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
+//                        resetFsView.setValue(memoryDataEntities);
+//                    } else {
+//                        resetFsView.setValue(null);
+//                    }
+//                });
+                ldChannel.setValue("侧壁");
                 initDifferential();
                 index = 0;
                 break;
             case 2://测斜通道
                 isFa = true;
+//                ldChannel.setValue("测斜");
                 action.setValue("showFaChannel");
                 break;
         }
@@ -726,6 +730,10 @@ public class SetCalibrationDataVM extends BaseViewModel {
     }
 
     public void doRecord() {
+        if (bluetoothCommService.getState() != BluetoothCommService.STATE_CONNECTED) {
+            toast("未连接设备");
+            return;
+        }
         Boolean shockValue = ldIsShock.getValue();
         if (shockValue != null && shockValue) {
             vibratorUtil.Vibrate(200);
@@ -733,23 +741,6 @@ public class SetCalibrationDataVM extends BaseViewModel {
         String validValue = ldValid.getValue();
         if (validValue != null) {
             if (index < 7) {//加荷1
-//                if (index == 0) {//读初值
-//                    if (effectiveValues.length > 0) {
-//                        if (isFs) {//侧壁读数
-//                            ldInitial.setValue(effectiveValues[1]);
-////                        initialValue = Integer.parseInt(effectiveValues[1]);
-//                        } else {//锥尖读数
-//                            ldInitial.setValue(effectiveValues[0]);
-////                        initialValue = Integer.parseInt(effectiveValues[0]);
-//                        }
-////                    myView.get().showInitialValue(String.valueOf(initialValue));
-//                    }
-//                    String initialValue = ldInitial.getValue();
-//                    if (initialValue != null) {
-//                        YBL[0][0] = Integer.parseInt(initialValue);
-//                        points.get(index).setValue(validValue);
-//                    }
-//                }
                 YBL[0][index] = Integer.parseInt(validValue);
             } else if (index < 14) {//卸荷1
                 YBL[1][13 - index] = Integer.parseInt(validValue);
@@ -776,14 +767,20 @@ public class SetCalibrationDataVM extends BaseViewModel {
 
     private void storeData(String type) {
         MemoryDataEntity memoryDataEntity;
+        String snValue = ldSN.getValue();
+        String numberValue = ldNumber.getValue();
         if (type.equals("qc")) {
             for (int i = 0; i < 7; i++) {
                 Acc[0][1][i] = YBL[4][i];// 锥头加荷平均
                 memoryDataEntity = new MemoryDataEntity();
-                String snValue = ldSN.getValue();
+
                 if (snValue != null) {
                     memoryDataEntity.probeID = snValue;
                 }
+                if (numberValue != null) {
+                    memoryDataEntity.probeNo = numberValue;
+                }
+                memoryDataEntity.id = i;
                 memoryDataEntity.type = type;
                 memoryDataEntity.forceType = "加荷";
                 memoryDataEntity.ADValue = YBL[4][i];
@@ -798,10 +795,13 @@ public class SetCalibrationDataVM extends BaseViewModel {
             for (int i = 0; i < 7; i++) {
                 Acc[0][2][i] = YBL[5][i];// 锥头卸荷平均
                 memoryDataEntity = new MemoryDataEntity();
-                String snValue = ldSN.getValue();
                 if (snValue != null) {
                     memoryDataEntity.probeID = snValue;
                 }
+                if (numberValue != null) {
+                    memoryDataEntity.probeNo = numberValue;
+                }
+                memoryDataEntity.id = i + 7;
                 memoryDataEntity.type = type;
                 memoryDataEntity.forceType = "卸荷";
                 memoryDataEntity.ADValue = YBL[5][i];
@@ -816,10 +816,13 @@ public class SetCalibrationDataVM extends BaseViewModel {
             for (int i = 0; i < 7; i++) {
                 Acc[1][1][i] = YBL[4][i];// 侧壁加荷平均
                 memoryDataEntity = new MemoryDataEntity();
-                String snValue = ldSN.getValue();
                 if (snValue != null) {
                     memoryDataEntity.probeID = snValue;
                 }
+                if (numberValue != null) {
+                    memoryDataEntity.probeNo = numberValue;
+                }
+                memoryDataEntity.id = i + 14;
                 memoryDataEntity.type = type;
                 memoryDataEntity.forceType = "加荷";
                 memoryDataEntity.ADValue = YBL[4][i];
@@ -833,10 +836,13 @@ public class SetCalibrationDataVM extends BaseViewModel {
             for (int i = 0; i < 7; i++) {
                 Acc[1][2][i] = YBL[5][i];// 侧壁卸荷平均
                 memoryDataEntity = new MemoryDataEntity();
-                String snValue = ldSN.getValue();
                 if (snValue != null) {
                     memoryDataEntity.probeID = snValue;
                 }
+                if (numberValue != null) {
+                    memoryDataEntity.probeNo = numberValue;
+                }
+                memoryDataEntity.id = i + 21;
                 memoryDataEntity.type = type;
                 memoryDataEntity.forceType = "卸荷";
                 memoryDataEntity.ADValue = YBL[5][i];

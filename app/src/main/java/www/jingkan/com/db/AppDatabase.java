@@ -54,7 +54,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
         WirelessResultDataEntity.class,
         WirelessTestEntity.class,
         WirelessTestDataEntity.class
-}, version = 2)
+}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
