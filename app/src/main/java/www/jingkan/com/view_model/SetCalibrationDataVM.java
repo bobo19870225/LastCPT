@@ -120,7 +120,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
     private boolean isFs;
     private int mType;
     private int index = 0;
-    private byte[] command = new byte[32];
+    private byte[] command = new byte[36];
     //第一维0表示锥尖，1表示侧壁；第二维0表示标准荷载，1表示加荷读数，2表示卸荷读数；第三维表示各级差读数。
     private int[][][] Acc;
     private boolean isFa;
@@ -411,27 +411,31 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public void resetDataToProbe(int which) {
         //先删除以前数据库里的数据
         String sn = ldSN.getValue();
+        String area = ldArea.getValue();
         switch (which) {
             case 0://全部数据
                 ExecutorService DB_IO = Executors.newFixedThreadPool(2);
+                String finalSn = sn;
                 DB_IO.execute(() -> {
-                    memoryDataDao.deleteMemoryDataEntityByProbeId(sn);
+                    memoryDataDao.deleteMemoryDataEntityByProbeId(finalSn);
                     DB_IO.shutdown();//关闭线程
                 });
                 switchingChannel(0);//切换到锥头通道
                 break;
             case 1://锥头
                 DB_IO = Executors.newFixedThreadPool(2);
+                String finalSn1 = sn;
                 DB_IO.execute(() -> {
-                    memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(sn, "qc");
+                    memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(finalSn1, "qc");
                     DB_IO.shutdown();//关闭线程
                 });
                 switchingChannel(0);//切换到锥头通道
                 break;
             case 2://侧壁
                 DB_IO = Executors.newFixedThreadPool(2);
+                String finalSn2 = sn;
                 DB_IO.execute(() -> {
-                    memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(sn, "fs");
+                    memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(finalSn2, "fs");
                     DB_IO.shutdown();//关闭线程
                 });
                 switchingChannel(1);//切换到侧壁通道
@@ -444,11 +448,125 @@ public class SetCalibrationDataVM extends BaseViewModel {
         command[2] = 'T';
         command[3] = 'U';
         command[4] = 'P';
-        for (int i = 5; i < command.length; i++) {
-            command[i] = 0;
-        }
-//        command[279] = 0x1;
-//        command[280] = 0x67;
+        if (sn != null)
+            if (sn.length() != 0) {
+                sn = sn + "        ";
+                sn = sn.substring(0, 8);
+                if (area != null)
+                    switch (strModel) {
+                        case SystemConstant.SINGLE_BRIDGE_3:
+                            if (area.equals("10")) {
+                                snToW = sn + "C";
+                            } else {
+                                snToW = sn + "I";
+                            }
+                            break;
+                        case SystemConstant.SINGLE_BRIDGE_4:
+                            if (area.equals("10")) {
+                                snToW = sn + "D";
+                            } else {
+                                snToW = sn + "J";
+                            }
+                            break;
+                        case SystemConstant.SINGLE_BRIDGE_6:
+                            if (area.equals("10")) {
+                                snToW = sn + "F";
+                            } else {
+                                snToW = sn + "L";
+                            }
+                            break;
+                        case SystemConstant.DOUBLE_BRIDGE_3:
+                            if (area.equals("10")) {
+                                snToW = sn + "O";
+                            } else {
+                                snToW = sn + "U";
+                            }
+                            break;
+                        case SystemConstant.DOUBLE_BRIDGE_4:
+                            if (area.equals("10")) {
+                                snToW = sn + "P";
+                            } else {
+                                snToW = sn + "V";
+                            }
+                            break;
+                        case SystemConstant.DOUBLE_BRIDGE_6:
+                            if (area.equals("10")) {
+                                snToW = sn + "R";
+                            } else {
+                                snToW = sn + "X";
+                            }
+                            break;
+                        case SystemConstant.VANE:
+                            if (area.equals("10")) {
+                                snToW = sn + "Y";
+                            } else {
+                                snToW = sn + "Z";
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+                String number = ldNumber.getValue();
+                if (number != null) {
+                    String[] split = number.split("-");
+                    if (split[2] != null) {
+                        snToW = snToW + split[2];
+                    }
+                }
+                char[] bm = snToW.toCharArray();
+                for (int i = 1; i < 13; i++) {
+                    command[i + 4] = (byte) bm[i - 1];
+                }
+                snToW = null;
+
+                if (obliquityX < 0) {
+                    obliquityX = 65536 + obliquityX;
+                }
+                if (obliquityY < 0) {
+                    obliquityY = 65536 + obliquityY;
+                }
+                if (obliquityZ < 0) {
+                    obliquityZ = 65536 + obliquityZ;
+                }
+                command[17] = (byte) (obliquityX / 256);
+                command[18] = (byte) (obliquityX % 256);
+                command[21] = (byte) (obliquityY / 256);
+                command[22] = (byte) (obliquityY % 256);
+                command[19] = (byte) (obliquityZ / 256);
+                command[20] = (byte) (obliquityZ % 256);
+                WeightedObservedPoints obs = new WeightedObservedPoints();
+                for (int i = 0; i < Acc.length; i++) {
+                    obs.add(i, i - 1);
+                }
+                float[] QCJH = getCoefficient(obs);
+                convert(QCJH, 21);
+
+                obs.clear();
+                for (int i = 0; i < Acc.length; i++) {
+                    obs.add(i, i);
+                }
+                float[] QCXH = getCoefficient(obs);
+                convert(QCXH, 25);
+
+                obs.clear();
+                for (int i = 0; i < Acc.length; i++) {
+                    obs.add(i, i + 1);
+                }
+                float[] FSJH = getCoefficient(obs);
+                convert(FSJH, 29);
+
+                obs.clear();
+                for (int i = 0; i < Acc.length; i++) {
+                    obs.add(i, i + 2);
+                }
+                float[] FSXH = getCoefficient(obs);
+                convert(FSXH, 33);
+            }
+
+//        for (int i = 5; i < command.length; i++) {
+//            command[i] = 0;
+//        }
         ds = 0;
         final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -588,17 +706,6 @@ public class SetCalibrationDataVM extends BaseViewModel {
                     }
                     float[] FSXH = getCoefficient(obs);
                     convert(FSXH, 30);
-
-//                    if (Acc[0][1][6] >= 0) {
-//                        command[279] = 0x1;
-//                    } else {
-//                        command[279] = 0x10;
-//                    }
-//                    if (Acc[1][1][6] >= 0) {
-//                        command[280] = 0x67;
-//                    } else {
-//                        command[280] = 0x76;
-//                    }
                     ds = 0;
                     final Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
