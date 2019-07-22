@@ -8,6 +8,9 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import org.apache.commons.math3.fitting.PolynomialCurveFitter;
+import org.apache.commons.math3.fitting.WeightedObservedPoints;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -19,7 +22,7 @@ import www.jingkan.com.db.dao.CalibrationProbeDao;
 import www.jingkan.com.db.dao.MemoryDataDao;
 import www.jingkan.com.db.entity.CalibrationProbeEntity;
 import www.jingkan.com.db.entity.MemoryDataEntity;
-import www.jingkan.com.util.SingleLiveEvent;
+import www.jingkan.com.util.ByteArrayConveter;
 import www.jingkan.com.util.StringUtil;
 import www.jingkan.com.util.SystemConstant;
 import www.jingkan.com.util.VibratorUtil;
@@ -48,13 +51,12 @@ public class SetCalibrationDataVM extends BaseViewModel {
     private CalibrationProbeDao calibrationProbeDao;
     private VibratorUtil vibratorUtil;
     private String[] effectiveValues = new String[5];
-    private int[][] YBL = new int[6][7];
+    private int[][] YBL;
 
     private List<MutableLiveData<String>> points = new ArrayList<>();
-    public final MutableLiveData<Boolean> ldIsShock = new MutableLiveData<>();
+    private List<MutableLiveData<String>> Y = new ArrayList<>();
 
-    public final SingleLiveEvent<List<MemoryDataEntity>> resetQcView = new SingleLiveEvent<>();
-    public final SingleLiveEvent<List<MemoryDataEntity>> resetFsView = new SingleLiveEvent<>();
+    public final MutableLiveData<Boolean> ldIsShock = new MutableLiveData<>();
 
     public final MutableLiveData<String> ldSN = new MutableLiveData<>();
     public final MutableLiveData<String> ldNumber = new MutableLiveData<>();
@@ -81,7 +83,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public final MutableLiveData<String> ldBZHZ4 = new MutableLiveData<>();
     public final MutableLiveData<String> ldBZHZ5 = new MutableLiveData<>();
     public final MutableLiveData<String> ldBZHZ6 = new MutableLiveData<>();
-    public final MutableLiveData<String> ldBZHZ7 = new MutableLiveData<>();
+//    public final MutableLiveData<String> ldBZHZ7 = new MutableLiveData<>();
 
     public final MutableLiveData<String> ldJH1 = new MutableLiveData<>();
     public final MutableLiveData<String> ldJH2 = new MutableLiveData<>();
@@ -89,7 +91,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public final MutableLiveData<String> ldJH4 = new MutableLiveData<>();
     public final MutableLiveData<String> ldJH5 = new MutableLiveData<>();
     public final MutableLiveData<String> ldJH6 = new MutableLiveData<>();
-    public final MutableLiveData<String> ldJH7 = new MutableLiveData<>();
+//    public final MutableLiveData<String> ldJH7 = new MutableLiveData<>();
 
     public final MutableLiveData<String> ldXH1 = new MutableLiveData<>();
     public final MutableLiveData<String> ldXH2 = new MutableLiveData<>();
@@ -97,7 +99,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public final MutableLiveData<String> ldXH4 = new MutableLiveData<>();
     public final MutableLiveData<String> ldXH5 = new MutableLiveData<>();
     public final MutableLiveData<String> ldXH6 = new MutableLiveData<>();
-    public final MutableLiveData<String> ldXH7 = new MutableLiveData<>();
+//    public final MutableLiveData<String> ldXH7 = new MutableLiveData<>();
 
     public final MutableLiveData<String> ldJh1 = new MutableLiveData<>();
     public final MutableLiveData<String> ldJh2 = new MutableLiveData<>();
@@ -105,7 +107,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public final MutableLiveData<String> ldJh4 = new MutableLiveData<>();
     public final MutableLiveData<String> ldJh5 = new MutableLiveData<>();
     public final MutableLiveData<String> ldJh6 = new MutableLiveData<>();
-    public final MutableLiveData<String> ldJh7 = new MutableLiveData<>();
+//    public final MutableLiveData<String> ldJh7 = new MutableLiveData<>();
 
     public final MutableLiveData<String> ldXh1 = new MutableLiveData<>();
     public final MutableLiveData<String> ldXh2 = new MutableLiveData<>();
@@ -113,14 +115,14 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public final MutableLiveData<String> ldXh4 = new MutableLiveData<>();
     public final MutableLiveData<String> ldXh5 = new MutableLiveData<>();
     public final MutableLiveData<String> ldXh6 = new MutableLiveData<>();
-    public final MutableLiveData<String> ldXh7 = new MutableLiveData<>();
+//    public final MutableLiveData<String> ldXh7 = new MutableLiveData<>();
 
     private boolean isFs;
     private int mType;
     private int index = 0;
-    private byte[] command = new byte[281];
-    //第一维0表示锥尖，1表示侧壁；第二维0表示标准读数，1表示加荷读数，2表示卸荷读数；第三维表示各级差读数。
-    private int[][][] Acc = new int[2][3][8];
+    private byte[] command = new byte[32];
+    //第一维0表示锥尖，1表示侧壁；第二维0表示标准荷载，1表示加荷读数，2表示卸荷读数；第三维表示各级差读数。
+    private int[][][] Acc;
     private boolean isFa;
     private int ds = 0;
     private String snToW;
@@ -150,7 +152,6 @@ public class SetCalibrationDataVM extends BaseViewModel {
             if (snValue != null)
                 memoryDataDao.getMemoryDataByProbeIdAndType(snValue, "fs").observe(lifecycleOwner, this::sendData);
 
-
         } else {//锥头标定
             if (snValue != null)
                 memoryDataDao.getMemoryDataByProbeIdAndType(snValue, "qc").observe(lifecycleOwner, this::sendData);
@@ -160,15 +161,13 @@ public class SetCalibrationDataVM extends BaseViewModel {
 
     @Override
     public void inject(Object... objects) {
-//        effectiveValues = new String[5];
-//        YBL = new int[6][7];
         String[] strings = (String[]) objects[0];
         ldSN.setValue(strings[1]);
         boolean isDoubleBridge = strings[2].contains("双桥");
         boolean isMultifunctional = strings[2].contains("多功能");
         initProbeParameters(strings[1], isDoubleBridge, isMultifunctional);//参数为探头序列号
         initPoints();
-//        ldInitial.setValue("0");
+        initDifferential();
         bluetoothCommService.getBluetoothMessageMutableLiveData().observe(lifecycleOwner, bluetoothMessage -> {
             switch (bluetoothMessage.what) {
                 case MESSAGE_STATE_CHANGE:
@@ -204,7 +203,6 @@ public class SetCalibrationDataVM extends BaseViewModel {
                         }
                         if (mDate.contains("Sn")) {
                             ldValid.setValue("已标定");
-//                            myView.get().showEffectiveValue("已标定");
                             break;
                         }
 
@@ -222,16 +220,10 @@ public class SetCalibrationDataVM extends BaseViewModel {
                         if (isFs) {//侧壁读数
                             if (StringUtil.isInteger(effectiveValues[1])) {
                                 ldValid.setValue(effectiveValues[1]);
-//                                    if (initialValue != null) {
-//                                        ldValid.setValue(String.valueOf(Integer.parseInt(effectiveValues[1]) - Integer.parseInt(initialValue)));
-//                                    }
                             }
                         } else {//锥尖读数
                             if (StringUtil.isInteger(effectiveValues[0])) {
                                 ldValid.setValue(effectiveValues[0]);
-//                                    if (initialValue != null) {
-//                                        ldValid.setValue(String.valueOf(Integer.parseInt(effectiveValues[0]) - Integer.parseInt(initialValue)));
-//                                    }
                             }
                         }
                         if (isFa) {
@@ -241,11 +233,6 @@ public class SetCalibrationDataVM extends BaseViewModel {
                                 ldFaX.setValue(effectiveValues[2]);
                                 ldFaY.setValue(effectiveValues[4]);
                                 ldFaZ.setValue(effectiveValues[3]);
-//                                action.setValue("showFaChannelValue");
-//                                myView.get().showFaChannelValue(
-//                                        Integer.parseInt(effectiveValues[2]),
-//                                        Integer.parseInt(effectiveValues[4]),
-//                                        Integer.parseInt(effectiveValues[3]));
                             }
                         }
 
@@ -256,21 +243,13 @@ public class SetCalibrationDataVM extends BaseViewModel {
     }
 
     private void initPoints() {
-//        points.add(ldBZHZ1);
-//        points.add(ldBZHZ2);
-//        points.add(ldBZHZ3);
-//        points.add(ldBZHZ4);
-//        points.add(ldBZHZ5);
-//        points.add(ldBZHZ6);
-//        points.add(ldBZHZ7);
-
         points.add(ldJH1);
         points.add(ldJH2);
         points.add(ldJH3);
         points.add(ldJH4);
         points.add(ldJH5);
         points.add(ldJH6);
-        points.add(ldJH7);
+//        points.add(ldJH7);
 
         points.add(ldXH1);
         points.add(ldXH2);
@@ -278,7 +257,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         points.add(ldXH4);
         points.add(ldXH5);
         points.add(ldXH6);
-        points.add(ldXH7);
+//        points.add(ldXH7);
 
         points.add(ldJh1);
         points.add(ldJh2);
@@ -286,7 +265,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         points.add(ldJh4);
         points.add(ldJh5);
         points.add(ldJh6);
-        points.add(ldJh7);
+//        points.add(ldJh7);
 
         points.add(ldXh1);
         points.add(ldXh2);
@@ -294,7 +273,10 @@ public class SetCalibrationDataVM extends BaseViewModel {
         points.add(ldXh4);
         points.add(ldXh5);
         points.add(ldXh6);
-        points.add(ldXh7);
+//        points.add(ldXh7);
+        YBL = new int[6][points.size()];
+        //第一维0表示锥尖，1表示侧壁；第二维0表示标准荷载，1表示加荷读数，2表示卸荷读数；第三维表示各级差读数。
+        Acc = new int[2][3][points.size()];
         for (MutableLiveData<String> ld : points) {
             ld.setValue("null");
         }
@@ -322,19 +304,19 @@ public class SetCalibrationDataVM extends BaseViewModel {
                                     mType = 3;
                                     initDifferential();
                                     strModel = SystemConstant.SINGLE_BRIDGE_3;
-                                    initAcc(3);
+//                                    initAcc(3);
                                     break;
                                 case "4":
                                     mType = 4;
                                     initDifferential();
                                     strModel = SystemConstant.SINGLE_BRIDGE_4;
-                                    initAcc(4);
+//                                    initAcc(4);
                                     break;
                                 case "6":
                                     mType = 6;
                                     initDifferential();
                                     strModel = SystemConstant.SINGLE_BRIDGE_6;
-                                    initAcc(6);
+//                                    initAcc(6);
                                     break;
                             }
                             break;
@@ -344,30 +326,24 @@ public class SetCalibrationDataVM extends BaseViewModel {
                                     mType = 3;
                                     initDifferential();
                                     strModel = SystemConstant.DOUBLE_BRIDGE_3;
-                                    initAcc(3);
+//                                    initAcc(3);
                                     break;
                                 case "4":
                                     mType = 4;
                                     initDifferential();
                                     strModel = SystemConstant.DOUBLE_BRIDGE_4;
-                                    initAcc(4);
+//                                    initAcc(4);
                                     break;
                                 case "6":
                                     mType = 6;
                                     initDifferential();
                                     strModel = SystemConstant.DOUBLE_BRIDGE_6;
-                                    initAcc(6);
+//                                    initAcc(6);
                                     break;
                             }
                             break;
                         case "V":
                             strModel = SystemConstant.VANE;
-                            for (int i = 0; i < 7; i++) {
-                                Acc[0][0][i] = i * 20000;
-                                Acc[1][0][i] = i * 20000;
-                            }
-                            Acc[0][0][7] = 140000;
-                            Acc[1][0][7] = 140000;
                             break;
                     }
                 }
@@ -412,19 +388,6 @@ public class SetCalibrationDataVM extends BaseViewModel {
 
     }
 
-    /**
-     * 初始化标准荷载
-     *
-     * @param ratio 倍率
-     */
-    private void initAcc(int ratio) {
-        for (int i = 0; i < 7; i++) {
-            Acc[0][0][i] = i * ratio * 2000;
-            Acc[1][0][i] = i * ratio * 20000;
-        }
-        Acc[0][0][7] = 144000;
-        Acc[1][0][7] = 1440000;
-    }
 
     public void linkDevice(String mac) {
         BluetoothAdapter bluetoothDevice = bluetoothUtil.
@@ -471,22 +434,17 @@ public class SetCalibrationDataVM extends BaseViewModel {
             case 3:
                 break;
         }
-        command[0] = 83;
-        command[1] = 69;
-        command[2] = 84;
-        command[3] = 85;
-        command[4] = 80;
-        for (int i = 5; i < 279; i++) {
+        command[0] = 'S';
+        command[1] = 'E';
+        command[2] = 'T';
+        command[3] = 'U';
+        command[4] = 'P';
+        for (int i = 5; i < command.length; i++) {
             command[i] = 0;
         }
-        command[279] = 0x1;
-        command[280] = 0x67;
+//        command[279] = 0x1;
+//        command[280] = 0x67;
         ds = 0;
-//        float test = 0.000006f;
-//        byte[] byteArray = ByteArrayConveter.getByteArray(test);
-//        for (int i = 0; i < byteArray.length; i++) {
-//            command[5 + i] = byteArray[i];
-//        }
         final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -506,15 +464,11 @@ public class SetCalibrationDataVM extends BaseViewModel {
         if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
             String sn = ldSN.getValue();
             String area = ldArea.getValue();
-            Acc[0][1][7] = Acc[0][0][7] / Acc[0][0][6] * Acc[0][1][6];
-            Acc[0][2][7] = Acc[0][0][7] / Acc[0][0][6] * Acc[0][2][6];
-            Acc[1][1][7] = Acc[1][0][7] / Acc[1][0][6] * Acc[1][1][6];
-            Acc[1][2][7] = Acc[1][0][7] / Acc[1][0][6] * Acc[1][2][6];
-            command[0] = 83;
-            command[1] = 69;
-            command[2] = 84;
-            command[3] = 85;
-            command[4] = 80;
+            command[0] = 'S';
+            command[1] = 'E';
+            command[2] = 'T';
+            command[3] = 'U';
+            command[4] = 'P';
             if (sn != null)
                 if (sn.length() != 0) {
                     sn = sn + "        ";
@@ -596,74 +550,50 @@ public class SetCalibrationDataVM extends BaseViewModel {
                     if (obliquityZ < 0) {
                         obliquityZ = 65536 + obliquityZ;
                     }
-                    if (Acc[0][1][6] >= 0) {
-                        Acc[0][1][0] = 1;
-                    } else {
-                        Acc[0][1][0] = -1;
-                    }
-                    if (Acc[1][1][6] >= 0) {
-                        Acc[1][1][0] = 1;
-                    } else {
-                        Acc[1][1][0] = -1;
-                    }
-
                     command[17] = (byte) (obliquityX / 256);
                     command[18] = (byte) (obliquityX % 256);
                     command[21] = (byte) (obliquityY / 256);
                     command[22] = (byte) (obliquityY % 256);
                     command[19] = (byte) (obliquityZ / 256);
                     command[20] = (byte) (obliquityZ % 256);
-                    for (int i = 0; i < 8; i++) {
-                        command[i * 4 + 151] = (byte) (Acc[0][0][i] / 16777216);
-                        command[i * 4 + 152] = (byte) ((Acc[0][0][i] % 16777216) / 65536);
-                        command[i * 4 + 153] = (byte) ((Acc[0][0][i] % 65536) / 256);
-                        command[i * 4 + 154] = (byte) (Acc[0][0][i] % 256);
-
-                        command[i * 4 + 183] = (byte) (Acc[0][0][i] / 16777216);
-                        command[i * 4 + 184] = (byte) ((Acc[0][0][i] % 16777216) / 65536);
-                        command[i * 4 + 185] = (byte) ((Acc[0][0][i] % 65536) / 256);
-                        command[i * 4 + 186] = (byte) (Acc[0][0][i] % 256);
-
-                        command[i * 4 + 215] = (byte) (Acc[1][0][i] / 16777216);
-                        command[i * 4 + 216] = (byte) ((Acc[1][0][i] % 16777216) / 65536);
-                        command[i * 4 + 217] = (byte) ((Acc[1][0][i] % 65536) / 256);
-                        command[i * 4 + 218] = (byte) (Acc[1][0][i] % 256);
-
-                        command[i * 4 + 247] = (byte) (Acc[1][0][i] / 16777216);
-                        command[i * 4 + 248] = (byte) ((Acc[1][0][i] % 16777216) / 65536);
-                        command[i * 4 + 249] = (byte) ((Acc[1][0][i] % 65536) / 256);
-                        command[i * 4 + 250] = (byte) (Acc[1][0][i] % 256);
-
-                        command[i * 4 + 23] = (byte) ((Math.abs(Acc[0][1][i]) / 0.0023283) / 16777216);
-                        command[i * 4 + 24] = (byte) (((Math.abs(Acc[0][1][i]) / 0.0023283) % 16777216) / 65536);
-                        command[i * 4 + 25] = (byte) (((Math.abs(Acc[0][1][i]) / 0.0023283) % 65536) / 256);
-                        command[i * 4 + 26] = (byte) ((Math.abs(Acc[0][1][i]) / 0.0023283) % 256);
-
-                        command[i * 4 + 55] = (byte) ((Math.abs(Acc[0][2][i]) / 0.0023283) / 16777216);
-                        command[i * 4 + 56] = (byte) (((Math.abs(Acc[0][2][i]) / 0.0023283) % 16777216) / 65536);
-                        command[i * 4 + 57] = (byte) (((Math.abs(Acc[0][2][i]) / 0.0023283) % 65536) / 256);
-                        command[i * 4 + 58] = (byte) ((Math.abs(Acc[0][2][i]) / 0.0023283) % 256);
-
-                        command[i * 4 + 87] = (byte) ((Math.abs(Acc[1][1][i]) / 0.0023283) / 16777216);
-                        command[i * 4 + 88] = (byte) (((Math.abs(Acc[1][1][i]) / 0.0023283) % 16777216) / 65536);
-                        command[i * 4 + 89] = (byte) (((Math.abs(Acc[1][1][i]) / 0.0023283) % 65536) / 256);
-                        command[i * 4 + 90] = (byte) ((Math.abs(Acc[1][1][i]) / 0.0023283) % 256);
-
-                        command[i * 4 + 119] = (byte) ((Math.abs(Acc[1][2][i]) / 0.0023283) / 16777216);
-                        command[i * 4 + 120] = (byte) (((Math.abs(Acc[1][2][i]) / 0.0023283) % 16777216) / 65536);
-                        command[i * 4 + 121] = (byte) (((Math.abs(Acc[1][2][i]) / 0.0023283) % 65536) / 256);
-                        command[i * 4 + 122] = (byte) ((Math.abs(Acc[1][2][i]) / 0.0023283) % 256);
+                    WeightedObservedPoints obs = new WeightedObservedPoints();
+                    for (int i = 0; i < Acc.length; i++) {
+                        obs.add(Acc[0][0][i], Acc[0][1][i]);
                     }
-                    if (Acc[0][1][6] >= 0) {
-                        command[279] = 0x1;
-                    } else {
-                        command[279] = 0x10;
+                    float[] QCJH = getCoefficient(obs);
+                    convert(QCJH, 21);
+
+                    obs.clear();
+                    for (int i = 0; i < Acc.length; i++) {
+                        obs.add(Acc[0][0][i], Acc[0][2][i]);
                     }
-                    if (Acc[1][1][6] >= 0) {
-                        command[280] = 0x67;
-                    } else {
-                        command[280] = 0x76;
+                    float[] QCXH = getCoefficient(obs);
+                    convert(QCXH, 24);
+
+                    obs.clear();
+                    for (int i = 0; i < Acc.length; i++) {
+                        obs.add(Acc[1][0][i], Acc[1][1][i]);
                     }
+                    float[] FSJH = getCoefficient(obs);
+                    convert(FSJH, 27);
+
+                    obs.clear();
+                    for (int i = 0; i < Acc.length; i++) {
+                        obs.add(Acc[1][0][i], Acc[1][2][i]);
+                    }
+                    float[] FSXH = getCoefficient(obs);
+                    convert(FSXH, 30);
+
+//                    if (Acc[0][1][6] >= 0) {
+//                        command[279] = 0x1;
+//                    } else {
+//                        command[279] = 0x10;
+//                    }
+//                    if (Acc[1][1][6] >= 0) {
+//                        command[280] = 0x67;
+//                    } else {
+//                        command[280] = 0x76;
+//                    }
                     ds = 0;
                     final Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
@@ -686,8 +616,16 @@ public class SetCalibrationDataVM extends BaseViewModel {
 
     }
 
+    private void convert(float[] floats, int destPos) {
+        for (float f : floats
+        ) {
+            byte[] byteArray = ByteArrayConveter.getByteArray(f);
+            System.arraycopy(byteArray, 0, command, destPos, byteArray.length);
+        }
+
+    }
+
     private void switchingChannel(int which) {
-        String sn = ldSN.getValue();
         for (MutableLiveData<String> text :
                 points) {
             text.setValue("null");
@@ -696,26 +634,12 @@ public class SetCalibrationDataVM extends BaseViewModel {
             case 0://锥头
                 action.setValue("disShowFaChannel");
                 isFs = false;
-//                memoryDataDao.getMemoryDataByProbeIdAndType(sn, "qc").observe(lifecycleOwner, memoryDataEntities -> {
-//                    if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
-//                        resetQcView.setValue(memoryDataEntities);
-//                    } else {
-//                        resetQcView.setValue(null);
-//                    }
-//                });
                 ldChannel.setValue("锥头");
                 initDifferential();
                 index = 0;
                 break;
             case 1://侧壁通道
                 isFs = true;
-//                memoryDataDao.getMemoryDataByProbeIdAndType(sn, "fs").observe(lifecycleOwner, memoryDataEntities -> {
-//                    if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
-//                        resetFsView.setValue(memoryDataEntities);
-//                    } else {
-//                        resetFsView.setValue(null);
-//                    }
-//                });
                 ldChannel.setValue("侧壁");
                 initDifferential();
                 index = 0;
@@ -740,15 +664,15 @@ public class SetCalibrationDataVM extends BaseViewModel {
         }
         String validValue = ldValid.getValue();
         if (validValue != null) {
-            if (index < 7) {//加荷1
+            if (index < points.size() / 4) {//加荷1
                 YBL[0][index] = Integer.parseInt(validValue);
-            } else if (index < 14) {//卸荷1
-                YBL[1][13 - index] = Integer.parseInt(validValue);
-            } else if (index < 21) {//加荷2
-                YBL[2][index - 14] = Integer.parseInt(validValue);
-            } else if (index < 28) {//卸荷2
-                YBL[3][27 - index] = Integer.parseInt(validValue);
-                if (index == 27) {
+            } else if (index < points.size() / 2) {//卸荷1
+                YBL[1][points.size() / 2 - 1 - index] = Integer.parseInt(validValue);
+            } else if (index < points.size() / 4 * 3) {//加荷2
+                YBL[2][index - points.size() / 2] = Integer.parseInt(validValue);
+            } else if (index < points.size()) {//卸荷2
+                YBL[3][points.size() - 1 - index] = Integer.parseInt(validValue);
+                if (index == points.size() - 1) {
                     getAverageValue();
                     if (isFs) {
                         storeData("fs");
@@ -761,7 +685,6 @@ public class SetCalibrationDataVM extends BaseViewModel {
         }
         if (index < points.size())
             points.get(index).setValue(validValue);
-//        myView.get().showRecordValue(String.valueOf(effectiveValue));
         index++;
     }
 
@@ -770,7 +693,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         String snValue = ldSN.getValue();
         String numberValue = ldNumber.getValue();
         if (type.equals("qc")) {
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < YBL.length; i++) {
                 Acc[0][1][i] = YBL[4][i];// 锥头加荷平均
                 memoryDataEntity = new MemoryDataEntity();
 
@@ -792,7 +715,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 });
 
             }
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < YBL.length; i++) {
                 Acc[0][2][i] = YBL[5][i];// 锥头卸荷平均
                 memoryDataEntity = new MemoryDataEntity();
                 if (snValue != null) {
@@ -801,7 +724,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 if (numberValue != null) {
                     memoryDataEntity.probeNo = numberValue;
                 }
-                memoryDataEntity.id = i + 7;
+                memoryDataEntity.id = i + YBL.length - 1;
                 memoryDataEntity.type = type;
                 memoryDataEntity.forceType = "卸荷";
                 memoryDataEntity.ADValue = YBL[5][i];
@@ -813,7 +736,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 });
             }
         } else {
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < YBL.length; i++) {
                 Acc[1][1][i] = YBL[4][i];// 侧壁加荷平均
                 memoryDataEntity = new MemoryDataEntity();
                 if (snValue != null) {
@@ -822,7 +745,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 if (numberValue != null) {
                     memoryDataEntity.probeNo = numberValue;
                 }
-                memoryDataEntity.id = i + 14;
+                memoryDataEntity.id = i + (YBL.length - 1) * 2;
                 memoryDataEntity.type = type;
                 memoryDataEntity.forceType = "加荷";
                 memoryDataEntity.ADValue = YBL[4][i];
@@ -833,7 +756,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                     DB_IO.shutdown();//关闭线程
                 });
             }
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < YBL.length; i++) {
                 Acc[1][2][i] = YBL[5][i];// 侧壁卸荷平均
                 memoryDataEntity = new MemoryDataEntity();
                 if (snValue != null) {
@@ -842,7 +765,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 if (numberValue != null) {
                     memoryDataEntity.probeNo = numberValue;
                 }
-                memoryDataEntity.id = i + 21;
+                memoryDataEntity.id = i + (YBL.length - 1) * 3;
                 memoryDataEntity.type = type;
                 memoryDataEntity.forceType = "卸荷";
                 memoryDataEntity.ADValue = YBL[5][i];
@@ -888,8 +811,33 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 if (isFs) {
                     ldDifferential.setValue(String.valueOf(10 * mType * Integer.parseInt(area) / 5));
                 } else {
-                    ldDifferential.setValue(String.valueOf(10 * mType * Integer.parseInt(area) / 5));
+                    ldDifferential.setValue(String.valueOf(mType * Integer.parseInt(area) / 5));
                 }
+                Y.add(ldBZHZ1);
+                Y.add(ldBZHZ2);
+                Y.add(ldBZHZ3);
+                Y.add(ldBZHZ4);
+                Y.add(ldBZHZ5);
+                Y.add(ldBZHZ6);
+//                Y.add(ldBZHZ7);
+                String differentialValue = ldDifferential.getValue();
+
+                if (differentialValue != null) {
+                    int parseInt = Integer.parseInt(differentialValue);
+                    for (int i = 0; i < Y.size(); i++) {
+                        if (isFs) {
+                            int v = (int) (parseInt / 50 * 1000 / 9.8);
+                            Y.get(i).setValue(String.valueOf(v * i));
+                            Acc[0][0][i] = v * i;
+                        } else {
+                            int v = (int) (parseInt * 1000 / 9.8);
+                            Y.get(i).setValue(String.valueOf(v * i));
+                            Acc[0][1][i] = v * i;
+                        }
+
+                    }
+                }
+
             } else {
                 toast("探头编号有误");
             }
@@ -906,4 +854,19 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public void clear() {
 
     }
+
+    private float[] getCoefficient(WeightedObservedPoints obs) {
+
+        // Instantiate a third-degree polynomial fitter.
+        final PolynomialCurveFitter fitter = PolynomialCurveFitter.create(3);
+        // Retrieve fitted parameters (coefficients of the polynomial function).
+
+        double[] fit = fitter.fit(obs.toList());
+        float[] floats = new float[fit.length];
+        for (int i = 0; i < fit.length; i++) {
+            floats[i] = (float) fit[i];
+        }
+        return floats;
+    }
+
 }
