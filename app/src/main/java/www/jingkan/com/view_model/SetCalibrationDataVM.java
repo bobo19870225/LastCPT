@@ -148,17 +148,42 @@ public class SetCalibrationDataVM extends BaseViewModel {
 
     public void setDataToProbe() {
         String snValue = ldSN.getValue();
-        if (isFs) {//侧壁标定
-            if (snValue != null)
-                memoryDataDao.getMemoryDataByProbeIdAndType(snValue, "fs").observe(lifecycleOwner, this::sendData);
-
-        } else {//锥头标定
-            if (snValue != null)
-                memoryDataDao.getMemoryDataByProbeIdAndType(snValue, "qc").observe(lifecycleOwner, this::sendData);
-        }
-
+        memoryDataDao.getMemoryDataByProbeIdAndType(snValue, "qc").observe(lifecycleOwner, memoryDataEntities -> {
+            if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
+                getQcData(memoryDataEntities);
+                if (isFs) {//双桥标定
+                    memoryDataDao.getMemoryDataByProbeIdAndType(snValue, "fs").observe(lifecycleOwner, memoryDataEntities1 -> {
+                        if (memoryDataEntities1 != null && memoryDataEntities1.size() > 0) {
+                            for (int i = 0; i < memoryDataEntities1.size(); i++) {
+                                if (i < memoryDataEntities1.size() / 4) {//侧壁加荷
+                                    Acc[1][1][i] = memoryDataEntities1.get(i).ADValue;
+                                } else {//侧壁卸荷
+                                    Acc[1][2][i - memoryDataEntities1.size() / 4] = memoryDataEntities1.get(i).ADValue;
+                                }
+                            }
+                            sendData();
+                        } else {
+                            toast("没有侧壁数据");
+                        }
+                    });
+                } else {
+                    sendData();
+                }
+            } else {
+                toast("没有锥头数据");
+            }
+        });
     }
 
+    private void getQcData(List<MemoryDataEntity> memoryDataEntities) {
+        for (int i = 0; i < memoryDataEntities.size(); i++) {
+            if (i < memoryDataEntities.size() / 2) {//锥头加荷
+                Acc[0][1][i] = memoryDataEntities.get(i).ADValue;
+            } else {//锥头卸荷
+                Acc[0][2][i - memoryDataEntities.size() / 2] = memoryDataEntities.get(i).ADValue;
+            }
+        }
+    }
     @Override
     public void inject(Object... objects) {
         String[] strings = (String[]) objects[0];
@@ -247,6 +272,11 @@ public class SetCalibrationDataVM extends BaseViewModel {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    }
+
     private void initPoints() {
         points.add(ldJH1);
         points.add(ldJH2);
@@ -256,12 +286,14 @@ public class SetCalibrationDataVM extends BaseViewModel {
         points.add(ldJH6);
 //        points.add(ldJH7);
 
-        points.add(ldXH1);
-        points.add(ldXH2);
-        points.add(ldXH3);
-        points.add(ldXH4);
-        points.add(ldXH5);
         points.add(ldXH6);
+        points.add(ldXH5);
+        points.add(ldXH4);
+        points.add(ldXH3);
+        points.add(ldXH2);
+        points.add(ldXH1);
+
+
 //        points.add(ldXH7);
 
         points.add(ldJh1);
@@ -272,13 +304,14 @@ public class SetCalibrationDataVM extends BaseViewModel {
         points.add(ldJh6);
 //        points.add(ldJh7);
 
-        points.add(ldXh1);
-        points.add(ldXh2);
-        points.add(ldXh3);
-        points.add(ldXh4);
-        points.add(ldXh5);
         points.add(ldXh6);
+        points.add(ldXh5);
+        points.add(ldXh4);
+        points.add(ldXh3);
+        points.add(ldXh2);
+        points.add(ldXh1);
 //        points.add(ldXh7);
+
         YBL = new int[6][points.size()];
         //第一维0表示锥尖，1表示侧壁；第二维0表示标准荷载，1表示加荷读数，2表示卸荷读数；第三维表示各级差读数。
         Acc = new int[2][3][points.size()];
@@ -360,10 +393,13 @@ public class SetCalibrationDataVM extends BaseViewModel {
             memoryDataDao.getMemoryDataByProbeIdAndType(sn, "qc").observe(lifecycleOwner, memoryDataEntities -> {
                 //有锥头数据判断有无侧壁数据
                 if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
+                    setPoint(memoryDataEntities);
+                    switchingChannel(0, false);
                     memoryDataDao.getMemoryDataByProbeIdAndType(sn, "fs").observe(lifecycleOwner, memoryDataEntities1 -> {
                         if (memoryDataEntities1 != null && memoryDataEntities1.size() > 0) {
+                            setPoint(memoryDataEntities1);
                             if (isFa) {
-                                switchingChannel(2);//切换到测斜通道
+                                switchingChannel(2, false);//切换到测斜通道
                             }
                         }
 //                        else {//没有侧壁数据时准备采集侧壁数据
@@ -379,9 +415,9 @@ public class SetCalibrationDataVM extends BaseViewModel {
             memoryDataDao.getMemoryDataByProbeIdAndType(sn, "qc").observe(lifecycleOwner, memoryDataEntities -> {
                 if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
                     if (isFa) {
-                        switchingChannel(2);//切换到测斜通道
+                        switchingChannel(2, false);//切换到测斜通道
                     } else {
-                        switchingChannel(0);//切换到锥头通道
+                        switchingChannel(0, false);//切换到锥头通道
                     }
                 } else {
                     toast("没有历史数据");
@@ -391,6 +427,22 @@ public class SetCalibrationDataVM extends BaseViewModel {
         }
 
 
+    }
+
+    private void setPoint(List<MemoryDataEntity> memoryDataEntities) {
+        for (int i = 0; i < memoryDataEntities.size(); i++) {
+            MemoryDataEntity memoryDataEntity = memoryDataEntities.get(i);
+            if (i < points.size() / 4) {
+                points.get(i).setValue(String.valueOf(memoryDataEntity.ADValue));
+            } else if (i < points.size() / 2) {
+                points.get(points.size() / 4 * 3 - 1 - i).setValue(String.valueOf(memoryDataEntity.ADValue));
+            } else if (i < points.size() / 4 * 3) {
+                points.get(i).setValue(String.valueOf(memoryDataEntity.ADValue));
+            } else {
+                points.get(points.size() / 4 * 7 - 1 - i).setValue(String.valueOf(memoryDataEntity.ADValue));
+            }
+
+        }
     }
 
 
@@ -411,34 +463,30 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public void resetDataToProbe(int which) {
         //先删除以前数据库里的数据
         String sn = ldSN.getValue();
-        String area = ldArea.getValue();
         switch (which) {
             case 0://全部数据
                 ExecutorService DB_IO = Executors.newFixedThreadPool(2);
-                String finalSn = sn;
                 DB_IO.execute(() -> {
-                    memoryDataDao.deleteMemoryDataEntityByProbeId(finalSn);
+                    memoryDataDao.deleteMemoryDataEntityByProbeId(sn);
                     DB_IO.shutdown();//关闭线程
                 });
-                switchingChannel(0);//切换到锥头通道
+                switchingChannel(0, true);//切换到锥头通道
                 break;
             case 1://锥头
                 DB_IO = Executors.newFixedThreadPool(2);
-                String finalSn1 = sn;
                 DB_IO.execute(() -> {
-                    memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(finalSn1, "qc");
+                    memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(sn, "qc");
                     DB_IO.shutdown();//关闭线程
                 });
-                switchingChannel(0);//切换到锥头通道
+                switchingChannel(0, true);//切换到锥头通道
                 break;
             case 2://侧壁
                 DB_IO = Executors.newFixedThreadPool(2);
-                String finalSn2 = sn;
                 DB_IO.execute(() -> {
-                    memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(finalSn2, "fs");
+                    memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(sn, "fs");
                     DB_IO.shutdown();//关闭线程
                 });
-                switchingChannel(1);//切换到侧壁通道
+                switchingChannel(1, true);//切换到侧壁通道
                 break;
             case 3:
                 break;
@@ -448,121 +496,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         command[2] = 'T';
         command[3] = 'U';
         command[4] = 'P';
-//        if (sn != null)
-//            if (sn.length() != 0) {
-//                sn = sn + "        ";
-//                sn = sn.substring(0, 8);
-//                if (area != null)
-//                    switch (strModel) {
-//                        case SystemConstant.SINGLE_BRIDGE_3:
-//                            if (area.equals("10")) {
-//                                snToW = sn + "C";
-//                            } else {
-//                                snToW = sn + "I";
-//                            }
-//                            break;
-//                        case SystemConstant.SINGLE_BRIDGE_4:
-//                            if (area.equals("10")) {
-//                                snToW = sn + "D";
-//                            } else {
-//                                snToW = sn + "J";
-//                            }
-//                            break;
-//                        case SystemConstant.SINGLE_BRIDGE_6:
-//                            if (area.equals("10")) {
-//                                snToW = sn + "F";
-//                            } else {
-//                                snToW = sn + "L";
-//                            }
-//                            break;
-//                        case SystemConstant.DOUBLE_BRIDGE_3:
-//                            if (area.equals("10")) {
-//                                snToW = sn + "O";
-//                            } else {
-//                                snToW = sn + "U";
-//                            }
-//                            break;
-//                        case SystemConstant.DOUBLE_BRIDGE_4:
-//                            if (area.equals("10")) {
-//                                snToW = sn + "P";
-//                            } else {
-//                                snToW = sn + "V";
-//                            }
-//                            break;
-//                        case SystemConstant.DOUBLE_BRIDGE_6:
-//                            if (area.equals("10")) {
-//                                snToW = sn + "R";
-//                            } else {
-//                                snToW = sn + "X";
-//                            }
-//                            break;
-//                        case SystemConstant.VANE:
-//                            if (area.equals("10")) {
-//                                snToW = sn + "Y";
-//                            } else {
-//                                snToW = sn + "Z";
-//                            }
-//                            break;
-//
-//                        default:
-//                            break;
-//                    }
-//                String number = ldNumber.getValue();
-//                if (number != null) {
-//                    String[] split = number.split("-");
-//                    if (split[2] != null) {
-//                        snToW = snToW + split[2];
-//                    }
-//                }
-//                char[] bm = snToW.toCharArray();
-//                for (int i = 1; i < 13; i++) {
-//                    command[i + 4] = (byte) bm[i - 1];
-//                }
-//                snToW = null;
-//
-//                if (obliquityX < 0) {
-//                    obliquityX = 65536 + obliquityX;
-//                }
-//                if (obliquityY < 0) {
-//                    obliquityY = 65536 + obliquityY;
-//                }
-//                if (obliquityZ < 0) {
-//                    obliquityZ = 65536 + obliquityZ;
-//                }
-//                command[17] = (byte) (obliquityX / 256);
-//                command[18] = (byte) (obliquityX % 256);
-//                command[21] = (byte) (obliquityY / 256);
-//                command[22] = (byte) (obliquityY % 256);
-//                command[19] = (byte) (obliquityZ / 256);
-//                command[20] = (byte) (obliquityZ % 256);
-//                WeightedObservedPoints obs = new WeightedObservedPoints();
-//                for (int i = 0; i < Acc.length; i++) {
-//                    obs.add(i, i);
-//                }
-//                float[] QCJH = getCoefficient(obs);
-//                int destPosNow = convert(QCJH, 23);
-//
-//                obs.clear();
-//                for (int i = 0; i < Acc.length; i++) {
-//                    obs.add(i, i);
-//                }
-//                float[] QCXH = getCoefficient(obs);
-//                destPosNow = convert(QCXH, destPosNow + 4);
-//
-//                obs.clear();
-//                for (int i = 0; i < Acc.length; i++) {
-//                    obs.add(i, i + 1);
-//                }
-//                float[] FSJH = getCoefficient(obs);
-//                destPosNow = convert(FSJH, destPosNow + 4);
-//
-//                obs.clear();
-//                for (int i = 0; i < Acc.length; i++) {
-//                    obs.add(i, i + 2);
-//                }
-//                float[] FSXH = getCoefficient(obs);
-//                convert(FSXH, destPosNow + 4);
-//            }
+
 
         for (int i = 5; i < command.length; i++) {
             command[i] = 0;
@@ -583,8 +517,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         }, 0, 1000);// 0秒后执行，每1秒执行一次
     }
 
-    private void sendData(List<MemoryDataEntity> memoryDataEntities) {
-        if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
+    private void sendData() {
             String sn = ldSN.getValue();
             String area = ldArea.getValue();
             command[0] = 'S';
@@ -679,30 +612,31 @@ public class SetCalibrationDataVM extends BaseViewModel {
                     command[22] = (byte) (obliquityY % 256);
                     command[19] = (byte) (obliquityZ / 256);
                     command[20] = (byte) (obliquityZ % 256);
+
                     WeightedObservedPoints obs = new WeightedObservedPoints();
-                    for (int i = 0; i < Acc.length; i++) {
-                        obs.add(i, i - 1);
+                    for (int i = 0; i < points.size() / 4; i++) {
+                        obs.add(Acc[0][1][i], Acc[0][0][i]);
                     }
                     float[] QCJH = getCoefficient(obs);
                     int destPosNow = convert(QCJH, 23);
 
                     obs.clear();
-                    for (int i = 0; i < Acc.length; i++) {
-                        obs.add(i, i);
+                    for (int i = 0; i < points.size() / 4; i++) {
+                        obs.add(Acc[0][2][i], Acc[0][0][i]);
                     }
                     float[] QCXH = getCoefficient(obs);
                     destPosNow = convert(QCXH, destPosNow + 4);
 
                     obs.clear();
-                    for (int i = 0; i < Acc.length; i++) {
-                        obs.add(i, i + 1);
+                    for (int i = 0; i < points.size() / 4; i++) {
+                        obs.add(Acc[1][1][i], Acc[1][0][i]);
                     }
                     float[] FSJH = getCoefficient(obs);
                     destPosNow = convert(FSJH, destPosNow + 4);
 
                     obs.clear();
-                    for (int i = 0; i < Acc.length; i++) {
-                        obs.add(i, i + 2);
+                    for (int i = 0; i < points.size() / 4; i++) {
+                        obs.add(Acc[1][2][i], Acc[1][0][i]);
                     }
                     float[] FSXH = getCoefficient(obs);
                     convert(FSXH, destPosNow + 4);
@@ -722,9 +656,6 @@ public class SetCalibrationDataVM extends BaseViewModel {
                     }, 0, 1000);// 0秒后执行，每1秒执行一次
 
                 }
-        } else {
-            toast("没有标定数据");
-        }
 
     }
 
@@ -739,11 +670,14 @@ public class SetCalibrationDataVM extends BaseViewModel {
         return destPosNow;
     }
 
-    private void switchingChannel(int which) {
-        for (MutableLiveData<String> text :
-                points) {
-            text.setValue("null");
+    private void switchingChannel(int which, boolean isReset) {
+        if (isReset) {
+            for (MutableLiveData<String> text :
+                    points) {
+                text.setValue("null");
+            }
         }
+
         switch (which) {
             case 0://锥头
                 action.setValue("disShowFaChannel");
@@ -797,8 +731,8 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 }
             }
         }
-        if (index < points.size())
-            points.get(index).setValue(validValue);
+
+        points.get(index).setValue(validValue);
         index++;
     }
 
@@ -838,7 +772,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 if (numberValue != null) {
                     memoryDataEntity.probeNo = numberValue;
                 }
-                memoryDataEntity.id = i + YBL.length - 1;
+                memoryDataEntity.id = i + YBL.length;
                 memoryDataEntity.type = type;
                 memoryDataEntity.forceType = "卸荷";
                 memoryDataEntity.ADValue = YBL[5][i];
@@ -859,7 +793,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 if (numberValue != null) {
                     memoryDataEntity.probeNo = numberValue;
                 }
-                memoryDataEntity.id = i + (YBL.length - 1) * 2;
+                memoryDataEntity.id = i + YBL.length * 2;
                 memoryDataEntity.type = type;
                 memoryDataEntity.forceType = "加荷";
                 memoryDataEntity.ADValue = YBL[4][i];
@@ -879,7 +813,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 if (numberValue != null) {
                     memoryDataEntity.probeNo = numberValue;
                 }
-                memoryDataEntity.id = i + (YBL.length - 1) * 3;
+                memoryDataEntity.id = i + YBL.length * 3;
                 memoryDataEntity.type = type;
                 memoryDataEntity.forceType = "卸荷";
                 memoryDataEntity.ADValue = YBL[5][i];
@@ -943,11 +877,11 @@ public class SetCalibrationDataVM extends BaseViewModel {
                         if (isFs) {
                             int v = (int) (parseInt / 50 * 1000 / 9.8);
                             Y.get(i).setValue(String.valueOf(v * i));
-                            Acc[0][0][i] = v * i;
+                            Acc[1][0][i] = parseInt * i;
                         } else {
                             int v = (int) (parseInt * 1000 / 9.8);
                             Y.get(i).setValue(String.valueOf(v * i));
-                            Acc[0][1][i] = v * i;
+                            Acc[0][0][i] = parseInt * i;
                         }
 
                     }
@@ -960,10 +894,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-    }
 
     @Override
     public void clear() {
