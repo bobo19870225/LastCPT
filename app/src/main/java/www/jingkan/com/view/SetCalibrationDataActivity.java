@@ -47,6 +47,12 @@ public class SetCalibrationDataActivity extends BaseMVVMDaggerActivity<SetCalibr
                 case "showFaChannel":
                     showFaChannel();
                     break;
+                case "showSwitchDialogFs":
+                    showSwitchDialog(0);
+                    break;
+                case "showSwitchDialogFa":
+                    showSwitchDialog(1);
+                    break;
 
             }
 
@@ -55,6 +61,29 @@ public class SetCalibrationDataActivity extends BaseMVVMDaggerActivity<SetCalibr
         setToolBar(strings[2], R.menu.calibration);
     }
 
+    /**
+     * @param which 0：侧壁通道 1：测斜通道
+     */
+    private void showSwitchDialog(int which) {
+        switch (which) {
+            case 0://侧壁通道
+                Dialog alertDialog = new AlertDialog.Builder(SetCalibrationDataActivity.this)
+                        .setTitle("变换采集通道")
+                        .setMessage("即将为您变换到侧壁数据通道")
+                        .setPositiveButton("确定", (dialog, which1) -> mViewModel.switchingChannel(1, true)).setCancelable(false).create();
+                alertDialog.show();
+                break;
+            case 1://测斜通道
+                alertDialog = new AlertDialog.Builder(SetCalibrationDataActivity.this)
+                        .setTitle("变换采集通道")
+                        .setMessage("即将为您变换到测斜数据通道")
+                        .setPositiveButton("确定", (dialog, which12) -> mViewModel.switchingChannel(2, false)).setCancelable(false).create();
+                alertDialog.show();
+                break;
+        }
+
+
+    }
     private void showFaChannel() {
         mViewDataBinding.tbYbl.setVisibility(View.GONE);
         mViewDataBinding.ttValid.setVisibility(View.GONE);

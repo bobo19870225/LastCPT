@@ -117,13 +117,15 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public final MutableLiveData<String> ldXh6 = new MutableLiveData<>();
 //    public final MutableLiveData<String> ldXh7 = new MutableLiveData<>();
 
-    private boolean isFs;
+    private boolean isFsChannel;
+    private boolean isDoubleBridge;
+    private boolean isMultifunctional;
     private int mType;
     private int index = 0;
     private byte[] command = new byte[87];
     //第一维0表示锥尖，1表示侧壁；第二维0表示标准荷载，1表示加荷读数，2表示卸荷读数；第三维表示各级差读数。
     private int[][][] Acc;
-    private boolean isFa;
+    private boolean isFaChannel;
     private int ds = 0;
     private String snToW;
     private int obliquityX = 0;
@@ -151,7 +153,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         memoryDataDao.getMemoryDataByProbeIdAndType(snValue, "qc").observe(lifecycleOwner, memoryDataEntities -> {
             if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
                 getQcData(memoryDataEntities);
-                if (isFs) {//双桥标定
+                if (isDoubleBridge) {//双桥标定
                     memoryDataDao.getMemoryDataByProbeIdAndType(snValue, "fs").observe(lifecycleOwner, memoryDataEntities1 -> {
                         if (memoryDataEntities1 != null && memoryDataEntities1.size() > 0) {
                             for (int i = 0; i < memoryDataEntities1.size(); i++) {
@@ -193,9 +195,9 @@ public class SetCalibrationDataVM extends BaseViewModel {
 //            obs.add(i, i - 6);
 //        }
 //        float[] QCJH = getCoefficient(obs);
-        boolean isDoubleBridge = strings[2].contains("双桥");
-        boolean isMultifunctional = strings[2].contains("多功能");
-        initProbeParameters(strings[1], isDoubleBridge, isMultifunctional);//参数为探头序列号
+        isDoubleBridge = strings[2].contains("双桥");
+        isMultifunctional = strings[2].contains("多功能");
+        initProbeParameters(strings[1]);//参数为探头序列号
         initPoints();
         initDifferential();
         bluetoothCommService.getBluetoothMessageMutableLiveData().observe(lifecycleOwner, bluetoothMessage -> {
@@ -247,7 +249,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                                 j++;
                             }
                         }
-                        if (isFs) {//侧壁读数
+                        if (isFsChannel) {//侧壁读数
                             if (StringUtil.isInteger(effectiveValues[1])) {
                                 ldValid.setValue(effectiveValues[1]);
                             }
@@ -256,7 +258,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                                 ldValid.setValue(effectiveValues[0]);
                             }
                         }
-                        if (isFa) {
+                        if (isFaChannel) {
                             if (StringUtil.isInteger(effectiveValues[2])
                                     && StringUtil.isInteger(effectiveValues[3])
                                     && StringUtil.isInteger(effectiveValues[4])) {
@@ -320,7 +322,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         }
     }
 
-    private void initProbeParameters(final String sn, boolean isFs, final boolean isFa) {
+    private void initProbeParameters(final String sn) {
         calibrationProbeDao.getCalbrationProbeEntityByProbeId(sn).observe(lifecycleOwner, calibrationProbeEntities -> {
             if (calibrationProbeEntities != null && calibrationProbeEntities.size() > 0) {
                 CalibrationProbeEntity calibrationProbeEntity = calibrationProbeEntities.get(0);
@@ -389,16 +391,16 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 toast("序列号错误");
             }
         });
-        if (isFs) {//双桥
+        if (isDoubleBridge) {//双桥
             memoryDataDao.getMemoryDataByProbeIdAndType(sn, "qc").observe(lifecycleOwner, memoryDataEntities -> {
                 //有锥头数据判断有无侧壁数据
                 if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
-                    setPoint(memoryDataEntities);
                     switchingChannel(0, false);
+                    setPoint(memoryDataEntities);
                     memoryDataDao.getMemoryDataByProbeIdAndType(sn, "fs").observe(lifecycleOwner, memoryDataEntities1 -> {
                         if (memoryDataEntities1 != null && memoryDataEntities1.size() > 0) {
                             setPoint(memoryDataEntities1);
-                            if (isFa) {
+                            if (isMultifunctional) {
                                 switchingChannel(2, false);//切换到测斜通道
                             }
                         }
@@ -414,7 +416,8 @@ public class SetCalibrationDataVM extends BaseViewModel {
         } else {//单桥或十字板
             memoryDataDao.getMemoryDataByProbeIdAndType(sn, "qc").observe(lifecycleOwner, memoryDataEntities -> {
                 if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
-                    if (isFa) {
+                    setPoint(memoryDataEntities);
+                    if (isMultifunctional) {
                         switchingChannel(2, false);//切换到测斜通道
                     } else {
                         switchingChannel(0, false);//切换到锥头通道
@@ -670,7 +673,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         return destPosNow;
     }
 
-    private void switchingChannel(int which, boolean isReset) {
+    public void switchingChannel(int which, boolean isReset) {
         if (isReset) {
             for (MutableLiveData<String> text :
                     points) {
@@ -681,21 +684,25 @@ public class SetCalibrationDataVM extends BaseViewModel {
         switch (which) {
             case 0://锥头
                 action.setValue("disShowFaChannel");
-                isFs = false;
+                isFsChannel = false;
+                isFaChannel = false;
                 ldChannel.setValue("锥头");
                 initDifferential();
                 index = 0;
                 break;
             case 1://侧壁通道
-                isFs = true;
+                action.setValue("showFaChannel");
+                isFsChannel = true;
+                isFaChannel = false;
                 ldChannel.setValue("侧壁");
                 initDifferential();
                 index = 0;
                 break;
             case 2://测斜通道
-                isFa = true;
-//                ldChannel.setValue("测斜");
                 action.setValue("showFaChannel");
+                isFaChannel = true;
+                isFsChannel = false;
+//                ldChannel.setValue("测斜");
                 break;
         }
 
@@ -722,10 +729,18 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 YBL[3][points.size() - 1 - index] = Integer.parseInt(validValue);
                 if (index == points.size() - 1) {
                     getAverageValue();
-                    if (isFs) {
+                    if (isFsChannel) {
                         storeData("fs");
+                        if (isMultifunctional) {
+                            action.setValue("showSwitchDialogFa");
+                        }
                     } else {
                         storeData("qc");
+                        if (isDoubleBridge) {
+                            action.setValue("showSwitchDialogFs");
+                        } else if (isMultifunctional) {
+                            action.setValue("showSwitchDialogFa");
+                        }
                     }
 
                 }
@@ -833,10 +848,10 @@ public class SetCalibrationDataVM extends BaseViewModel {
             YBL[4][i] = (YBL[0][i] + YBL[2][i]) / 2;
             YBL[5][i] = (YBL[1][i] + YBL[3][i]) / 2;
         }
-        //去皮
+        //去零
         for (int i = 0; i < YBL[0].length; i++) {
-            YBL[4][i] = YBL[4][i] - YBL[5][0] * i / 13;
-            YBL[5][i] = YBL[5][i] - YBL[4][0] * (13 - i) / 13;
+            YBL[4][i] = YBL[4][i] - YBL[4][0];
+            YBL[5][i] = YBL[5][i] - YBL[5][0];
         }
     }
 
@@ -856,7 +871,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         String area = ldArea.getValue();
         if (area != null) {
             if (StringUtil.isInteger(area)) {
-                if (isFs) {
+                if (isFsChannel) {
                     ldDifferential.setValue(String.valueOf(10 * mType * Integer.parseInt(area) / 5));
                 } else {
                     ldDifferential.setValue(String.valueOf(mType * Integer.parseInt(area) / 5));
@@ -874,7 +889,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 if (differentialValue != null) {
                     int parseInt = Integer.parseInt(differentialValue);
                     for (int i = 0; i < Y.size(); i++) {
-                        if (isFs) {
+                        if (isFsChannel) {
                             int v = (int) (parseInt / 50 * 1000 / 9.8);
                             Y.get(i).setValue(String.valueOf(v * i));
                             Acc[1][0][i] = parseInt * i;
