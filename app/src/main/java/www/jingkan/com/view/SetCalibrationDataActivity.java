@@ -70,14 +70,19 @@ public class SetCalibrationDataActivity extends BaseMVVMDaggerActivity<SetCalibr
                 Dialog alertDialog = new AlertDialog.Builder(SetCalibrationDataActivity.this)
                         .setTitle("变换采集通道")
                         .setMessage("即将为您变换到侧壁数据通道")
-                        .setPositiveButton("确定", (dialog, which1) -> mViewModel.switchingChannel(1, true)).setCancelable(false).create();
+                        .setPositiveButton("确定", (dialog, which1) -> {
+
+                        })
+                        .setCancelable(false).create();
                 alertDialog.show();
                 break;
             case 1://测斜通道
                 alertDialog = new AlertDialog.Builder(SetCalibrationDataActivity.this)
                         .setTitle("变换采集通道")
                         .setMessage("即将为您变换到测斜数据通道")
-                        .setPositiveButton("确定", (dialog, which12) -> mViewModel.switchingChannel(2, false)).setCancelable(false).create();
+                        .setPositiveButton("确定", (dialog, which12) -> {
+
+                        }).setCancelable(false).create();
                 alertDialog.show();
                 break;
         }
@@ -129,9 +134,9 @@ public class SetCalibrationDataActivity extends BaseMVVMDaggerActivity<SetCalibr
     }
 
     private void showResetDialog() {
-        final String[] items = {"全部", "锥头", "侧壁", "无"};
+        final String[] items = {"是", "否"};
         Dialog alertDialog = new AlertDialog.Builder(SetCalibrationDataActivity.this)
-                .setTitle("请选择手机中要清除的数据")
+                .setTitle("是否同时清除手机中的数据")
                 .setSingleChoiceItems(items, 0, (dialog, which) -> deleteWhich = which)
                 .setPositiveButton("确定", (dialog, which) -> mViewModel.resetDataToProbe(deleteWhich))
                 .setNegativeButton("取消", (dialog, which) -> {

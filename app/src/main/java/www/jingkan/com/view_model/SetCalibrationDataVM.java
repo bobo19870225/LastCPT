@@ -52,7 +52,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
     private VibratorUtil vibratorUtil;
     private String[] effectiveValues = new String[5];
     private int[][] YBL;
-
+    private boolean haveQCData;
     private List<MutableLiveData<String>> points = new ArrayList<>();
     private List<MutableLiveData<String>> Y = new ArrayList<>();
 
@@ -190,16 +190,11 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public void inject(Object... objects) {
         String[] strings = (String[]) objects[0];
         ldSN.setValue(strings[1]);
-//        WeightedObservedPoints obs = new WeightedObservedPoints();
-//        for (int i = 0; i < 6; i++) {
-//            obs.add(i, i - 6);
-//        }
-//        float[] QCJH = getCoefficient(obs);
         isDoubleBridge = strings[2].contains("双桥");
         isMultifunctional = strings[2].contains("多功能");
         initProbeParameters(strings[1]);//参数为探头序列号
+        ldValid.setValue("0");
         initPoints();
-        initDifferential();
         bluetoothCommService.getBluetoothMessageMutableLiveData().observe(lifecycleOwner, bluetoothMessage -> {
             switch (bluetoothMessage.what) {
                 case MESSAGE_STATE_CHANGE:
@@ -294,8 +289,6 @@ public class SetCalibrationDataVM extends BaseViewModel {
         points.add(ldXH3);
         points.add(ldXH2);
         points.add(ldXH1);
-
-
 //        points.add(ldXH7);
 
         points.add(ldJh1);
@@ -317,9 +310,6 @@ public class SetCalibrationDataVM extends BaseViewModel {
         YBL = new int[6][points.size()];
         //第一维0表示锥尖，1表示侧壁；第二维0表示标准荷载，1表示加荷读数，2表示卸荷读数；第三维表示各级差读数。
         Acc = new int[2][3][points.size()];
-        for (MutableLiveData<String> ld : points) {
-            ld.setValue("null");
-        }
     }
 
     private void initProbeParameters(final String sn) {
@@ -397,21 +387,23 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 if (memoryDataEntities != null && memoryDataEntities.size() > 0) {
                     switchingChannel(0, false);
                     setPoint(memoryDataEntities);
-                    memoryDataDao.getMemoryDataByProbeIdAndType(sn, "fs").observe(lifecycleOwner, memoryDataEntities1 -> {
-                        if (memoryDataEntities1 != null && memoryDataEntities1.size() > 0) {
-                            setPoint(memoryDataEntities1);
-                            if (isMultifunctional) {
-                                switchingChannel(2, false);//切换到测斜通道
-                            }
-                        }
-//                        else {//没有侧壁数据时准备采集侧壁数据
-//                            switchingChannel(1);//切换到侧壁
-//                        }
-                    });
+                    haveQCData = true;
                 } else {
-//                    switchingChannel(0);//切换到测斜通道
+                    switchingChannel(0, true);
+                    haveQCData = false;
                     toast("没有历史数据");
                 }
+                memoryDataDao.getMemoryDataByProbeIdAndType(sn, "fs").observe(lifecycleOwner, memoryDataEntities1 -> {
+
+                    if (memoryDataEntities1 != null && memoryDataEntities1.size() > 0) {
+                        setPoint(memoryDataEntities1);
+                        if (isMultifunctional) {
+                            switchingChannel(2, false);//切换到测斜通道
+                        }
+                    } else if (haveQCData) {//没有侧壁数据时准备采集侧壁数据
+                        switchingChannel(1, true);//切换到侧壁
+                    }
+                });
             });
         } else {//单桥或十字板
             memoryDataDao.getMemoryDataByProbeIdAndType(sn, "qc").observe(lifecycleOwner, memoryDataEntities -> {
@@ -466,41 +458,19 @@ public class SetCalibrationDataVM extends BaseViewModel {
     public void resetDataToProbe(int which) {
         //先删除以前数据库里的数据
         String sn = ldSN.getValue();
-        switch (which) {
-            case 0://全部数据
-                ExecutorService DB_IO = Executors.newFixedThreadPool(2);
-                DB_IO.execute(() -> {
-                    memoryDataDao.deleteMemoryDataEntityByProbeId(sn);
-                    DB_IO.shutdown();//关闭线程
-                });
-                switchingChannel(0, true);//切换到锥头通道
-                break;
-            case 1://锥头
-                DB_IO = Executors.newFixedThreadPool(2);
-                DB_IO.execute(() -> {
-                    memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(sn, "qc");
-                    DB_IO.shutdown();//关闭线程
-                });
-                switchingChannel(0, true);//切换到锥头通道
-                break;
-            case 2://侧壁
-                DB_IO = Executors.newFixedThreadPool(2);
-                DB_IO.execute(() -> {
-                    memoryDataDao.deleteMemoryDataEntityByProbeIdAndType(sn, "fs");
-                    DB_IO.shutdown();//关闭线程
-                });
-                switchingChannel(1, true);//切换到侧壁通道
-                break;
-            case 3:
-                break;
+        //全部数据
+        if (which == 0) {
+            ExecutorService DB_IO = Executors.newFixedThreadPool(2);
+            DB_IO.execute(() -> {
+                memoryDataDao.deleteMemoryDataEntityByProbeId(sn);
+                DB_IO.shutdown();//关闭线程
+            });
         }
         command[0] = 'S';
         command[1] = 'E';
         command[2] = 'T';
         command[3] = 'U';
         command[4] = 'P';
-
-
         for (int i = 5; i < command.length; i++) {
             command[i] = 0;
         }
@@ -673,7 +643,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         return destPosNow;
     }
 
-    public void switchingChannel(int which, boolean isReset) {
+    private void switchingChannel(int which, boolean isReset) {
         if (isReset) {
             for (MutableLiveData<String> text :
                     points) {
@@ -691,7 +661,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 index = 0;
                 break;
             case 1://侧壁通道
-                action.setValue("showFaChannel");
+                action.setValue("disShowFaChannel");
                 isFsChannel = true;
                 isFaChannel = false;
                 ldChannel.setValue("侧壁");
@@ -709,10 +679,10 @@ public class SetCalibrationDataVM extends BaseViewModel {
     }
 
     public void doRecord() {
-        if (bluetoothCommService.getState() != BluetoothCommService.STATE_CONNECTED) {
-            toast("未连接设备");
-            return;
-        }
+//        if (bluetoothCommService.getState() != BluetoothCommService.STATE_CONNECTED) {
+//            toast("未连接设备");
+//            return;
+//        }
         Boolean shockValue = ldIsShock.getValue();
         if (shockValue != null && shockValue) {
             vibratorUtil.Vibrate(200);
@@ -746,9 +716,11 @@ public class SetCalibrationDataVM extends BaseViewModel {
                 }
             }
         }
+        if (index < points.size()) {
+            points.get(index).setValue(validValue);
+            index++;
+        }
 
-        points.get(index).setValue(validValue);
-        index++;
     }
 
     private void storeData(String type) {
