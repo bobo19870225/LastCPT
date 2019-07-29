@@ -186,6 +186,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
             }
         }
     }
+
     @Override
     public void inject(Object... objects) {
         String[] strings = (String[]) objects[0];
@@ -491,144 +492,144 @@ public class SetCalibrationDataVM extends BaseViewModel {
     }
 
     private void sendData() {
-            String sn = ldSN.getValue();
-            String area = ldArea.getValue();
-            command[0] = 'S';
-            command[1] = 'E';
-            command[2] = 'T';
-            command[3] = 'U';
-            command[4] = 'P';
-            if (sn != null)
-                if (sn.length() != 0) {
-                    sn = sn + "        ";
-                    sn = sn.substring(0, 8);
-                    if (area != null)
-                        switch (strModel) {
-                            case SystemConstant.SINGLE_BRIDGE_3:
-                                if (area.equals("10")) {
-                                    snToW = sn + "C";
-                                } else {
-                                    snToW = sn + "I";
-                                }
-                                break;
-                            case SystemConstant.SINGLE_BRIDGE_4:
-                                if (area.equals("10")) {
-                                    snToW = sn + "D";
-                                } else {
-                                    snToW = sn + "J";
-                                }
-                                break;
-                            case SystemConstant.SINGLE_BRIDGE_6:
-                                if (area.equals("10")) {
-                                    snToW = sn + "F";
-                                } else {
-                                    snToW = sn + "L";
-                                }
-                                break;
-                            case SystemConstant.DOUBLE_BRIDGE_3:
-                                if (area.equals("10")) {
-                                    snToW = sn + "O";
-                                } else {
-                                    snToW = sn + "U";
-                                }
-                                break;
-                            case SystemConstant.DOUBLE_BRIDGE_4:
-                                if (area.equals("10")) {
-                                    snToW = sn + "P";
-                                } else {
-                                    snToW = sn + "V";
-                                }
-                                break;
-                            case SystemConstant.DOUBLE_BRIDGE_6:
-                                if (area.equals("10")) {
-                                    snToW = sn + "R";
-                                } else {
-                                    snToW = sn + "X";
-                                }
-                                break;
-                            case SystemConstant.VANE:
-                                if (area.equals("10")) {
-                                    snToW = sn + "Y";
-                                } else {
-                                    snToW = sn + "Z";
-                                }
-                                break;
-
-                            default:
-                                break;
-                        }
-                    String number = ldNumber.getValue();
-                    if (number != null) {
-                        String[] split = number.split("-");
-                        if (split[2] != null) {
-                            snToW = snToW + split[2];
-                        }
-                    }
-                    char[] bm = snToW.toCharArray();
-                    for (int i = 1; i < 13; i++) {
-                        command[i + 4] = (byte) bm[i - 1];
-                    }
-                    snToW = null;
-
-                    if (obliquityX < 0) {
-                        obliquityX = 65536 + obliquityX;
-                    }
-                    if (obliquityY < 0) {
-                        obliquityY = 65536 + obliquityY;
-                    }
-                    if (obliquityZ < 0) {
-                        obliquityZ = 65536 + obliquityZ;
-                    }
-                    command[17] = (byte) (obliquityX / 256);
-                    command[18] = (byte) (obliquityX % 256);
-                    command[21] = (byte) (obliquityY / 256);
-                    command[22] = (byte) (obliquityY % 256);
-                    command[19] = (byte) (obliquityZ / 256);
-                    command[20] = (byte) (obliquityZ % 256);
-
-                    WeightedObservedPoints obs = new WeightedObservedPoints();
-                    for (int i = 0; i < points.size() / 4; i++) {
-                        obs.add(Acc[0][1][i], Acc[0][0][i]);
-                    }
-                    float[] QCJH = getCoefficient(obs);
-                    int destPosNow = convert(QCJH, 23);
-
-                    obs.clear();
-                    for (int i = 0; i < points.size() / 4; i++) {
-                        obs.add(Acc[0][2][i], Acc[0][0][i]);
-                    }
-                    float[] QCXH = getCoefficient(obs);
-                    destPosNow = convert(QCXH, destPosNow + 4);
-
-                    obs.clear();
-                    for (int i = 0; i < points.size() / 4; i++) {
-                        obs.add(Acc[1][1][i], Acc[1][0][i]);
-                    }
-                    float[] FSJH = getCoefficient(obs);
-                    destPosNow = convert(FSJH, destPosNow + 4);
-
-                    obs.clear();
-                    for (int i = 0; i < points.size() / 4; i++) {
-                        obs.add(Acc[1][2][i], Acc[1][0][i]);
-                    }
-                    float[] FSXH = getCoefficient(obs);
-                    convert(FSXH, destPosNow + 4);
-                    ds = 0;
-                    final Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            // 你要做的事。。。
-                            sendMessage(command);
-                            ds++;
-                            if (ds == 9) {
-                                timer.cancel();// 取消操作
-                                toast("设置成功");
+        String sn = ldSN.getValue();
+        String area = ldArea.getValue();
+        command[0] = 'S';
+        command[1] = 'E';
+        command[2] = 'T';
+        command[3] = 'U';
+        command[4] = 'P';
+        if (sn != null)
+            if (sn.length() != 0) {
+                sn = sn + "        ";
+                sn = sn.substring(0, 8);
+                if (area != null)
+                    switch (strModel) {
+                        case SystemConstant.SINGLE_BRIDGE_3:
+                            if (area.equals("10")) {
+                                snToW = sn + "C";
+                            } else {
+                                snToW = sn + "I";
                             }
-                        }
-                    }, 0, 1000);// 0秒后执行，每1秒执行一次
+                            break;
+                        case SystemConstant.SINGLE_BRIDGE_4:
+                            if (area.equals("10")) {
+                                snToW = sn + "D";
+                            } else {
+                                snToW = sn + "J";
+                            }
+                            break;
+                        case SystemConstant.SINGLE_BRIDGE_6:
+                            if (area.equals("10")) {
+                                snToW = sn + "F";
+                            } else {
+                                snToW = sn + "L";
+                            }
+                            break;
+                        case SystemConstant.DOUBLE_BRIDGE_3:
+                            if (area.equals("10")) {
+                                snToW = sn + "O";
+                            } else {
+                                snToW = sn + "U";
+                            }
+                            break;
+                        case SystemConstant.DOUBLE_BRIDGE_4:
+                            if (area.equals("10")) {
+                                snToW = sn + "P";
+                            } else {
+                                snToW = sn + "V";
+                            }
+                            break;
+                        case SystemConstant.DOUBLE_BRIDGE_6:
+                            if (area.equals("10")) {
+                                snToW = sn + "R";
+                            } else {
+                                snToW = sn + "X";
+                            }
+                            break;
+                        case SystemConstant.VANE:
+                            if (area.equals("10")) {
+                                snToW = sn + "Y";
+                            } else {
+                                snToW = sn + "Z";
+                            }
+                            break;
 
+                        default:
+                            break;
+                    }
+                String number = ldNumber.getValue();
+                if (number != null) {
+                    String[] split = number.split("-");
+                    if (split[2] != null) {
+                        snToW = snToW + split[2];
+                    }
                 }
+                char[] bm = snToW.toCharArray();
+                for (int i = 1; i < 13; i++) {
+                    command[i + 4] = (byte) bm[i - 1];
+                }
+                snToW = null;
+
+                if (obliquityX < 0) {
+                    obliquityX = 65536 + obliquityX;
+                }
+                if (obliquityY < 0) {
+                    obliquityY = 65536 + obliquityY;
+                }
+                if (obliquityZ < 0) {
+                    obliquityZ = 65536 + obliquityZ;
+                }
+                command[17] = (byte) (obliquityX / 256);
+                command[18] = (byte) (obliquityX % 256);
+                command[21] = (byte) (obliquityY / 256);
+                command[22] = (byte) (obliquityY % 256);
+                command[19] = (byte) (obliquityZ / 256);
+                command[20] = (byte) (obliquityZ % 256);
+
+                WeightedObservedPoints obs = new WeightedObservedPoints();
+                for (int i = 0; i < points.size() / 4; i++) {
+                    obs.add(Acc[0][1][i], Acc[0][0][i]);
+                }
+                float[] QCJH = getCoefficient(obs);
+                int destPosNow = convert(QCJH, 23);
+
+                obs.clear();
+                for (int i = 0; i < points.size() / 4; i++) {
+                    obs.add(Acc[0][2][i], Acc[0][0][i]);
+                }
+                float[] QCXH = getCoefficient(obs);
+                destPosNow = convert(QCXH, destPosNow + 4);
+
+                obs.clear();
+                for (int i = 0; i < points.size() / 4; i++) {
+                    obs.add(Acc[1][1][i], Acc[1][0][i]);
+                }
+                float[] FSJH = getCoefficient(obs);
+                destPosNow = convert(FSJH, destPosNow + 4);
+
+                obs.clear();
+                for (int i = 0; i < points.size() / 4; i++) {
+                    obs.add(Acc[1][2][i], Acc[1][0][i]);
+                }
+                float[] FSXH = getCoefficient(obs);
+                convert(FSXH, destPosNow + 4);
+                ds = 0;
+                final Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        // 你要做的事。。。
+                        sendMessage(command);
+                        ds++;
+                        if (ds == 9) {
+                            timer.cancel();// 取消操作
+                            toast("设置成功");
+                        }
+                    }
+                }, 0, 1000);// 0秒后执行，每1秒执行一次
+
+            }
 
     }
 
@@ -679,10 +680,10 @@ public class SetCalibrationDataVM extends BaseViewModel {
     }
 
     public void doRecord() {
-//        if (bluetoothCommService.getState() != BluetoothCommService.STATE_CONNECTED) {
-//            toast("未连接设备");
-//            return;
-//        }
+        if (bluetoothCommService.getState() != BluetoothCommService.STATE_CONNECTED) {
+            toast("未连接设备");
+            return;
+        }
         Boolean shockValue = ldIsShock.getValue();
         if (shockValue != null && shockValue) {
             vibratorUtil.Vibrate(200);
@@ -821,10 +822,10 @@ public class SetCalibrationDataVM extends BaseViewModel {
             YBL[5][i] = (YBL[1][i] + YBL[3][i]) / 2;
         }
         //去零
-        for (int i = 0; i < YBL[0].length; i++) {
-            YBL[4][i] = YBL[4][i] - YBL[4][0];
-            YBL[5][i] = YBL[5][i] - YBL[5][0];
-        }
+//        for (int i = 0; i < YBL[0].length; i++) {
+//            YBL[4][i] = YBL[4][i] - YBL[4][0];
+//            YBL[5][i] = YBL[5][i] - YBL[5][0];
+//        }
     }
 
     private void sendMessage(byte[] message) {
@@ -844,9 +845,9 @@ public class SetCalibrationDataVM extends BaseViewModel {
         if (area != null) {
             if (StringUtil.isInteger(area)) {
                 if (isFsChannel) {
-                    ldDifferential.setValue(String.valueOf(10 * mType * Integer.parseInt(area) / 5));
+                    ldDifferential.setValue(String.valueOf(10 * mType * 2));
                 } else {
-                    ldDifferential.setValue(String.valueOf(mType * Integer.parseInt(area) / 5));
+                    ldDifferential.setValue(String.valueOf(mType * 2));
                 }
                 Y.clear();
                 Y.add(ldBZHZ1);
@@ -860,17 +861,18 @@ public class SetCalibrationDataVM extends BaseViewModel {
 
                 if (differentialValue != null) {
                     int parseInt = Integer.parseInt(differentialValue);
+                    int kg;
+                    float kn;
+                    if (isFsChannel) {
+                        kn = parseInt * Integer.parseInt(area) * 20 / 10000f;
+                        kg = (int) (kn * 1000 / 9.8);
+                    } else {
+                        kn = parseInt * Integer.parseInt(area) / 10f;
+                        kg = (int) (kn * 1000 / 9.8);
+                    }
                     for (int i = 0; i < Y.size(); i++) {
-                        if (isFsChannel) {
-                            int v = (int) (parseInt / 50 * 1000 / 9.8);
-                            Y.get(i).setValue(String.valueOf(v * i));
-                            Acc[1][0][i] = parseInt * i;
-                        } else {
-                            int v = (int) (parseInt * 1000 / 9.8);
-                            Y.get(i).setValue(String.valueOf(v * i));
-                            Acc[0][0][i] = parseInt * i;
-                        }
-
+                        Y.get(i).setValue(String.valueOf(kg * i));
+                        Acc[1][0][i] = parseInt * i;
                     }
                 }
 
@@ -880,7 +882,6 @@ public class SetCalibrationDataVM extends BaseViewModel {
         }
 
     }
-
 
 
     @Override
