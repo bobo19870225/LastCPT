@@ -122,16 +122,16 @@ public class SetCalibrationDataVM extends BaseViewModel {
     private boolean isMultifunctional;
     private int mType;
     private int index = 0;
-    byte[] command = new byte[81];
+    private byte[] command = new byte[81];
     //第一维0表示锥尖，1表示侧壁；第二维0表示标准荷载，1表示加荷读数，2表示卸荷读数；第三维表示各级差读数。
-    int[][][] Acc;
+    private int[][][] Acc;
     private boolean isFaChannel;
-    int ds = 0;
-    String snToW;
+    private int ds = 0;
+    private String snToW;
     //    private int obliquityX = 0;
 //    private int obliquityY = 0;
 //    private int obliquityZ = 0;
-    String strModel;
+    private String strModel;
 
     public SetCalibrationDataVM(@NonNull Application application,
                                 BluetoothUtil bluetoothUtil,
@@ -491,7 +491,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         }, 0, 1000);// 0秒后执行，每1秒执行一次
     }
 
-    protected void sendData() {
+    private void sendData() {
         String sn = ldSN.getValue();
         String area = ldArea.getValue();
         command[0] = 'S';
@@ -820,7 +820,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
 //        }
     }
 
-    void sendMessage(byte[] message) {
+    private void sendMessage(byte[] message) {
         // 没有连接设备，不能发送
 
         if (bluetoothCommService.getState() != BluetoothCommService.STATE_CONNECTED) {

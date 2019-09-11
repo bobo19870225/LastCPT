@@ -16,6 +16,7 @@ import www.jingkan.com.view.MarkFileDetailActivity;
 import www.jingkan.com.view.MyLinkerActivity;
 import www.jingkan.com.view.MyMsgActivity;
 import www.jingkan.com.view.NewTestActivity;
+import www.jingkan.com.view.OldSetCalibrationDataActivity;
 import www.jingkan.com.view.OpenFileActivity;
 import www.jingkan.com.view.OrdinaryProbeActivity;
 import www.jingkan.com.view.SetCalibrationDataActivity;
@@ -174,5 +175,9 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector
     abstract SetCalibrationDataActivity setCalibrationDataActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract OldSetCalibrationDataActivity oldSetCalibrationDataActivity();
 
 }

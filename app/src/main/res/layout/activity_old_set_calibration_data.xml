@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018. 代码著作权归卢声波所有。
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true">
+
+        <LinearLayout
+            android:id="@+id/ll_record"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <Button
+                android:id="@+id/bt_record"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/them_color"
+                android:text="记录"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <CheckBox
+                android:id="@+id/shock"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/them_color"
+                android:checked="@={model.ldIsShock}"
+                android:gravity="center"
+                android:text="震动提示"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <View
+                style="@color/v_gray"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <TextView
+                        android:id="@+id/tt_initial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="初值："
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/initial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/tt_initial"
+                        android:layout_toRightOf="@+id/tt_initial"
+                        android:text="@{model.ldInitial}"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tt_valid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/valid"
+                        android:layout_toLeftOf="@+id/valid"
+                        android:text="有效值："
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/valid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="@{model.ldValid}"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/v_gray" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <TextView
+                        android:id="@+id/tt_channel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="当前通道："
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/channel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/tt_channel"
+                        android:layout_toRightOf="@+id/tt_channel"
+                        android:text="@{model.ldChannel}"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/v_gray" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_fa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/get_obliquity_initial_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_below="@+id/tt_obliquity_initial_value"
+                        android:layout_margin="8dp"
+                        android:background="@color/them_color"
+                        android:text="斜度初值"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tt_obliquity_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:text="@string/obliquity_value"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/x"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_toEndOf="@+id/tt_obliquity_value"
+                        android:layout_toRightOf="@+id/tt_obliquity_value"
+                        android:text="x"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/y"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_toEndOf="@+id/x"
+                        android:layout_toRightOf="@+id/x"
+                        android:text="y"
+                        android:textSize="16sp" />
+                    <!--斜度有效-->
+                    <TextView
+                        android:id="@+id/z"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_toEndOf="@+id/y"
+                        android:layout_toRightOf="@+id/y"
+                        android:text="z"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tt_effective_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tt_obliquity_value"
+                        android:layout_margin="8dp"
+                        android:text="@string/obliquity_effective_value"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/effective_x"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tt_obliquity_value"
+                        android:layout_margin="8dp"
+                        android:layout_toEndOf="@+id/tt_obliquity_value"
+                        android:layout_toRightOf="@+id/tt_obliquity_value"
+                        android:text="x"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/effective_y"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tt_obliquity_value"
+                        android:layout_margin="8dp"
+                        android:layout_toEndOf="@+id/x"
+                        android:layout_toRightOf="@+id/x"
+                        android:text="y"
+                        android:textSize="16sp" />
+                    <!--斜度初值-->
+                    <TextView
+                        android:id="@+id/effective_z"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tt_obliquity_value"
+                        android:layout_margin="8dp"
+                        android:layout_toEndOf="@+id/y"
+                        android:layout_toRightOf="@+id/y"
+                        android:text="z"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tt_obliquity_initial_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tt_effective_value"
+                        android:layout_margin="8dp"
+                        android:text="@string/obliquity_initial_value"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/initial_x"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tt_effective_value"
+                        android:layout_margin="8dp"
+                        android:layout_toEndOf="@+id/tt_obliquity_value"
+                        android:layout_toRightOf="@+id/tt_obliquity_value"
+                        android:text="0"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/initial_y"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tt_effective_value"
+                        android:layout_margin="8dp"
+                        android:layout_toEndOf="@+id/x"
+                        android:layout_toRightOf="@+id/x"
+                        android:text="0"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/initial_z"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tt_effective_value"
+                        android:layout_margin="8dp"
+                        android:layout_toEndOf="@+id/y"
+                        android:layout_toRightOf="@+id/y"
+                        android:text="0"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <TableLayout
+                    android:id="@+id/tb_ybl"
+                    android:layout_width="fill_parent"
+                    android:layout_height="400dp"
+                    android:orientation="vertical">
+
+
+                    <TableRow android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="标准荷载"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="加荷1"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="卸荷1"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="加荷2"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="卸荷2"
+                            android:textColor="#000000" />
+
+
+                    </TableRow>
+
+                    <TableRow android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/s1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldBZHZ1}" />
+
+                        <TextView
+                            android:id="@+id/a1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJH1}" />
+
+                        <TextView
+                            android:id="@+id/ul1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXH1}" />
+
+                        <TextView
+                            android:id="@+id/aa1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJh1}" />
+
+                        <TextView
+                            android:id="@+id/ulo1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXh1}" />
+
+
+                    </TableRow>
+
+                    <TableRow android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/s2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldBZHZ2}" />
+
+                        <TextView
+                            android:id="@+id/a2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJH2}" />
+
+                        <TextView
+                            android:id="@+id/ul2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXH2}" />
+
+                        <TextView
+                            android:id="@+id/aa2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJh2}" />
+
+                        <TextView
+                            android:id="@+id/ulo2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXh2}" />
+
+
+                    </TableRow>
+
+                    <TableRow android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/s3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldBZHZ3}" />
+
+                        <TextView
+                            android:id="@+id/a3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJH3}" />
+
+                        <TextView
+                            android:id="@+id/ul3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXH3}" />
+
+                        <TextView
+                            android:id="@+id/aa3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJh3}" />
+
+                        <TextView
+                            android:id="@+id/ulo3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXh3}" />
+
+
+                    </TableRow>
+
+                    <TableRow android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/s4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldBZHZ4}" />
+
+                        <TextView
+                            android:id="@+id/a4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJH4}" />
+
+                        <TextView
+                            android:id="@+id/ul4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXH4}" />
+
+                        <TextView
+                            android:id="@+id/aa4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJh4}" />
+
+                        <TextView
+                            android:id="@+id/ulo4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXh4}" />
+
+
+                    </TableRow>
+
+                    <TableRow android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/s5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldBZHZ5}" />
+
+                        <TextView
+                            android:id="@+id/a5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJH5}" />
+
+                        <TextView
+                            android:id="@+id/ul5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXH5}" />
+
+                        <TextView
+                            android:id="@+id/aa5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJh5}" />
+
+                        <TextView
+                            android:id="@+id/ulo5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXh5}" />
+
+
+                    </TableRow>
+
+                    <TableRow android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/s6"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldBZHZ6}" />
+
+                        <TextView
+                            android:id="@+id/a6"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJH6}" />
+
+                        <TextView
+                            android:id="@+id/ul6"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXH6}" />
+
+                        <TextView
+                            android:id="@+id/aa6"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJh6}" />
+
+                        <TextView
+                            android:id="@+id/ulo6"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXh6}" />
+
+
+                    </TableRow>
+
+                    <TableRow android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/s7"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldBZHZ7}" />
+
+                        <TextView
+                            android:id="@+id/a7"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJH7}" />
+
+                        <TextView
+                            android:id="@+id/ul7"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXH7}" />
+
+                        <TextView
+                            android:id="@+id/aa7"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldJh7}" />
+
+                        <TextView
+                            android:id="@+id/ulo7"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{model.ldXh7}" />
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/av7"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="null" />-->
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/ulv7"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="null" />-->
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
+
+
+                <LinearLayout
+                    android:id="@+id/rl_device"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="48dp"
+                    android:background="@color/rl_gray"
+                    android:orientation="vertical"
+                    app:layout_collapseMode="parallax">
+
+
+                    <RelativeLayout
+                        android:id="@+id/rl_head"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+
+                        <TextView
+                            android:id="@+id/tt_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
+                            android:text="探头编号："
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/tt_id"
+                            android:layout_toRightOf="@+id/tt_id"
+                            android:text="@{model.ldNumber}"
+                            android:textSize="16sp" />
+
+
+                        <TextView
+                            android:id="@+id/tt_sn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@+id/sn"
+                            android:layout_toLeftOf="@+id/sn"
+                            android:text="序列号："
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/sn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:text="@{model.ldSN}" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@color/v_gray" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <TextView
+                            android:id="@+id/tt_area"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:text="工作面积："
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/area"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_toEndOf="@+id/tt_area"
+                            android:layout_toRightOf="@+id/tt_area"
+                            android:text="@{model.ldArea}" />
+
+                        <TextView
+                            android:id="@+id/tt_differential"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@+id/differential"
+                            android:layout_toLeftOf="@+id/differential"
+                            android:text="荷载级差："
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/differential"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:text="@{model.ldDifferential}" />
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@color/v_gray" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <include layout="@layout/toolbar" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <data>
+
+        <variable
+            name="model"
+            type="www.jingkan.com.view_model.OldSetCalibrationDataVM" />
+    </data>
+
+
+</layout>
