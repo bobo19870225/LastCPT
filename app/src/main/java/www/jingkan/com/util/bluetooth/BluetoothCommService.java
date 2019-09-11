@@ -427,7 +427,7 @@ public class BluetoothCommService {
             while (true) {
                 try {
                     int i = 0;
-                    byte[] b = new byte[128];
+                    byte[] b = new byte[256];
                     byte b1;
                     do {
                         b1 = (byte) mmInStream.read();

@@ -74,6 +74,10 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             return (T) new SetCalibrationDataVM(application, bluetoothUtil,
                     bluetoothCommService, memoryDataDao,
                     calibrationProbeDao, vibratorUtil);
+        } else if (modelClass.isAssignableFrom(OldSetCalibrationDataVM.class)) {
+            return (T) new OldSetCalibrationDataVM(application, bluetoothUtil,
+                    bluetoothCommService, memoryDataDao,
+                    calibrationProbeDao, vibratorUtil);
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());

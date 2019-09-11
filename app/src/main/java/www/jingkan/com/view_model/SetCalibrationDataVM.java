@@ -122,16 +122,16 @@ public class SetCalibrationDataVM extends BaseViewModel {
     private boolean isMultifunctional;
     private int mType;
     private int index = 0;
-    private byte[] command = new byte[87];
+    byte[] command = new byte[81];
     //第一维0表示锥尖，1表示侧壁；第二维0表示标准荷载，1表示加荷读数，2表示卸荷读数；第三维表示各级差读数。
-    private int[][][] Acc;
+    int[][][] Acc;
     private boolean isFaChannel;
-    private int ds = 0;
-    private String snToW;
-    private int obliquityX = 0;
-    private int obliquityY = 0;
-    private int obliquityZ = 0;
-    private String strModel;
+    int ds = 0;
+    String snToW;
+    //    private int obliquityX = 0;
+//    private int obliquityY = 0;
+//    private int obliquityZ = 0;
+    String strModel;
 
     public SetCalibrationDataVM(@NonNull Application application,
                                 BluetoothUtil bluetoothUtil,
@@ -157,10 +157,10 @@ public class SetCalibrationDataVM extends BaseViewModel {
                     memoryDataDao.getMemoryDataByProbeIdAndType(snValue, "fs").observe(lifecycleOwner, memoryDataEntities1 -> {
                         if (memoryDataEntities1 != null && memoryDataEntities1.size() > 0) {
                             for (int i = 0; i < memoryDataEntities1.size(); i++) {
-                                if (i < memoryDataEntities1.size() / 4) {//侧壁加荷
+                                if (i < memoryDataEntities1.size() / 2) {//侧壁加荷
                                     Acc[1][1][i] = memoryDataEntities1.get(i).ADValue;
                                 } else {//侧壁卸荷
-                                    Acc[1][2][i - memoryDataEntities1.size() / 4] = memoryDataEntities1.get(i).ADValue;
+                                    Acc[1][2][i - memoryDataEntities1.size() / 2] = memoryDataEntities1.get(i).ADValue;
                                 }
                             }
                             sendData();
@@ -491,7 +491,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
         }, 0, 1000);// 0秒后执行，每1秒执行一次
     }
 
-    private void sendData() {
+    protected void sendData() {
         String sn = ldSN.getValue();
         String area = ldArea.getValue();
         command[0] = 'S';
@@ -570,29 +570,21 @@ public class SetCalibrationDataVM extends BaseViewModel {
                     command[i + 4] = (byte) bm[i - 1];
                 }
                 snToW = null;
-
-                if (obliquityX < 0) {
-                    obliquityX = 65536 + obliquityX;
+                if (area != null) {
+                    int hzcjQc = mType * 2;
+                    int hzcjFs = 10 * mType * 2;
+                    for (int i = 0; i < points.size() / 4; i++) {
+                        Acc[0][0][i] = hzcjQc * i;
+                        Acc[1][0][i] = hzcjFs * i;
+                    }
                 }
-                if (obliquityY < 0) {
-                    obliquityY = 65536 + obliquityY;
-                }
-                if (obliquityZ < 0) {
-                    obliquityZ = 65536 + obliquityZ;
-                }
-                command[17] = (byte) (obliquityX / 256);
-                command[18] = (byte) (obliquityX % 256);
-                command[21] = (byte) (obliquityY / 256);
-                command[22] = (byte) (obliquityY % 256);
-                command[19] = (byte) (obliquityZ / 256);
-                command[20] = (byte) (obliquityZ % 256);
 
                 WeightedObservedPoints obs = new WeightedObservedPoints();
                 for (int i = 0; i < points.size() / 4; i++) {
                     obs.add(Acc[0][1][i], Acc[0][0][i]);
                 }
                 float[] QCJH = getCoefficient(obs);
-                int destPosNow = convert(QCJH, 23);
+                int destPosNow = convert(QCJH, 17);
 
                 obs.clear();
                 for (int i = 0; i < points.size() / 4; i++) {
@@ -828,7 +820,7 @@ public class SetCalibrationDataVM extends BaseViewModel {
 //        }
     }
 
-    private void sendMessage(byte[] message) {
+    void sendMessage(byte[] message) {
         // 没有连接设备，不能发送
 
         if (bluetoothCommService.getState() != BluetoothCommService.STATE_CONNECTED) {
@@ -872,7 +864,6 @@ public class SetCalibrationDataVM extends BaseViewModel {
                     }
                     for (int i = 0; i < Y.size(); i++) {
                         Y.get(i).setValue(String.valueOf(kg * i));
-                        Acc[1][0][i] = parseInt * i;
                     }
                 }
 

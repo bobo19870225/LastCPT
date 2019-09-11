@@ -3,6 +3,15 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import www.jingkan.com.db.dao.CalibrationProbeDao;
 import www.jingkan.com.db.dao.CalibrationProbeDaoHelper;
 import www.jingkan.com.db.entity.CalibrationProbeEntity;
@@ -10,17 +19,9 @@ import www.jingkan.com.util.PreferencesUtil;
 import www.jingkan.com.util.StringUtil;
 import www.jingkan.com.view.CalibrationVerificationActivity;
 import www.jingkan.com.view.LinkBluetoothActivity;
+import www.jingkan.com.view.OldSetCalibrationDataActivity;
 import www.jingkan.com.view.SetCalibrationDataActivity;
 import www.jingkan.com.view_model.base.BaseViewModel;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 
 /**
  * Created by Sampson on 2019/1/31.
@@ -99,7 +100,12 @@ public class CalibrationParameterVM extends BaseViewModel {
             stringHashMap.put("type", strings[1]);
             goTo(LinkBluetoothActivity.class, stringHashMap);
         } else {//传递：1.蓝牙地址 2.探头序列号 3.标定类型
-            goTo(SetCalibrationDataActivity.class, new String[]{add, strSn, strings[1]});
+            if (strings[1].contains("多功能")) {
+                goTo(SetCalibrationDataActivity.class, new String[]{add, strSn, strings[1]});
+            } else {
+                goTo(OldSetCalibrationDataActivity.class, new String[]{add, strSn, strings[1]});
+            }
+
         }
     }
 
