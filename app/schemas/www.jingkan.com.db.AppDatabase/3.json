@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "8097eedd2297da73aad3b4097b61d474",
+    "identityHash": "8b64f7b01a6a3aca7ccf4cf7e2dc793f",
     "entities": [
       {
         "tableName": "calibrationProbe",
@@ -44,13 +44,19 @@
       },
       {
         "tableName": "calibrationVerification",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`probeNo` TEXT NOT NULL, `type` TEXT, `standardValue` TEXT, `forceType` TEXT, `loadValue` REAL NOT NULL, PRIMARY KEY(`probeNo`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `probeNo` TEXT, `type` TEXT, `standardValue` TEXT, `forceType` TEXT, `loadValue` REAL NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
           {
             "fieldPath": "probeNo",
             "columnName": "probeNo",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "type",
@@ -79,9 +85,9 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "probeNo"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -668,7 +674,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8097eedd2297da73aad3b4097b61d474\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8b64f7b01a6a3aca7ccf4cf7e2dc793f\")"
     ]
   }
 }

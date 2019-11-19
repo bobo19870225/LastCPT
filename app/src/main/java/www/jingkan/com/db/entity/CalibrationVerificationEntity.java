@@ -1,6 +1,5 @@
 package www.jingkan.com.db.entity;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,9 +9,9 @@ import androidx.room.PrimaryKey;
  */
 @Entity(tableName = "calibrationVerification")
 public class CalibrationVerificationEntity {
-    @PrimaryKey
-    @NonNull
-    public String probeNo = "";
+    @PrimaryKey(autoGenerate = true)
+    public Integer id;
+    public String probeNo;
     public String type;
     public String standardValue;//标准值
     public String forceType;
