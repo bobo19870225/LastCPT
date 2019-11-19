@@ -4,14 +4,20 @@
 
 package www.jingkan.com.view.chart;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * Created by lushengbo on 2018/1/4.
  * 标定绘图上下文
  */
-
+@Singleton
 public class DrawCalibrationChartHelper extends DrawChartHelper {
-    private InterfaceDrawCalibrationChartStrategy mInterfaceDrawCalibrationChartStrategy;
+    @Inject
+    public DrawCalibrationChartHelper() {
+    }
 
+    private InterfaceDrawCalibrationChartStrategy mInterfaceDrawCalibrationChartStrategy;
     public void setStrategy(InterfaceDrawCalibrationChartStrategy interfaceDrawCalibrationChartStrategy) {
         mInterfaceDrawCalibrationChartStrategy = interfaceDrawCalibrationChartStrategy;
     }

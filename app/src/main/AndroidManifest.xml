@@ -122,7 +122,8 @@
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="false"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:theme="@android:style/Theme.NoTitleBar"
+            tools:replace="android:exported">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
 
@@ -135,7 +136,8 @@
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="false"
-            android:theme="@style/MyDialogStyle">
+            android:theme="@style/MyDialogStyle"
+            tools:replace="android:exported">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="www.jingkan.com" />

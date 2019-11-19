@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import www.jingkan.com.db.dao.CalibrationProbeDao;
+import www.jingkan.com.db.dao.CalibrationVerificationDao;
 import www.jingkan.com.db.dao.CrossTestDataDao;
 import www.jingkan.com.db.dao.MemoryDataDao;
 import www.jingkan.com.db.dao.TestDao;
@@ -62,6 +63,8 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @Inject
     CalibrationProbeDao calibrationProbeDao;
     @Inject
+    CalibrationVerificationDao calibrationVerificationDao;
+    @Inject
     VibratorUtil vibratorUtil;
     @SuppressWarnings("unchecked")
     @NonNull
@@ -78,6 +81,10 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             return (T) new OldSetCalibrationDataVM(application, bluetoothUtil,
                     bluetoothCommService, memoryDataDao,
                     calibrationProbeDao, vibratorUtil);
+        } else if (modelClass.isAssignableFrom(CalibrationVerificationVM.class)) {
+            return (T) new CalibrationVerificationVM(application, bluetoothUtil,
+                    bluetoothCommService, calibrationProbeDao,
+                    calibrationVerificationDao, vibratorUtil);
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());

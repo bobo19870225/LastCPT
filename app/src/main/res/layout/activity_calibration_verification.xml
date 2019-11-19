@@ -50,7 +50,6 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="15dp"
-                            android:layout_marginLeft="15dp"
                             android:text="探头编号："
                             android:textSize="16sp" />
 
@@ -60,8 +59,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/tt_id"
-                            android:layout_toRightOf="@+id/tt_id"
-                            android:text="--"
+                            android:text="@{model.ldNumber}"
                             android:textSize="16sp" />
 
                         <TextView
@@ -70,7 +68,6 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toStartOf="@+id/sn"
-                            android:layout_toLeftOf="@+id/sn"
                             android:text="序列号："
                             android:textSize="16sp" />
 
@@ -79,11 +76,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="16dp"
-                            android:layout_marginRight="16dp"
-                            android:text="--" />
+                            android:text="@{model.ldSN}" />
 
 
                         <View
@@ -103,7 +98,6 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="16dp"
-                            android:layout_marginLeft="16dp"
                             android:text="锥头面积："
                             android:textSize="16sp" />
 
@@ -113,10 +107,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="16dp"
-                            android:layout_marginRight="16dp"
                             android:layout_toEndOf="@+id/tt_area"
-                            android:layout_toRightOf="@+id/tt_area"
-                            android:text="--" />
+                            android:text="@{model.ldArea}" />
 
                         <TextView
                             android:id="@+id/tt_differential"
@@ -124,7 +116,6 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toStartOf="@+id/differential"
-                            android:layout_toLeftOf="@+id/differential"
                             android:text="荷载级差："
                             android:textSize="16sp" />
 
@@ -133,11 +124,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="16dp"
-                            android:layout_marginRight="16dp"
-                            android:text="--kPa" />
+                            android:text="@{model.ldDifferential}" />
 
                         <View
                             android:layout_width="match_parent"
@@ -176,7 +165,6 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
                         android:text="初值："
                         android:textSize="16sp" />
 
@@ -186,8 +174,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/tt_initial"
-                        android:layout_toRightOf="@+id/tt_initial"
-                        android:text="-.--kPa"
+                        android:text="@{model.ldInitial}"
                         android:textSize="16sp" />
 
                     <TextView
@@ -196,7 +183,6 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toStartOf="@+id/valid"
-                        android:layout_toLeftOf="@+id/valid"
                         android:text="有效值："
                         android:textSize="16sp" />
 
@@ -205,12 +191,10 @@
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
                         android:lines="1"
-                        android:text="-.--kPa"
+                        android:text="@{model.ldValid}"
                         android:textSize="16sp" />
 
                     <View
@@ -243,6 +227,7 @@
                 android:layout_weight="1"
                 android:background="@color/them_color"
                 android:text="@string/initial_value"
+                android:onClick="@{()->model.getInitialValue()}"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -258,6 +243,7 @@
                 android:layout_weight="1"
                 android:background="@color/them_color"
                 android:text="记录"
+                android:onClick="@{()->model.doRecord()}"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -273,6 +259,7 @@
                 android:layout_weight="1"
                 android:background="@color/them_color"
                 android:gravity="center"
+                android:checked="@={model.ldIsShock}"
                 android:text="震动提示"
                 android:textColor="@color/white"
                 android:textSize="18sp" />

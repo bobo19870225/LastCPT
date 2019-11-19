@@ -12,8 +12,6 @@ import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYSeriesRenderer;
 
-import java.util.List;
-
 /**
  * Created by lushengbo on 2018/1/4.
  * 标定绘图
@@ -22,55 +20,47 @@ import java.util.List;
 public class CalibrationStrategy extends SingleBridgeStrategy implements InterfaceDrawCalibrationChartStrategy {
     private XYSeries xySeriesAdd;
     private XYSeries xySeriesSubtract;
-    private XYSeries xySerieSubtract1;
+    private XYSeries xySeriesSubtract1;
 
-    CalibrationStrategy(Context context, RelativeLayout relativeLayout) {
+    public CalibrationStrategy(Context context, RelativeLayout relativeLayout) {
         super(context, relativeLayout);
     }
 
     @Override
-    public void addOnePointToChart(float[] data) {
-
-    }
-
-    @Override
-    public void addPointsToChart(List<float[]> listData) {
-
-    }
-
-    @Override
-    protected void initChart() {
+    protected void addSeries() {
+        super.addSeries();
         XYSeriesRenderer xySeriesRendererAdd = new XYSeriesRenderer();
         xySeriesRendererAdd.setFillPoints(true);
-        xySeriesRendererAdd.setColor(Color.BLUE);
+        xySeriesRendererAdd.setColor(Color.GREEN);
         xySeriesRendererAdd.setPointStyle(PointStyle.POINT);
         xySeriesRendererAdd.setLineWidth(2.0f);
         mRenderer.addSeriesRenderer(xySeriesRendererAdd);
+        xySeriesAdd = new XYSeries("加荷2");
+        xySeriesAdd.add(0, 0);
+        mDataSet.addSeries(xySeriesAdd);
 
         XYSeriesRenderer xySeriesRendererSubtract = new XYSeriesRenderer();
+        xySeriesRendererSubtract.setColor(Color.BLUE);
         xySeriesRendererSubtract.setFillPoints(true);
-        xySeriesRendererAdd.setColor(Color.GREEN);
         xySeriesRendererSubtract.setPointStyle(PointStyle.POINT);
         xySeriesRendererSubtract.setLineWidth(2.0f);
         mRenderer.addSeriesRenderer(xySeriesRendererSubtract);
+        xySeriesSubtract = new XYSeries("卸荷1");
+        xySeriesSubtract.add(0, 0);
+        mDataSet.addSeries(xySeriesSubtract);
 
         XYSeriesRenderer xySeriesRendererSubtract1 = new XYSeriesRenderer();
+        xySeriesRendererSubtract1.setColor(Color.CYAN);
         xySeriesRendererSubtract1.setFillPoints(true);
-        xySeriesRendererAdd.setColor(Color.CYAN);
         xySeriesRendererSubtract1.setPointStyle(PointStyle.POINT);
         xySeriesRendererSubtract1.setLineWidth(2.0f);
-        mRenderer.addSeriesRenderer(xySeriesRendererSubtract);
-
-        xySeriesAdd = new XYSeries("卸荷1");
-        xySeriesSubtract = new XYSeries("加荷2");
-        xySerieSubtract1 = new XYSeries("卸荷2");
-
-        mDataSet.addSeries(xySeriesAdd);
-        mDataSet.addSeries(xySeriesSubtract);
-        mDataSet.addSeries(xySerieSubtract1);
-
-        super.initChart();
+        mRenderer.addSeriesRenderer(xySeriesRendererSubtract1);
+        xySeriesSubtract1 = new XYSeries("卸荷2");
+        xySeriesSubtract1.add(0, 0);
+        mDataSet.addSeries(xySeriesSubtract1);
     }
+
+
 
     @Override
     protected void setXYSeriesTitle() {
@@ -90,13 +80,13 @@ public class CalibrationStrategy extends SingleBridgeStrategy implements Interfa
                 xySeriesQc.add(x, y);
                 break;
             case "卸荷1":
-                xySeriesAdd.add(x, y);
-                break;
-            case "加荷2":
                 xySeriesSubtract.add(x, y);
                 break;
+            case "加荷2":
+                xySeriesAdd.add(x, y);
+                break;
             case "卸荷2":
-                xySerieSubtract1.add(x, y);
+                xySeriesSubtract1.add(x, y);
                 break;
         }
         reDraw();

@@ -5,6 +5,7 @@ import dagger.android.ContributesAndroidInjector;
 import www.jingkan.com.view.AddProbeActivity;
 import www.jingkan.com.view.AddProbeInfoActivity;
 import www.jingkan.com.view.CalibrationParameterActivity;
+import www.jingkan.com.view.CalibrationVerificationActivity;
 import www.jingkan.com.view.CrossTestActivity;
 import www.jingkan.com.view.DataSyncActivity;
 import www.jingkan.com.view.DoubleBridgeMultifunctionTestActivity;
@@ -179,5 +180,9 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector
     abstract OldSetCalibrationDataActivity oldSetCalibrationDataActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract CalibrationVerificationActivity calibrationVerificationActivity();
 
 }
