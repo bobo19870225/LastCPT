@@ -76,7 +76,6 @@
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/tt_initial"
                         android:layout_toRightOf="@+id/tt_initial"
-                        android:text="@{model.ldInitial}"
                         android:textSize="16sp" />
 
                     <TextView
