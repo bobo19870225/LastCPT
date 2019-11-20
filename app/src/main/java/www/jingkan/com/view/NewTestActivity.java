@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityNewTestBinding;
 import www.jingkan.com.db.dao.TestDaoHelper;
+import www.jingkan.com.db.dao.dao_factory.WirelessTestDaoHelper;
 import www.jingkan.com.util.CallbackMessage;
 import www.jingkan.com.util.PreferencesUtil;
 import www.jingkan.com.util.SystemConstant;
@@ -39,19 +40,22 @@ public class NewTestActivity extends BaseMVVMDaggerActivity<NewTestViewModel, Ac
     TestDaoHelper testDaoHelper;
     @Inject
     PreferencesUtil preferencesUtil;
-
+    @Inject
+    WirelessTestDaoHelper wirelessTestDaoHelper;
 
     @Override
     protected Object[] injectToViewModel() {
-        return new Object[]{mData, testDaoHelper, preferencesUtil};
+        return new Object[]{mData, testDaoHelper, preferencesUtil, wirelessTestDaoHelper};
     }
 
     @Override
     protected void setMVVMView() {
         setToolBar("新增试验");
         if (mData != null) {
-            if (mData.equals("无缆试验"))
+            if (mData.equals("无缆试验")) {
                 isWireless = true;
+                mViewModel.isWireless = true;
+            }
         }
         mViewDataBinding.choseType.setOnClickListener(view -> showTestType());
 

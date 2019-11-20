@@ -5,12 +5,13 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.view.MenuItem;
 
-import javax.inject.Inject;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import javax.inject.Inject;
+
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityTestDataDetailsBinding;
 import www.jingkan.com.db.dao.TestDao;
@@ -74,7 +75,7 @@ public class TestDataDetailsActivity extends ListMVVMActivity<TestDataDetailsVM,
 
     @Override
     protected void setViewWithOutListView() {
-        setToolBar("历史数据", R.menu.test_data_details);
+        setToolBar("数据处理", R.menu.test_data_details);
         testDataID = (String) mData;
         mViewModel.ldTestEntities.observe(this, testEntities -> {
             if (testEntities != null && !testEntities.isEmpty()) {

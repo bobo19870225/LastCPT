@@ -4,9 +4,15 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.view.MenuItem;
 
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProviders;
+
+import javax.inject.Inject;
+
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityTimeSynchronizationBinding;
 import www.jingkan.com.db.dao.WirelessProbeDao;
+import www.jingkan.com.db.dao.WirelessTestDao;
 import www.jingkan.com.db.entity.WirelessProbeEntity;
 import www.jingkan.com.db.entity.WirelessTestEntity;
 import www.jingkan.com.util.CallbackMessage;
@@ -15,11 +21,6 @@ import www.jingkan.com.util.bluetooth.BluetoothCommService;
 import www.jingkan.com.util.bluetooth.BluetoothUtil;
 import www.jingkan.com.view.base.DialogMVVMDaggerActivity;
 import www.jingkan.com.view_model.TimeSynchronizationVM;
-
-import javax.inject.Inject;
-
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProviders;
 
 import static www.jingkan.com.util.bluetooth.BluetoothCommService.MESSAGE_READ;
 import static www.jingkan.com.util.bluetooth.BluetoothCommService.MESSAGE_STATE_CHANGE;
@@ -43,10 +44,12 @@ public class TimeSynchronizationActivity extends DialogMVVMDaggerActivity<TimeSy
     BluetoothCommService bluetoothCommService;
     @Inject
     WirelessProbeDao wirelessProbeDao;
+    @Inject
+    WirelessTestDao wirelessTestDao;
 
     @Override
     protected Object[] injectToViewModel() {
-        return new Object[]{mData, bluetoothUtil, bluetoothCommService, wirelessProbeDao};
+        return new Object[]{mData, bluetoothUtil, bluetoothCommService, wirelessProbeDao, wirelessTestDao};
     }
 
 
