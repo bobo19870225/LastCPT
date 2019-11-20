@@ -6,6 +6,10 @@ package www.jingkan.com.view;
 
 import android.view.MenuItem;
 
+import androidx.lifecycle.ViewModelProviders;
+
+import javax.inject.Inject;
+
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityWirelessTestBinding;
 import www.jingkan.com.db.dao.WirelessTestDao;
@@ -15,12 +19,9 @@ import www.jingkan.com.db.entity.WirelessTestEntity;
 import www.jingkan.com.util.CallbackMessage;
 import www.jingkan.com.util.MyFileUtil;
 import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.util.VibratorUtil;
 import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
 import www.jingkan.com.view_model.WirelessTestViewModel;
-
-import javax.inject.Inject;
-
-import androidx.lifecycle.ViewModelProviders;
 
 /**
  * Created by lushengbo on 2017/10/25.
@@ -34,6 +35,8 @@ public class WirelessTestActivity extends BaseMVVMDaggerActivity<WirelessTestVie
     WirelessTestDataDao wirelessTestDataDao;
     @Inject
     WirelessTestDao wirelessTestDao;
+    @Inject
+    VibratorUtil vibratorUtil;
 
     @Override
     public int initView() {
@@ -96,7 +99,7 @@ public class WirelessTestActivity extends BaseMVVMDaggerActivity<WirelessTestVie
 
     @Override
     protected Object[] injectToViewModel() {
-        return new Object[]{mData, wirelessTestDataDao, wirelessTestDao};
+        return new Object[]{mData, wirelessTestDataDao, wirelessTestDao, vibratorUtil};
     }
 
     @Override

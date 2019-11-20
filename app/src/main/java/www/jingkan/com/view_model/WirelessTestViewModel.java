@@ -26,6 +26,7 @@ import androidx.lifecycle.MediatorLiveData;
 /**
  * Created by lushengbo on 2017/10/25.
  * 无缆试验代理
+ * {@link www.jingkan.com.view.WirelessTestActivity}
  */
 
 public class WirelessTestViewModel extends BaseViewModel {
@@ -61,11 +62,12 @@ public class WirelessTestViewModel extends BaseViewModel {
             doubleBridge.set(true);
         }
         obsProbeNumber.set(strings[4]);
-        getTestParameters();
-        loadTestData(projectNumber.get() + "_" + holeNumber.get());
         wirelessTestDataDao = (WirelessTestDataDao) objects[1];
         wirelessTestDao = (WirelessTestDao) objects[2];
         vibratorUtil = (VibratorUtil) objects[3];
+        getTestParameters();
+        loadTestData(projectNumber.get() + "_" + holeNumber.get());
+
     }
 
     @Override
