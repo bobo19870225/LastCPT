@@ -1,8 +1,8 @@
 package www.jingkan.com.view.adapter;
 
-import www.jingkan.com.databinding.ItemOrdinaryProbeBinding;
-
 import java.util.List;
+
+import www.jingkan.com.databinding.ItemOrdinaryProbeBinding;
 
 /**
  * Created by Sampson on 2018/12/26.

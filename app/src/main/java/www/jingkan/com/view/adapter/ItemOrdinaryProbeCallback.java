@@ -6,4 +6,6 @@ package www.jingkan.com.view.adapter;
  */
 public interface ItemOrdinaryProbeCallback {
     void onClick(ItemOrdinaryProbe itemOrdinaryProbe);
+
+    void onDelete(ItemOrdinaryProbe itemOrdinaryProbe);
 }

@@ -104,31 +104,28 @@ public class AddProbeInfoVM extends BaseViewModel {
                 toast("锥头限值不合法");
                 return;
             }
-            switch (strProbeType) {
-                case "双桥测斜":
-                    String strFsArea = fsArea.getValue();
-                    if (strFsArea != null && StringUtil.isInteger(strFsArea)) {
-                        probeModel.fs_area = strFsArea;
-                    } else {
-                        toast("侧壁面积不合法");
-                        return;
-                    }
-                    String strFsCoefficient = fsCoefficient.getValue();
-                    if (strFsCoefficient != null && StringUtil.isFloat(strFsCoefficient)) {
-                        probeModel.fs_coefficient = Float.parseFloat(strFsCoefficient);
-                    } else {
-                        toast("侧壁标定系数不合法");
-                        return;
-                    }
-                    String strFsLimit = fsLimit.getValue();
-                    if (strFsLimit != null && StringUtil.isInteger(strFsLimit)) {
-                        probeModel.fs_limit = Integer.parseInt(strFsLimit);
-                    } else {
-                        toast("侧壁限值不合法");
-                        return;
-                    }
-                    break;
-
+            if ("双桥测斜".equals(strProbeType)) {
+                String strFsArea = fsArea.getValue();
+                if (strFsArea != null && StringUtil.isInteger(strFsArea)) {
+                    probeModel.fs_area = strFsArea;
+                } else {
+                    toast("侧壁面积不合法");
+                    return;
+                }
+                String strFsCoefficient = fsCoefficient.getValue();
+                if (strFsCoefficient != null && StringUtil.isFloat(strFsCoefficient)) {
+                    probeModel.fs_coefficient = Float.parseFloat(strFsCoefficient);
+                } else {
+                    toast("侧壁标定系数不合法");
+                    return;
+                }
+                String strFsLimit = fsLimit.getValue();
+                if (strFsLimit != null && StringUtil.isInteger(strFsLimit)) {
+                    probeModel.fs_limit = Integer.parseInt(strFsLimit);
+                } else {
+                    toast("侧壁限值不合法");
+                    return;
+                }
             }
             if (isUpdate) {
                 wirelessProbeDaoHelper.modifyData(probeModel, () -> {
