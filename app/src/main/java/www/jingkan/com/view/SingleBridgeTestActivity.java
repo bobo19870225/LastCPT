@@ -18,7 +18,8 @@ public class SingleBridgeTestActivity extends BaseTestActivity {
         setToolBar("单桥试验", R.menu.test);
         mViewDataBinding.rlFs.setVisibility(View.GONE);
         mViewDataBinding.fsLimit.setVisibility(View.GONE);
-        mViewDataBinding.rlFa.setVisibility(View.GONE);
+        mViewDataBinding.ttFaEffectiveValue.setVisibility(View.GONE);
+        mViewDataBinding.faEffectiveValue.setVisibility(View.GONE);
         drawChartHelper.setStrategy(new SingleBridgeStrategy(this, mViewDataBinding.lineChart));
         super.setMVVMView();
     }

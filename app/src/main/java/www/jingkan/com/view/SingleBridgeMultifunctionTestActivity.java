@@ -29,7 +29,9 @@ public class SingleBridgeMultifunctionTestActivity extends BaseTestActivity {
         setToolBar(SINGLE_BRIDGE_MULTI_TEST, R.menu.test);
         mViewDataBinding.rlFs.setVisibility(View.GONE);
         mViewDataBinding.rlFsLimit.setVisibility(View.GONE);
-        mViewDataBinding.rlFa.setVisibility(View.VISIBLE);
+        mViewDataBinding.ttFaEffectiveValue.setVisibility(View.VISIBLE);
+        mViewDataBinding.faEffectiveValue.setVisibility(View.VISIBLE);
+//        mViewDataBinding.rlFa.setVisibility(View.VISIBLE);
         drawChartHelper.setStrategy(new SingleBridgeMuStrategy(this, mViewDataBinding.lineChart));
         super.setMVVMView();
     }

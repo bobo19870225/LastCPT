@@ -17,7 +17,9 @@ public class DoubleBridgeTestActivity extends BaseTestActivity {
         setToolBar("双桥试验", R.menu.test);
         mViewDataBinding.rlFs.setVisibility(View.VISIBLE);
         mViewDataBinding.rlFsLimit.setVisibility(View.VISIBLE);
-        mViewDataBinding.rlFa.setVisibility(View.GONE);
+        mViewDataBinding.ttFaEffectiveValue.setVisibility(View.GONE);
+        mViewDataBinding.faEffectiveValue.setVisibility(View.GONE);
+//        mViewDataBinding.rlFa.setVisibility(View.GONE);
         drawChartHelper.setStrategy(new DoubleBridgeStrategy(this, mViewDataBinding.lineChart));
         super.setMVVMView();
     }

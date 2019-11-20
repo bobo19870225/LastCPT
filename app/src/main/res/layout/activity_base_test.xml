@@ -45,8 +45,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
                             android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:text="@string/project_number"
                             android:textSize="16sp" />
 
@@ -65,8 +65,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="196dp"
                             android:layout_marginStart="196dp"
+                            android:layout_marginLeft="196dp"
                             android:text="@string/hole_number"
                             android:textSize="16sp" />
 
@@ -90,8 +90,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
                             android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:text="@string/probe_number"
                             android:textSize="16sp" />
 
@@ -116,8 +116,8 @@
                             android:id="@+id/tt_qc_coefficient"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
                             android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:text="@string/qc_coefficient"
                             android:textSize="16sp" />
 
@@ -134,8 +134,8 @@
                             android:id="@+id/tt_qc_limit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="196dp"
                             android:layout_marginStart="196dp"
+                            android:layout_marginLeft="196dp"
                             android:text="@string/qc_limit"
                             android:textSize="16sp" />
 
@@ -158,8 +158,8 @@
                             android:id="@+id/tt_fs_coefficient"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
                             android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:text="@string/tv_check"
                             android:textSize="16sp" />
 
@@ -176,8 +176,8 @@
                             android:id="@+id/tt_fs_limit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="196dp"
                             android:layout_marginStart="196dp"
+                            android:layout_marginLeft="196dp"
                             android:text="@string/tv_check2"
                             android:textSize="16sp" />
 
@@ -219,8 +219,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
+                    android:layout_marginLeft="15dp"
                     android:text="@string/qc_initial"
                     android:textSize="16sp" />
 
@@ -239,8 +239,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/qc_effective_value"
                     android:layout_toStartOf="@+id/qc_effective_value"
+                    android:layout_toLeftOf="@+id/qc_effective_value"
                     android:text="@string/qc_effective_value"
                     android:textSize="16sp" />
 
@@ -274,7 +274,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
                     android:text="@string/fs_initial"
                     android:textSize="16sp" />
@@ -285,7 +284,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/tt_fs_initial"
-                    android:layout_toRightOf="@+id/tt_fs_initial"
                     android:text='@{String.format("%.2fkPa",model.obsFsInitialValue)}'
                     android:textSize="16sp" />
 
@@ -294,8 +292,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/fs_effective_value"
                     android:layout_toStartOf="@+id/fs_effective_value"
+                    android:layout_toLeftOf="@+id/fs_effective_value"
                     android:text="@string/fs_effective_value"
                     android:textSize="16sp" />
 
@@ -320,7 +318,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rl_fa"
                 android:layout_width="match_parent"
                 android:layout_height="24dp">
 
@@ -329,8 +326,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_toStartOf="@+id/fa_effective_value"
                     android:text="@string/fa_effective_value"
                     android:textSize="16sp" />
 
@@ -338,9 +334,9 @@
                     android:id="@+id/fa_effective_value"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/tt_fa_effective_value"
-                    android:layout_toRightOf="@+id/tt_fa_effective_value"
+                    android:layout_marginEnd="16dp"
                     android:lines="1"
                     android:text="@{String.valueOf(model.obsFaEffectiveValue)}"
                     android:textSize="16sp" />
@@ -349,9 +345,7 @@
                     android:id="@+id/tt_deep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/deep"
-                    android:layout_toStartOf="@+id/deep"
+                    android:layout_marginStart="15dp"
                     android:text="@string/test_deep"
                     android:textSize="16sp" />
 
@@ -359,11 +353,8 @@
                     android:id="@+id/deep"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_toEndOf="@+id/tt_deep"
                     android:lines="1"
                     android:text='@{String.format("%.1fm",model.obsTestDeep)}'
                     android:textSize="16sp" />
@@ -385,8 +376,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
+                    android:layout_marginLeft="15dp"
                     android:text="@string/distance"
                     android:textSize="16sp" />
 
@@ -402,13 +393,13 @@
                     android:textSize="16sp" />
 
                 <Button
-                    android:onClick="@{()->model.modifyDistance()}"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:background="@color/them_color"
+                    android:onClick="@{()->model.modifyDistance()}"
 
                     android:text="@string/modify"
                     android:textColor="@color/white" />
@@ -426,10 +417,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="48dp"
                 android:background="@color/white"
-                android:paddingEnd="0dp"
+                android:paddingStart="8dp"
                 android:paddingLeft="8dp"
-                android:paddingRight="0dp"
-                android:paddingStart="8dp" />
+                android:paddingEnd="0dp"
+                android:paddingRight="0dp" />
         </LinearLayout>
 
 
