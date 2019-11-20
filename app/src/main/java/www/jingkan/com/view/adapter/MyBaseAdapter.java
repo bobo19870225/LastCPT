@@ -3,16 +3,16 @@ package www.jingkan.com.view.adapter;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import www.jingkan.com.BR;
-
-import java.util.List;
-
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+import www.jingkan.com.BR;
 
 /**
  * Created by Sampson on 2018/12/24.
@@ -34,28 +34,36 @@ public abstract class MyBaseAdapter<IDB extends ViewDataBinding, T extends Item>
     public void setList(final List<? extends T> list) {
         if (mList == null) {
             mList = list;
-            notifyItemRangeInserted(0, list.size());
+            if (null != list)
+                notifyItemRangeInserted(0, list.size());
         } else {
             DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
                 @Override
                 public int getOldListSize() {
-                    return mList.size();
+                    return mList == null ? 0 : mList.size();
                 }
 
                 @Override
                 public int getNewListSize() {
-                    return list.size();
+                    return list == null ? 0 : list.size();
                 }
 
                 @Override
                 public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    return mList.get(oldItemPosition).getId().equals(list.get(newItemPosition).getId());
+                    if (mList != null && list != null) {
+                        return mList.get(oldItemPosition).getId().equals(list.get(newItemPosition).getId());
+                    } else {
+                        return true;
+                    }
                 }
 
                 @Override
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-
-                    return ifContentsTheSame(oldItemPosition, newItemPosition, list);
+                    if (list != null) {
+                        return ifContentsTheSame(oldItemPosition, newItemPosition, list);
+                    } else {
+                        return true;
+                    }
                 }
             });
             mList = list;

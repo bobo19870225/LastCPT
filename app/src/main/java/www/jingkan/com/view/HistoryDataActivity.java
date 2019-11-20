@@ -4,6 +4,13 @@
 
 package www.jingkan.com.view;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import javax.inject.Inject;
+
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityHistoryDataBinding;
 import www.jingkan.com.db.dao.TestDao;
@@ -14,13 +21,6 @@ import www.jingkan.com.view.adapter.ItemHistoryData;
 import www.jingkan.com.view.adapter.ItemHistoryDataClickCallback;
 import www.jingkan.com.view.base.ListMVVMActivity;
 import www.jingkan.com.view_model.HistoryDataViewModel;
-
-import javax.inject.Inject;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import static www.jingkan.com.util.SystemConstant.VANE_TEST;
 
@@ -77,6 +77,11 @@ public class HistoryDataActivity extends ListMVVMActivity<HistoryDataViewModel, 
     @Override
     protected void setViewWithOutListView() {
         setToolBar("历史数据");
+        mViewModel.action.observe(this, s -> {
+            if (s.equals("刷新")) {
+                toRefresh();
+            }
+        });
     }
 
 

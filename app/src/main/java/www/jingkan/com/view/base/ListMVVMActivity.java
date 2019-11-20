@@ -2,14 +2,15 @@ package www.jingkan.com.view.base;
 
 import android.annotation.SuppressLint;
 
-import java.util.List;
-
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import java.util.List;
+
 import www.jingkan.com.R;
 import www.jingkan.com.view.adapter.MyBaseAdapter;
 import www.jingkan.com.view_model.base.BaseListViewModel;
@@ -91,16 +92,17 @@ public abstract class ListMVVMActivity<VM extends BaseListViewModel, VDB extends
         liveData.observe(this, new Observer() {
             @Override
             public void onChanged(Object o) {
+                list = null;
                 liveData.removeObserver(this);//避免重复刷新
                 if (o == null) {
                     mViewModel.isEmpty.setValue(true);
                 } else if (o instanceof List && ((List) o).size() != 0) {
                     list = (List) o;
                     mViewModel.isEmpty.setValue(false);
-                    mAdapter.setList(list);
                 } else {
                     mViewModel.isEmpty.setValue(true);
                 }
+                mAdapter.setList(list);
             }
         });
         mViewModel.afterLoadListViewData();

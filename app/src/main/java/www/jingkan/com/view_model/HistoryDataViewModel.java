@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import www.jingkan.com.db.dao.TestDao;
 import www.jingkan.com.db.dao.TestDaoHelper;
+import www.jingkan.com.db.dao.dao_factory.DataBaseCallBack;
 import www.jingkan.com.db.entity.TestEntity;
 import www.jingkan.com.view.adapter.ItemHistoryData;
 import www.jingkan.com.view_model.base.BaseListViewModel;
@@ -57,6 +58,6 @@ public class HistoryDataViewModel extends BaseListViewModel<List<TestEntity>> {
     public void deleteOneHistoryData(ItemHistoryData itemHistoryData) {
         testDaoHelper.deleteData(
                 new String[]{itemHistoryData.getProjectNumber(), itemHistoryData.getHoleNumber()},
-                this::loadListViewData);
+                () -> action.setValue("刷新"));
     }
 }
