@@ -64,11 +64,11 @@ public class TimeSynchronizationVM extends BaseViewModel {
         wirelessTestDao = (WirelessTestDao) objects[4];
         getTestParameters(strings[1], strings[2]);//载入试验参数
         /* 测试代码*/
-        strQcCoefficient.setValue("1");
-        strFsCoefficient.setValue("1");
-        strQcLimit.setValue("48");
-        strFsLimit.setValue("480");
-        markingTime.setValue("127166960768");
+//        strQcCoefficient.setValue("1");
+//        strFsCoefficient.setValue("1");
+//        strQcLimit.setValue("48");
+//        strFsLimit.setValue("480");
+//        markingTime.setValue("127166960768");
     }
 
     private void getTestParameters(String projectNumber, String holeNumber) {

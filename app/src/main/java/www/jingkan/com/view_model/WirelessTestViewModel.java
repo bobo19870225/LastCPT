@@ -7,6 +7,13 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.MediatorLiveData;
+
+import java.util.List;
+
 import www.jingkan.com.db.dao.WirelessTestDao;
 import www.jingkan.com.db.dao.WirelessTestDataDao;
 import www.jingkan.com.db.entity.WirelessTestDataEntity;
@@ -15,13 +22,6 @@ import www.jingkan.com.util.StringUtil;
 import www.jingkan.com.util.TimeUtil;
 import www.jingkan.com.util.VibratorUtil;
 import www.jingkan.com.view_model.base.BaseViewModel;
-
-import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.ObservableBoolean;
-import androidx.databinding.ObservableField;
-import androidx.lifecycle.MediatorLiveData;
 
 /**
  * Created by lushengbo on 2017/10/25.
@@ -67,7 +67,11 @@ public class WirelessTestViewModel extends BaseViewModel {
         vibratorUtil = (VibratorUtil) objects[3];
         getTestParameters();
         loadTestData(projectNumber.get() + "_" + holeNumber.get());
-
+        /*for test*/
+//        strQcCoefficient.set("1");
+//        strFsCoefficient.set("1");
+//        strQcLimit.set("48");
+//        strFsLimit.set("480");
     }
 
     @Override
