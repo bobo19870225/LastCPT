@@ -7,6 +7,10 @@
     <data>
 
         <variable
+            name="clickCallback"
+            type="www.jingkan.com.view.adapter.ItemWirelessProbeCallback" />
+
+        <variable
             name="model"
             type="www.jingkan.com.view.adapter.ItemWirelessProbe" />
     </data>
@@ -17,6 +21,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:onClick="@{()->clickCallback.onClick(model)}"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical">

@@ -61,12 +61,7 @@ public class OrdinaryProbeVM extends BaseListViewModel<List<ProbeEntity>> {
     }
 
     public void deleteProbe(ItemOrdinaryProbe itemOrdinaryProbe) {
-        probeDaoHelper.deleteData(new String[]{(String) itemOrdinaryProbe.getId()}, new DataBaseCallBack() {
-            @Override
-            public void onSuccess() {
-                action.setValue("刷新");
-            }
-        });
+        probeDaoHelper.deleteData(new String[]{(String) itemOrdinaryProbe.getId()}, () -> action.setValue("刷新"));
 //        ExecutorService DB_IO = Executors.newFixedThreadPool(2);
 //        DB_IO.execute(() -> {
 //            probeDao.deleteProbeByProbeId((String) );

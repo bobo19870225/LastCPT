@@ -1,18 +1,20 @@
 package www.jingkan.com.view;
 
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import javax.inject.Inject;
+
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityWirelessProbeBinding;
 import www.jingkan.com.db.dao.WirelessProbeDao;
 import www.jingkan.com.util.CallbackMessage;
+import www.jingkan.com.view.adapter.ItemWirelessProbe;
+import www.jingkan.com.view.adapter.ItemWirelessProbeCallback;
 import www.jingkan.com.view.adapter.WirelessProbeAdapter;
 import www.jingkan.com.view.base.ListMVVMActivity;
 import www.jingkan.com.view_model.WirelessProbeVM;
-
-import javax.inject.Inject;
-
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * Created by Sampson on 2019/1/2.
@@ -34,7 +36,17 @@ public class WirelessProbeActivity extends ListMVVMActivity<WirelessProbeVM, Act
 
     @Override
     protected WirelessProbeAdapter setAdapter() {
-        return new WirelessProbeAdapter(R.layout.item_wireless_probe, null);
+        return new WirelessProbeAdapter(R.layout.item_wireless_probe, new ItemWirelessProbeCallback() {
+            @Override
+            public void onClick(ItemWirelessProbe itemWirelessProbe) {
+
+            }
+
+            @Override
+            public void onDelete(ItemWirelessProbe itemWirelessProbe) {
+
+            }
+        });
     }
 
     @Override
