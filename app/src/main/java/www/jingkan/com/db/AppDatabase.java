@@ -54,7 +54,7 @@ import www.jingkan.com.db.entity.WirelessTestEntity;
         WirelessResultDataEntity.class,
         WirelessTestEntity.class,
         WirelessTestDataEntity.class
-}, version = 4)
+}, version = 5)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;

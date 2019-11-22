@@ -52,7 +52,7 @@ public class MarkFileDetailActivity extends ListMVVMActivity<MarkFileDetailViewM
 
     @Override
     protected void setViewWithOutListView() {
-        setToolBar("标记数据详情", R.menu.wireless_test);
+        setToolBar("标记数据处理", R.menu.wireless_test);
         strTestID = (String) mData;
         strFileName = strTestID + "W.txt";
         mViewModel.ldWirelessTestEntities.observe(this, wirelessTestEntities -> {

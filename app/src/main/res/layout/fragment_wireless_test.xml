@@ -171,37 +171,6 @@
 
             <TableRow>
 
-                <RelativeLayout
-                    android:id="@+id/test_data"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_button"
-                    android:onClick="@{()->model.testData()}"
-                    android:padding="24dp">
-
-                    <ImageView
-                        android:id="@+id/ic_test_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:background="@null"
-                        android:contentDescription="@string/test_data"
-                        android:src="@mipmap/ic_test_data" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/ic_test_data"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="15dp"
-                        android:text="@string/test_data"
-                        android:textSize="16sp" />
-                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/data_syn"
@@ -232,6 +201,38 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="15dp"
                         android:text="@string/data_synchronization"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/test_data"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_button"
+                    android:onClick="@{()->model.testData()}"
+                    android:padding="24dp">
+
+                    <ImageView
+                        android:id="@+id/ic_test_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:background="@null"
+                        android:contentDescription="@string/test_data"
+                        android:src="@mipmap/ic_test_data" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ic_test_data"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/test_data"
                         android:textSize="16sp" />
                 </RelativeLayout>
             </TableRow>

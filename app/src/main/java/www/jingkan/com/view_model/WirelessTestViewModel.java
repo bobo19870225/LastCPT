@@ -135,7 +135,7 @@ public class WirelessTestViewModel extends BaseViewModel {
         RTC = RTC * 86400 + hr * 3600 + min * 60 + sec;
         RTC = RTC * 256 + 128; // sytM\5
         WirelessTestDataEntity wirelessTestDataModel = new WirelessTestDataEntity();
-        wirelessTestDataModel.testDataID = projectNumber.get() + "-" + holeNumber.get();
+        wirelessTestDataModel.testDataID = projectNumber.get() + "_" + holeNumber.get();
         wirelessTestDataModel.probeNumber = obsProbeNumber.get();
         wirelessTestDataModel.deep = dp;
         wirelessTestDataModel.rtc = RTC;

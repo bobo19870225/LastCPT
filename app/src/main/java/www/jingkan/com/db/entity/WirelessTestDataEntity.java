@@ -2,17 +2,17 @@ package www.jingkan.com.db.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+
+import www.jingkan.com.util.StringUtil;
 import www.jingkan.com.view.adapter.ItemMarkFileDetails;
 
 /**
  * Created by Sampson on 2018/12/11.
  * LastCPT 2
  */
-@Entity(tableName = "wirelessTestData")
+@Entity(tableName = "wirelessTestData", primaryKeys = {"testDataID", "deep"})
 public class WirelessTestDataEntity implements ItemMarkFileDetails {
     //strProjectNumber + "_" + strHoleNumber.
-    @PrimaryKey
     @NonNull
     public String testDataID = "";
     public String probeNumber;
@@ -21,7 +21,7 @@ public class WirelessTestDataEntity implements ItemMarkFileDetails {
 
     @Override
     public String getDeep() {
-        return String.valueOf(deep);
+        return StringUtil.format(deep, 1);
     }
 
     @Override
