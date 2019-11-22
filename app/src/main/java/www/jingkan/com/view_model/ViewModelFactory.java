@@ -29,7 +29,9 @@ import www.jingkan.com.db.dao.CalibrationProbeDao;
 import www.jingkan.com.db.dao.CalibrationVerificationDao;
 import www.jingkan.com.db.dao.CrossTestDataDao;
 import www.jingkan.com.db.dao.MemoryDataDao;
+import www.jingkan.com.db.dao.ProbeDao;
 import www.jingkan.com.db.dao.TestDao;
+import www.jingkan.com.util.DataUtil;
 import www.jingkan.com.util.VibratorUtil;
 import www.jingkan.com.util.bluetooth.BluetoothCommService;
 import www.jingkan.com.util.bluetooth.BluetoothUtil;
@@ -66,13 +68,17 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     CalibrationVerificationDao calibrationVerificationDao;
     @Inject
     VibratorUtil vibratorUtil;
+    @Inject
+    ProbeDao probeDao;
+    @Inject
+    DataUtil dataUtil;
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
 
         if (modelClass.isAssignableFrom(CrossTestViewModel.class)) {
-            return (T) new CrossTestViewModel(application, bluetoothUtil, bluetoothCommService, testDao, crossTestDataDao);
+            return (T) new CrossTestViewModel(application, bluetoothUtil, bluetoothCommService, testDao, crossTestDataDao, probeDao, dataUtil);
         } else if (modelClass.isAssignableFrom(SetCalibrationDataVM.class)) {
             return (T) new SetCalibrationDataVM(application, bluetoothUtil,
                     bluetoothCommService, memoryDataDao,
