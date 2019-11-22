@@ -17,7 +17,7 @@
 
     <string name="wireless_probe_list">无缆探头列表</string>
 
-    <string name="tv_addtext">新增试验</string>
+    <string name="tv_addtext">进入试验</string>
 
     <string name="tv_operators">测试员工：</string>
 
@@ -123,7 +123,7 @@
     <string name="time_synchronization">时间同步</string>
     <string name="markup_data">标记数据</string>
     <string name="data_synchronization">数据同步</string>
-    <string name="history_data">历史数据</string>
+    <string name="history_data">试验数据</string>
     <string name="project_number">工程编号：</string>
     <string name="hole_number">孔号：</string>
     <string name="test_date">测试日期：</string>

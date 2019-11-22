@@ -11,15 +11,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 
-import www.jingkan.com.db.dao.WirelessResultDataDao;
-import www.jingkan.com.db.dao.WirelessTestDao;
-import www.jingkan.com.db.entity.WirelessResultDataEntity;
-import www.jingkan.com.db.entity.WirelessTestEntity;
-import www.jingkan.com.util.DataUtil;
-import www.jingkan.com.util.MyFileUtil;
-import www.jingkan.com.util.StringUtil;
-import www.jingkan.com.view.OpenFileActivity;
-import www.jingkan.com.view_model.base.BaseViewModel;
+import androidx.annotation.NonNull;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
 
 import org.apache.commons.io.FileUtils;
 
@@ -29,9 +23,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.databinding.ObservableField;
-import androidx.lifecycle.LiveData;
+import www.jingkan.com.db.dao.WirelessResultDataDao;
+import www.jingkan.com.db.dao.WirelessTestDao;
+import www.jingkan.com.db.entity.WirelessResultDataEntity;
+import www.jingkan.com.db.entity.WirelessTestEntity;
+import www.jingkan.com.util.DataUtil;
+import www.jingkan.com.util.MyFileUtil;
+import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.view.OpenFileActivity;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 import static www.jingkan.com.util.DataUtil.SET_EMAIL;
 import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_ORIGINAL_TXT;
@@ -84,17 +84,20 @@ public class DataSyncViewModel extends BaseViewModel {
             ByteArrayOutputStream byteArrayOutputStream = OpenFileActivity.readFile(mFile);
             if (byteArrayOutputStream != null) {
                 readWFile(new String[]{strFileName, byteArrayOutputStream.toString()}, "正在同步...");
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        doDataSync();//卡UI，前面加个延时
-                    }
-                }, 1000);
+                //卡UI，前面加个延时
+                new Handler().postDelayed(this::doDataSync, 1000);
 
             } else {
                 toast("未打开文件");
             }
         }
+        /*for test*/
+        projectNumber.set("wl");
+        holeNumber.set("1");
+        probeNumber.set("JKSW10-4-056");
+        strDeep.set("6.1");
+        markFileName.set("wl_1W.txt");
+        synchronizationRate.set("100%");
     }
 
     @Override

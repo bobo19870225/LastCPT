@@ -34,6 +34,38 @@
             <TableRow>
 
                 <RelativeLayout
+                    android:id="@+id/wireless_probe_list"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_button"
+                    android:onClick="@{()->model.wirelessProbe()}"
+                    android:padding="24dp">
+
+                    <ImageView
+                        android:id="@+id/img_bt_history"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@null"
+                        android:contentDescription="@mipmap/probe"
+                        android:src="@mipmap/probe" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/img_bt_history"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/wireless_probe_list"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/new_test"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -66,6 +98,11 @@
                         android:textSize="16sp" />
                 </RelativeLayout>
 
+
+            </TableRow>
+
+            <TableRow>
+
                 <RelativeLayout
                     android:id="@+id/test_again"
                     android:layout_width="0dp"
@@ -96,9 +133,6 @@
                         android:text="@string/bt_twoper"
                         android:textSize="16sp" />
                 </RelativeLayout>
-            </TableRow>
-
-            <TableRow>
 
                 <RelativeLayout
                     android:id="@+id/markup_file"
@@ -132,37 +166,7 @@
                         android:textSize="16sp" />
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/wireless_probe_list"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_button"
-                    android:onClick="@{()->model.wirelessProbe()}"
-                    android:padding="24dp">
 
-                    <ImageView
-                        android:id="@+id/img_bt_history"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="@null"
-                        android:contentDescription="@mipmap/probe"
-                        android:src="@mipmap/probe" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/img_bt_history"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="15dp"
-                        android:text="@string/wireless_probe_list"
-                        android:textSize="16sp" />
-                </RelativeLayout>
             </TableRow>
 
             <TableRow>

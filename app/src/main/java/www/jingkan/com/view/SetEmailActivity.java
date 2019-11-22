@@ -8,6 +8,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 
+import androidx.lifecycle.ViewModelProviders;
+
+import java.util.Map;
+
+import javax.inject.Inject;
+
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivitySetEmailBinding;
 import www.jingkan.com.util.CallbackMessage;
@@ -15,12 +21,6 @@ import www.jingkan.com.util.PreferencesUtil;
 import www.jingkan.com.util.StringUtil;
 import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
 import www.jingkan.com.view_model.SetEmailViewModel;
-
-import java.util.Map;
-
-import javax.inject.Inject;
-
-import androidx.lifecycle.ViewModelProviders;
 
 /**
  * Created by lushengbo on 2017/8/9.
@@ -40,7 +40,7 @@ public class SetEmailActivity extends BaseMVVMDaggerActivity<SetEmailViewModel, 
 
     @Override
     protected void setMVVMView() {
-        setToolBar("设置我的邮箱", R.menu.email);
+        setToolBar("邮箱设置", R.menu.email);
         setEditText();
     }
 

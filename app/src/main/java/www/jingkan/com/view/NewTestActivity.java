@@ -50,7 +50,7 @@ public class NewTestActivity extends BaseMVVMDaggerActivity<NewTestViewModel, Ac
 
     @Override
     protected void setMVVMView() {
-        setToolBar("新增试验");
+        setToolBar("工程参数");
         if (mData != null) {
             if (mData.equals("无缆试验")) {
                 isWireless = true;

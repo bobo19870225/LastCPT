@@ -51,7 +51,7 @@ public class MyLinkerActivity extends BaseMVVMDaggerActivity<MyLinkerViewModel, 
 
     @Override
     protected void setMVVMView() {
-        setToolBar("我的连接器");
+        setToolBar("蓝牙连接器设置");
 
     }
 

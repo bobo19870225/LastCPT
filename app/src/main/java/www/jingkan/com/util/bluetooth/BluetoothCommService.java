@@ -433,7 +433,7 @@ public class BluetoothCommService {
                         b1 = (byte) mmInStream.read();
                         b[i] = b1;
                         i++;
-                    } while (b1 != '\n' && b1 != -1 && b1 != '\r');
+                    } while (b1 != '\n' && b1 != -1 && b1 != '\r' && i < 256);
                     if (b[0] != '\r' && b[0] != '\n') {
 //                        mHandler.obtainMessage(MESSAGE_READ, i, -1, b)
 //                                .sendToTarget();

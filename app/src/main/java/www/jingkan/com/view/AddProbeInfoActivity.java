@@ -12,14 +12,15 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityAddProbeInfoBinding;
 import www.jingkan.com.db.dao.ProbeDao;
@@ -55,8 +56,8 @@ public class AddProbeInfoActivity extends BaseMVVMDaggerActivity<AddProbeInfoVM,
     @Override
     protected void setMVVMView() {
         mViewModel.titleProbeType.setValue("选择探头类型");
+        setToolBar("探头参数");
         if (strings.length == 2) {
-            setToolBar("编辑探头参数");
             mViewModel.getProbeEntity(strings[1]).observe(this, new Observer<List<ProbeEntity>>() {
                 @Override
                 public void onChanged(List<ProbeEntity> probeEntities) {
@@ -81,8 +82,6 @@ public class AddProbeInfoActivity extends BaseMVVMDaggerActivity<AddProbeInfoVM,
                 }
             });
 
-        } else {
-            setToolBar("填写探头参数");
         }
 
     }

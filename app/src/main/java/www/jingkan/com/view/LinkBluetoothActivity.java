@@ -8,6 +8,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.TextView;
 
+import androidx.lifecycle.ViewModelProviders;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
+
+import javax.inject.Inject;
+
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityLinkBluetoothBinding;
 import www.jingkan.com.util.CallbackMessage;
@@ -18,14 +26,6 @@ import www.jingkan.com.view.adapter.DeviceAdapter;
 import www.jingkan.com.view.base.BaseMVVMDaggerActivity;
 import www.jingkan.com.view_model.LinkBluetoothViewModel;
 import www.jingkan.com.view_model.MyBluetoothDevice;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
-
-import javax.inject.Inject;
-
-import androidx.lifecycle.ViewModelProviders;
 
 /**
  * Created by Sampson on 2018/12/21.
@@ -83,7 +83,7 @@ public class LinkBluetoothActivity extends BaseMVVMDaggerActivity<LinkBluetoothV
         initBluetooth();
         initNewDeviceList();
         initBondedDeviceList();
-
+        setToolBar("蓝牙连接器选择");
 
     }
 

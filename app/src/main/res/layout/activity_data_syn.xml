@@ -41,10 +41,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:gravity="center_vertical"
-                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingStart="16dp">
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:id="@+id/tt_project_number"
@@ -66,8 +66,8 @@
                             android:id="@+id/tt_hole_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@+id/hole_number"
                             android:layout_toStartOf="@+id/hole_number"
+                            android:layout_toLeftOf="@+id/hole_number"
                             android:text="@string/hole_number"
                             android:textSize="16sp" />
 
@@ -86,10 +86,10 @@
                         android:layout_width="fill_parent"
                         android:layout_height="40dp"
                         android:gravity="center_vertical"
-                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingStart="16dp">
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:id="@+id/tt_probe_number"
@@ -111,8 +111,8 @@
                             android:id="@+id/tt_deep"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@+id/deep"
                             android:layout_toStartOf="@+id/deep"
+                            android:layout_toLeftOf="@+id/deep"
                             android:text="@string/test_deep"
                             android:textSize="16sp" />
 
@@ -133,54 +133,49 @@
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.core.widget.NestedScrollView
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingLeft="16dp"
+                android:paddingEnd="16dp"
+                android:paddingRight="16dp">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="16dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingStart="16dp">
+                <TextView
+                    android:id="@+id/tt_mark_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="打开的标记文件："
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tt_mark_file"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="打开的标记文件："
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/mark_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tt_mark_file"
+                    android:layout_toRightOf="@+id/tt_mark_file"
+                    android:text="@{model.markFileName}"
+                    android:textSize="16sp" />
+            </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/mark_file"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@+id/tt_mark_file"
-                        android:layout_toRightOf="@+id/tt_mark_file"
-                        android:text="@{model.markFileName}"
-                        android:textSize="16sp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/line_chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:background="@color/white"
-                    android:paddingEnd="0dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="0dp"
-                    android:paddingStart="8dp" />
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
+            <RelativeLayout
+                android:id="@+id/line_chart"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:background="@color/white"
+                android:paddingStart="8dp"
+                android:paddingLeft="8dp"
+                android:paddingEnd="0dp"
+                android:paddingRight="0dp" />
+        </LinearLayout>
 
 
         <LinearLayout
@@ -188,10 +183,10 @@
             android:layout_height="48dp"
             android:background="@color/them_color"
             android:orientation="horizontal"
-            android:paddingEnd="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
             android:paddingStart="8dp"
+            android:paddingLeft="8dp"
+            android:paddingEnd="8dp"
+            android:paddingRight="8dp"
             app:layout_behavior="@string/bottom_sheet_behavior">
 
             <LinearLayout

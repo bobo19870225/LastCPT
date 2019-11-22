@@ -56,6 +56,7 @@ public class OrdinaryProbeActivity extends ListMVVMActivity<OrdinaryProbeVM, Act
 
     @Override
     protected void setViewWithOutListView() {
+        setToolBar("普通探头列表");
         mViewModel.action.observe(this, s -> {
             if ("刷新".equals(s)) {
                 toRefresh();

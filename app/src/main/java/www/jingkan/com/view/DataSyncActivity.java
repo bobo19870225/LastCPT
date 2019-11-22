@@ -14,6 +14,14 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
+import androidx.lifecycle.ViewModelProviders;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityDataSynBinding;
 import www.jingkan.com.db.dao.WirelessResultDataDao;
@@ -29,14 +37,6 @@ import www.jingkan.com.view.chart.DoubleBridgeMultifunctionStrategy;
 import www.jingkan.com.view.chart.DrawChartHelper;
 import www.jingkan.com.view_model.DataSyncViewModel;
 import www.jingkan.com.view_model.ISkip;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import androidx.lifecycle.ViewModelProviders;
 
 import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_CORRECT_TXT;
 import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_HN_111;
@@ -92,6 +92,17 @@ public class DataSyncActivity extends DialogMVVMDaggerActivity<DataSyncViewModel
     protected void setMVVMView() {
         drawChartHelper.setStrategy(new DoubleBridgeMultifunctionStrategy(this, mViewDataBinding.lineChart));
         setToolBar("数据同步", R.menu.data_syn);
+        /*for test*/
+//        float[][] floats = new float[60][4];
+//        Random random = new Random();
+//        for (int i = 0; i < 60; i++) {
+//            floats[i][0] = (float) (i / 10.0);
+//            int i1 = random.nextInt(15);
+//            floats[i][1] = i1;
+//            floats[i][2] = i1 + random.nextFloat();
+//            floats[i][3] = random.nextFloat();
+//        }
+//        drawChar(floats);
     }
 
 

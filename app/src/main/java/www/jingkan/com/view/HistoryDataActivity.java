@@ -76,7 +76,7 @@ public class HistoryDataActivity extends ListMVVMActivity<HistoryDataViewModel, 
 
     @Override
     protected void setViewWithOutListView() {
-        setToolBar("历史数据");
+        setToolBar("试验数据");
         mViewModel.action.observe(this, s -> {
             if (s.equals("刷新")) {
                 toRefresh();

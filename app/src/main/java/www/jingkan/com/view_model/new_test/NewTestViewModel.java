@@ -14,6 +14,7 @@ import www.jingkan.com.db.entity.TestEntity;
 import www.jingkan.com.db.entity.WirelessTestEntity;
 import www.jingkan.com.util.PreferencesUtil;
 import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.util.TimeUtil;
 import www.jingkan.com.view.CrossTestActivity;
 import www.jingkan.com.view.DoubleBridgeMultifunctionTestActivity;
 import www.jingkan.com.view.DoubleBridgeTestActivity;
@@ -71,6 +72,7 @@ public class NewTestViewModel extends BaseViewModel {
         String add = linkerPreferences.get("add");
         if (isWireless) {
             WirelessTestEntity wirelessTestEntity = new WirelessTestEntity();
+            wirelessTestEntity.testDate = TimeUtil.getCurrentTime();
             if (obsProjectNumber.getValue() == null) {
                 toast("工程编号不能为空");
                 return;
@@ -122,6 +124,7 @@ public class NewTestViewModel extends BaseViewModel {
             }
         } else {
             TestEntity testEntity = new TestEntity();
+            testEntity.testDate = TimeUtil.getCurrentTime();
             if (obsProjectNumber.getValue() == null) {
                 toast("工程编号不能为空");
                 return;

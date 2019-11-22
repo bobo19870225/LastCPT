@@ -137,7 +137,7 @@
             android:layout_centerInParent="true"
             android:background="@color/them_color"
             android:onClick="@{()->model.addProbe()}"
-            android:text="@string/bt_addOK"
+            android:text="@string/ok"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 
