@@ -85,7 +85,8 @@ public class CrossTestViewModel extends BaseViewModel {
     }
 
     private TestEntity testEntity;
-    public void getTestParameters() {
+
+    private void getTestParameters() {
         testDao.getTestEntityByPrjNumberAndHoleNumber(strProjectNumber.getValue(), strHoleNumber.getValue()).observe(lifecycleOwner, testEntities -> {
             if (testEntities != null && testEntities.size() > 0) {
                 testEntity = testEntities.get(0);
@@ -159,6 +160,32 @@ public class CrossTestViewModel extends BaseViewModel {
                     break;
             }
         });
+        strSoilType.setValue("原状土");
+        /*for test*/
+//        strCuInitial.setValue("0kPa");
+//        strDeep.setValue("1m");
+//        strCuEffective.setValue("18.2");
+//        deg.setValue("10");
+//        List<CrossTestDataEntity> list = new ArrayList<>();
+//        Random random = new Random();
+//        for (int i = 0; i < 10; i++) {
+//            CrossTestDataEntity crossTestDataEntity = new CrossTestDataEntity();
+//            crossTestDataEntity.deg = i;
+//            if (i < 5) {
+//                crossTestDataEntity.cu = i + random.nextFloat();
+//            } else {
+//                crossTestDataEntity.cu = 10 - i + random.nextFloat();
+//            }
+//            crossTestDataEntity.deep = 1;
+//            crossTestDataEntity.number = 1;
+//            crossTestDataEntity.probeID = "JKV50-007";
+//            crossTestDataEntity.testDataID = "vtest_1";
+//            crossTestDataEntity.type = "原状土";
+//            list.add(crossTestDataEntity);
+//        }
+//        ldCrossTestDataEntities.setValue(list);
+        /*end test*/
+        getTestParameters();
     }
 
     private String getCuEffectiveValue(String mDate, String cuInitialValue) {
@@ -197,14 +224,15 @@ public class CrossTestViewModel extends BaseViewModel {
     private List<CrossTestDataEntity> crossTestDataEntityList;
 
     public void saveTestDataToSD() {
-        crossTestDataDao.getCrossTestDataByTestDataId(testEntity.projectNumber + "_" + testEntity.holeNumber).observe(lifecycleOwner, crossTestDataEntities -> {
-            if (null != crossTestDataEntities && crossTestDataEntities.size() != 0) {
-                crossTestDataEntityList = crossTestDataEntities;
-                dataUtil.saveDataToSd(crossTestDataEntities, testEntity, iSkip);
-            } else {
-                toast("读取数据失败！");
-            }
-        });
+        if (null != testEntity)
+            crossTestDataDao.getCrossTestDataByTestDataId(testEntity.projectNumber + "_" + testEntity.holeNumber).observe(lifecycleOwner, crossTestDataEntities -> {
+                if (null != crossTestDataEntities && crossTestDataEntities.size() != 0) {
+                    crossTestDataEntityList = crossTestDataEntities;
+                    dataUtil.saveDataToSd(crossTestDataEntities, testEntity, iSkip);
+                } else {
+                    toast("读取数据失败！");
+                }
+            });
 
     }
 

@@ -13,12 +13,15 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
 
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityCrossTestBinding;
+import www.jingkan.com.db.entity.CrossTestDataEntity;
 import www.jingkan.com.util.CallbackMessage;
 import www.jingkan.com.util.SystemConstant;
 import www.jingkan.com.view.base.DialogMVVMDaggerActivity;
@@ -49,7 +52,6 @@ public class CrossTestActivity extends DialogMVVMDaggerActivity<CrossTestViewMod
         mViewModel.mac = strings[0];
         mViewModel.strProjectNumber.setValue(strings[1]);
         mViewModel.strHoleNumber.setValue(strings[2]);
-        mViewModel.getTestParameters();
         mViewModel.linkDevice();
         drawChartHelper.setStrategy(new CrossStrategy(getApplicationContext(), mViewDataBinding.lineChart));
         mViewModel.action.observe(this, s -> {
@@ -77,7 +79,11 @@ public class CrossTestActivity extends DialogMVVMDaggerActivity<CrossTestViewMod
             }
         });
         mViewModel.ldCrossTestDataEntities.observe(this, crossTestDataEntities -> {
-
+            List<float[]> listPoints = new ArrayList<>();
+            for (CrossTestDataEntity crossTestDataModel : crossTestDataEntities) {
+                listPoints.add(new float[]{crossTestDataModel.cu, 0, 0, crossTestDataModel.deg});
+            }
+            drawChartHelper.addPointsToChart(listPoints);
         });
     }
 
