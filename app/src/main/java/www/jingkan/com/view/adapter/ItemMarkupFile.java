@@ -5,8 +5,13 @@ package www.jingkan.com.view.adapter;
  * CPTTest
  */
 public interface ItemMarkupFile extends Item {
-    String getTestId();
 
-    String getTestData();
+    String getProjectNumber();
+
+    String getTestType();
+
+    String getHoleNumber();
+
+    String getTestDate();
 
 }

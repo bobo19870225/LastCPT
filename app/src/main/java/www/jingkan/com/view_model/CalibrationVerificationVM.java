@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -68,6 +67,7 @@ public class CalibrationVerificationVM extends BaseViewModel {
     public final MutableLiveData<String> ldInitial = new MutableLiveData<>();
     public final MutableLiveData<String> ldValid = new MutableLiveData<>();
     public final MutableLiveData<Float[]> ldData = new MutableLiveData<>();
+
     @Override
     public void inject(Object... objects) {
         String[] strings = (String[]) objects[0];
@@ -230,81 +230,74 @@ public class CalibrationVerificationVM extends BaseViewModel {
 
 
     public void doRecord() {
-        boolean test = true;
-        if (test) {
-            if (index != 0)
-                return;
-            String ldDifferentialValue = ldDifferential.getValue();
-            if (ldDifferentialValue != null) {
-                int differential = Integer.parseInt(ldDifferentialValue);
-                Random ra = new Random();
-                int x;
-                for (; index < 28; index++) {
-                    double v = 0.3 * ra.nextDouble();
-                    if (index < 7) {
-                        x = index * differential;
-                        list.add(new String[]{String.valueOf(x), "加荷", StringUtil.format(x + v, 2)});
-                    } else if (index < 14) {
-                        x = (13 - index) * differential;
-                        list.add(new String[]{String.valueOf(x), "卸荷", StringUtil.format(x + v, 2)});
-                    } else if (index < 21) {
-                        x = (index - 14) * differential;
-                        list.add(new String[]{String.valueOf(x), "加荷", StringUtil.format(x + v, 2)});
-                    } else {
-                        x = (27 - index) * differential;
-                        list.add(new String[]{String.valueOf(x), "卸荷", StringUtil.format(x + v, 2)});
-                        if (index == 27) {
-                            for (int i = 0; i < list.size(); i++) {
-                                putDateBase(i, list.get(i));
-                            }
-                            toast("标定结束");
-                        }
+        /*for test*/
+//            if (index != 0)
+//                return;
+//            String ldDifferentialValue = ldDifferential.getValue();
+//            if (ldDifferentialValue != null) {
+//                int differential = Integer.parseInt(ldDifferentialValue);
+//                Random ra = new Random();
+//                int x;
+//                for (; index < 28; index++) {
+//                    double v = 0.3 * ra.nextDouble();
+//                    if (index < 7) {
+//                        x = index * differential;
+//                        list.add(new String[]{String.valueOf(x), "加荷", StringUtil.format(x + v, 2)});
+//                    } else if (index < 14) {
+//                        x = (13 - index) * differential;
+//                        list.add(new String[]{String.valueOf(x), "卸荷", StringUtil.format(x + v, 2)});
+//                    } else if (index < 21) {
+//                        x = (index - 14) * differential;
+//                        list.add(new String[]{String.valueOf(x), "加荷", StringUtil.format(x + v, 2)});
+//                    } else {
+//                        x = (27 - index) * differential;
+//                        list.add(new String[]{String.valueOf(x), "卸荷", StringUtil.format(x + v, 2)});
+//                        if (index == 27) {
+//                            for (int i = 0; i < list.size(); i++) {
+//                                putDateBase(i, list.get(i));
+//                            }
+//                            toast("标定结束");
+//                        }
+//                    }
+//                }
+//                Boolean shockValue = ldIsShock.getValue();
+//                if (shockValue != null && shockValue) {
+//                    vibratorUtil.Vibrate(200);
+//                }
+//            }
+        /*for test end*/
+        String ldDifferentialValue = ldDifferential.getValue();
+        if (ldDifferentialValue != null) {
+            int differential = Integer.parseInt(ldDifferentialValue);
+            int x = index * differential;
+            if (index < 7) {
+                ldData.setValue(new Float[]{(float) x, effectiveValue, (float) 0});
+                list.add(new String[]{String.valueOf(x), "加荷", String.valueOf(effectiveValue)});
+            } else if (index < 14) {
+                x = (13 - index) * differential;
+                ldData.setValue(new Float[]{(float) x, effectiveValue, (float) 1});
+                list.add(new String[]{String.valueOf(x), "卸荷", String.valueOf(effectiveValue)});
+            } else if (index < 21) {
+                x = (index - 14) * differential;
+                ldData.setValue(new Float[]{(float) x, effectiveValue, (float) 2});
+                list.add(new String[]{String.valueOf(x), "加荷", String.valueOf(effectiveValue)});
+            } else if (index < 28) {
+                x = (27 - index) * differential;
+                ldData.setValue(new Float[]{(float) x, effectiveValue, (float) 3});
+                list.add(new String[]{String.valueOf(x), "卸荷", String.valueOf(effectiveValue)});
+                if (index == 27) {
+                    for (int i = 0; i < list.size(); i++) {
+                        putDateBase(i, list.get(i));
                     }
-                }
-                Boolean shockValue = ldIsShock.getValue();
-                if (shockValue != null && shockValue) {
-                    vibratorUtil.Vibrate(200);
-                }
-            }
-
-        } else {
-            String ldDifferentialValue = ldDifferential.getValue();
-            if (ldDifferentialValue != null) {
-                int differential = Integer.parseInt(ldDifferentialValue);
-                int x = index * differential;
-                if (index < 7) {
-                    ldData.setValue(new Float[]{(float) x, effectiveValue, (float) 0});
-//                myView.get().showLoadingLine(x, effectiveValue, "加荷1");
-                    list.add(new String[]{String.valueOf(x), "加荷", String.valueOf(effectiveValue)});
-                } else if (index < 14) {
-                    x = (13 - index) * differential;
-                    ldData.setValue(new Float[]{(float) x, effectiveValue, (float) 1});
-//                myView.get().showLoadingLine(x, effectiveValue, "卸荷1");
-                    list.add(new String[]{String.valueOf(x), "卸荷", String.valueOf(effectiveValue)});
-                } else if (index < 21) {
-                    x = (index - 14) * differential;
-                    ldData.setValue(new Float[]{(float) x, effectiveValue, (float) 2});
-//                myView.get().showLoadingLine(x, effectiveValue, "加荷2");
-                    list.add(new String[]{String.valueOf(x), "加荷", String.valueOf(effectiveValue)});
-                } else if (index < 28) {
-                    x = (27 - index) * differential;
-                    ldData.setValue(new Float[]{(float) x, effectiveValue, (float) 3});
-//                myView.get().showLoadingLine(x, effectiveValue, "卸荷2");
-                    list.add(new String[]{String.valueOf(x), "卸荷", String.valueOf(effectiveValue)});
-                    if (index == 27) {
-                        for (int i = 0; i < list.size(); i++) {
-                            putDateBase(i, list.get(i));
-                        }
-                        toast("标定结束");
-                    }
-                } else {
                     toast("标定结束");
                 }
-                index++;
-                Boolean shockValue = ldIsShock.getValue();
-                if (shockValue != null && shockValue) {
-                    vibratorUtil.Vibrate(200);
-                }
+            } else {
+                toast("标定结束");
+            }
+            index++;
+            Boolean shockValue = ldIsShock.getValue();
+            if (shockValue != null && shockValue) {
+                vibratorUtil.Vibrate(200);
             }
         }
     }
@@ -479,7 +472,6 @@ public class CalibrationVerificationVM extends BaseViewModel {
                             loadDifferenceValue > maxLoadDifferenceValue ?
                                     loadDifferenceValue : maxLoadDifferenceValue;
                 }
-//                haveData = true;
                 calibrationVerificationDao.getCVEntityByProbeNoAndTypeAndForceType(ldNumber.getValue(), type, "卸荷").observe(lifecycleOwner, calibrationVerificationEntities1 -> {
                     if (calibrationVerificationEntities1 != null && calibrationVerificationEntities1.size() != 0) {
                         int size1 = calibrationVerificationEntities1.size();
@@ -504,7 +496,6 @@ public class CalibrationVerificationVM extends BaseViewModel {
                             maxUnLoadDifferenceValue = unLoadDifference > maxUnLoadDifferenceValue ?
                                     unLoadDifference : maxUnLoadDifferenceValue;
                         }
-//                        haveData = true;
                         String fileName;
                         if (isFs) {
                             fileName = ldNumber.getValue() + "侧壁标定.txt";
@@ -524,13 +515,11 @@ public class CalibrationVerificationVM extends BaseViewModel {
                             }
                         });
                     } else {
-//                        haveData = false;
                         toast("标定未完成");
                     }
                 });
             } else {
                 toast("标定未完成");
-//                haveData = false;
             }
         });
 

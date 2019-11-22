@@ -13,6 +13,8 @@ import androidx.databinding.ObservableField;
 import androidx.lifecycle.MediatorLiveData;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import www.jingkan.com.db.dao.WirelessTestDao;
 import www.jingkan.com.db.dao.WirelessTestDataDao;
@@ -137,7 +139,11 @@ public class WirelessTestViewModel extends BaseViewModel {
         wirelessTestDataModel.probeNumber = obsProbeNumber.get();
         wirelessTestDataModel.deep = dp;
         wirelessTestDataModel.rtc = RTC;
-        wirelessTestDataDao.insertWirelessTestDataEntity(wirelessTestDataModel);
+        ExecutorService DB_IO = Executors.newFixedThreadPool(2);
+        DB_IO.execute(() -> {
+            wirelessTestDataDao.insertWirelessTestDataEntity(wirelessTestDataModel);
+            DB_IO.shutdown();//关闭线程
+        });
         if (shock.get()) {
             vibratorUtil.Vibrate(200);
         }

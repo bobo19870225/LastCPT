@@ -1,42 +1,114 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?><!--
   ~ Copyright (c) 2018. 代码著作权归卢声波所有。
   -->
-
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="model"
             type="www.jingkan.com.view.adapter.ItemMarkupFile" />
+
+        <variable
+            name="clickCallback"
+            type="www.jingkan.com.view.adapter.ItemMarkFileClickCallback" />
     </data>
 
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:paddingStart="16dp"
-        android:paddingLeft="16dp"
-        android:paddingEnd="16dp"
-        android:paddingRight="16dp">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:minHeight="80dp"
+        android:orientation="horizontal"
+        app:cardUseCompatPadding="true">
 
-        <TextView
-            android:id="@+id/test_id"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{model.testId}" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/test_id"
-            android:text="@{model.testData}" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/next" />
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/img_delete"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:onClick="@{()->clickCallback.onDeleteClick(model)}"
+                android:scaleType="center"
+                android:src="@drawable/ic_delete_forever_black_24dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:onClick="@{()->clickCallback.onClick(model)}"
+                android:padding="8dp">
+
+
+                <TextView
+                    android:id="@+id/tt_project_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/project_number" />
+
+                <TextView
+                    android:id="@+id/project_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tt_project_number"
+                    android:gravity="center_vertical"
+                    android:text="@{model.projectNumber}"
+                    android:textColor="@color/text_content" />
+
+                <TextView
+                    android:id="@+id/tt_hole_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/hole_number"
+                    android:gravity="center_vertical"
+                    android:text="@string/hole_number" />
+
+                <TextView
+                    android:id="@+id/hole_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="40dp"
+                    android:layout_toStartOf="@+id/more"
+                    android:gravity="center_vertical"
+                    android:text="@{model.holeNumber}"
+                    android:textColor="@color/text_content" />
+
+
+                <TextView
+                    android:id="@+id/tt_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tt_project_number"
+                    android:layout_marginTop="4dp"
+                    android:text="试验日期：" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tt_project_number"
+                    android:layout_marginTop="4dp"
+                    android:layout_toEndOf="@+id/tt_date"
+                    android:text="@{model.testDate}"
+                    android:textColor="@color/text_content" />
+
+                <ImageView
+                    android:id="@+id/more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:scaleType="center"
+                    android:src="@mipmap/next" />
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </layout>
-

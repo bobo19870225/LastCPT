@@ -400,7 +400,6 @@
                     android:layout_marginEnd="16dp"
                     android:background="@color/them_color"
                     android:onClick="@{()->model.modifyDistance()}"
-
                     android:text="@string/modify"
                     android:textColor="@color/white" />
 
@@ -423,10 +422,10 @@
                 android:paddingRight="0dp" />
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:background="@color/rl_gray"
             android:orientation="horizontal"
             app:layout_behavior="@string/bottom_sheet_behavior">
 
@@ -434,31 +433,25 @@
                 android:id="@+id/initial_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="1dp"
                 android:layout_weight="1"
                 android:background="@color/them_color"
                 android:onClick="@{()->model.doInitialValue()}"
                 android:text="@string/initial_value"
                 android:textColor="@color/white" />
 
-            <View
-                style="@color/v_gray"
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent" />
 
             <Button
                 android:id="@+id/record"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="1dp"
                 android:layout_weight="1"
                 android:background="@color/them_color"
                 android:onClick="@{()->model.doRecord()}"
                 android:text="记录"
                 android:textColor="@color/white" />
 
-            <View
-                style="@color/v_gray"
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent" />
 
             <CheckBox
                 android:id="@+id/shock"

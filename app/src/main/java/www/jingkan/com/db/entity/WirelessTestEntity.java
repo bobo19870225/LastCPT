@@ -1,10 +1,10 @@
 package www.jingkan.com.db.entity;
 
-import www.jingkan.com.view.adapter.ItemMarkupFile;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import www.jingkan.com.view.adapter.ItemMarkupFile;
 
 /**
  * Created by Sampson on 2018/12/11.
@@ -27,17 +27,27 @@ public class WirelessTestEntity implements ItemMarkupFile {
 
 
     @Override
-    public String getTestId() {
-        return testID;
-    }
-
-    @Override
-    public String getTestData() {
-        return testDate;
-    }
-
-    @Override
     public Object getId() {
         return testID;
+    }
+
+    @Override
+    public String getProjectNumber() {
+        return projectNumber;
+    }
+
+    @Override
+    public String getTestType() {
+        return testType;
+    }
+
+    @Override
+    public String getHoleNumber() {
+        return holeNumber;
+    }
+
+    @Override
+    public String getTestDate() {
+        return testDate;
     }
 }

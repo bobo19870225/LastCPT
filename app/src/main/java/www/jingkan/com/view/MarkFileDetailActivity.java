@@ -6,11 +6,12 @@ package www.jingkan.com.view;
 
 import android.view.MenuItem;
 
-import javax.inject.Inject;
-
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import javax.inject.Inject;
+
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityMarkFileDetailBinding;
 import www.jingkan.com.db.dao.WirelessTestDao;
@@ -38,9 +39,10 @@ public class MarkFileDetailActivity extends ListMVVMActivity<MarkFileDetailViewM
 
     private String strTestID;
 
+
     @Override
     protected RecyclerView setRecyclerView() {
-        return null;
+        return mViewDataBinding.list;
     }
 
     @Override
