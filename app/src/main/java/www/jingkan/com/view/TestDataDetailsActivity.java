@@ -50,7 +50,7 @@ public class TestDataDetailsActivity extends ListMVVMActivity<TestDataDetailsVM,
     @Inject
     TestDao testDao;
 
-    private String saveType;
+    private String fileType;
     private String[] saveItems = {SAVE_TYPE_ZHD_TXT, SAVE_TYPE_LY_TXT, SAVE_TYPE_LY_DAT, SAVE_TYPE_HN_111, SAVE_TYPE_LZ_TXT};
     private String emailType = EMAIL_TYPE_ZHD_TXT;
     private String[] emailItems = {EMAIL_TYPE_ZHD_TXT, EMAIL_TYPE_LY_TXT, EMAIL_TYPE_LY_DAT, EMAIL_TYPE_HN_111, EMAIL_TYPE_LZ_TXT};
@@ -140,7 +140,7 @@ public class TestDataDetailsActivity extends ListMVVMActivity<TestDataDetailsVM,
     }
 
     private void showSaveDataDialog(final TestEntity testModel) {
-        saveType = SAVE_TYPE_ZHD_TXT;
+        fileType = SAVE_TYPE_ZHD_TXT;
         if (testModel.testType.contains("测斜")) {
             saveItems = new String[]{
                     SAVE_TYPE_ZHD_TXT,
@@ -152,17 +152,17 @@ public class TestDataDetailsActivity extends ListMVVMActivity<TestDataDetailsVM,
         }
         Dialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择要保存的数据类型")
-                .setSingleChoiceItems(saveItems, 0, (dialog, which) -> saveType = saveItems[which])
-                .setPositiveButton("确定", (dialog, which) -> mViewModel.saveTestDataToSD(getList(), saveType, testModel, this))
+                .setSingleChoiceItems(saveItems, 0, (dialog, which) -> fileType = saveItems[which])
+                .setPositiveButton("确定", (dialog, which) -> mViewModel.saveTestDataToSD(getList(), fileType, testModel, this))
                 .setNegativeButton("取消", (dialog, which) -> {
-                    saveType = saveItems[0];
+                    fileType = saveItems[0];
                     dialog.dismiss();
                 }).create();
         alertDialog.show();
     }
 
     private void showEmailDataDialog(final TestEntity testModel) {
-        saveType = EMAIL_TYPE_ZHD_TXT;
+        fileType = EMAIL_TYPE_ZHD_TXT;
         Dialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择发送的数据类型")
                 .setSingleChoiceItems(emailItems, 0, (dialog, which) -> emailType = emailItems[which])
