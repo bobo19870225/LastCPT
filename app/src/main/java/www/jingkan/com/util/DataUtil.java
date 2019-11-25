@@ -332,14 +332,14 @@ public class DataUtil {
                             content.append(holeNumber).append("，").append("1").append(strReturn);
                             if (models.get(0) instanceof TestDataEntity) {
                                 for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
-                                    content.append(String.valueOf(mTestDataEntitys.deep))
+                                    content.append(StringUtil.format((mTestDataEntitys.deep), 1))
                                             .append("，")
                                             .append(StringUtil.format(mTestDataEntitys.qc, 3))
                                             .append(strReturn);
                                 }
                             } else if (models.get(0) instanceof WirelessResultDataEntity) {
                                 for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
-                                    content.append(String.valueOf(wirelessResultDataModel.deep))
+                                    content.append(StringUtil.format(wirelessResultDataModel.deep, 1))
                                             .append("，")
                                             .append(StringUtil.format(wirelessResultDataModel.qc, 3))
                                             .append(strReturn);
@@ -352,7 +352,7 @@ public class DataUtil {
                             content.append(holeNumber).append("，").append("2").append(strReturn);
                             if (models.get(0) instanceof TestDataEntity) {
                                 for (TestDataEntity mTestDataEntitys : (List<TestDataEntity>) models) {
-                                    content.append(String.valueOf(mTestDataEntitys.deep))
+                                    content.append(StringUtil.format(mTestDataEntitys.deep, 1))
                                             .append("，")
                                             .append(StringUtil.format(mTestDataEntitys.qc, 3))
                                             .append("，")
@@ -361,7 +361,7 @@ public class DataUtil {
                                 }
                             } else if (models.get(0) instanceof WirelessResultDataEntity) {
                                 for (WirelessResultDataEntity wirelessResultDataModel : (List<WirelessResultDataEntity>) models) {
-                                    content.append(String.valueOf(wirelessResultDataModel.deep))
+                                    content.append(StringUtil.format(wirelessResultDataModel.deep, 1))
                                             .append("，")
                                             .append(StringUtil.format(wirelessResultDataModel.qc, 3))
                                             .append("，")
@@ -553,7 +553,6 @@ public class DataUtil {
 
     private Float maxCu = 0f;
 
-    @SuppressWarnings("unchecked")
     public void saveDataToSd(List<CrossTestDataEntity> models, TestEntity testModel, final ISkip iSkip) {
         StringBuilder content = new StringBuilder();
         String strReturn = "\r\n";
