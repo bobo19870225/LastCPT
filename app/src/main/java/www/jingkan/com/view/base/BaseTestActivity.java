@@ -46,6 +46,7 @@ import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_HN_111;
 import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LY_DAT;
 import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LY_TXT;
 import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_LZ_TXT;
+import static www.jingkan.com.util.SystemConstant.EMAIL_TYPE_ZHD_TXT;
 import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_HN_111;
 import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LY_DAT;
 import static www.jingkan.com.util.SystemConstant.SAVE_TYPE_LY_TXT;
@@ -94,6 +95,7 @@ public class BaseTestActivity extends DialogMVVMDaggerActivity<BaseTestViewModel
     private TestEntity testEntity;
     private String fileType;
     protected String[] emailItems = {
+            EMAIL_TYPE_ZHD_TXT,
             EMAIL_TYPE_LY_TXT,
             EMAIL_TYPE_LY_DAT,
             EMAIL_TYPE_HN_111,
@@ -230,6 +232,7 @@ public class BaseTestActivity extends DialogMVVMDaggerActivity<BaseTestViewModel
 
 
     protected void showEmailDataDialog() {
+        fileType = EMAIL_TYPE_ZHD_TXT;
         Dialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择发送的数据类型")
                 .setSingleChoiceItems(emailItems, 0, (dialog, which) -> fileType = emailItems[which])
@@ -254,7 +257,7 @@ public class BaseTestActivity extends DialogMVVMDaggerActivity<BaseTestViewModel
 
 
     protected void showSaveDataDialog() {
-
+        fileType = SAVE_TYPE_ZHD_TXT;
         Dialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择要保存的数据类型")
                 .setSingleChoiceItems(saveItems, 0, (dialog, which) -> fileType = saveItems[which])
