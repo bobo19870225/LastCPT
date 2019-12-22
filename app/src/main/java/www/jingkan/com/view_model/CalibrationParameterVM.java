@@ -17,6 +17,7 @@ import www.jingkan.com.db.dao.CalibrationProbeDaoHelper;
 import www.jingkan.com.db.entity.CalibrationProbeEntity;
 import www.jingkan.com.util.PreferencesUtil;
 import www.jingkan.com.util.StringUtil;
+import www.jingkan.com.view.AnalogCaCalibrationVerificationActivity;
 import www.jingkan.com.view.CalibrationVerificationActivity;
 import www.jingkan.com.view.LinkBluetoothActivity;
 import www.jingkan.com.view.OldSetCalibrationDataActivity;
@@ -88,7 +89,7 @@ public class CalibrationParameterVM extends BaseViewModel {
             stringHashMap.put("type", strings[0] + strings[1]);
             goTo(LinkBluetoothActivity.class, stringHashMap);
         } else {//传递：1.蓝牙地址 2.探头序列号 3.标定类型
-            goTo(CalibrationVerificationActivity.class, new String[]{add, strSn, strings[0] + strings[1]});
+            goTo(AnalogCaCalibrationVerificationActivity.class, new String[]{add, strSn, strings[0] + strings[1]});
         }
     }
 

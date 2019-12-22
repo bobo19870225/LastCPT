@@ -382,6 +382,7 @@
             android:name=".view.VideoActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".view.OldSetCalibrationDataActivity" />
+        <activity android:name=".view.AnalogCaCalibrationVerificationActivity" />
 
 
     </application>

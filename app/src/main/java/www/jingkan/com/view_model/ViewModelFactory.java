@@ -91,6 +91,8 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             return (T) new CalibrationVerificationVM(application, bluetoothUtil,
                     bluetoothCommService, calibrationProbeDao,
                     calibrationVerificationDao, vibratorUtil);
+        } else if (modelClass.isAssignableFrom(AnalogCaCalibrationVerificationVM.class)) {
+            return (T) new AnalogCaCalibrationVerificationVM(application, calibrationProbeDao);
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
