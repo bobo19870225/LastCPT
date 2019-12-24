@@ -73,6 +73,7 @@ public class CalibrationVerificationVM extends BaseViewModel {
     public void inject(Object... objects) {
         String[] strings = (String[]) objects[0];
         isFs = strings[2].contains("侧壁");
+        isCross = strings[2].contains("十字板");
         mac = strings[0];
         initProbeParameters(strings[1], isFs);
         list = new ArrayList<>();
@@ -127,6 +128,7 @@ public class CalibrationVerificationVM extends BaseViewModel {
     private float effectiveValue = 0;
     private float initialValue = 0;
     private boolean isFs;
+    private boolean isCross;
     private List<String[]> list;
 
 
@@ -212,6 +214,8 @@ public class CalibrationVerificationVM extends BaseViewModel {
                 if (isFS) {
                     ldDifferential.setValue(String.valueOf(Integer.parseInt(calibrationProbeModel.differential) * 10));
 //                    differential = Integer.parseInt(calibrationProbeModel.differential) * 10;
+                } else if (isCross) {
+                    ldDifferential.setValue("20");
                 } else {
                     ldDifferential.setValue(String.valueOf(Integer.parseInt(calibrationProbeModel.differential)));
                 }
@@ -239,28 +243,54 @@ public class CalibrationVerificationVM extends BaseViewModel {
             int differential = Integer.parseInt(ldDifferentialValue);
             Random ra = new Random();
             int x;
-            for (; index < 28; index++) {
-                double v = 0.3 * ra.nextDouble();
-                if (index < 7) {
-                    x = index * differential;
-                    list.add(new String[]{String.valueOf(x), "加荷", StringUtil.format(x + v, 2)});
-                } else if (index < 14) {
-                    x = (13 - index) * differential;
-                    list.add(new String[]{String.valueOf(x), "卸荷", StringUtil.format(x + v, 2)});
-                } else if (index < 21) {
-                    x = (index - 14) * differential;
-                    list.add(new String[]{String.valueOf(x), "加荷", StringUtil.format(x + v, 2)});
-                } else {
-                    x = (27 - index) * differential;
-                    list.add(new String[]{String.valueOf(x), "卸荷", StringUtil.format(x + v, 2)});
-                    if (index == 27) {
-                        for (int i = 0; i < list.size(); i++) {
-                            putDateBase(i, list.get(i));
+            if (isCross) {
+                for (; index < 32; index++) {
+                    double v = 0.3 * ra.nextDouble();
+                    if (index < 8) {
+                        x = index * differential;
+                        list.add(new String[]{String.valueOf(x), "加荷", StringUtil.format(x + v, 2)});
+                    } else if (index < 16) {
+                        x = (15 - index) * differential;
+                        list.add(new String[]{String.valueOf(x), "卸荷", StringUtil.format(x + v, 2)});
+                    } else if (index < 24) {
+                        x = (index - 16) * differential;
+                        list.add(new String[]{String.valueOf(x), "加荷", StringUtil.format(x + v, 2)});
+                    } else {
+                        x = (31 - index) * differential;
+                        list.add(new String[]{String.valueOf(x), "卸荷", StringUtil.format(x + v, 2)});
+                        if (index == 31) {
+                            for (int i = 0; i < list.size(); i++) {
+                                putDateBase(i, list.get(i));
+                            }
+                            toast("标定结束");
                         }
-                        toast("标定结束");
+                    }
+                }
+            } else {
+                for (; index < 28; index++) {
+                    double v = 0.3 * ra.nextDouble();
+                    if (index < 7) {
+                        x = index * differential;
+                        list.add(new String[]{String.valueOf(x), "加荷", StringUtil.format(x + v, 2)});
+                    } else if (index < 14) {
+                        x = (13 - index) * differential;
+                        list.add(new String[]{String.valueOf(x), "卸荷", StringUtil.format(x + v, 2)});
+                    } else if (index < 21) {
+                        x = (index - 14) * differential;
+                        list.add(new String[]{String.valueOf(x), "加荷", StringUtil.format(x + v, 2)});
+                    } else {
+                        x = (27 - index) * differential;
+                        list.add(new String[]{String.valueOf(x), "卸荷", StringUtil.format(x + v, 2)});
+                        if (index == 27) {
+                            for (int i = 0; i < list.size(); i++) {
+                                putDateBase(i, list.get(i));
+                            }
+                            toast("标定结束");
+                        }
                     }
                 }
             }
+
             Boolean shockValue = ldIsShock.getValue();
             if (shockValue != null && shockValue) {
                 vibratorUtil.Vibrate(200);
@@ -353,6 +383,8 @@ public class CalibrationVerificationVM extends BaseViewModel {
         String strTab = "\t";
         if (isFs) {
             result = new StringBuilder("侧壁标定" + strReturn);
+        } else if (isCross) {
+            result = new StringBuilder("十字板标定" + strReturn);
         } else {
             result = new StringBuilder("锥头标定" + strReturn);
         }
@@ -500,6 +532,8 @@ public class CalibrationVerificationVM extends BaseViewModel {
                         String fileName;
                         if (isFs) {
                             fileName = ldNumber.getValue() + "侧壁标定.txt";
+                        } else if (isCross) {
+                            fileName = ldNumber.getValue() + "十字板标定.txt";
                         } else {
                             fileName = ldNumber.getValue() + "锥尖标定.txt";
                         }
