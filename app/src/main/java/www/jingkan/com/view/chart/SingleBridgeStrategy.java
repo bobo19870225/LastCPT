@@ -10,16 +10,16 @@ import android.graphics.Paint;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import org.achartengine.ChartFactory;
-import org.achartengine.GraphicalView;
-import org.achartengine.chart.PointStyle;
-import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYSeriesRenderer;
-import org.achartengine.util.IndexXYMap;
-
 import java.util.List;
+
+import www.jingkan.com.view.chart.achartengine.ChartFactory;
+import www.jingkan.com.view.chart.achartengine.GraphicalView;
+import www.jingkan.com.view.chart.achartengine.chart.PointStyle;
+import www.jingkan.com.view.chart.achartengine.model.XYMultipleSeriesDataset;
+import www.jingkan.com.view.chart.achartengine.model.XYSeries;
+import www.jingkan.com.view.chart.achartengine.renderer.XYMultipleSeriesRenderer;
+import www.jingkan.com.view.chart.achartengine.renderer.XYSeriesRenderer;
+import www.jingkan.com.view.chart.achartengine.util.IndexXYMap;
 
 /**
  * Created by lushengbo on 2018/1/4.
@@ -132,7 +132,7 @@ public class SingleBridgeStrategy implements InterfaceDrawChartStrategy {
         mRenderer.setYAxisMax(15);
         mRenderer.setXAxisMax(10);
         setOrientation();
-        mRenderer.setChartTitleTextSize(20);
+        mRenderer.setChartTitleTextSize(40);
         mRenderer.setMargins(new int[]{50, 50, 100, 50});//右，上，左，下
         mRenderer.setYLabelsPadding(-10);
         setXYTitle();

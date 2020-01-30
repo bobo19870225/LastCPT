@@ -104,7 +104,7 @@
                 android:layout_toRightOf="@+id/tv_differential"
                 android:background="@android:color/transparent"
                 android:gravity="end|center_vertical"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:paddingRight="24dp"
                 android:text="@={model.lvDifferential}" />
 

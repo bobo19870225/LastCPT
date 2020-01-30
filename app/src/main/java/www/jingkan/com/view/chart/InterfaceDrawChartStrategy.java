@@ -4,9 +4,10 @@
 
 package www.jingkan.com.view.chart;
 
-import org.achartengine.util.IndexXYMap;
 
 import java.util.List;
+
+import www.jingkan.com.view.chart.achartengine.util.IndexXYMap;
 
 /**
  * Created by lushengbo on 2018/1/4.

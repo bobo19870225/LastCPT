@@ -64,12 +64,7 @@ public class AnalogCaCalibrationVerificationVM extends BaseViewModel {
                 CalibrationProbeEntity calibrationProbeModel = calibrationProbeEntities.get(0);
                 ldNumber.setValue(calibrationProbeModel.number);
                 ldArea.setValue(calibrationProbeModel.work_area);
-                if (isFS) {
-                    ldDifferential.setValue(String.valueOf(Integer.parseInt(calibrationProbeModel.differential) * 10));
-//                    differential = Integer.parseInt(calibrationProbeModel.differential) * 10;
-                } else {
-                    ldDifferential.setValue(String.valueOf(Integer.parseInt(calibrationProbeModel.differential)));
-                }
+                ldDifferential.setValue(calibrationProbeModel.differential);
             }
         });
 
@@ -104,7 +99,7 @@ public class AnalogCaCalibrationVerificationVM extends BaseViewModel {
         } else {
             return;
         }
-        Integer differential = Integer.valueOf(Objects.requireNonNull(ldDifferential.getValue()));
+        float differential = Float.valueOf(Objects.requireNonNull(ldDifferential.getValue()));
         for (int i = 0; i < 3; i++) {
             if (i == 0) {
                 obs.add(i * differential, ra.nextInt(10));
@@ -199,7 +194,7 @@ public class AnalogCaCalibrationVerificationVM extends BaseViewModel {
     private float[] calculationParameter() {
         float[] parameter = new float[6];
         int length = loadAverage.length;
-        int[] perLoad = new int[length];
+        float[] perLoad = new float[length];
         float[] loadUnloadAverage = new float[length];
         float squareSumLoadUnloadAverage = 0;
         float optimumValue;
@@ -212,7 +207,7 @@ public class AnalogCaCalibrationVerificationVM extends BaseViewModel {
         for (int i = 0; i < length; i++) {
             loadUnloadAverage[i] = (loadAverage[i] + unLoadAverage[i]) / 2;
             squareSumLoadUnloadAverage += loadUnloadAverage[i] * loadUnloadAverage[i];
-            int differential = Integer.parseInt(Objects.requireNonNull(ldDifferential.getValue()));
+            float differential = Float.parseFloat(Objects.requireNonNull(ldDifferential.getValue()));
             perLoad[i] = differential * i;
             sumPerLoad += perLoad[i] * loadUnloadAverage[i];
         }

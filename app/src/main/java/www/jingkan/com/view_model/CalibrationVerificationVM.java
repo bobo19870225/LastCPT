@@ -74,6 +74,7 @@ public class CalibrationVerificationVM extends BaseViewModel {
         String[] strings = (String[]) objects[0];
         isFs = strings[2].contains("侧壁");
         isCross = strings[2].contains("十字板");
+        isFa = strings[2].contains("斜度");
         mac = strings[0];
         initProbeParameters(strings[1], isFs);
         list = new ArrayList<>();
@@ -129,6 +130,7 @@ public class CalibrationVerificationVM extends BaseViewModel {
     private float initialValue = 0;
     private boolean isFs;
     private boolean isCross;
+    private boolean isFa;
     private List<String[]> list;
 
 
@@ -259,6 +261,29 @@ public class CalibrationVerificationVM extends BaseViewModel {
                         x = (31 - index) * differential;
                         list.add(new String[]{String.valueOf(x), "卸荷", StringUtil.format(x + v, 2)});
                         if (index == 31) {
+                            for (int i = 0; i < list.size(); i++) {
+                                putDateBase(i, list.get(i));
+                            }
+                            toast("标定结束");
+                        }
+                    }
+                }
+            } else if (isFa) {
+                for (; index < 44; index++) {
+                    double v = 0.3 * ra.nextDouble() * (ra.nextBoolean() ? 1 : -1);
+                    if (index < 11) {
+                        x = index * differential;
+                        list.add(new String[]{String.valueOf(x), "加荷", StringUtil.format(x + v, 2)});
+                    } else if (index < 22) {
+                        x = (13 - index) * differential;
+                        list.add(new String[]{String.valueOf(x), "卸荷", StringUtil.format(x + v, 2)});
+                    } else if (index < 33) {
+                        x = (index - 14) * differential;
+                        list.add(new String[]{String.valueOf(x), "加荷", StringUtil.format(x + v, 2)});
+                    } else {
+                        x = (27 - index) * differential;
+                        list.add(new String[]{String.valueOf(x), "卸荷", StringUtil.format(x + v, 2)});
+                        if (index == 27) {
                             for (int i = 0; i < list.size(); i++) {
                                 putDateBase(i, list.get(i));
                             }

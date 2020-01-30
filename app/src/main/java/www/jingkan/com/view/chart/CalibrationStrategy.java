@@ -8,9 +8,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.widget.RelativeLayout;
 
-import org.achartengine.chart.PointStyle;
-import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.XYSeriesRenderer;
+import www.jingkan.com.view.chart.achartengine.chart.PointStyle;
+import www.jingkan.com.view.chart.achartengine.model.XYSeries;
+import www.jingkan.com.view.chart.achartengine.renderer.XYSeriesRenderer;
+
 
 /**
  * Created by lushengbo on 2018/1/4.

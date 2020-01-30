@@ -27,6 +27,7 @@ import www.jingkan.com.view_model.base.BaseViewModel;
 /**
  * Created by Sampson on 2019/1/31.
  * CPTTest
+ * {@link www.jingkan.com.view.CalibrationParameterActivity}
  */
 public class CalibrationParameterVM extends BaseViewModel {
 

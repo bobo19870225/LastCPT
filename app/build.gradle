@@ -105,7 +105,7 @@ dependencies {
     androidTestImplementation deps.support.app_compat
     androidTestImplementation deps.support.design
 
-    implementation files('libs/achartengine-1.2.0.jar')
+//    implementation files('libs/achartengine-1.2.0.jar')
     implementation files('libs/guava-r07.jar')
     implementation files('libs/additionnal.jar')
     implementation fileTree(include: ['*.jar'], dir: 'libs')

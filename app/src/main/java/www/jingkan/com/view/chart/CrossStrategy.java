@@ -7,10 +7,11 @@ package www.jingkan.com.view.chart;
 import android.content.Context;
 import android.widget.RelativeLayout;
 
-import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import java.util.List;
+
+import www.jingkan.com.view.chart.achartengine.model.XYSeries;
+import www.jingkan.com.view.chart.achartengine.renderer.XYMultipleSeriesRenderer;
 
 /**
  * Created by lushengbo on 2018/1/9.
