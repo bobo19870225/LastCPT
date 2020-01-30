@@ -2,12 +2,13 @@ package www.jingkan.com.view;
 
 import android.view.MenuItem;
 
+import androidx.lifecycle.ViewModelProviders;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.lifecycle.ViewModelProviders;
 import www.jingkan.com.R;
 import www.jingkan.com.databinding.ActivityShowDataCharBinding;
 import www.jingkan.com.db.dao.TestDao;

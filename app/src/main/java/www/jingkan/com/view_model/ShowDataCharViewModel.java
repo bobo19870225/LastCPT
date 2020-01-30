@@ -3,13 +3,12 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
-import org.achartengine.util.IndexXYMap;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.MediatorLiveData;
+
+import java.util.List;
+
 import www.jingkan.com.db.dao.TestDao;
 import www.jingkan.com.db.dao.TestDataDao;
 import www.jingkan.com.db.dao.WirelessResultDataDao;
@@ -19,6 +18,7 @@ import www.jingkan.com.db.entity.TestEntity;
 import www.jingkan.com.db.entity.WirelessResultDataEntity;
 import www.jingkan.com.db.entity.WirelessTestEntity;
 import www.jingkan.com.view.chart.DrawChartHelper;
+import www.jingkan.com.view.chart.achartengine.util.IndexXYMap;
 import www.jingkan.com.view_model.base.BaseViewModel;
 
 /**
