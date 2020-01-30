@@ -112,7 +112,7 @@ public class SingleBridgeStrategy implements InterfaceDrawChartStrategy {
     }
 
     protected void initChart() {
-        mRenderer.setAxisTitleTextSize(32);// 设置坐标轴标题文本大小
+        mRenderer.setAxisTitleTextSize(40);// 设置坐标轴标题文本大小
         mRenderer.setAntialiasing(true);//平滑
         mRenderer.setXLabelsColor(Color.rgb(255, 140, 0));// 设置X轴刻度颜色
         mRenderer.setYLabelsColor(0, Color.rgb(255, 140, 0));// 设置Y轴刻度颜色
@@ -123,7 +123,7 @@ public class SingleBridgeStrategy implements InterfaceDrawChartStrategy {
         mRenderer.setXLabels(8);
         mRenderer.setYLabels(10);
         mRenderer.setShowGrid(true);
-        mRenderer.setLegendTextSize(80);
+        mRenderer.setLegendTextSize(60);
         mRenderer.setFitLegend(true);
         mRenderer.setZoomButtonsVisible(false);
         mRenderer.setMarginsColor(Color.WHITE);
@@ -132,7 +132,7 @@ public class SingleBridgeStrategy implements InterfaceDrawChartStrategy {
         mRenderer.setYAxisMax(15);
         mRenderer.setXAxisMax(10);
         setOrientation();
-        mRenderer.setChartTitleTextSize(40);
+//        mRenderer.setChartTitleTextSize(80);
         mRenderer.setMargins(new int[]{50, 50, 100, 50});//右，上，左，下
         mRenderer.setYLabelsPadding(-10);
         setXYTitle();

@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.graphics.Typeface.NORMAL;
+
 public class DefaultRenderer implements Serializable {
     private String mChartTitle = "";
     private float mChartTitleTextSize = 15.0F;
@@ -420,6 +422,6 @@ public class DefaultRenderer implements Serializable {
     }
 
     static {
-        REGULAR_TEXT_FONT = Typeface.create(Typeface.SERIF, 0);
+        REGULAR_TEXT_FONT = Typeface.create(Typeface.SERIF, NORMAL);
     }
 }

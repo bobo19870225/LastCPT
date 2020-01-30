@@ -220,8 +220,8 @@ public abstract class XYChart extends AbstractChart {
 
                         while (i$.hasNext()) {
                             Entry<Double, Double> value = (Entry) i$.next();
-                            double xValue = (Double) value.getKey();
-                            double yValue = (Double) value.getValue();
+                            double xValue = value.getKey();
+                            double yValue = value.getValue();
                             if (startIndex < 0 && (!this.isNullValue(yValue) || this.isRenderNullValues())) {
                                 startIndex = series.getIndexForKey(xValue);
                             }
@@ -371,7 +371,7 @@ public abstract class XYChart extends AbstractChart {
                         this.drawText(canvas, this.mRenderer.getChartTitle(), (float) (x + width / 2), (float) y + this.mRenderer.getChartTitleTextSize(), paint, 0.0F);
                     } else if (or == XYMultipleSeriesRenderer.Orientation.VERTICAL) {
                         this.drawText(canvas, this.mRenderer.getXTitle(), (float) (x + width / 2), (float) (y + height) - size + this.mRenderer.getXLabelsPadding(), paint, -90.0F);
-                        this.drawText(canvas, this.mRenderer.getYTitle(), (float) (right + 20), (float) (y + height / 2), paint, 0.0F);
+                        this.drawText(canvas, this.mRenderer.getYTitle(), right + 20 + size, (float) (y + height / 2), paint, 0.0F);
                         paint.setTextSize(this.mRenderer.getChartTitleTextSize());
                         this.drawText(canvas, this.mRenderer.getChartTitle(), (float) x + size, (float) (top + height / 2), paint, 0.0F);
                     }
@@ -505,21 +505,21 @@ public abstract class XYChart extends AbstractChart {
 
     protected void drawChartValuesText(Canvas canvas, XYSeries series, XYSeriesRenderer renderer, Paint paint, List<Float> points, int seriesIndex, int startIndex) {
         if (points.size() > 2) {
-            float previousPointX = (Float) points.get(0);
-            float previousPointY = (Float) points.get(1);
+            float previousPointX = points.get(0);
+            float previousPointY = points.get(1);
 
             for (int k = 0; k < points.size(); k += 2) {
                 if (k == 2) {
-                    if (Math.abs((Float) points.get(2) - (Float) points.get(0)) > (float) renderer.getDisplayChartValuesDistance() || Math.abs((Float) points.get(3) - (Float) points.get(1)) > (float) renderer.getDisplayChartValuesDistance()) {
+                    if (Math.abs(points.get(2) - points.get(0)) > (float) renderer.getDisplayChartValuesDistance() || Math.abs((Float) points.get(3) - (Float) points.get(1)) > (float) renderer.getDisplayChartValuesDistance()) {
                         this.drawText(canvas, this.getLabel(renderer.getChartValuesFormat(), series.getY(startIndex)), (Float) points.get(0), (Float) points.get(1) - renderer.getChartValuesSpacing(), paint, 0.0F);
                         this.drawText(canvas, this.getLabel(renderer.getChartValuesFormat(), series.getY(startIndex + 1)), (Float) points.get(2), (Float) points.get(3) - renderer.getChartValuesSpacing(), paint, 0.0F);
-                        previousPointX = (Float) points.get(2);
-                        previousPointY = (Float) points.get(3);
+                        previousPointX = points.get(2);
+                        previousPointY = points.get(3);
                     }
-                } else if (k > 2 && (Math.abs((Float) points.get(k) - previousPointX) > (float) renderer.getDisplayChartValuesDistance() || Math.abs((Float) points.get(k + 1) - previousPointY) > (float) renderer.getDisplayChartValuesDistance())) {
+                } else if (k > 2 && (Math.abs(points.get(k) - previousPointX) > (float) renderer.getDisplayChartValuesDistance() || Math.abs((Float) points.get(k + 1) - previousPointY) > (float) renderer.getDisplayChartValuesDistance())) {
                     this.drawText(canvas, this.getLabel(renderer.getChartValuesFormat(), series.getY(startIndex + k / 2)), (Float) points.get(k), (Float) points.get(k + 1) - renderer.getChartValuesSpacing(), paint, 0.0F);
-                    previousPointX = (Float) points.get(k);
-                    previousPointY = (Float) points.get(k + 1);
+                    previousPointX = points.get(k);
+                    previousPointY = points.get(k + 1);
                 }
             }
         } else {
