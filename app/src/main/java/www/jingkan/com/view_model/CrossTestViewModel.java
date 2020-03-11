@@ -192,7 +192,11 @@ public class CrossTestViewModel extends BaseViewModel {
         if (mDate.contains("Cu:") && mDate.contains("kPa")) {
             String cu = mDate.substring(mDate.indexOf("Cu:") + 3, mDate.indexOf("kPa"));
             if (StringUtil.isFloat(cu)) {
-                return StringUtil.format(Float.parseFloat(cu) - Float.parseFloat(cuInitialValue), 2);
+                if (null != cuInitialValue) {
+                    return StringUtil.format(Float.parseFloat(cu) - Float.parseFloat(cuInitialValue), 2);
+                } else {
+                    return StringUtil.format(Float.parseFloat(cu), 2);
+                }
             } else {
                 return "0";
             }
