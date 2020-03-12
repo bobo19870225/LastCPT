@@ -3,17 +3,17 @@ package www.jingkan.com.view_model;
 import android.app.Application;
 import android.content.Intent;
 
-import www.jingkan.com.db.dao.TestDao;
-import www.jingkan.com.db.entity.TestEntity;
-import www.jingkan.com.view_model.base.BaseViewModel;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.tencent.bugly.crashreport.CrashReport;
+
+import java.util.List;
+
+import www.jingkan.com.db.dao.TestDao;
+import www.jingkan.com.db.entity.TestEntity;
+import www.jingkan.com.view_model.base.BaseViewModel;
 
 /**
  * Created by Sampson on 2018/12/16.
@@ -54,6 +54,7 @@ public class OrdinaryTestViewModel extends BaseViewModel {
     }
 
     public void showOrdinaryProbe() {
+        // 测试crash
         CrashReport.testJavaCrash();
         callbackMessage.setValue(2);
         getView().action(callbackMessage);

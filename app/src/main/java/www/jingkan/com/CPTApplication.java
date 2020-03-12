@@ -19,8 +19,7 @@ public class CPTApplication extends DaggerApplication {
 
     @Override
     public void onCreate() {
-        CrashReport.initCrashReport(getApplicationContext(), "a283dada06", true);
         super.onCreate();
-
+        CrashReport.initCrashReport(getApplicationContext(), "abfdb1bc23", true);
     }
 }
