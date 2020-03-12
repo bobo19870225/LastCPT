@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.tencent.bugly.crashreport.CrashReport;
+
 /**
  * Created by Sampson on 2018/12/16.
  * CPTTest
@@ -52,6 +54,7 @@ public class OrdinaryTestViewModel extends BaseViewModel {
     }
 
     public void showOrdinaryProbe() {
+        CrashReport.testJavaCrash();
         callbackMessage.setValue(2);
         getView().action(callbackMessage);
 //        action.setValue("OrdinaryProbeActivity");

@@ -124,4 +124,8 @@ dependencies {
     implementation 'com.arialyy.aria:aria-core:3.3.16'
     annotationProcessor 'com.arialyy.aria:aria-compiler:3.3.16'
     implementation 'org.apache.commons:commons-math3:3.6.1'
+
+    implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+
 }
