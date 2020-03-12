@@ -68,13 +68,13 @@ public class CrossTestViewModel extends BaseViewModel {
     private DataUtil dataUtil;
     private ISkip iSkip;
 
-    public CrossTestViewModel(@NonNull Application application,
-                              BluetoothUtil bluetoothUtil,
-                              BluetoothCommService bluetoothCommService,
-                              TestDao testDao,
-                              CrossTestDataDao crossTestDataDao,
-                              ProbeDao probeDao,
-                              DataUtil dataUtil) {
+    CrossTestViewModel(@NonNull Application application,
+                       BluetoothUtil bluetoothUtil,
+                       BluetoothCommService bluetoothCommService,
+                       TestDao testDao,
+                       CrossTestDataDao crossTestDataDao,
+                       ProbeDao probeDao,
+                       DataUtil dataUtil) {
         super(application);
         this.bluetoothUtil = bluetoothUtil;
         this.bluetoothCommService = bluetoothCommService;
