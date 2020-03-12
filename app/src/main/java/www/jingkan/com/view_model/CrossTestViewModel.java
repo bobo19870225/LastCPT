@@ -45,7 +45,6 @@ import static www.jingkan.com.util.bluetooth.BluetoothCommService.STATE_NONE;
  * {@link www.jingkan.com.view.CrossTestActivity}
  */
 public class CrossTestViewModel extends BaseViewModel {
-
     public final MutableLiveData<String> strProjectNumber = new MutableLiveData<>();
     public final MutableLiveData<String> strHoleNumber = new MutableLiveData<>();
     public final MutableLiveData<String> strCuCoefficient = new MutableLiveData<>();
