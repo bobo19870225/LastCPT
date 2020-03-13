@@ -55,7 +55,7 @@ public class OrdinaryTestViewModel extends BaseViewModel {
 
     public void showOrdinaryProbe() {
         // 测试crash
-        CrashReport.testJavaCrash();
+//        CrashReport.testJavaCrash();
         callbackMessage.setValue(2);
         getView().action(callbackMessage);
 //        action.setValue("OrdinaryProbeActivity");
