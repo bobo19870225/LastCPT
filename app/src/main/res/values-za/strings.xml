@@ -50,8 +50,6 @@
 
     <string name="tv_auto">手动输入</string>
 
-    <string name="tv_leixing">选择探头类型</string>
-
     <string name="tv_xulie">序列号：</string>
 
     <string name="tv_id">编号：</string>
@@ -62,8 +60,6 @@
 
     <string name="qc_limit">锥头限值：</string>
     <string name="qc_initial">锥头初值：</string>
-
-    <string name="bt_addOK">确定新增</string>
 
     <string name="tv_cebi">侧壁面积(cm*cm)：</string>
 
@@ -141,8 +137,6 @@
     <string name="modify_parameter">修改参数将重新进行新的试验，确定要修改吗？</string>
     <string name="input_deep">点击输入试验深度</string>
     <string name="pause">暂停</string>
-    <string name="cu_deg">转动角度：</string>
-    <string name="cu">剪切强度：</string>
     <string name="distance">测量间距：</string>
     <string name="modify_distance">修改测试间距</string>
     <string name="distance_hint">点击输入测量间距</string>

@@ -69,8 +69,7 @@ public class ShowDataCharActivity extends BaseMVVMDaggerActivity<ShowDataCharVie
 
     @Override
     protected void setMVVMView() {
-//        setToolBar("显示曲线", R.menu.refresh);
-        setToolBar("显示曲线");
+        setToolBar("显示曲线", R.menu.refresh);
         mViewModel.ldTestEntities.observe(this, testEntities -> {
             if (testEntities != null && !testEntities.isEmpty()) {
                 TestEntity testEntity = testEntities.get(0);
