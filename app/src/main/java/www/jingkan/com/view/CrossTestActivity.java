@@ -52,8 +52,10 @@ public class CrossTestActivity extends DialogMVVMDaggerActivity<CrossTestViewMod
         mViewModel.mac = strings[0];
         mViewModel.strProjectNumber.setValue(strings[1]);
         mViewModel.strHoleNumber.setValue(strings[2]);
+        mViewModel.getTestParameters();
         mViewModel.linkDevice();
-        drawChartHelper.setStrategy(new CrossStrategy(getApplicationContext(), mViewDataBinding.lineChart));
+        ActivityCrossTestBinding activityCrossTestBinding = mViewDataBinding;
+        drawChartHelper.setStrategy(new CrossStrategy(getApplicationContext(), activityCrossTestBinding.lineChart));
         mViewModel.action.observe(this, s -> {
             switch (s) {
                 case "LinkBT":
@@ -68,7 +70,7 @@ public class CrossTestActivity extends DialogMVVMDaggerActivity<CrossTestViewMod
                     showModifyDialog();
                     break;
                 case "showRecordValue":
-                    drawChartHelper.addOnePointToChart(new float[]{Float.parseFloat(Objects.requireNonNull(mViewModel.strCuCoefficient.getValue())), 0, 0, Float.parseFloat(Objects.requireNonNull(mViewModel.deg.getValue()))});
+                    drawChartHelper.addOnePointToChart(new float[]{Float.parseFloat(Objects.requireNonNull(mViewModel.strCuEffective.getValue())), 0, 0, Float.parseFloat(Objects.requireNonNull(mViewModel.deg.getValue()))});
                     break;
                 case "closeWaitDialog":
                     closeWaitDialog();
@@ -85,6 +87,13 @@ public class CrossTestActivity extends DialogMVVMDaggerActivity<CrossTestViewMod
             }
             drawChartHelper.addPointsToChart(listPoints);
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //解决内存泄漏
+        mViewDataBinding.lineChart.removeAllViews();
     }
 
     public void showModifyDialog() {

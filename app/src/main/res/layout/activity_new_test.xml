@@ -130,16 +130,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_toEndOf="@+id/tt_hole_high"
-                        android:layout_toRightOf="@+id/tt_hole_high"
                         android:background="@null"
                         android:ems="10"
                         android:gravity="end|center_vertical"
                         android:hint="输入孔口高程"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:paddingStart="0dp"
-                        android:paddingLeft="0dp"
                         android:paddingEnd="16dp"
-                        android:paddingRight="16dp"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -167,16 +164,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_toEndOf="@+id/tt_water_level"
-                        android:layout_toRightOf="@+id/tt_water_level"
                         android:background="@null"
                         android:ems="10"
                         android:gravity="end|center_vertical"
                         android:hint="输入地下水位"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:paddingStart="0dp"
-                        android:paddingLeft="0dp"
                         android:paddingEnd="16dp"
-                        android:paddingRight="16dp"
                         android:textSize="16sp" />
                 </RelativeLayout>
 

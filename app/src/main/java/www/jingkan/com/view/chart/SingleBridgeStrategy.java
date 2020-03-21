@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import www.jingkan.com.view.chart.achartengine.ChartFactory;
@@ -28,7 +29,7 @@ import www.jingkan.com.view.chart.achartengine.util.IndexXYMap;
 
 public class SingleBridgeStrategy implements InterfaceDrawChartStrategy {
     private Context mContext;
-    private RelativeLayout mRelativeLayout;
+    private WeakReference<RelativeLayout> mRelativeLayout;
     XYMultipleSeriesDataset mDataSet = new XYMultipleSeriesDataset();
     XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
     private GraphicalView mChartView;
@@ -39,7 +40,7 @@ public class SingleBridgeStrategy implements InterfaceDrawChartStrategy {
 
     public SingleBridgeStrategy(Context context, RelativeLayout relativeLayout) {
         mContext = context;
-        mRelativeLayout = relativeLayout;
+        mRelativeLayout = new WeakReference<>(relativeLayout);
         initChart();
     }
 
@@ -179,13 +180,16 @@ public class SingleBridgeStrategy implements InterfaceDrawChartStrategy {
      * 更新图表
      */
     void reDraw() {
-        if (mChartView == null) {
-            mChartView = ChartFactory.getLineChartView(mContext, mDataSet,
-                    mRenderer);
-            mRelativeLayout.addView(mChartView, new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        } else {
-            mChartView.repaint();
+        if (null != mRelativeLayout.get()) {
+            if (mChartView == null) {
+                mChartView = ChartFactory.getLineChartView(mContext, mDataSet,
+                        mRenderer);
+
+                mRelativeLayout.get().addView(mChartView, new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            } else {
+                mChartView.repaint();
+            }
         }
     }
 

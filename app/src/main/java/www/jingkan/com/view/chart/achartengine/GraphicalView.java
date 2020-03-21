@@ -218,19 +218,11 @@ public class GraphicalView extends View {
     }
 
     public void repaint() {
-        this.mHandler.post(new Runnable() {
-            public void run() {
-                GraphicalView.this.invalidate();
-            }
-        });
+        this.mHandler.post(GraphicalView.this::invalidate);
     }
 
     public void repaint(final int left, final int top, final int right, final int bottom) {
-        this.mHandler.post(new Runnable() {
-            public void run() {
-                GraphicalView.this.invalidate(left, top, right, bottom);
-            }
-        });
+        this.mHandler.post(() -> GraphicalView.this.invalidate(left, top, right, bottom));
     }
 
     public Bitmap toBitmap() {

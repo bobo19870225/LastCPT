@@ -11,12 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
 import dagger.android.support.DaggerFragment;
 
 /**
@@ -25,7 +28,7 @@ import dagger.android.support.DaggerFragment;
  */
 
 public abstract class BaseDaggerFragment extends DaggerFragment {
-    protected View mRootView;
+    protected WeakReference<View> mRootView;
     protected Object mData;
 
     @Override
@@ -36,10 +39,10 @@ public abstract class BaseDaggerFragment extends DaggerFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = initView(inflater, container);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mRootView = new WeakReference<>(initView(inflater, container));
 //        AnnotateUtils.initBindView(this, mRootView);
-        return mRootView;
+        return mRootView.get();
 
     }
 
@@ -101,7 +104,7 @@ public abstract class BaseDaggerFragment extends DaggerFragment {
         startActivity(intent);
     }
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        AnnotateUtils.initBindView(this, view);
         Bundle arguments = getArguments();
@@ -120,7 +123,8 @@ public abstract class BaseDaggerFragment extends DaggerFragment {
     protected abstract void setView();
 
     public void showToast(String msg) {
-        Snackbar.make(mRootView, msg, Snackbar.LENGTH_LONG).show();
+        if (null != mRootView.get())
+            Snackbar.make(mRootView.get(), msg, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

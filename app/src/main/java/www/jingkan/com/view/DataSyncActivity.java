@@ -144,25 +144,28 @@ public class DataSyncActivity extends DialogMVVMDaggerActivity<DataSyncViewModel
     }
 
     private void showSaveOrEmailWindow(final String[] items, final boolean isSave) {
-        View contentView = getLayoutInflater().inflate(R.layout.theo, null);
-        final PopupWindow popupWindow = new PopupWindow(contentView);
-        popupWindow.setWidth(ActionBar.LayoutParams.MATCH_PARENT);
-        popupWindow.setHeight(ActionBar.LayoutParams.WRAP_CONTENT);
-        // 点击消失属性
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        popupWindow.setFocusable(true);
-        List<String> ls = new ArrayList<>(Arrays.asList(items));
-        OneTextListAdapter adapter = new OneTextListAdapter(DataSyncActivity.this, R.layout.listitem, ls);
-        ListView listView = contentView.findViewById(R.id.lv_item);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            mViewModel.saveDataAndSendEmail(emailTypes[position], isSave);
-            popupWindow.dismiss();
-        });
-        contentView.findViewById(R.id.cancel).setOnClickListener(view -> popupWindow.dismiss());
-        // 显示在屏幕上
-        popupWindow.showAtLocation(mRootView, Gravity.CENTER, 0, 0);
+        View viewRoot = mRootView.get();
+        if (null != viewRoot) {
+            View contentView = getLayoutInflater().inflate(R.layout.theo, null);
+            final PopupWindow popupWindow = new PopupWindow(contentView);
+            popupWindow.setWidth(ActionBar.LayoutParams.MATCH_PARENT);
+            popupWindow.setHeight(ActionBar.LayoutParams.WRAP_CONTENT);
+            // 点击消失属性
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+            popupWindow.setFocusable(true);
+            List<String> ls = new ArrayList<>(Arrays.asList(items));
+            OneTextListAdapter adapter = new OneTextListAdapter(DataSyncActivity.this, R.layout.listitem, ls);
+            ListView listView = contentView.findViewById(R.id.lv_item);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener((parent, view, position, id) -> {
+                mViewModel.saveDataAndSendEmail(emailTypes[position], isSave);
+                popupWindow.dismiss();
+            });
+            contentView.findViewById(R.id.cancel).setOnClickListener(view -> popupWindow.dismiss());
+            // 显示在屏幕上
+            popupWindow.showAtLocation(mRootView.get(), Gravity.CENTER, 0, 0);
+        }
 
     }
 

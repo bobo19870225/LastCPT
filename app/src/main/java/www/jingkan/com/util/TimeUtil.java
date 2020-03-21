@@ -52,7 +52,6 @@ public class TimeUtil {
             }
         };
         timer.schedule(timerTask, delay, period);
-
     }
 
     public void stopTimedTask() {

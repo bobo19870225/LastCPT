@@ -1,6 +1,5 @@
 package www.jingkan.com.view_model;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -11,6 +10,7 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -85,7 +85,7 @@ public class CrossTestViewModel extends BaseViewModel {
 
     private TestEntity testEntity;
 
-    private void getTestParameters() {
+    public void getTestParameters() {
         testDao.getTestEntityByPrjNumberAndHoleNumber(strProjectNumber.getValue(), strHoleNumber.getValue()).observe(lifecycleOwner, testEntities -> {
             if (testEntities != null && testEntities.size() > 0) {
                 testEntity = testEntities.get(0);
@@ -134,11 +134,11 @@ public class CrossTestViewModel extends BaseViewModel {
                             action.setValue("closeWaitDialog");
 //                            closeWaitDialog();
                             toast("连接失败");
-                            linked.setValue(false);
+//                            linked.setValue(false);
                             break;
                         case STATE_CONNECT_LOST: // 失去连接
                             toast("失去连接");
-                            linked.setValue(false);
+//                            linked.setValue(false);
                             break;
                     }
                     break;
@@ -159,7 +159,15 @@ public class CrossTestViewModel extends BaseViewModel {
                     break;
             }
         });
+
+//        linked.setValue(true);//        test
+        start.setValue(false);
+        deg.setValue("0");
+        strDeep.setValue("0");
+        intTestNumber.setValue(0);
         strSoilType.setValue("原状土");
+        strCuEffective.setValue("0");
+        strCuInitial.setValue("0");
         /*for test*/
 //        strCuInitial.setValue("0kPa");
 //        strDeep.setValue("1m");
@@ -184,7 +192,6 @@ public class CrossTestViewModel extends BaseViewModel {
 //        }
 //        ldCrossTestDataEntities.setValue(list);
         /*end test*/
-        getTestParameters();
     }
 
     private String getCuEffectiveValue(String mDate, String cuInitialValue) {
@@ -251,6 +258,7 @@ public class CrossTestViewModel extends BaseViewModel {
     @Override
     public void clear() {
         bluetoothCommService.stop();
+        timeUtil.stopTimedTask();
     }
 
     public void modify() {
@@ -268,14 +276,23 @@ public class CrossTestViewModel extends BaseViewModel {
         resetTest();
     }
 
-    @SuppressLint("HandlerLeak")
-    private
-    TimeUtil timeUtil = new TimeUtil(new Handler() {
+    private static class TimerHandler extends Handler {
+        private WeakReference<CrossTestViewModel> crossTestViewModelWeakReference;
+
+        TimerHandler(CrossTestViewModel crossTestViewModel) {
+            crossTestViewModelWeakReference = new WeakReference<>(crossTestViewModel);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            doRecord();
+            if (null != crossTestViewModelWeakReference.get()) {
+                crossTestViewModelWeakReference.get().doRecord();
+            }
         }
-    });
+    }
+
+    private
+    TimeUtil timeUtil = new TimeUtil(new TimerHandler(this));
 
     private void doRecord() {
         Integer intDeg = Integer.parseInt(deg.getValue());

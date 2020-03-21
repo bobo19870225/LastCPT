@@ -12,13 +12,6 @@ import android.os.Parcelable;
 import android.view.Menu;
 import android.view.View;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import www.jingkan.com.R;
-
-import java.io.Serializable;
-import java.util.Map;
-
 import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.MenuRes;
@@ -28,7 +21,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import java.io.Serializable;
+import java.lang.ref.WeakReference;
+import java.util.Map;
+
 import dagger.android.support.DaggerAppCompatActivity;
+import www.jingkan.com.R;
 
 /**
  * Created by bobo on 2017/3/5.
@@ -38,7 +39,7 @@ import dagger.android.support.DaggerAppCompatActivity;
 public abstract class BaseDaggerActivity extends DaggerAppCompatActivity {
     protected Object mData;
     protected FragmentManager mFragmentManager;
-    protected View mRootView;
+    protected WeakReference<View> mRootView;
     protected Toolbar toolbar;
     protected
     @MenuRes
@@ -67,7 +68,9 @@ public abstract class BaseDaggerActivity extends DaggerAppCompatActivity {
     }
 
     public void showToast(String msg) {
-        Snackbar.make(mRootView, msg, Snackbar.LENGTH_LONG).show();
+        View view = mRootView.get();
+        if (null != view)
+            Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
     }
 
     protected abstract void setView();
@@ -87,9 +90,8 @@ public abstract class BaseDaggerActivity extends DaggerAppCompatActivity {
 
 
     protected void init(int viewId) {
-        mRootView = getLayoutInflater().inflate(viewId, null, false);
-        setContentView(mRootView);
-
+        mRootView = new WeakReference<>(getLayoutInflater().inflate(viewId, null, false));
+        setContentView(mRootView.get());
         mFragmentManager = getSupportFragmentManager();
     }
 

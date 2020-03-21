@@ -9,6 +9,8 @@ import android.content.Intent;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
+import java.lang.ref.WeakReference;
+
 import javax.inject.Inject;
 
 import www.jingkan.com.BR;
@@ -63,9 +65,10 @@ public abstract class BaseMVVMDaggerActivity<VM extends BaseViewModel, VDB exten
 
     @Override
     protected void init(int viewId) {
-        mViewDataBinding = setViewDataBinding(viewId);
+        WeakReference<VDB> weakReferenceVDB = new WeakReference<>(setViewDataBinding(viewId));
+        mViewDataBinding = weakReferenceVDB.get();
 //         ViewModelProviders.of(this, new ViewModelProvider.NewInstanceFactory()).get(NewTestViewModel.class);
-        mRootView = mViewDataBinding.getRoot();
+        mRootView = new WeakReference<>(mViewDataBinding.getRoot());
         mFragmentManager = getSupportFragmentManager();
     }
 
