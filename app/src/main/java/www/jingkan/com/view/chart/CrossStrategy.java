@@ -7,7 +7,6 @@ package www.jingkan.com.view.chart;
 import android.content.Context;
 import android.widget.RelativeLayout;
 
-
 import java.util.List;
 
 import www.jingkan.com.view.chart.achartengine.model.XYSeries;
@@ -30,6 +29,10 @@ public class CrossStrategy extends SingleBridgeStrategy {
 
     @Override
     public void addOnePointToChart(float[] data) {
+        XYSeries[] series = mDataSet.getSeries();
+        if (series.length == 0) {
+            addSeries();
+        }
         xySeriesQc.add(data[3], data[0]);
         reDraw();
     }

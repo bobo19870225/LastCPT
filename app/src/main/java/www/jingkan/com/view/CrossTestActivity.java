@@ -84,6 +84,7 @@ public class CrossTestActivity extends DialogMVVMDaggerActivity<CrossTestViewMod
             }
         });
         mViewModel.ldCrossTestDataEntities.observe(this, crossTestDataEntities -> {
+            mViewModel.ldCrossTestDataEntities.removeObservers(this);
             List<float[]> listPoints = new ArrayList<>();
             for (CrossTestDataEntity crossTestDataModel : crossTestDataEntities) {
                 listPoints.add(new float[]{crossTestDataModel.cu, 0, 0, crossTestDataModel.deg});

@@ -6,11 +6,11 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.List;
 
 import www.jingkan.com.db.dao.CrossTestDataDao;
-import www.jingkan.com.db.dao.ProbeDao;
 import www.jingkan.com.db.dao.TestDao;
 import www.jingkan.com.db.entity.CrossTestDataEntity;
 import www.jingkan.com.db.entity.TestEntity;
@@ -54,7 +54,10 @@ public class CrossTestDataDetailsMV extends BaseViewModel {
                 obsProjectNumber.setValue(testEntity.projectNumber);
                 obsHoleNumber.setValue(testEntity.holeNumber);
                 obsTestDate.setValue(testEntity.testDate);
-                ldTestData.addSource(crossTestDataDao.getCrossTestDataByTestDataId(testEntity.testDataID), ldTestData::setValue);
+                ldTestData.addSource(crossTestDataDao.getCrossTestDataByTestDataId(testEntity.testDataID), crossTestDataEntities -> {
+                    crossTestDataEntityList = crossTestDataEntities;
+                    ldTestData.setValue(crossTestDataEntities);
+                });
 
             }
 
@@ -76,7 +79,12 @@ public class CrossTestDataDetailsMV extends BaseViewModel {
     }
 
     public void emailTestData() {
-        dataUtil.emailData(crossTestDataEntityList, testEntity, iSkip);
+        if (null != crossTestDataEntityList) {
+            dataUtil.emailData(crossTestDataEntityList, testEntity, iSkip);
+        } else {
+            toast("没有可用数据");
+        }
+
     }
 
     @Override

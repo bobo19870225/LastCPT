@@ -8,7 +8,9 @@ import android.os.Handler;
 import android.os.Message;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -86,26 +88,32 @@ public class CrossTestViewModel extends BaseViewModel {
     private TestEntity testEntity;
 
     public void getTestParameters() {
-        testDao.getTestEntityByPrjNumberAndHoleNumber(strProjectNumber.getValue(), strHoleNumber.getValue()).observe(lifecycleOwner, testEntities -> {
-            if (testEntities != null && testEntities.size() > 0) {
-                testEntity = testEntities.get(0);
-                crossTestDataDao.getCrossTestDataByTestDataId(strProjectNumber.getValue() + "_" + strHoleNumber.getValue()).observe(lifecycleOwner, crossTestDataEntities -> {
-                    if (crossTestDataEntities != null && crossTestDataEntities.size() > 0) {
-                        CrossTestDataEntity crossTestDataEntity = crossTestDataEntities.get(crossTestDataEntities.size() - 1);
-                        deg.setValue(String.valueOf(crossTestDataEntity.deg));
-                        strDeep.setValue(String.valueOf(crossTestDataEntity.deep));
-                        intTestNumber.setValue(crossTestDataEntity.number);
-                        strSoilType.setValue(crossTestDataEntity.type);
-                        Integer intTestNumberValue = intTestNumber.getValue();
-                        //                                myView.get().showTestData(models);
-                        if (intTestNumberValue != null)
-                            crossTestDataDao.getCrossTestDataByTestDataIdAndNumber(strProjectNumber.getValue() + "_" + strHoleNumber.getValue(), intTestNumberValue).observe(lifecycleOwner, ldCrossTestDataEntities::setValue);
-                    } else {
-                        toast("没有试验数据");
-                    }
-                });
-            } else {
-                toast("找不到该孔信息");
+        LiveData<List<TestEntity>> testEntityByPrjNumberAndHoleNumber = testDao.getTestEntityByPrjNumberAndHoleNumber(strProjectNumber.getValue(), strHoleNumber.getValue());
+        testEntityByPrjNumberAndHoleNumber.observe(lifecycleOwner, new Observer<List<TestEntity>>() {
+            @Override
+            public void onChanged(List<TestEntity> testEntities) {
+                testEntityByPrjNumberAndHoleNumber.removeObserver(this);
+                if (testEntities != null && testEntities.size() > 0) {
+                    testEntity = testEntities.get(0);
+                    crossTestDataDao.getCrossTestDataByTestDataId(strProjectNumber.getValue() + "_" + strHoleNumber.getValue()).observe(lifecycleOwner, crossTestDataEntities -> {
+                        if (crossTestDataEntities != null && crossTestDataEntities.size() > 0) {
+                            CrossTestDataEntity crossTestDataEntity = crossTestDataEntities.get(crossTestDataEntities.size() - 1);
+                            deg.setValue(String.valueOf(crossTestDataEntity.deg));
+                            strDeep.setValue(String.valueOf(crossTestDataEntity.deep));
+                            intTestNumber.setValue(crossTestDataEntity.number);
+                            strSoilType.setValue(crossTestDataEntity.type);
+                            Integer intTestNumberValue = intTestNumber.getValue();
+                            //                                myView.get().showTestData(models);
+                            if (intTestNumberValue != null)
+                                crossTestDataDao.getCrossTestDataByTestDataIdAndNumber(strProjectNumber.getValue() + "_" + strHoleNumber.getValue(), intTestNumberValue).observe(lifecycleOwner, ldCrossTestDataEntities::setValue);
+                        } else {
+                            toast("没有试验数据");
+                        }
+                    });
+                } else {
+                    toast("找不到该孔信息");
+                }
+
             }
         });
     }
@@ -160,7 +168,7 @@ public class CrossTestViewModel extends BaseViewModel {
             }
         });
 
-//        linked.setValue(true);//        test
+        linked.setValue(true);//        test
         start.setValue(false);
         deg.setValue("0");
         strDeep.setValue("0");
@@ -266,14 +274,15 @@ public class CrossTestViewModel extends BaseViewModel {
     }
 
     public void setModify(String deep, String soilType) {
-        if (!Objects.equals(strDeep.getValue(), deep)) {
+        if (!Objects.equals(strDeep.getValue(), deep) || !Objects.equals(strSoilType.getValue(), soilType)) {
             Integer testNumber = intTestNumber.getValue();
             testNumber += 1;
             intTestNumber.setValue(testNumber);
+            strDeep.setValue(deep);
+            strSoilType.setValue(soilType);
+            resetTest();
         }
-        strDeep.setValue(deep);
-        strSoilType.setValue(soilType);
-        resetTest();
+
     }
 
     private static class TimerHandler extends Handler {
