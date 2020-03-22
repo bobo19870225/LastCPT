@@ -40,6 +40,7 @@ public class CrossTestActivity extends DialogMVVMDaggerActivity<CrossTestViewMod
     ViewModelFactory viewModelFactory;
     @Inject
     DrawChartHelper drawChartHelper;
+
     @Override
     protected Object[] injectToViewModel() {
         return new Object[]{this};
@@ -77,6 +78,8 @@ public class CrossTestActivity extends DialogMVVMDaggerActivity<CrossTestViewMod
                     break;
                 case "onBackPressed":
                     onBackPressed();
+                case "resetChart":
+                    drawChartHelper.cleanChart();
                     break;
             }
         });
@@ -144,6 +147,7 @@ public class CrossTestActivity extends DialogMVVMDaggerActivity<CrossTestViewMod
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public CrossTestViewModel createdViewModel() {
         return ViewModelProviders.of(this, viewModelFactory).get(CrossTestViewModel.class);

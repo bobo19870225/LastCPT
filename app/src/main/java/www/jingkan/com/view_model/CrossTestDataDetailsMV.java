@@ -32,24 +32,25 @@ public class CrossTestDataDetailsMV extends BaseViewModel {
     public final MediatorLiveData<List<CrossTestDataEntity>> ldTestData = new MediatorLiveData<>();
     private TestDao testDao;
     private CrossTestDataDao crossTestDataDao;
-
-    private ProbeDao probeDao;
+    private List<CrossTestDataEntity> crossTestDataEntityList;
     private DataUtil dataUtil;
+    private TestEntity testEntity;
+    private ISkip iSkip;
 
-    CrossTestDataDetailsMV(@NonNull Application application, TestDao testDao, CrossTestDataDao crossTestDataDao, ProbeDao probeDao, DataUtil dataUtil) {
+    CrossTestDataDetailsMV(@NonNull Application application, TestDao testDao, CrossTestDataDao crossTestDataDao, DataUtil dataUtil) {
         super(application);
         this.testDao = testDao;
         this.crossTestDataDao = crossTestDataDao;
-        this.probeDao = probeDao;
         this.dataUtil = dataUtil;
     }
 
     @Override
     public void inject(Object... objects) {
         String id = (String) objects[0];
+        iSkip = (ISkip) objects[1];
         testDao.getTestEntityByTestId(id).observe(lifecycleOwner, testEntities -> {
             if (null != testEntities && testEntities.size() > 0) {
-                TestEntity testEntity = testEntities.get(0);
+                testEntity = testEntities.get(0);
                 obsProjectNumber.setValue(testEntity.projectNumber);
                 obsHoleNumber.setValue(testEntity.holeNumber);
                 obsTestDate.setValue(testEntity.testDate);
@@ -59,6 +60,23 @@ public class CrossTestDataDetailsMV extends BaseViewModel {
 
         });
 
+    }
+
+    public void saveTestDataToSD() {
+        if (null != testEntity)
+            crossTestDataDao.getCrossTestDataByTestDataId(testEntity.projectNumber + "_" + testEntity.holeNumber).observe(lifecycleOwner, crossTestDataEntities -> {
+                if (null != crossTestDataEntities && crossTestDataEntities.size() != 0) {
+                    crossTestDataEntityList = crossTestDataEntities;
+                    dataUtil.saveDataToSd(crossTestDataEntities, testEntity, iSkip);
+                } else {
+                    toast("读取数据失败！");
+                }
+            });
+
+    }
+
+    public void emailTestData() {
+        dataUtil.emailData(crossTestDataEntityList, testEntity, iSkip);
     }
 
     @Override
