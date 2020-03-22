@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "98ef0b44a3f6fc728e3370469819f3d8",
+    "identityHash": "4d2d2969ea75eafe908407e635ac98e0",
     "entities": [
       {
         "tableName": "calibrationProbe",
@@ -381,7 +381,7 @@
       },
       {
         "tableName": "crossTestData",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`testDataID` TEXT NOT NULL, `probeID` TEXT, `deep` REAL NOT NULL, `type` TEXT, `number` INTEGER NOT NULL, `cu` REAL NOT NULL, `deg` INTEGER NOT NULL, PRIMARY KEY(`testDataID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`testDataID` TEXT NOT NULL, `probeID` TEXT, `deep` REAL NOT NULL, `type` TEXT, `number` INTEGER NOT NULL, `cu` REAL NOT NULL, `deg` INTEGER NOT NULL, PRIMARY KEY(`testDataID`, `number`, `deg`))",
         "fields": [
           {
             "fieldPath": "testDataID",
@@ -428,7 +428,9 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "testDataID"
+            "testDataID",
+            "number",
+            "deg"
           ],
           "autoGenerate": false
         },
@@ -676,7 +678,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"98ef0b44a3f6fc728e3370469819f3d8\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4d2d2969ea75eafe908407e635ac98e0\")"
     ]
   }
 }

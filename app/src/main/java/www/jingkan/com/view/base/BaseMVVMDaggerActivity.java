@@ -31,10 +31,11 @@ public abstract class BaseMVVMDaggerActivity<VM extends BaseViewModel, VDB exten
     CallbackMessage callbackMessage;
     @Override
     protected final void setView() {
-        if (createdViewModel() == null) {
+        VM vm = createdViewModel();
+        if (vm == null) {
             throw new RuntimeException("ViewModel can't be null!");
         } else {
-            mViewModel = createdViewModel();
+            mViewModel = vm;
             mViewModel.setLifecycleOwner(this);
             mViewModel.attachView(this, callbackMessage);
             mViewDataBinding.setVariable(BR.model, mViewModel);

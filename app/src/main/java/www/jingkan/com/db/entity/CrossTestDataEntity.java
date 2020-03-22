@@ -8,9 +8,9 @@ import androidx.room.PrimaryKey;
  * Created by Sampson on 2018/12/11.
  * LastCPT 2
  */
-@Entity(tableName = "crossTestData")
+@Entity(tableName = "crossTestData", primaryKeys = {"testDataID", "number", "deg"})
 public class CrossTestDataEntity {
-    @PrimaryKey
+
     @NonNull
     //strProjectNumber + "_" + strHoleNumber.
     public String testDataID = "";

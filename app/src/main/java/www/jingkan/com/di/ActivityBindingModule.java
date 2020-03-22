@@ -8,6 +8,7 @@ import www.jingkan.com.view.AnalogCaCalibrationVerificationActivity;
 import www.jingkan.com.view.CalibrationParameterActivity;
 import www.jingkan.com.view.CalibrationVerificationActivity;
 import www.jingkan.com.view.CrossTestActivity;
+import www.jingkan.com.view.CrossTestDataDetailsActivity;
 import www.jingkan.com.view.DataSyncActivity;
 import www.jingkan.com.view.DoubleBridgeMultifunctionTestActivity;
 import www.jingkan.com.view.DoubleBridgeTestActivity;
@@ -189,5 +190,11 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector
     abstract AnalogCaCalibrationVerificationActivity analogCaCalibrationVerificationActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract CrossTestDataDetailsActivity crossTestDataDetailsActivity();
+
+
 
 }

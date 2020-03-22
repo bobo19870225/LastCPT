@@ -137,6 +137,7 @@ public class NewTestViewModel extends BaseViewModel {
             }
             testEntity.holeNumber = obsHoleNumber.getValue();
             testEntity.testID = obsProjectNumber.getValue() + "_" + obsHoleNumber.getValue();
+            testEntity.testDataID = obsProjectNumber.getValue() + "_" + obsHoleNumber.getValue();
             if (obsHoleHigh.getValue() == null) {
                 toast("孔口高程不能为空");
                 return;

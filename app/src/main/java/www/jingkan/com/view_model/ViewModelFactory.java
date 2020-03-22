@@ -93,6 +93,8 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
                     calibrationVerificationDao, vibratorUtil);
         } else if (modelClass.isAssignableFrom(AnalogCaCalibrationVerificationVM.class)) {
             return (T) new AnalogCaCalibrationVerificationVM(application, calibrationProbeDao);
+        } else if (modelClass.isAssignableFrom(CrossTestDataDetailsMV.class)) {
+            return (T) new CrossTestDataDetailsMV(application, testDao, crossTestDataDao, probeDao, dataUtil);
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
