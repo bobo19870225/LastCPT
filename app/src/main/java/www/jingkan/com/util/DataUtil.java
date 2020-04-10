@@ -4,9 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -552,6 +553,7 @@ public class DataUtil {
     }
 
     private Float maxCu = 0f;
+    private Float maxCu1 = 0f;
 
     public void saveDataToSd(List<CrossTestDataEntity> models, TestEntity testModel, final ISkip iSkip) {
         StringBuilder content = new StringBuilder();
@@ -571,19 +573,25 @@ public class DataUtil {
             content.append("孔位：").append(location).append(strReturn);
         content.append("操作员工：").append(testModel.tester).append(strReturn);
         content.append("试验类型：").append(testModel.testType).append(strReturn);
-        List<Float> listMaxCu = new ArrayList<>();
-        List<Float> listDeep = new ArrayList<>();
+        Map<Float, Float> mapMaxCu = new HashMap<>();
+        Map<Float, Float> mapMaxCu1 = new HashMap<>();
         String type = "";
         float deep = -1;
-
+        boolean hasYz = false;
+        boolean hasCs = false;
         for (CrossTestDataEntity crossTestDataEntity : models) {
             if (crossTestDataEntity.deep != deep) {
-                if (deep != -1) {
-                    listMaxCu.add(maxCu);
+                if (hasYz) {
+                    mapMaxCu.put(deep, maxCu);
                 }
-                deep = crossTestDataEntity.deep;
+                if (hasCs) {
+                    mapMaxCu1.put(deep, maxCu1);
+                }
+                hasYz = false;
+                hasCs = false;
                 maxCu = 0f;
-                listDeep.add(deep);
+                maxCu1 = 0f;
+                deep = crossTestDataEntity.deep;
                 content.append("试验深度：").append(StringUtil.format(deep, 2)).append(strReturn);
                 type = crossTestDataEntity.type;
                 content.append("土样类型：").append(type).append(strReturn);
@@ -594,14 +602,33 @@ public class DataUtil {
                 content.append("土样类型：").append(type).append(strReturn);
                 content.append("角度/。").append(strTable).append("Cu/kPa").append(strReturn);
             }
-            maxCu = crossTestDataEntity.cu > maxCu ? crossTestDataEntity.cu : maxCu;
+            if (type.equals("原状土")) {
+                hasYz = true;
+                maxCu = crossTestDataEntity.cu > maxCu ? crossTestDataEntity.cu : maxCu;
+            } else if (type.equals("重塑土")) {
+                hasCs = true;
+                maxCu1 = crossTestDataEntity.cu > maxCu1 ? crossTestDataEntity.cu : maxCu1;
+            }
             content.append(StringUtil.format(crossTestDataEntity.deg, 1)).append(strTable).append(StringUtil.format(crossTestDataEntity.cu, 3)).append(strReturn);
         }
-        listMaxCu.add(maxCu);//添加最后一组数据
-        content.append("各深度的极限抗剪切值").append(strReturn);
+        //添加最后一组数据
+        if (hasYz) {
+            mapMaxCu.put(deep, maxCu);
+        }
+        if (hasCs) {
+            mapMaxCu1.put(deep, maxCu1);
+        }
+        content.append("各深度原状土极限抗剪切值").append(strReturn);
         content.append("d/m").append(strTable).append("maxCu/kPa").append(strReturn);
-        for (int i = 0; i < listDeep.size(); i++) {
-            content.append(StringUtil.format(listDeep.get(i), 1)).append(strTable).append(StringUtil.format(listMaxCu.get(i), 2)).append(strReturn);
+        Set<Float> floats = mapMaxCu.keySet();
+        for (Float f : floats) {
+            content.append(StringUtil.format(f, 1)).append(strTable).append(StringUtil.format(mapMaxCu.get(f), 2)).append(strReturn);
+        }
+        content.append("各深度重塑土极限抗剪切值").append(strReturn);
+        content.append("d/m").append(strTable).append("maxCu/kPa").append(strReturn);
+        Set<Float> floats1 = mapMaxCu1.keySet();
+        for (Float f : floats1) {
+            content.append(StringUtil.format(f, 1)).append(strTable).append(StringUtil.format(mapMaxCu1.get(f), 2)).append(strReturn);
         }
         MyFileUtil.getInstance().saveToSD(context,
                 projectNumber + "_" + holeNumber,
